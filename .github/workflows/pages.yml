@@ -1,23 +1,29 @@
-name: Publish Mratkino map
+name: Publish map preview (preserve live Mratkino)
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
+    inputs:
+      preview_ref:
+        description: Branch or commit of the regional test version
+        required: true
+        default: feature/beloretsk-region
+        type: string
 permissions:
   contents: read
   pages: write
   id-token: write
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   publish:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}preview/region/?place=all
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.preview_ref }}
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
@@ -25,9 +31,40 @@ jobs:
       - run: npm ci
       - run: npm run test:unit
       - run: npm run build
+      - name: Retain previous preview chunks
+        run: |
+          MAP_PREVIEW_SHA=$(git rev-parse HEAD)
+          python3 scripts/retain-pages-assets.py dist "$MAP_PREVIEW_SHA"
+      - name: Check out the unchanged live version
+        uses: actions/checkout@v4
+        with:
+          ref: af1a5941e31093837c1e39e4f75e37af9a6cb5d2
+          path: .stable
+      - run: npm ci
+        working-directory: .stable
+      - run: npm run build
+        working-directory: .stable
+      - name: Compose stable root and separate test URL
+        run: |
+          mkdir -p .site/preview/region
+          cp -a .stable/dist/. .site/
+          cp -a dist/. .site/preview/region/
+          touch .site/.nojekyll
+      - name: Verify the live map remains byte-for-byte unchanged
+        run: |
+          python3 - <<'PYTHON'
+          import hashlib, pathlib
+          expected = {
+            'index.html': 'd6ee091305882e470637764442e022f97e3a540921403b1ba00026c54d9780bb',
+            'assets/index-PP_qyEw1.js': 'ed1a5de49ceb53afda554f911957e6f3c6a252ace1eae402f6cd65087f9b8da0',
+          }
+          for name, digest in expected.items():
+            assert hashlib.sha256((pathlib.Path('.site') / name).read_bytes()).hexdigest() == digest, name
+          print('Stable live HTML and entry script are unchanged')
+          PYTHON
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: .site
       - uses: actions/deploy-pages@v4
         id: deployment
