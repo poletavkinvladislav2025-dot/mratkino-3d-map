@@ -160,6 +160,10 @@ class MratkinoMap extends HTMLElement {
   if(p.name==='С1')this.text(card,'Не работает, зарастает молодыми елями — по сведениям владельца. Границы зарастания показаны условно.','owner-note');
   const link=document.createElement('a');link.href='https://www.openstreetmap.org/'+p.id;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Исходный объект OSM ↗';card.append(link);
   const button=document.createElement('button');button.type='button';button.className='show-trail';button.textContent='Показать трассу';button.addEventListener('click',()=>this.flyToFeatures([f],this.cameras[p.slope]?.bearing||0));card.append(button);
+  if(['Ю1','Ю2','Ю3','Ю4','С2','С3'].includes(p.name)){
+   const inspect=document.createElement('button');inspect.type='button';inspect.className='show-trail';inspect.textContent='Рассмотреть катающихся';
+   inspect.addEventListener('click',async()=>{await this.toggleLife(true);if(!this.lifeScene?.enabled)return;const points=f.geometry.coordinates;this.map.easeTo({center:points[Math.floor(points.length*.45)],zoom:18,pitch:58,bearing:this.cameras[p.slope]?.bearing||0,duration:this.duration()});});card.append(inspect);
+  }
   this.highlight();if(fly)this.flyToFeatures([f],this.cameras[p.slope]?.bearing||0);
  }
  highlight(hovered){

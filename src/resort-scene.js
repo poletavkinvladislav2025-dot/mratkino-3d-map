@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
+import {ACTIVE_RIDER_TRAILS,ridersPerTrail,riderProfile,localRiderAreas,buildRiderCorridor,riderState} from './rider-motion.js';
 import { SUMMIT } from './map-data.js';
 import { saplingPlacements, forestLOD, treeAppearance, liftVehicle, toLocal, toLngLat, pathLength, samplePath, liftLoop } from './resort-scene-data.js';
 
@@ -172,16 +173,20 @@ export class ResortScene {
   }
  }
  makeRiders(){
-  const allowed=new Set(['Ю1','Ю2','Ю3','Ю4','С2','С3']);
-  this.riderRoutes=this.data.trails.features.filter(f=>f.geometry.type==='LineString'&&allowed.has(f.properties.name)).map(feature=>({feature,points:[],length:0,count:this.mobile?2:4}));
+  this.riderAreas=localRiderAreas(this.data.trails.features);
+  this.riderBoardPose=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,0,1),Math.PI/2);this.riderQuaternion=new THREE.Quaternion();this.riderBodyQuaternion=new THREE.Quaternion();this.riderOffset=new THREE.Vector3();this.riderEuler=new THREE.Euler();
+  this.riderRoutes=this.data.trails.features.filter(f=>f.geometry.type==='LineString'&&ACTIVE_RIDER_TRAILS.has(f.properties.name)).map(feature=>({feature,points:[],length:0,count:ridersPerTrail(this.mobile)}));
+  this.riderProfiles=this.riderRoutes.flatMap((r,ri)=>Array.from({length:r.count},(_,i)=>riderProfile(ri,i,r.feature.properties.name)));
   this.riderCount=this.riderRoutes.reduce((n,r)=>n+r.count,0);this.riderParts=[];
   const box=new THREE.BoxGeometry(1,1,1),head=new THREE.SphereGeometry(1,6,4);
-  const jacket=this.material(0x467a89),warm=this.material(0xb86849),dark=this.material(0x33434b),helmet=this.material(0xe7dfcb);
+  const jacket=this.material(0xffffff),warm=this.material(0xb86849),dark=this.material(0x33434b),helmet=this.material(0xe7dfcb);
   const add=(geometry,material,position,scale,kind='all')=>this.riderParts.push({position,scale,kind,mesh:this.batch(geometry,material,this.riderCount,this.riders)});
   add(box,jacket,[0,0,1.08],[.4,.3,.58]);add(head,helmet,[0,0,1.52],[.19,.19,.21]);
   for(const side of [-1,1]){add(box,dark,[side*.11,0,.52],[.15,.19,.65]);add(box,warm,[side*.29,.08,1.05],[.13,.4,.15]);add(box,dark,[side*.12,.22,.12],[.09,1.7,.045],'ski');}
   add(box,dark,[0,0,.12],[.28,1.25,.065],'board');
-  this.stats.riders=this.riderCount;
+  const palette=[0x467a89,0xaf694f,0x5e6d89,0x67816b,0xbc995c,0x805e70].map(c=>new THREE.Color(c));
+  const torso=this.riderParts[0].mesh;this.riderProfiles.forEach((p,i)=>torso.setColorAt(i,palette[p.color]));
+  this.stats.riders=this.riderCount;this.stats.snowboarders=this.riderProfiles.filter(p=>p.board).length;
  }
  refreshRiderPaths(){
   for(const route of this.riderRoutes){
@@ -189,23 +194,41 @@ export class ResortScene {
    if(a===null||b===null){route.length=0;route.points=[];continue;}
    if(a<b)coords=[...coords].reverse();
    const flat=coords.map(toLocal),length=pathLength(flat),points=[];
+   const reversed=a<b;if(!route.corridor||route.reversed!==reversed){route.corridor=buildRiderCorridor(flat,this.riderAreas);route.reversed=reversed;}
    for(let d=0;d<length;d+=12){const ll=toLngLat(samplePath(flat,d).point),z=this.height(ll);if(z===null)continue;const [x,y]=this.local(ll);points.push([x,y,z+.05]);}
    const last=coords.at(-1),z=this.height(last),[x,y]=this.local(last);if(z!==null)points.push([x,y,z+.05]);
-   route.points=points;route.length=points.length>1?pathLength(points):0;
+   route.points=points;route.length=points.length>1?route.corridor.length:0;
   }
  }
  updateRiders(){
-  const people=[];
-  for(const [ri,route] of this.riderRoutes.entries())for(let index=0;index<route.count;index++){
-   const speed=3.2+(ri*7+index*3)%13/3,phase=(index/route.count*route.length+this.elapsed*speed)%(route.length||1);
-   const sample=route.length?samplePath(route.points,phase):null;
-   people.push({sample,board:(ri+index)%3===0,turn:Math.sin(this.elapsed*.7+index*2+ri)*.13});
+  const people=[];let personIndex=0;
+  const bounds=this.map.getBounds(),west=bounds.getWest(),east=bounds.getEast(),south=bounds.getSouth(),north=bounds.getNorth();
+  for(const route of this.riderRoutes)for(let index=0;index<route.count;index++){
+   const profile=this.riderProfiles[personIndex++],distance=index/route.count*route.length+this.elapsed*profile.speed;
+   const state=route.length?riderState(route.corridor,profile,distance):null;
+   if(state){
+    const ll=toLngLat(state.point),onScreen=ll[0]>=west&&ll[0]<=east&&ll[1]>=south&&ll[1]<=north;
+    const z=onScreen&&state.inside?this.height(ll):null;
+    state.visible=z!==null&&state.fade>0;
+    if(state.visible){const [x,y]=this.local(ll);state.position=[x,y,z+.04];}
+   }
+   people.push({state,profile});
   }
-  // Keep trajectories on source centrelines; small heading/lean changes do not invent new paths.
-  for(const part of this.riderParts){people.forEach((r,i)=>{
-   const visible=r.sample&&(part.kind==='all'||(part.kind==='board')===r.board),angle=r.sample?r.sample.angle-Math.PI/2+r.turn:0;
-   if(r.sample){const [x,y,z]=part.position,c=Math.cos(angle),s=Math.sin(angle);this.dummy.position.set(r.sample.point[0]+x*c-y*s,r.sample.point[1]+x*s+y*c,r.sample.point[2]+z);this.dummy.rotation.set(0,r.turn*.25,angle);}
-   this.dummy.scale.set(...part.scale.map(v=>visible?v:0));this.dummy.updateMatrix();part.mesh.setMatrixAt(i,this.dummy.matrix);
+  this.riderStates=people;this.stats.visibleRiders=people.filter(p=>p.state?.visible).length;
+  // Lean the whole body about the contact point, with the board following the actual S-curve.
+  for(const part of this.riderParts){people.forEach(({state,profile},i)=>{
+   const visible=state?.visible&&(part.kind==='all'||(part.kind==='board')===profile.board);
+   if(visible){
+    const angle=state.heading-Math.PI/2;
+    this.riderQuaternion.setFromEuler(this.riderEuler.set(0,state.lean,angle,'ZYX'));
+    this.riderBodyQuaternion.copy(this.riderQuaternion);
+    if(profile.board&&part.kind==='all')this.riderBodyQuaternion.multiply(this.riderBoardPose);
+    const orientation=profile.board&&part.kind==='all'?this.riderBodyQuaternion:this.riderQuaternion;
+    this.riderOffset.set(...part.position).applyQuaternion(orientation);
+    this.dummy.position.set(state.position[0]+this.riderOffset.x,state.position[1]+this.riderOffset.y,state.position[2]+this.riderOffset.z);
+    this.dummy.quaternion.copy(orientation);
+   }
+   this.dummy.scale.set(...part.scale.map(v=>visible?v*state.fade:0));this.dummy.updateMatrix();part.mesh.setMatrixAt(i,this.dummy.matrix);
   });part.mesh.instanceMatrix.needsUpdate=true;}
  }
  setEnabled(value){this.enabled=value;this.lastTime=null;this.schedule();this.map.triggerRepaint();}
@@ -219,7 +242,7 @@ export class ResortScene {
  render(gl,args){
   if(this.disposed||!this.enabled||!this.inViewport)return;
   const now=performance.now();
-  if(!this.paused&&!document.hidden){if(this.lastTime!==null)this.elapsed+=Math.min((now-this.lastTime)/1000,.15);this.lastTime=now;this.updateVehicles();this.updateRiders();}
+  if(!this.paused&&!document.hidden){if(this.lastTime!==null)this.elapsed+=Math.min((now-this.lastTime)/1000,.15);this.lastTime=now;this.updateVehicles();if(this.map.getZoom()>=14.3)this.updateRiders();else this.stats.visibleRiders=0;}
   else this.lastTime=null;
   this.forest.visible=this.forestVisible&&this.map.getZoom()>=13.5;
   this.vehicles.visible=this.liftsVisible;this.riders.visible=this.map.getZoom()>=14.3;
