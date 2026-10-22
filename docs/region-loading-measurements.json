@@ -1,0 +1,238 @@
+{
+  "url": "http://127.0.0.1:4181/preview/region/",
+  "measuredAt": "2026-10-22T18:05:08.962Z",
+  "bytes": "decoded response bodies; browser HTTP cache disabled by test interception; not compressed network transfer",
+  "phases": [
+    {
+      "name": "cold regional overview",
+      "bytes": {
+        "app": 2296226,
+        "resortData": 3526,
+        "vector": 957295,
+        "dem": 2831614
+      },
+      "requests": 32,
+      "urls": [
+        "http://127.0.0.1:4181/preview/region/?place=all",
+        "http://127.0.0.1:4181/preview/region/assets/index-C4NwicCl.css",
+        "http://127.0.0.1:4181/preview/region/assets/index-Cyr3EFok.js",
+        "http://127.0.0.1:4181/preview/region/live/manifest.json",
+        "http://127.0.0.1:4181/preview/region/assets/maplibre-gl-Y_FXurWg.js",
+        "http://127.0.0.1:4181/preview/region/assets/maplibre-gl-worker-BrB25tGK.mjs",
+        "http://127.0.0.1:4181/preview/region/assets/maplibre-gl-worker-BrB25tGK.mjs",
+        "https://tiles.openfreemap.org/planet",
+        "https://tiles.mapterhorn.com/6/42/20.webp",
+        "https://tiles.mapterhorn.com/6/41/20.webp",
+        "https://tiles.mapterhorn.com/5/21/9.webp",
+        "https://tiles.mapterhorn.com/5/21/10.webp",
+        "https://tiles.mapterhorn.com/5/20/10.webp",
+        "https://tiles.mapterhorn.com/4/10/4.webp",
+        "https://tiles.mapterhorn.com/7/84/40.webp",
+        "https://tiles.mapterhorn.com/7/85/40.webp",
+        "https://tiles.mapterhorn.com/7/83/41.webp",
+        "https://tiles.mapterhorn.com/7/83/40.webp",
+        "https://tiles.mapterhorn.com/6/42/19.webp",
+        "https://tiles.mapterhorn.com/8/168/83.webp",
+        "https://tiles.mapterhorn.com/8/170/82.webp",
+        "https://tiles.mapterhorn.com/8/169/83.webp",
+        "https://tiles.mapterhorn.com/8/168/82.webp",
+        "https://tiles.mapterhorn.com/8/169/82.webp",
+        "https://tiles.mapterhorn.com/8/170/83.webp",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/7/85/41.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/7/83/40.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/7/83/41.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/7/84/41.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/6/42/19.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/7/84/40.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/7/85/40.pbf"
+      ],
+      "elapsedMs": 6678,
+      "totalBytes": 6088661
+    },
+    {
+      "name": "move to beloretsk",
+      "bytes": {
+        "vector": 83409,
+        "dem": 1151988
+      },
+      "requests": 20,
+      "urls": [
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/12/2712/1315.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/12/2711/1315.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/12/2713/1315.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/12/2713/1316.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/12/2711/1316.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/12/2712/1316.pbf",
+        "https://tiles.mapterhorn.com/11/1356/657.webp",
+        "https://tiles.mapterhorn.com/11/1355/658.webp",
+        "https://tiles.mapterhorn.com/11/1355/657.webp",
+        "https://tiles.mapterhorn.com/10/678/329.webp",
+        "https://tiles.mapterhorn.com/10/677/328.webp",
+        "https://tiles.mapterhorn.com/10/678/328.webp",
+        "https://tiles.mapterhorn.com/11/1356/658.webp",
+        "https://tiles.mapterhorn.com/10/677/329.webp",
+        "https://tiles.mapterhorn.com/12/2712/1315.webp",
+        "https://tiles.mapterhorn.com/12/2712/1316.webp",
+        "https://tiles.mapterhorn.com/12/2713/1315.webp",
+        "https://tiles.mapterhorn.com/12/2711/1315.webp",
+        "https://tiles.mapterhorn.com/12/2713/1316.webp",
+        "https://tiles.mapterhorn.com/12/2711/1316.webp"
+      ],
+      "elapsedMs": 3222,
+      "totalBytes": 1235397
+    },
+    {
+      "name": "move to yalangas",
+      "bytes": {
+        "vector": 122404,
+        "dem": 2331946
+      },
+      "requests": 43,
+      "urls": [
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/12/2711/1312.pbf",
+        "https://tiles.mapterhorn.com/11/1354/656.webp",
+        "https://tiles.mapterhorn.com/10/678/327.webp",
+        "https://tiles.mapterhorn.com/10/677/327.webp",
+        "https://tiles.mapterhorn.com/12/2710/1312.webp",
+        "https://tiles.mapterhorn.com/12/2710/1313.webp",
+        "https://tiles.mapterhorn.com/12/2711/1312.webp",
+        "https://tiles.mapterhorn.com/12/2711/1313.webp",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/13/5423/2626.pbf",
+        "https://tiles.mapterhorn.com/12/2712/1312.webp",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/13/5422/2626.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/12/2710/1312.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/11/1356/655.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/11/1354/656.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/11/1355/655.pbf",
+        "https://tiles.mapterhorn.com/12/2711/1312.webp",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/11/1356/654.pbf",
+        "https://tiles.mapterhorn.com/12/2711/1313.webp",
+        "https://tiles.mapterhorn.com/12/2712/1312.webp",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/13/5424/2626.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/12/2712/1312.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/13/5422/2627.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/12/2710/1313.pbf",
+        "https://tiles.mapterhorn.com/12/2710/1312.webp",
+        "https://tiles.mapterhorn.com/12/2710/1313.webp",
+        "https://tiles.mapterhorn.com/12/2712/1311.webp",
+        "https://tiles.mapterhorn.com/12/2710/1311.webp",
+        "https://tiles.mapterhorn.com/12/2712/1313.webp",
+        "https://tiles.mapterhorn.com/12/2711/1311.webp",
+        "https://tiles.mapterhorn.com/12/2711/1310.webp",
+        "https://tiles.mapterhorn.com/12/2712/1310.webp",
+        "https://tiles.mapterhorn.com/12/2710/1310.webp",
+        "https://tiles.mapterhorn.com/11/1356/654.webp",
+        "https://tiles.mapterhorn.com/11/1355/654.webp",
+        "https://tiles.mapterhorn.com/11/1354/656.webp",
+        "https://tiles.mapterhorn.com/11/1354/655.webp",
+        "https://tiles.mapterhorn.com/11/1356/656.webp",
+        "https://tiles.mapterhorn.com/11/1355/656.webp",
+        "https://tiles.mapterhorn.com/12/2712/1313.webp",
+        "https://tiles.mapterhorn.com/9/338/163.webp",
+        "https://tiles.mapterhorn.com/9/339/163.webp",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/11/1354/655.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/11/1355/654.pbf"
+      ],
+      "elapsedMs": 2058,
+      "totalBytes": 2454350
+    },
+    {
+      "name": "move to mratkino",
+      "bytes": {
+        "resortData": 1239488,
+        "dem": 793470,
+        "vector": 167466
+      },
+      "requests": 36,
+      "urls": [
+        "http://127.0.0.1:4181/preview/region/live/trails.geojson",
+        "http://127.0.0.1:4181/preview/region/live/lifts.geojson",
+        "http://127.0.0.1:4181/preview/region/live/stations.geojson",
+        "http://127.0.0.1:4181/preview/region/live/roads.geojson",
+        "http://127.0.0.1:4181/preview/region/live/contours.geojson",
+        "http://127.0.0.1:4181/preview/region/region/mratkino-facilities.geojson",
+        "http://127.0.0.1:4181/preview/region/live/forest.geojson",
+        "http://127.0.0.1:4181/preview/region/live/forest-winter.png",
+        "https://tiles.mapterhorn.com/12/2712/1315.webp",
+        "https://tiles.mapterhorn.com/12/2713/1314.webp",
+        "https://tiles.mapterhorn.com/12/2712/1314.webp",
+        "https://tiles.mapterhorn.com/12/2713/1315.webp",
+        "https://tiles.mapterhorn.com/12/2712/1314.webp",
+        "https://tiles.mapterhorn.com/11/1356/656.webp",
+        "https://tiles.mapterhorn.com/9/338/164.webp",
+        "https://tiles.mapterhorn.com/12/2713/1314.webp",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/14/10851/5261.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/14/10852/5259.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/13/5425/2629.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/13/5424/2630.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/13/5424/2628.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/11/1355/657.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/14/10852/5260.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/14/10852/5260.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/14/10851/5260.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/14/10852/5260.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/13/5425/2628.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/13/5424/2629.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/14/10852/5260.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/14/10850/5260.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/11/1356/656.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/14/10850/5261.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/14/10852/5261.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/14/10852/5261.pbf",
+        "https://tiles.openfreemap.org/planet/20261018_080001_pt/14/10852/5261.pbf",
+        "https://tiles.mapterhorn.com/11/1355/657.webp"
+      ],
+      "elapsedMs": 50233,
+      "totalBytes": 2200424
+    },
+    {
+      "name": "enable detailed scene",
+      "bytes": {
+        "scene": 503833,
+        "resortData": 640496
+      },
+      "requests": 3,
+      "urls": [
+        "http://127.0.0.1:4181/preview/region/assets/resort-scene-data-CmSAbQ8O.js",
+        "http://127.0.0.1:4181/preview/region/live/forest-instances.bin",
+        "http://127.0.0.1:4181/preview/region/assets/resort-scene-Bp_sSo1e.js"
+      ],
+      "elapsedMs": 414,
+      "totalBytes": 1144329
+    }
+  ],
+  "errors": [],
+  "scene": {
+    "trees": 0,
+    "clusters": 13939,
+    "riders": 24,
+    "paths": [
+      {
+        "name": "С2",
+        "length": 947.9714640578056
+      },
+      {
+        "name": "Ю3",
+        "length": 821.481166291208
+      },
+      {
+        "name": "Ю2",
+        "length": 1222.834460857118
+      },
+      {
+        "name": "Ю1",
+        "length": 983.0798054397616
+      },
+      {
+        "name": "С3",
+        "length": 1388.2337249308896
+      },
+      {
+        "name": "Ю4",
+        "length": 1010.4521183514921
+      }
+    ],
+    "triangleCount": 476088
+  },
+  "sceneCleanup": "passed"
+}

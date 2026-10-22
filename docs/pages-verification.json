@@ -1,0 +1,91 @@
+{
+  "previewUrl": "https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/region/",
+  "previewRef": "82d10d278dd35a53c93df4d3d93d1fd7ea5d2d11",
+  "previewStatus": 200,
+  "liveHtmlIdenticalToLocalBuild": true,
+  "stableRootSha256Unchanged": true,
+  "previousPreviewGenerationsRetained": [
+    "94d5f4d708b31cab17e75cb8b98257f52f83ffdf"
+  ],
+  "frameBlockingHeaders": {},
+  "compactFacilityBytes": 34571,
+  "assets": [
+    {
+      "path": "assets/index-C4NwicCl.css",
+      "status": 200,
+      "bytes": 263,
+      "sha256Verified": true,
+      "localBuildIdentical": true
+    },
+    {
+      "path": "assets/index-Cyr3EFok.js",
+      "status": 200,
+      "bytes": 161251,
+      "sha256Verified": true,
+      "localBuildIdentical": true
+    },
+    {
+      "path": "assets/maplibre-gl-Y_FXurWg.js",
+      "status": 200,
+      "bytes": 1094988,
+      "sha256Verified": true,
+      "localBuildIdentical": true
+    },
+    {
+      "path": "assets/maplibre-gl-worker-BrB25tGK.mjs",
+      "status": 200,
+      "bytes": 518806,
+      "sha256Verified": true,
+      "localBuildIdentical": true
+    },
+    {
+      "path": "assets/resort-scene-Bp_sSo1e.js",
+      "status": 200,
+      "bytes": 499875,
+      "sha256Verified": true,
+      "localBuildIdentical": true
+    },
+    {
+      "path": "assets/resort-scene-data-CmSAbQ8O.js",
+      "status": 200,
+      "bytes": 3958,
+      "sha256Verified": true,
+      "localBuildIdentical": true
+    },
+    {
+      "path": "assets/routes-DQtKI3uE.js",
+      "status": 200,
+      "bytes": 3651,
+      "sha256Verified": true,
+      "localBuildIdentical": true
+    },
+    {
+      "path": "assets/index-CE63JhqI.js",
+      "status": 200,
+      "bytes": 160703,
+      "sha256Verified": true,
+      "localBuildIdentical": false
+    },
+    {
+      "path": "assets/resort-scene-CMTiGzN_.js",
+      "status": 200,
+      "bytes": 499875,
+      "sha256Verified": true,
+      "localBuildIdentical": false
+    },
+    {
+      "path": "assets/resort-scene-data-DmUvQx7d.js",
+      "status": 200,
+      "bytes": 3958,
+      "sha256Verified": true,
+      "localBuildIdentical": false
+    },
+    {
+      "path": "assets/routes-_RL__xPg.js",
+      "status": 200,
+      "bytes": 3651,
+      "sha256Verified": true,
+      "localBuildIdentical": false
+    }
+  ]
+}
