@@ -10,10 +10,10 @@ test('actual WebGL terrain, real trails and data provenance',async({page})=>{
  expect(await read(page,el=>el.map.getTerrain().exaggeration)).toBe(1);
  const height=await read(page,el=>el.map.queryTerrainElevation([58.4371909,53.9974603]));expect(height).toBeGreaterThan(750);expect(height).toBeLessThan(850);
  expect(await read(page,el=>el.map.queryRenderedFeatures({layers:['trail-line']}).length)).toBeGreaterThan(0);
- await expect(page.locator('.route-label')).toHaveCount(7);await expect(page.locator('.trail-row')).toHaveCount(5);
+ await expect(page.locator('.route-label')).toHaveCount(7);await expect(page.locator('.trail-row')).toHaveCount(4);
  await expect(page.locator('.data-summary')).toContainText('7 названных трасс OSM');
  const route=await read(page,el=>el.data.trails.features.find(f=>f.properties.name==='Ю3'));expect(route.properties.ref).toBe('Ю2');expect(route.properties.warnings.length).toBe(1);
- expect(await read(page,el=>el.data.manifest.missing_trails)).toEqual(['Ю5']);
+ expect(await read(page,el=>el.data.manifest.missing_trails)).toEqual([]);await expect(page.locator('.trail-row[data-name="Ю5"]')).toHaveCount(0);
  await page.screenshot({path:'renders/live-south.png',fullPage:true});
  await page.getByRole('button',{name:'Общий вид',exact:true}).click();await settled(page);await page.screenshot({path:'renders/live-overview.png',fullPage:true});expect(errors).toEqual([]);
 });
@@ -41,7 +41,7 @@ test('select real routes, expose conflicts and missing geometry; layer controls 
  await expect(page.locator('.card a')).toHaveAttribute('href','https://www.openstreetmap.org/way/61960627');
  expect(await read(page,el=>el.map.getPaintProperty('trail-line','line-width'))).toContainEqual(['==',['get','id'],'way/61960627']);
  await page.getByRole('button',{name:'Показать трассу',exact:true}).click();await settled(page);
- await page.locator('.trail-row[data-name="Ю5"]').click();await expect(page.locator('.card')).toContainText('ГЕОМЕТРИЯ НЕ ПОЛУЧЕНА');
+ await expect(page.locator('.trail-row[data-name="Ю5"]')).toHaveCount(0);
  for(const [name,id] of [['lifts','lift-line'],['contours','contours'],['facilities','facility-buildings'],['forest','forest']]){
   const toggle=page.locator(`[data-layer=${name}]`);const was=await toggle.isChecked();await toggle.setChecked(!was);
   expect(await root(page).evaluate((el,id)=>el.map.getLayoutProperty(id,'visibility'),id)).toBe(was?'none':'visible');

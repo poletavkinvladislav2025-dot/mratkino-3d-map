@@ -25,21 +25,11 @@ export function distanceToLine(p,line){
  return distance;
 }
 function random(seed=73021){return()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};}
-export function treePlacements(data,limit=1200){
- const rand=random(),forest=data.forest.features.map(f=>f.geometry);
- const areas=data.trails.features.filter(f=>/Polygon$/.test(f.geometry.type)).map(f=>f.geometry);
+export function saplingPlacements(data){
+ const rand=random(41937);
  const active=data.trails.features.filter(f=>f.geometry.type==='LineString'&&f.properties.name!=='С1').map(f=>f.geometry.coordinates.map(toLocal));
  const lifts=data.lifts.features.map(f=>f.geometry.coordinates.map(toLocal));
- const trees=[];
- // A bounded grid over the resort: placement is decorative, not a tree inventory.
- for(let y=-1750;y<=1750;y+=52)for(let x=-1750;x<=1750;x+=52){
-  const point=[x+(rand()-.5)*36,y+(rand()-.5)*36],lngLat=toLngLat(point);
-  if(!forest.some(g=>insideGeometry(lngLat,g))||areas.some(g=>insideGeometry(lngLat,g)))continue;
-  if(active.some(line=>distanceToLine(point,line)<22)||lifts.some(line=>distanceToLine(point,line)<12))continue;
-  trees.push({lngLat,height:8+rand()*8,radius:2.5+rand()*1.5,rotation:rand()*Math.PI*2,kind:'forest'});
- }
- trees.sort((a,b)=>Math.hypot(...toLocal(a.lngLat))-Math.hypot(...toLocal(b.lngLat)));
- const result=trees.slice(0,limit);
+ const result=[];
  const closed=data.trails.features.find(f=>f.properties.name==='С1'&&f.geometry.type==='LineString');
  if(closed){
   const line=closed.geometry.coordinates.map(toLocal),length=pathLength(line);
@@ -72,4 +62,34 @@ export function liftLoop(line,halfWidth=3){
  for(let i=line.length-2;i>=0;i--)loop.push(offset(line[i],side(i),-1));
  turn(line[0],side(0),side(0)-Math.PI/2);
  loop.push([...loop[0]]);return loop;
+}
+
+export function decodeForestInstances(buffer){
+ const view=new DataView(buffer);
+ if(buffer.byteLength<32||String.fromCharCode(...new Uint8Array(buffer,0,4))!=='MRFP'||view.getUint16(4,true)!==1||view.getUint16(6,true)!==8)throw Error('Invalid forest instance format');
+ const count=view.getUint32(8,true),spacing=view.getUint32(12,true);
+ if(buffer.byteLength!==32+count*8||Math.abs(view.getFloat64(16,true)-SUMMIT[0])>1e-8||Math.abs(view.getFloat64(24,true)-SUMMIT[1])>1e-8)throw Error('Forest instance origin or size mismatch');
+ const positions=new Float32Array(count*3),seeds=new Uint16Array(count);
+ for(let i=0;i<count;i++){const offset=32+i*8;positions[i*3]=view.getInt16(offset,true)/10;positions[i*3+1]=view.getInt16(offset+2,true)/10;positions[i*3+2]=view.getInt16(offset+4,true)/10;seeds[i]=view.getUint16(offset+6,true);}
+ return {count,spacing,positions,seeds};
+}
+export function forestLOD(pool,center,{mobile=false,zoom=14,bounds}={}){
+ const [cx,cy]=toLocal(center),radius=zoom>=15.1?(mobile?240:330):0;
+ const near=[],far=[],mask=mobile?7:3;
+ const box=bounds?bounds.map(toLocal):null;
+ const margin=150;
+ for(let i=0;i<pool.count;i++){
+  const x=pool.positions[i*3],y=pool.positions[i*3+1];
+  if(box&&(x<box[0][0]-margin||x>box[1][0]+margin||y<box[0][1]-margin||y>box[1][1]+margin))continue;
+  const dx=x-cx,dy=y-cy,distance=dx*dx+dy*dy;
+  if(radius&&distance<radius*radius)near.push(i);
+  if((pool.seeds[i]&mask)===0&&(!radius||distance>(radius-40)**2))far.push(i);
+ }
+ return {near,far,radius};
+}
+export function treeAppearance(seed){return {height:20+(seed%1001)/100,radius:5+((seed>>>5)%141)/100,rotation:seed/65535*Math.PI*2};}
+export function liftVehicle(route,index,elapsed){
+ if(!route.length)return {index,sample:null,ascending:false};
+ const distance=(index/route.count*route.length+elapsed*(route.chair?2.1:1.5))%route.length;
+ return {index,sample:samplePath(route.points,distance),ascending:distance<route.ascentLength,distance};
 }

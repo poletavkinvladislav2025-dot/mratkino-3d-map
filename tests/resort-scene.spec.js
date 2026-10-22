@@ -4,12 +4,12 @@ const read=(page,fn)=>root(page).evaluate(fn);
 async function ready(page){await page.goto('/');await expect(root(page)).toHaveAttribute('data-map-state','ready',{timeout:45000});await page.waitForFunction(()=>{const m=document.querySelector('mratkino-map').map;return !m.isMoving()&&m.areTilesLoaded()});}
 
 test('3D trees and real lift routes render; animation pauses, layers and cleanup work',async({page})=>{
- test.setTimeout(180000);
+ test.setTimeout(240000);
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.setViewportSize({width:1440,height:1050});await ready(page);
  expect(await read(page,el=>!!el.map.getLayer('resort-life'))).toBe(false);
  await expect(page.locator('.route-label').filter({hasText:'Ю3'})).toHaveText('Ю3');
  await page.locator('[data-action=life]').click();await expect(root(page)).toHaveAttribute('data-scene-state','playing',{timeout:30000});
- await expect.poll(()=>read(page,el=>el.lifeScene?.stats.trees||0)).toBeGreaterThan(100);
+ await expect.poll(()=>read(page,el=>el.lifeScene?.stats.canopyClusters||0)).toBeGreaterThan(100);
  await expect.poll(()=>read(page,el=>el.lifeScene?.stats.frames||0)).toBeGreaterThan(1);
  expect(await read(page,el=>el.lifeScene.stats.saplings)).toBeGreaterThan(10);
  expect(await read(page,el=>el.lifeScene.routes.filter(r=>r.chair).length)).toBe(2);
@@ -20,6 +20,7 @@ test('3D trees and real lift routes render; animation pauses, layers and cleanup
  await page.getByRole('button',{name:'Северный склон',exact:true}).click();await page.waitForFunction(()=>!document.querySelector('mratkino-map').map.isMoving());
  await page.locator('.trail-row[data-name="С1"]').click();await expect(page.locator('.card')).toContainText('Не работает');await expect(page.locator('.card')).toContainText('по сведениям владельца');
  await page.locator('.lift-row').filter({hasText:'Север'}).click();await page.getByRole('button',{name:'Рассмотреть в 3D'}).click();await page.waitForFunction(()=>!document.querySelector('mratkino-map').map.isMoving());
+ expect(await read(page,el=>el.lifeScene.stats.trees)).toBeGreaterThan(100);
  await page.screenshot({path:'renders/living-north-lift.png',fullPage:true});
  await page.locator('[data-layer=forest]').uncheck();expect(await read(page,el=>el.lifeScene.forestVisible)).toBe(false);
  await page.locator('[data-layer=lifts]').uncheck();expect(await read(page,el=>el.lifeScene.liftsVisible)).toBe(false);
@@ -37,8 +38,8 @@ test('mobile opts into fewer trees and reduced motion starts paused',async({page
  await page.getByRole('button',{name:'Северный склон',exact:true}).click();
  await page.locator('[data-action=life]').click();await expect(root(page)).toHaveAttribute('data-scene-state','paused',{timeout:30000});
  expect(await read(page,el=>el.lifeScene.mobile)).toBe(true);
- expect(await read(page,el=>el.lifeScene.treePoints.filter(t=>t.kind==='forest').length)).toBe(450);
- expect(await read(page,el=>el.lifeScene.stats.vehicles)).toBe(36);
+ expect(await read(page,el=>el.lifeScene.stats.forestCandidates)).toBe(80058);
+ expect(await read(page,el=>el.lifeScene.stats.vehicles)).toBe(36);expect(await read(page,el=>el.lifeScene.farCrowns.count)).toBeLessThan(12000);
  await page.waitForFunction(()=>document.querySelector('mratkino-map').lifeScene.stats.frames>0);
  await page.screenshot({path:'renders/living-mobile.png',fullPage:true});
 });

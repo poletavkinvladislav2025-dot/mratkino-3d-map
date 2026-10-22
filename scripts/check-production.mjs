@@ -25,6 +25,10 @@ try{
  await page.setViewportSize({width:390,height:940});await page.waitForTimeout(500);
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  await frame.waitForFunction(()=>{const el=document.querySelector('mratkino-map'),v=el.lifeScene.renderer.getViewport({copy:v=>[v.z,v.w]}),c=el.map.getCanvas();return v[0]===c.width&&v[1]===c.height},null,{timeout:20000});
- await page.screenshot({path:'renders/embed-mobile.png',fullPage:true});assert.deepEqual(errors,[]);
+ await page.screenshot({path:'renders/embed-mobile.png',fullPage:true});
+ await page.setViewportSize({width:1440,height:1060});await frame.locator('.lift-row').filter({hasText:'Tatrapoma'}).first().click();
+ await frame.getByRole('button',{name:'Рассмотреть в 3D'}).click();await frame.waitForFunction(()=>!document.querySelector('mratkino-map').map.isMoving());
+ await page.screenshot({path:'renders/platter-closeup.png',fullPage:true});
+ assert.deepEqual(errors,[]);
  console.log(JSON.stringify({productionIframe:'passed',threeViewport:'resizes with map',scene:'rendered',terrainHeight:height,fullscreen:'native passed',parentStyles:'isolated',errors}));
 }finally{await browser.close()}

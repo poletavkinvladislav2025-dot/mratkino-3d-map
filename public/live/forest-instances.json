@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "count": 80058,
+  "spacing_m": 10,
+  "origin": [
+    58.4371909,
+    53.9974603
+  ],
+  "size_bytes": 640496,
+  "sha256": "f33d3d76c4397d87a23059727d05e0568de881636816d0d865db9161bd26ef61",
+  "source": "existing OSM forest minus piste/lift clearances; exact committed Copernicus Terrarium heights",
+  "description": "Decorative placement, not an inventory; adult pine model height 20–30m is illustrative.",
+  "license": "ODbL-1.0 (OSM-derived placement); Copernicus DEM terms apply to elevations"
+}

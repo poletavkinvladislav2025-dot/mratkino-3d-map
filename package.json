@@ -9,7 +9,7 @@
     "preview": "vite preview --host 0.0.0.0",
     "test": "playwright test",
     "build:standalone": "vite build --config vite.embed.config.js && node scripts/export_standalone.mjs",
-    "prepare:web": "python scripts/prepare_web_data.py && python scripts/prepare_winter_forest.py",
+    "prepare:web": "python scripts/prepare_web_data.py && python scripts/prepare_winter_forest.py && python scripts/prepare_forest_instances.py",
     "test:unit": "node --test tests/*.test.js"
   },
   "devDependencies": {

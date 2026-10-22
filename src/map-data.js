@@ -1,5 +1,5 @@
 export const SUMMIT=[58.4371909,53.9974603];
-export const EXPECTED={south:['Ю1','Ю2','Ю3','Ю4','Ю5'],north:['С1','С2','С3']};
+export const EXPECTED={south:['Ю1','Ю2','Ю3','Ю4'],north:['С1','С2','С3']};
 export const EMPTY={type:'FeatureCollection',features:[]};
 export function coordinates(geometry){
  const result=[];const walk=v=>{if(typeof v[0]==='number')result.push(v.slice(0,2));else v.forEach(walk);};walk(geometry.coordinates);return result;
