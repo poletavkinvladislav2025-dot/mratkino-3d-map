@@ -1,0 +1,8 @@
+{
+  "source": "public/live/facilities.geojson",
+  "sourceSha256": "d0f87cbe1ec86cc1d4fbc5c54a0af8c19855696374c790aa7d2f74709cba82ea",
+  "sourceCount": 1793,
+  "selectedCount": 51,
+  "rule": "intersects bounding box of seven named resort pistes, plus approximately 200 m; same source geometries and IDs",
+  "license": "ODbL-1.0, © OpenStreetMap contributors"
+}

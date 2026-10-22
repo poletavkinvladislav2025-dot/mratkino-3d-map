@@ -26,6 +26,7 @@ test('desktop wheel without Ctrl changes zoom around cursor and GPX imports with
  const before=await read(page,el=>({zoom:el.map.getZoom(),point:el.map.unproject([el.map.getContainer().clientWidth*.6,el.map.getContainer().clientHeight*.5]).toArray()}));
  await page.mouse.move(x,y);await page.mouse.wheel(0,-220);await expect.poll(()=>read(page,el=>el.map.getZoom())).toBeGreaterThan(before.zoom+.1);
  await page.waitForFunction(()=>!document.querySelector('mratkino-map').map.isMoving());
+ expect(await read(page,el=>el.resortActive)).toBe(false);
  const after=await read(page,el=>el.map.unproject([el.map.getContainer().clientWidth*.6,el.map.getContainer().clientHeight*.5]).toArray());expect(Math.abs(after[0]-before.point[0])).toBeLessThan(.002);
  await page.locator('input[type=file]').setInputFiles({name:'sample.gpx',mimeType:'application/gpx+xml',buffer:Buffer.from('<?xml version="1.0"?><gpx xmlns="http://www.topografix.com/GPX/1/1"><trk><name>Тест импорта, не туристический маршрут</name><trkseg><trkpt lat="53.96" lon="58.40"><ele>530</ele></trkpt><trkpt lat="53.961" lon="58.401"><ele>540</ele></trkpt></trkseg></trk><wpt lat="53.9605" lon="58.4005"><name>Остановка</name></wpt></gpx>')});
  await expect(page.locator('.route-card')).toContainText('Тест импорта');await expect(page.locator('.route-card')).toContainText('10 м');expect(await read(page,el=>el.region.routeData.features.length)).toBe(2);

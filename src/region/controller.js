@@ -1,5 +1,6 @@
 import {PLACES,CITY,presetFor,byId,activeZones,distanceKm} from './presets.js';
 import {EMPTY} from '../map-data.js';
+import {resortFacilities} from './style.js';
 
 /** Camera, local data and UI attached to the existing MapLibre instance. */
 export class RegionController{
@@ -59,10 +60,10 @@ export class RegionController{
  async ensureResort(){
   const h=this.host;if(h.resortLoaded)return;
   if(!this.resortPromise)this.resortPromise=(async()=>{
-   const names=['trails','lifts','stations','forest','roads','facilities','contours'];const values=await Promise.all(names.map(n=>h.json('live/'+n+'.geojson')));
+   const names=['trails','lifts','stations','forest','roads','facilities','contours'];const values=await Promise.all(names.map(n=>h.json(n==='facilities'?'region/mratkino-facilities.geojson':'live/'+n+'.geojson')));
    if(h.abort.aborted)return;h.data={...h.data,...Object.fromEntries(names.map((n,i)=>[n,values[i]]))};h.resortLoaded=true;h.applyResortData();
    if(h.map?.isStyleLoaded()){
-    for(const n of names)h.map.getSource(n)?.setData(h.data[n]);
+    for(const n of names)h.map.getSource(n)?.setData(n==='facilities'?resortFacilities(h.data):h.data[n]);
     if(!h.map.getSource('forest-winter')){const [w,s,e,n]=h.data.manifest.bounds;h.map.addSource('forest-winter',{type:'image',url:h.url('live/forest-winter.png'),coordinates:[[w,n],[e,n],[e,s],[w,s]]});h.map.addLayer({id:'forest-soft',type:'raster',source:'forest-winter',paint:{'raster-opacity':1,'raster-fade-duration':0}},'road');}
     h.addMarkers();h.updateLayers();
    }
@@ -77,7 +78,7 @@ export class RegionController{
   // Zone metadata is tiny and cached; terrain, vector paths and roads remain viewport-tiled.
   const keep=new Set(zones.map(p=>p.id));for(const id of this.zones.keys())if(!keep.has(id))this.zones.delete(id);
   for(const zone of zones)if(!this.zones.has(zone.id))this.zones.set(zone.id,{radiusKm:10,terrain:'viewport-tiles',paths:'OSM vector tiles, optional, unverified',routes:[]});
-  const near=distanceKm(center,byId('mratkino').coordinates)<5&&map.getZoom()>=12.7;
+  const near=distanceKm(center,byId('mratkino').coordinates)<2.2&&map.getZoom()>=12.7;
   if(near&&!h.resortLoaded&&performance.now()>(this.retryAfter||0)){try{await this.ensureResort();if(h.map===map)this.sync();return;}catch(error){this.retryAfter=performance.now()+30000;this.dataError(error);}}
   h.resortActive=near&&h.resortLoaded;h.$('.resort-content').hidden=!h.resortActive;h.$('.views').hidden=!h.resortActive;
   h.$('.life-tools').hidden=!h.resortActive;h.$('.life-note').hidden=!h.resortActive||!h.lifeScene?.enabled;

@@ -28,7 +28,7 @@ test('3D trees and real lift routes render; animation pauses, layers and cleanup
  await page.locator('[data-layer=forest]').uncheck();expect(await read(page,el=>el.lifeScene.forestVisible)).toBe(false);
  await page.locator('[data-layer=lifts]').uncheck();expect(await read(page,el=>el.lifeScene.liftsVisible)).toBe(false);
  await page.locator('[data-layer=forest]').check();await page.locator('[data-layer=lifts]').check();
- await page.locator('.map-wrap').scrollIntoViewIfNeeded();await page.bringToFront();await page.locator('[data-action=life-pause]').click();await expect(root(page)).toHaveAttribute('data-scene-state','playing');console.log('Scene resumed',await read(page,el=>({visible:el.lifeScene.inViewport,paused:el.lifeScene.paused,documentHidden:document.hidden,frames:el.lifeScene.stats.frames,triangles:el.lifeScene.renderer.info.render.triangles,scrollY})));await expect.poll(()=>read(page,el=>el.lifeScene.elapsed),{timeout:20000}).toBeGreaterThan(frozen);
+ await page.locator('.map-wrap').scrollIntoViewIfNeeded();await page.bringToFront();await page.locator('[data-action=life-pause]').click();await expect(root(page)).toHaveAttribute('data-scene-state','playing');await expect.poll(()=>read(page,el=>el.lifeScene.elapsed),{timeout:20000}).toBeGreaterThan(frozen);
  await page.locator('[data-action=life]').click();await expect(root(page)).toHaveAttribute('data-scene-state','off');
  const stopped=await read(page,el=>el.lifeScene.elapsed);await page.waitForTimeout(300);expect(await read(page,el=>el.lifeScene.elapsed)).toBe(stopped);
  await read(page,el=>{window.__oldScene=el.lifeScene;el.remove();document.querySelector('#app').append(el)});

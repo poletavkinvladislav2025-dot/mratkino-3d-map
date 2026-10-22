@@ -2,7 +2,7 @@ import { test, expect, relayTiles } from './tile-fixture.js';
 
 const root=page=>page.locator('mratkino-map');
 async function ready(page){await page.goto('/');await expect(root(page)).toHaveAttribute('data-map-state','ready',{timeout:45000});await page.waitForFunction(()=>{const el=document.querySelector('mratkino-map');return el.map&&!el.map.isMoving()&&el.map.areTilesLoaded();});}
-async function settled(page){try{await page.waitForFunction(()=>!document.querySelector('mratkino-map').map.isMoving(),null,{timeout:30000});}catch(error){console.log('Movement state',await read(page,el=>({moving:el.map.isMoving(),camera:el.map._camera.isMoving(),handlers:el.map._handlers.isMoving(),rotate:el.map.dragRotate.isActive(),zoom:el.map.getZoom()})));throw error;}}
+async function settled(page){await page.waitForFunction(()=>!document.querySelector('mratkino-map').map.isMoving(),null,{timeout:30000});}
 const read=(page,fn)=>root(page).evaluate(fn);
 
 test('actual WebGL terrain, real trails and data provenance',async({page})=>{
@@ -26,9 +26,9 @@ test('one map changes camera between slopes, can rotate, pitch, zoom and interru
  expect(await read(page,el=>el.map.__identity)).toBe('same-map');await expect(page.locator('.trail-row')).toHaveCount(3);
  await page.screenshot({path:'renders/live-north.png',fullPage:true});
  await page.getByRole('button',{name:'Южный склон',exact:true}).click();
- await page.evaluate(()=>{window.mouseTrace=[];for(const type of ['mousedown','mouseup'])document.addEventListener(type,e=>window.mouseTrace.push({type:e.type,button:e.button,buttons:e.buttons,x:e.clientX,y:e.clientY,path:e.composedPath().slice(0,4).map(n=>n.nodeName)}),true);});await page.waitForTimeout(160);const canvas=page.locator('canvas');const box=await canvas.boundingBox();await page.mouse.move(box.x+box.width*.5,box.y+box.height*.6);await page.mouse.down({button:'right'});await page.waitForTimeout(100);
+ await page.waitForTimeout(160);const canvas=page.locator('canvas');const box=await canvas.boundingBox();await page.mouse.move(box.x+box.width*.5,box.y+box.height*.6);await page.mouse.down({button:'right'});await page.waitForTimeout(100);
  expect(await read(page,el=>el.map.isMoving())).toBe(false);
- await page.mouse.move(box.x+box.width*.5+100,box.y+box.height*.6+40,{steps:8});await page.mouse.up({button:'right'});console.log('Mouse trace',await page.evaluate(()=>window.mouseTrace));await settled(page);
+ await page.mouse.move(box.x+box.width*.5+100,box.y+box.height*.6+40,{steps:8});await page.mouse.up({button:'right'});await settled(page);
  const rotated=await read(page,el=>el.map.getBearing());expect(Math.abs(rotated-north)).toBeGreaterThan(5);
  await canvas.focus();const pitch=await read(page,el=>el.map.getPitch());await page.keyboard.press('Shift+ArrowDown');await settled(page);expect(await read(page,el=>el.map.getPitch())).toBeLessThan(pitch);
  const zoom=await read(page,el=>el.map.getZoom());await page.locator('.maplibregl-ctrl-zoom-in').click();await settled(page);expect(await read(page,el=>el.map.getZoom())).toBeGreaterThan(zoom);

@@ -1,9 +1,17 @@
-import {createStyle,EMPTY} from '../map-data.js';
+import {createStyle,EMPTY,boundsFor} from '../map-data.js';
 import {PLACES} from './presets.js';
 export const REGION_DEM='https://tiles.mapterhorn.com/{z}/{x}/{y}.webp';
 export const BASEMAP_URL='https://tiles.openfreemap.org/planet';
+// Keep the detailed facility layer within the actual resort, even when the city is in view.
+export function resortFacilities(data){
+ const bounds=boundsFor(data.trails.features.filter(f=>f.geometry.type==='LineString'&&/^[ЮС][1-4]$/.test(f.properties.name)));
+ if(!bounds)return EMPTY;
+ const [[w,s],[e,n]]=bounds,latMargin=.0018,lngMargin=.003;
+ return {type:'FeatureCollection',features:data.facilities.features.filter(f=>{const box=boundsFor([f]);return box&&box[1][0]>=w-lngMargin&&box[0][0]<=e+lngMargin&&box[1][1]>=s-latMargin&&box[0][1]<=n+latMargin;})};
+}
 export function createRegionalStyle(data,forestURL){
  const style=createStyle(data,REGION_DEM,forestURL);
+ style.sources.facilities.data=resortFacilities({...data,trails:data.trails||EMPTY,facilities:data.facilities||EMPTY});
  const dem={type:'raster-dem',tiles:[REGION_DEM],tileSize:512,encoding:'terrarium',minzoom:0,maxzoom:12,attribution:'<a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">© Mapterhorn</a>'};
  style.sources.dem={...dem};style.sources.shade={...dem};
  style.sources.basemap={type:'vector',url:BASEMAP_URL,attribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> · © OpenMapTiles · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>'};

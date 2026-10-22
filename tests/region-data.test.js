@@ -1,8 +1,9 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {PLACES,presetFor,activeZones} from '../src/region/presets.js';
 import {normalizeRoutes,routeMetrics,routeEndpoints} from '../src/region/routes.js';
-import {createRegionalStyle} from '../src/region/style.js';
+import {createRegionalStyle,resortFacilities} from '../src/region/style.js';
 import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 test('22 distinct locations, every preset, city overhead, and bounded lazy zones',()=>{
  assert.equal(PLACES.length,22);assert.equal(new Set(PLACES.map(p=>p.id)).size,22);
  for(const p of PLACES){const preset=presetFor(p.id);assert.equal(preset.id,p.id);assert.ok(preset.center[0]>57&&preset.center[0]<60);assert.ok(preset.center[1]>53&&preset.center[1]<55);assert.ok(preset.zoom>10);}
@@ -22,4 +23,13 @@ test('route metrics do not bridge disconnected track segments or invent elevatio
  const result=routeMetrics(fc);assert.ok(result.lengthKm>1&&result.lengthKm<2);assert.equal(result.gainM,null);assert.equal(result.duration,null);assert.deepEqual(result.start,[58,54]);assert.deepEqual(result.end,[59.01,55]);assert.equal(routeEndpoints(fc).features.length,2);
  const elevated=normalizeRoutes({type:'LineString',coordinates:[[58,54,100],[58.01,54,130],[58.02,54,120]]});assert.equal(routeMetrics(elevated).gainM,30);
  assert.throws(()=>normalizeRoutes({type:'LineString',coordinates:[[54,58],[200,54]]}));assert.throws(()=>normalizeRoutes({type:'LineString',coordinates:[[58,54],[58,54,'bad']]}));assert.throws(()=>normalizeRoutes({type:'Polygon',coordinates:[]}));
+});
+
+test('detailed resort facilities never leak city objects into the regional city view',()=>{
+ const data={trails:JSON.parse(readFileSync('public/live/trails.geojson')),facilities:JSON.parse(readFileSync('public/live/facilities.geojson'))};
+ const filtered=resortFacilities(data);assert.ok(filtered.features.length>0);assert.ok(filtered.features.length<data.facilities.features.length/2);
+ assert.ok(!filtered.features.some(f=>f.geometry.type==='Point'&&f.geometry.coordinates[1]<53.99));
+ const compact=JSON.parse(readFileSync('public/region/mratkino-facilities.geojson')),provenance=JSON.parse(readFileSync('public/region/mratkino-facilities-provenance.json'));
+ assert.equal(provenance.sourceSha256,createHash('sha256').update(readFileSync('public/live/facilities.geojson')).digest('hex'));assert.equal(compact.features.length,51);
+ const original=new Map(data.facilities.features.map(f=>[f.properties.id,f]));for(const f of compact.features)assert.deepEqual(f,original.get(f.properties.id));
 });
