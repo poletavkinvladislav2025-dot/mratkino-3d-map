@@ -28,7 +28,7 @@ export function createStyle(data,demURL,forestURL){
  for(const name of ['trails','lifts','stations','forest','roads','facilities','contours'])sources[name]={type:'geojson',data:data[name]||EMPTY,promoteId:'id',attribution:name==='trails'?'<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors · ODbL</a>':''};
  return {version:8,sources,terrain:{source:'dem',exaggeration:1},sky:{'sky-color':'#e7f0f5','horizon-color':'#f7faf7','fog-color':'#e4ecee','fog-ground-blend':0.4},layers:[
   {id:'snow',type:'background',paint:{'background-color':'#e5ecee'}},
-  {id:'forest',type:'fill',source:'forest',paint:{'fill-color':'#476f69','fill-opacity':0.282,'fill-antialias':true}},
+  {id:'forest',type:'fill',source:'forest',paint:{'fill-color':'#476f69','fill-opacity':forestURL?0:0.52,'fill-antialias':true}},
   ...(forestURL?[{id:'forest-soft',type:'raster',source:'forest-winter',paint:{'raster-opacity':1,'raster-fade-duration':0}}]:[]),
   {id:'road',type:'line',source:'roads',paint:{'line-color':'#ced5c9','line-opacity':0.65,'line-width':['interpolate',['linear'],['zoom'],12,0.5,16,2]}},
   {id:'trail-area',type:'fill',source:'trails',filter:['in',['geometry-type'],['literal',['Polygon','MultiPolygon']]],paint:{'fill-color':'#f8fafb','fill-opacity':0.22}},

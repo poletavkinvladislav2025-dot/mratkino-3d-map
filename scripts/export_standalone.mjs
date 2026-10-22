@@ -8,7 +8,7 @@ const layers={};for(const name of ['trails','lifts','stations','forest','roads',
 const tiles={};for(const tile of manifest.tiles)tiles[tile.replace(/^dem\//,'')]=fs.readFileSync(path.join(dir,tile)).toString('base64');
 const workerSource=fs.readFileSync('node_modules/maplibre-gl/dist/maplibre-gl-worker.mjs','utf8');
 const worker=await transformWithEsbuild(workerSource,'maplibre-worker.mjs',{format:'iife',target:'es2020',legalComments:'inline'});
-const embedded={forest:'data:image/png;base64,'+fs.readFileSync(path.join(dir,'forest-winter.png')).toString('base64'),manifest,layers,tiles,licenses:{maplibre:fs.readFileSync('public/live/licenses/MAPLIBRE-BSD-3.txt','utf8'),data:fs.readFileSync('public/live/licenses/DATA.txt','utf8')},worker:worker.code,worker_format:'classic',fallback:'data:image/webp;base64,'+fs.readFileSync(path.join(dir,'fallback.webp')).toString('base64')};
+const embedded={forest:'data:image/png;base64,'+fs.readFileSync(path.join(dir,'forest-winter.png')).toString('base64'),manifest,layers,tiles,licenses:{three:fs.readFileSync('public/live/licenses/THREE-MIT.txt','utf8'),maplibre:fs.readFileSync('public/live/licenses/MAPLIBRE-BSD-3.txt','utf8'),data:fs.readFileSync('public/live/licenses/DATA.txt','utf8')},worker:worker.code,worker_format:'classic',fallback:'data:image/webp;base64,'+fs.readFileSync(path.join(dir,'fallback.webp')).toString('base64')};
 const escapeScript=text=>text.replace(/<\/script/gi,'<\\/script');
 const bundle=escapeScript(fs.readFileSync('build-embed/mratkino.js','utf8'));
 const component=`<mratkino-map><script type="application/json">${escapeScript(JSON.stringify(embedded))}</script></mratkino-map><script>${bundle}</script>`;

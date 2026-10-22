@@ -37,7 +37,7 @@ test('one map changes camera between slopes, can rotate, pitch, zoom and interru
 });
 
 test('select real routes, expose conflicts and missing geometry; layer controls work',async({page})=>{
- await ready(page);await page.locator('.trail-row[data-name="Ю3"]').click();await expect(page.locator('.card')).toContainText('ref OSM');await expect(page.locator('.card')).toContainText('Требует уточнения');
+ await ready(page);await page.locator('.trail-row[data-name="Ю3"]').click();await expect(page.locator('.card')).not.toContainText('ref OSM');await expect(page.locator('.card')).toContainText('Требует уточнения');
  await expect(page.locator('.card a')).toHaveAttribute('href','https://www.openstreetmap.org/way/61960627');
  expect(await read(page,el=>el.map.getPaintProperty('trail-line','line-width'))).toContainEqual(['==',['get','id'],'way/61960627']);
  await page.getByRole('button',{name:'Показать трассу',exact:true}).click();await settled(page);
