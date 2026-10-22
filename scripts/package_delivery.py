@@ -7,7 +7,7 @@ with ZipFile(output,'w',compression=ZIP_DEFLATED,compresslevel=6) as archive:
     for path in sorted((root/'dist').rglob('*')):
         if path.is_file():archive.write(path,path.relative_to(root/'dist'))
     archive.write(root/'DATA_SOURCES.md','DATA_SOURCES.md')
-    archive.writestr('README-DEPLOY.txt','Мраткино — живая 3D-карта.\nЗагрузите содержимое этого архива на статический HTTPS-хостинг, сохранив структуру папок. index.html должен быть в корне выбранного URL. Серверная часть и API-ключи не нужны. Файлы .mjs необходимо отдавать как JavaScript; стандартные современные статические хостинги это поддерживают.\nВставьте iframe из tilda-iframe.txt в T123 и замените YOUR-MAP-HOST фактическим HTTPS-адресом. Разрешите fullscreen.\nДанные OSM не подтверждены курортом; Ю5 отсутствует; Ю3 имеет конфликт name/ref. См. DATA_SOURCES.md и live/licenses/.\n')
+    archive.writestr('README-DEPLOY.txt','Мраткино — живая 3D-карта.\nЗагрузите содержимое этого архива на статический HTTPS-хостинг, сохранив структуру папок. index.html должен быть в корне выбранного URL. Серверная часть и API-ключи не нужны. Файлы .mjs необходимо отдавать как JavaScript; стандартные современные статические хостинги это поддерживают.\nВставьте iframe из tilda-iframe.txt в T123 после включения GitHub Pages в Settings → Pages → Source: GitHub Actions. Для другого хостинга замените адрес iframe. Разрешите fullscreen.\nДанные OSM не подтверждены курортом; Ю5 отсутствует; Ю3 имеет конфликт name/ref. См. DATA_SOURCES.md и live/licenses/.\n')
     archive.write(root/'deliverables/tilda-iframe.txt','tilda-iframe.txt')
 with ZipFile(output) as archive:
     assert archive.testzip() is None

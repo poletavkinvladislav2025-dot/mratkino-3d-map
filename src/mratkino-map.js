@@ -6,10 +6,10 @@ import { SUMMIT, EXPECTED, boundsFor, coordinates, slopeCamera, createStyle } fr
 const offlinePools=new Map();let sequence=0,protocolRegistered=false,offlineWorkerURL=null;
 const template=`
 <div class="shell">
- <header class="head"><div><p class="eyebrow">БЕЛОРЕЦК · ЮЖНЫЙ УРАЛ</p><div class="title-line"><h1>Мраткино</h1><p>Интерактивная карта трасс</p></div></div><span class="brand"><span>visit</span>beloretsk</span></header>
- <div class="toolbar"><div class="views" role="group" aria-label="Положение камеры"><button type="button" data-view="south" aria-pressed="true">Южный склон</button><button type="button" data-view="north" aria-pressed="false">Северный склон</button><button type="button" data-view="overview" aria-pressed="false">Общий вид</button></div><div class="toolbar-right"><span class="verified-label">ОТКРЫТЫЕ ДАННЫЕ · НЕ СВЕРЕНО КУРОРТОМ</span><button type="button" class="data-button" data-action="sources">ⓘ О данных</button></div></div>
- <div class="workspace"><div class="map-wrap"><div class="map" aria-label="Вращающаяся трёхмерная карта Мраткино"></div><div class="map-label"><span>МРАТКИНО / <b class="view-label">ЮЖНЫЙ СКЛОН</b></span><small>Copernicus DEM · высоты 1:1<br>Линии OSM · актуальность требует сверки</small></div><button class="mode-button" type="button" data-action="mode" aria-pressed="false" aria-label="Включить плоский вид">2D</button><div class="hint">Вращайте и приближайте карту<br>Правая кнопка мыши · на телефоне — два пальца</div><div class="error-note" role="status" hidden></div><div class="loading" role="status"><span class="spinner" aria-hidden="true"></span><p>Готовим настоящий рельеф Мраткино…</p></div><div class="fallback" hidden><img alt="Резервный статичный ракурс реального рельефа Мраткино"/><p></p><button type="button" data-action="retry">Повторить загрузку 3D-карты</button></div></div>
- <aside class="sidebar"><button type="button" class="mobile-panel-toggle" aria-expanded="false"><span>Трассы и слои</span><span class="panel-summary">Открыть ↑</span></button><div class="panel-body"><div class="panel-head"><h2>Трассы</h2><span class="trail-count">05</span></div><p class="panel-sub">Южный склон · геометрия OpenStreetMap</p><div class="trail-list"></div><section class="card" aria-live="polite"><span class="tiny">ПОЗНАКОМЬТЕСЬ С ГОРOЙ</span><h3>Выберите трассу</h3><p>Нажмите на линию, подпись или название в списке.</p></section><div class="layers"><h3>Слои карты</h3><label><span><i class="layer-symbol lift-symbol"></i>Подъёмники <small class="lift-count"></small></span><input type="checkbox" role="switch" data-layer="lifts" checked/></label><label><span><i class="layer-symbol contour-symbol"></i>Горизонтали · 25 м</span><input type="checkbox" role="switch" data-layer="contours"/></label><label><span><i class="layer-symbol facility-symbol"></i>Инфраструктура</span><input type="checkbox" role="switch" data-layer="facilities" checked/></label><label><span><i class="layer-symbol forest-symbol"></i>Лес по OSM</span><input type="checkbox" role="switch" data-layer="forest" checked/></label><p class="legend"><i></i> Цвет выделения не означает сложность.<br>Фиолетовый пунктир — подъёмники.</p></div></div></aside></div>
+ <header class="head"><div><p class="eyebrow">БЕЛОРЕЦК · ЮЖНЫЙ УРАЛ</p><div class="title-line"><h1>Мраткино</h1><p>Гора. Трассы. Ваш следующий спуск.</p></div></div><span class="brand"><span>visit</span>beloretsk</span></header>
+ <div class="toolbar"><div class="views" role="group" aria-label="Положение камеры"><button type="button" data-view="south" aria-pressed="true">Южный склон</button><button type="button" data-view="north" aria-pressed="false">Северный склон</button><button type="button" data-view="overview" aria-pressed="false">Общий вид</button></div><div class="toolbar-right"><span class="verified-label">ЗИМНЯЯ КАРТА · 3D</span><button type="button" class="data-button" data-action="sources">ⓘ О данных</button></div></div>
+ <div class="workspace"><div class="map-wrap"><div class="map" aria-label="Вращающаяся трёхмерная карта Мраткино"></div><div class="map-label"><span>МРАТКИНО / <b class="view-label">ЮЖНЫЙ СКЛОН</b></span><small>Зимнее оформление · не текущие условия</small></div><button class="mode-button" type="button" data-action="mode" aria-pressed="false" aria-label="Включить плоский вид">2D</button><div class="hint">Вращайте и приближайте карту<br>Правая кнопка мыши · на телефоне — два пальца</div><div class="error-note" role="status" hidden></div><div class="loading" role="status"><span class="spinner" aria-hidden="true"></span><p>Готовим настоящий рельеф Мраткино…</p></div><div class="fallback" hidden><img alt="Резервный статичный ракурс реального рельефа Мраткино"/><p></p><button type="button" data-action="retry">Повторить загрузку 3D-карты</button></div></div>
+ <aside class="sidebar"><button type="button" class="mobile-panel-toggle" aria-expanded="false"><span>Трассы, подъёмники и слои</span><span class="panel-summary">Открыть ↑</span></button><div class="panel-body"><div class="panel-head"><h2>Трассы</h2><span class="trail-count">05</span></div><p class="panel-sub">Южный склон · геометрия OpenStreetMap</p><div class="trail-list"></div><section class="card" aria-live="polite"><span class="tiny">ИССЛЕДУЙТЕ МРАТКИНО</span><h3>Выберите трассу</h3><p>Нажмите на линию, подпись или название в списке.</p></section><div class="lift-list" aria-label="Подъёмники"></div><div class="layers"><h3>На карте</h3><label><span><i class="layer-symbol lift-symbol"></i>Подъёмники <small class="lift-count"></small></span><input type="checkbox" role="switch" data-layer="lifts" checked/></label><label><span><i class="layer-symbol contour-symbol"></i>Горизонтали · 25 м</span><input type="checkbox" role="switch" data-layer="contours"/></label><label><span><i class="layer-symbol facility-symbol"></i>Инфраструктура</span><input type="checkbox" role="switch" data-layer="facilities" checked/></label><label><span><i class="layer-symbol forest-symbol"></i>Лес по OSM</span><input type="checkbox" role="switch" data-layer="forest" checked/></label><p class="legend"><i></i> Цвет выделения не означает сложность.<br>Фиолетовый пунктир — подъёмники.</p></div></div></aside></div>
  <footer class="foot"><span><i class="dot"></i><span class="data-summary">Загружаем геоданные…</span></span><button type="button" data-action="sources">Источники и точность ↗</button></footer>
 </div>
 <dialog class="dialog"><header><p class="eyebrow">ГЕОГРАФИЯ И ПРОИСХОЖДЕНИЕ</p><button type="button" data-action="close-dialog" aria-label="Закрыть">×</button></header><h2>Реальная гора.<br>Проверяемые источники.</h2><p>Рельеф — Copernicus DEM GLO-30, около 30 м, высоты EGM2008. Преувеличение равно 1. Тени и зимние цвета — оформление, а не сведения о текущем снежном покрове.</p><h3>Трассы и подъёмники</h3><p class="source-counts"></p><p>Линии, полигоны спусков, лес, дороги и объекты взяты из OpenStreetMap. Это данные сообщества, а не подтверждение курортом. Работа подъёмников и открытие трасс в реальном времени не отображаются.</p><ul><li>Ю5 в выгрузке не найден, линия не нарисована.</li><li>У объекта «Ю3» противоречие: ref=Ю2. Он отмечен для сверки.</li><li>Длина по линии OSM — вычисление по геометрии, а не паспортная длина трассы. Сложность и перепад требуют уточнения.</li></ul><h3>О модели и управлении</h3><p>Высотные PNG-тайлы Terrarium подготовлены из двух исходных Copernicus GeoTIFF и поставляются с картой. Камеры склонов рассчитаны по линиям трасс и направлению от их нижних концов к вершине OSM. Никаких автоматических маршрутов или случайных масок леса.</p><p>Мышь: перетаскивание — перемещение; правая кнопка или Ctrl + перетаскивание — поворот и наклон; колесо с Ctrl — масштаб. На телефоне — два пальца; одним пальцем можно прокручивать страницу. На клавиатуре: +/−, стрелки; Shift + стрелки — наклон и поворот. В полноэкранном режиме кооперативное управление временно отключается движком.</p><h3>Атрибуция</h3><p>© OpenStreetMap contributors, ODbL 1.0.<br>Copernicus DEM: © DLR e.V. 2010–2014 and © Airbus Defence and Space GmbH 2014–2018 provided under COPERNICUS by the European Union and ESA; all rights reserved.<br>MapLibre GL JS — BSD-3-Clause.</p><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">Условия OpenStreetMap ↗</a></dialog>`;
@@ -55,7 +55,7 @@ class MratkinoMap extends HTMLElement {
    if(this.token!==token||this.abort.aborted||attempt!==this.initSerial)return;
    this.$('.data-summary').textContent=`${this.data.manifest.named_trails.length} названных трасс OSM · ${this.data.lifts.features.length} подъёмника · сведения требуют сверки`;
    this.$('.source-counts').textContent=`Нанесено ${this.data.trails.features.length} объектов спусков, включая ${this.data.manifest.named_trails.length} названных линий; ${this.data.lifts.features.length} подъёмника. Независимо подтверждённых курортом трасс: 0.`;
-   this.$('.lift-count').textContent='· '+this.data.lifts.features.length;this.renderList();
+   this.$('.lift-count').textContent='· '+this.data.lifts.features.length;this.renderList();this.renderLifts();
    const ml=await import('maplibre-gl');if(this.token!==token||this.abort.aborted||attempt!==this.initSerial)return;this.ml=ml;
    if(this.embedded?.worker){if(!offlineWorkerURL)offlineWorkerURL=URL.createObjectURL(new Blob([this.embedded.worker],{type:'text/javascript'}));ml.setWorkerUrl(offlineWorkerURL+(this.embedded.worker_format==='classic'?'#offline.cjs':''));}else ml.setWorkerUrl(workerURL);
    ml.setWorkerCount(2);
@@ -74,14 +74,14 @@ class MratkinoMap extends HTMLElement {
    this.cameras={south:slopeCamera(this.data.trails.features,'south'),north:slopeCamera(this.data.trails.features,'north')};
    const camera=this.cameras.south;
    this.$('.map').replaceChildren();
-   this.map=new ml.Map({container:this.$('.map'),style:createStyle(this.data,tileURL),center:SUMMIT,zoom:14,pitch:61,bearing:camera?.bearing||0,minZoom:12.8,maxZoom:16.5,maxPitch:72,maxBounds:[[58.405,53.975],[58.47,54.02]],cooperativeGestures:true,attributionControl:false,pixelRatio:Math.min(devicePixelRatio||1,1.5),canvasContextAttributes:{antialias:false},fadeDuration:150,locale:{'CooperativeGesturesHandler.WindowsHelpText':'Удерживайте Ctrl для масштабирования карты','CooperativeGesturesHandler.MacHelpText':'Удерживайте ⌘ для масштабирования карты','CooperativeGesturesHandler.MobileHelpText':'Используйте два пальца для управления картой'}});
+   this.map=new ml.Map({container:this.$('.map'),style:createStyle(this.data,tileURL,this.embedded?.forest||this.url('live/forest-winter.png')),center:SUMMIT,zoom:14,pitch:61,bearing:camera?.bearing||0,minZoom:12.8,maxZoom:16.5,maxPitch:72,maxBounds:[[58.405,53.975],[58.47,54.02]],cooperativeGestures:true,attributionControl:false,pixelRatio:Math.min(devicePixelRatio||1,1.5),canvasContextAttributes:{antialias:false},fadeDuration:150,locale:{'CooperativeGesturesHandler.WindowsHelpText':'Удерживайте Ctrl для масштабирования карты','CooperativeGesturesHandler.MacHelpText':'Удерживайте ⌘ для масштабирования карты','CooperativeGesturesHandler.MobileHelpText':'Используйте два пальца для управления картой'}});
    const map=this.map;this.setAttribute('data-map-state','loading');
    map.addControl(new ml.NavigationControl({visualizePitch:true}),'top-right');
    map.addControl(new ml.FullscreenControl({container:this.$('.map-wrap')}),'top-right');
    map.addControl(new ml.ScaleControl({maxWidth:90,unit:'metric'}),'bottom-left');
    map.addControl(new ml.AttributionControl({compact:true}),'bottom-right');
    this.resizeObserver?.disconnect();this.resizeObserver=new ResizeObserver(()=>map.resize());this.resizeObserver.observe(this.$('.map-wrap'));
-   this.readyTimer=setTimeout(()=>{if(this.getAttribute('data-map-state')!=='ready'||e.sourceId==='dem'||e.sourceId==='shade')this.fallback('Рельеф ещё загружается. Пока показан резервный вид; 3D-карта появится после загрузки.',false);},25000);
+   this.readyTimer=setTimeout(()=>{if(this.getAttribute('data-map-state')!=='ready')this.fallback('Рельеф ещё загружается. Пока показан резервный вид; 3D-карта появится после загрузки.',false);},25000);
    map.on('load',()=>{
     if(this.map!==map)return;
     this.addMarkers();this.updateLayers();this.chooseView(this.view,false);this.finishLoading();
@@ -102,6 +102,8 @@ class MratkinoMap extends HTMLElement {
    map.on('movestart',e=>{if(e.originalEvent)this.hideHint();});
    map.on('rotateend',()=>{this.setAttribute('data-bearing',map.getBearing().toFixed(2));});
    map.on('moveend',()=>this.reflectCamera());
+   map.on('render',()=>this.layoutLabels());
+   map.on('click','lift-line',e=>{const f=this.data.lifts.features.find(f=>f.properties.id===e.features?.[0]?.properties?.id);if(f)this.selectLift(f);});
    for(const layer of ['trail-line','trail-area','trail-area-edge']){
     map.on('click',layer,e=>{const f=this.findTrail(e.features?.[0]?.properties?.id);if(f)this.selectTrail(f,false);});
     map.on('mouseenter',layer,e=>{map.getCanvas().style.cursor='pointer';this.highlight(e.features?.[0]?.properties?.id);});
@@ -122,12 +124,12 @@ class MratkinoMap extends HTMLElement {
  }
  findTrail(id){return this.data?.trails.features.find(f=>f.properties.id===id);}
  renderList(){
-  const view=this.view==='overview'?'south':this.view;const names=EXPECTED[view];const list=this.$('.trail-list');list.replaceChildren();
-  this.$('.trail-count').textContent=String(names.length).padStart(2,'0');this.$('.panel-sub').textContent=(view==='south'?'Южный':'Северный')+' склон · данные OSM, не сверено';
+  const view=this.view==='overview'?'south':this.view;const names=this.view==='overview'?[...EXPECTED.south,...EXPECTED.north]:EXPECTED[view];const list=this.$('.trail-list');list.replaceChildren();
+  this.$('.trail-count').textContent=String(names.length).padStart(2,'0');this.$('.panel-sub').textContent=(this.view==='overview'?'Все склоны':view==='south'?'Южный склон':'Северный склон')+' · сведения требуют сверки';
   for(const name of names){
    const f=this.data?.trails.features.find(f=>f.properties.name===name&&f.geometry.type==='LineString');const b=document.createElement('button');b.type='button';b.className='trail-row'+(f?'':' missing');b.dataset.name=name;b.dataset.id=f?.properties.id||name;b.setAttribute('aria-pressed',String(this.selected===(f?.properties.id||name)));
-   const dot=document.createElement('span');dot.className='trail-marker'+(f?'':' missing');dot.textContent=f?'↘':'—';
-   const title=document.createElement('strong');title.textContent=name;const state=document.createElement('span');state.className='trail-state';state.textContent=!f?'Нет геометрии':f.properties.warnings.length?'Конфликт тегов':'OSM · не сверено';if(f?.properties.warnings.length)state.classList.add('trail-status-warning');b.append(dot,title,state);
+   const dot=document.createElement('span');dot.className='trail-marker'+(f?'':' missing');dot.textContent=f?'•':'—';
+   const title=document.createElement('strong');title.textContent=name;const state=document.createElement('span');state.className='trail-state';state.textContent=!f?'Нет геометрии':f.properties.warnings.length?'Конфликт тегов':'Трасса';if(f?.properties.warnings.length)state.classList.add('trail-status-warning');b.append(dot,title,state);
    b.addEventListener('click',()=>f?this.selectTrail(f,false):this.missingCard(name));b.addEventListener('mouseenter',()=>f&&this.highlight(f.properties.id));b.addEventListener('mouseleave',()=>this.highlight());list.append(b);
   }
  }
@@ -148,27 +150,53 @@ class MratkinoMap extends HTMLElement {
  highlight(hovered){
   if(!this.map?.getLayer('trail-line'))return;const id=hovered||(this.findTrail(this.selected)?this.selected:null);
   const match=['==',['get','id'],id||''];
-  for(const layer of ['trail-line','trail-casing','trail-area-edge'])this.map.setPaintProperty(layer,'line-opacity',id?['case',match,1,0.28]:layer==='trail-area-edge'?0.45:0.95);
+  for(const layer of ['trail-line','trail-casing','trail-area-edge'])this.map.setPaintProperty(layer,'line-opacity',id?['case',match,1,0.18]:layer==='trail-area-edge'?0:0.95);
   this.map.setPaintProperty('trail-line','line-width',id?['case',match,5.5,2.5]:3);
-  this.map.setPaintProperty('trail-area','fill-opacity',id?['case',match,0.94,0.5]:0.88);
+  this.map.setPaintProperty('trail-area','fill-opacity',id?['case',match,0.30,0.12]:0.22);
   this.markers.forEach(({element,id:fid})=>element.setAttribute('aria-pressed',String(fid===id)));
+ }
+ renderLifts(){
+  const list=this.$('.lift-list');list.replaceChildren();
+  const title=document.createElement('h3');title.textContent='Подъёмники';list.append(title);
+  for(const f of this.data.lifts.features){const button=document.createElement('button');button.type='button';button.className='lift-row';button.textContent='↗ '+(f.properties.name||'Подъёмник')+' · '+(f.properties.tags?.aerialway==='chair_lift'?'кресельный':'буксировочный');button.addEventListener('click',()=>this.selectLift(f));list.append(button);}
+ }
+ selectLift(f){
+  this.selected=null;this.renderList();this.highlight();this.openPanel(true);
+  const card=this.$('.card');card.replaceChildren();this.cardTitle(card,'ПОДЪЁМНИК · ДАННЫЕ OSM',f.properties.name||'Подъёмник');
+  this.text(card,f.properties.tags?.aerialway==='chair_lift'?'Кресельный подъёмник':'Буксировочный подъёмник');this.text(card,'Расписание, работа сейчас и характеристики требуют подтверждения курортом.');
+  const link=document.createElement('a');link.textContent='Исходный объект OSM ↗';link.href='https://www.openstreetmap.org/'+f.properties.id;link.target='_blank';link.rel='noopener noreferrer';card.append(link);
+  this.flyToFeatures([f],this.map.getBearing());
+ }
+ layoutLabels(){
+  if(!this.map||!this.markers.length)return;
+  const occupied=[];const width=this.map.getContainer().clientWidth,height=this.map.getContainer().clientHeight;
+  const ordered=[...this.markers].sort((a,b)=>(b.id===this.selected?2:b.id==='summit'?1:0)-(a.id===this.selected?2:a.id==='summit'?1:0));
+  for(const item of ordered){
+   const point=this.map.project(item.marker.getLngLat());const w=item.element.offsetWidth||40,h=item.element.offsetHeight||24;
+   const r={left:point.x-w/2-5,right:point.x+w/2+5,top:point.y-h-5,bottom:point.y+8};
+   const outside=r.left<8||r.right>width-54||r.top<50||r.bottom>height-30;
+   const overlaps=occupied.some(b=>r.left<b.right&&r.right>b.left&&r.top<b.bottom&&r.bottom>b.top);
+   const visible=!outside&&!overlaps;item.element.style.visibility=visible?'visible':'hidden';item.element.tabIndex=visible&&item.id!=='summit'?0:-1;
+   if(visible)occupied.push(r);
+  }
  }
  updateLayers(){
   if(!this.map?.getLayer('snow'))return;
-  const groups={lifts:['lift-line','lift-casing','lift-stations'],contours:['contours'],facilities:['facility-buildings','facility-points'],forest:['forest']};
+  const groups={lifts:['lift-line','lift-casing','lift-stations'],contours:['contours'],facilities:['facility-buildings','facility-points'],forest:['forest','forest-soft']};
   for(const [name,layers] of Object.entries(groups)){const input=this.$(`[data-layer=${name}]`);for(const layer of layers)this.map.setLayoutProperty(layer,'visibility',input.checked?'visible':'none');}
  }
  updateViewButtons(){this.$$('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===this.view)));this.$('.view-label').textContent=this.view==='overview'?'ОБЩИЙ ВИД':this.view==='north'?'СЕВЕРНЫЙ СКЛОН':'ЮЖНЫЙ СКЛОН';}
  chooseView(view,animate=true){
-  this.view=view;this.selected=null;this.updateViewButtons();this.renderList();this.highlight();
+  this.view=view;this.selected=null;const card=this.$('.card');card.replaceChildren();this.cardTitle(card,'ИССЛЕДУЙТЕ МРАТКИНО','Выберите трассу');this.text(card,'Нажмите на линию, подпись или название в списке.');this.updateViewButtons();this.renderList();this.highlight();
   if(!this.map?.getLayer('snow'))return;
-  const preset=view==='overview'?{bounds:boundsFor(this.data.trails.features),bearing:this.cameras.south?.bearing||0,pitch:57}:this.cameras[view];
+  const preset=view==='overview'?{bounds:boundsFor(this.data.trails.features),bearing:this.cameras.south?.bearing||0,pitch:54}:this.cameras[view];
   if(preset)this.flyToBounds(preset.bounds,preset.bearing,preset.pitch,animate);
  }
  flyToFeatures(features,bearing){const bounds=boundsFor(features);if(bounds)this.flyToBounds(bounds,bearing,62,true);}
  flyToBounds(bounds,bearing,pitch,animate){
   const map=this.map;if(!map||!bounds)return;
-  const camera=map.cameraForBounds(bounds,{bearing,padding:matchMedia('(max-width:760px)').matches?55:75,maxZoom:15.5});if(!camera)return;
+  const mobile=matchMedia('(max-width:760px)').matches;
+  const camera=map.cameraForBounds(bounds,{bearing,padding:mobile?{top:80,bottom:60,left:35,right:50}:{top:95,bottom:90,left:75,right:85},maxZoom:15.5});if(!camera)return;
   map.stop();map.easeTo({...camera,pitch:this.mode2D?0:pitch,bearing,duration:animate?this.duration():0,essential:false});
  }
  addMarkers(){

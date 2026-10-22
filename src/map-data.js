@@ -20,20 +20,23 @@ export function slopeCamera(features,view){
  const base=bottoms.reduce((sum,p)=>[sum[0]+p[0]/bottoms.length,sum[1]+p[1]/bottoms.length],[0,0]);
  return {bounds,bearing:bearingBetween(base,SUMMIT),pitch:61,base,basis:'bearing from mapped trail bottoms toward OSM summit; bounds of named OSM lines'};
 }
-export function createStyle(data,demURL){
+export function createStyle(data,demURL,forestURL){
  const dem={type:'raster-dem',tiles:[demURL],tileSize:256,encoding:'terrarium',minzoom:10,maxzoom:14,bounds:data.manifest.terrain_bounds,attribution:'<a href="https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM" target="_blank" rel="noopener">Copernicus DEM</a>'};
  const sources={dem:{...dem},shade:{...dem}};
+ const [west,south,east,north]=data.manifest.bounds;
+ if(forestURL)sources['forest-winter']={type:'image',url:forestURL,coordinates:[[west,north],[east,north],[east,south],[west,south]]};
  for(const name of ['trails','lifts','stations','forest','roads','facilities','contours'])sources[name]={type:'geojson',data:data[name]||EMPTY,promoteId:'id',attribution:name==='trails'?'<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors · ODbL</a>':''};
  return {version:8,sources,terrain:{source:'dem',exaggeration:1},sky:{'sky-color':'#e7f0f5','horizon-color':'#f7faf7','fog-color':'#e4ecee','fog-ground-blend':0.4},layers:[
-  {id:'snow',type:'background',paint:{'background-color':'#f6f8f5'}},
-  {id:'forest',type:'fill',source:'forest',paint:{'fill-color':'#648576','fill-opacity':0.78,'fill-antialias':true}},
+  {id:'snow',type:'background',paint:{'background-color':'#e5ecee'}},
+  {id:'forest',type:'fill',source:'forest',paint:{'fill-color':'#476f69','fill-opacity':0.282,'fill-antialias':true}},
+  ...(forestURL?[{id:'forest-soft',type:'raster',source:'forest-winter',paint:{'raster-opacity':1,'raster-fade-duration':0}}]:[]),
   {id:'road',type:'line',source:'roads',paint:{'line-color':'#ced5c9','line-opacity':0.65,'line-width':['interpolate',['linear'],['zoom'],12,0.5,16,2]}},
-  {id:'trail-area',type:'fill',source:'trails',filter:['in',['geometry-type'],['literal',['Polygon','MultiPolygon']]],paint:{'fill-color':'#ffffff','fill-opacity':0.88}},
-  {id:'hillshade',type:'hillshade',source:'shade',paint:{'hillshade-shadow-color':'#658097','hillshade-highlight-color':'#ffffff','hillshade-accent-color':'#92a4af','hillshade-exaggeration':0.65,'hillshade-illumination-direction':315,'hillshade-illumination-anchor':'map'}},
+  {id:'trail-area',type:'fill',source:'trails',filter:['in',['geometry-type'],['literal',['Polygon','MultiPolygon']]],paint:{'fill-color':'#f8fafb','fill-opacity':0.22}},
+  {id:'hillshade',type:'hillshade',source:'shade',paint:{'hillshade-shadow-color':'#344f69','hillshade-highlight-color':'#ffffff','hillshade-accent-color':'#718a9f','hillshade-method':'igor','hillshade-exaggeration':0.75,'hillshade-illumination-altitude':40,'hillshade-illumination-direction':315,'hillshade-illumination-anchor':'map'}},
   {id:'contours',type:'line',source:'contours',layout:{visibility:'none'},paint:{'line-color':'#718778','line-width':0.65,'line-opacity':0.35}},
-  {id:'facility-buildings',type:'fill',source:'facilities',filter:['in',['geometry-type'],['literal',['Polygon','MultiPolygon']]],paint:{'fill-color':'#b0b4a8','fill-opacity':0.5}},
-  {id:'facility-points',type:'circle',source:'facilities',filter:['==',['geometry-type'],'Point'],paint:{'circle-radius':3,'circle-color':'#71866b','circle-stroke-width':1,'circle-stroke-color':'#ffffff'}},
-  {id:'trail-area-edge',type:'line',source:'trails',filter:['in',['geometry-type'],['literal',['Polygon','MultiPolygon']]],paint:{'line-color':'#b9826a','line-width':1,'line-opacity':0.45}},
+  {id:'facility-buildings',type:'fill',source:'facilities',filter:['in',['geometry-type'],['literal',['Polygon','MultiPolygon']]],paint:{'fill-color':'#b0b4a8','fill-opacity':0.28}},
+  {id:'facility-points',type:'circle',source:'facilities',filter:['==',['geometry-type'],'Point'],paint:{'circle-radius':['interpolate',['linear'],['zoom'],12,0,15,2.5],'circle-color':'#71866b','circle-stroke-width':1,'circle-stroke-color':'#ffffff'}},
+  {id:'trail-area-edge',type:'line',source:'trails',filter:['in',['geometry-type'],['literal',['Polygon','MultiPolygon']]],paint:{'line-color':'#b9826a','line-width':1,'line-opacity':0}},
   {id:'trail-casing',type:'line',source:'trails',filter:['in',['geometry-type'],['literal',['LineString','MultiLineString']]],layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#fffdf8','line-width':7,'line-opacity':0.9}},
   {id:'trail-line',type:'line',source:'trails',filter:['in',['geometry-type'],['literal',['LineString','MultiLineString']]],layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':['case',['==',['get','difficulty_verified'],true],['match',['get','difficulty_osm'],'novice','#399b6b','easy','#3785b8','intermediate','#cd554e','advanced','#252e34','#bd775b'],'#bd775b'],'line-width':3,'line-opacity':0.95}},
   {id:'lift-casing',type:'line',source:'lifts',paint:{'line-color':'#fff','line-width':5,'line-opacity':0.8}},

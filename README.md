@@ -5,6 +5,18 @@
 же карты. Статичные изображения используются только как явно обозначенный
 резерв при ошибке WebGL/загрузки. Старый прототип сохранён отдельно.
 
+## Редизайн: предварительный вид
+
+![Новая карта — южный склон](renders/live-south.png)
+
+[Северный склон](renders/live-north.png) · [Общий вид](renders/live-overview.png) ·
+[Телефон](renders/live-mobile.png) · [Отчёт и публикация](REDESIGN.md)
+
+Для живого просмотра владелец должен включить **Settings → Pages → Source:
+GitHub Actions**, затем запустить **Actions → Publish Mratkino map → Run workflow**.
+Интеграция может сохранять код, но GitHub отклонил включение Pages через API (403).
+До успешной публикации ожидаемый адрес не считается рабочим.
+
 ## Как посмотреть сейчас
 
 **Без установки и без хостинга:** скачайте `deliverables/mratkino-3d.html` и
@@ -27,7 +39,8 @@ npm run dev -- --port 5173 --strictPort
 
 Откройте адрес, который напечатает Vite. Нужен Node.js 20.19+ или 22.12+
 (проверено на 24.19.0). Ключи API, платные подписки и серверная часть не нужны.
-Ветка новой реализации — `feature/maplibre-terrain`.
+Ветка редизайна — `feature/mratkino-redesign`. Предыдущая рабочая версия: `c049689`.
+Подробности изменений и публикации: [REDESIGN.md](REDESIGN.md).
 
 ## Что реально нанесено
 
@@ -75,6 +88,7 @@ python -m pip install -r requirements-gis.txt
 ```sh
 python scripts/download_live_osm.py
 python scripts/prepare_web_data.py
+python scripts/prepare_winter_forest.py
 ```
 
 Первая команда использует уже сохранённый XML. **Только для намеренного обновления**:
@@ -126,12 +140,17 @@ python scripts/package_delivery.py
 - `tilda-iframe.txt` — компактный рекомендуемый вариант T123;
 - `mratkino-web.zip` — архив production-сайта для HTTPS-хостинга (после упаковки).
 
-Для рабочего сайта рекомендуется **разместить содержимое `dist/` на вашем
-HTTPS-хостинге** и вставить `tilda-iframe.txt` в T123, заменив
-`https://YOUR-MAP-HOST/` настоящим адресом. Это placeholder, не опубликованная
-карта. Отдельный хостинг в этой задаче не создавался. iframe загружает файлы
-одного origin, поэтому не требует междоменных запросов к данным/worker.
-При размещении в подпапке относительные пути сохранены (`base: './'`).
+Для рабочего сайта подготовлен GitHub Actions workflow: при обновлении `main`
+он собирает и публикует `dist/` через GitHub Pages. Один раз включите
+**Settings → Pages → Source: GitHub Actions**, затем запустите workflow
+**Publish Mratkino map**. Автоматическое включение Pages ограничено правами
+GitHub-интеграции (API вернул 403). Адрес после успешной публикации:
+`https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/`.
+
+Короткий iframe находится в `public/tilda-embed.html` и `deliverables/tilda-iframe.txt`.
+После включения Pages вставьте его в T123 тестовой страницы. Обновления `main`
+не потребуют повторного копирования большого кода. Для другого хостинга разместите
+содержимое `dist/` и замените адрес iframe. Относительные пути сохранены (`base: './'`).
 
 Компонент использует Shadow DOM: стили не конфликтуют с Tilda, JS не добавляет
 объекты в `window`. Повторное подключение создаёт новую карту с очисткой старой,

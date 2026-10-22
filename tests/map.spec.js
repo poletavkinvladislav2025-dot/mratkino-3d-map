@@ -46,6 +46,7 @@ test('select real routes, expose conflicts and missing geometry; layer controls 
   const toggle=page.locator(`[data-layer=${name}]`);const was=await toggle.isChecked();await toggle.setChecked(!was);
   expect(await root(page).evaluate((el,id)=>el.map.getLayoutProperty(id,'visibility'),id)).toBe(was?'none':'visible');
  }
+ await expect(page.locator('.lift-row')).toHaveCount(4);await page.locator('.lift-row').filter({hasText:'Север'}).click();await expect(page.locator('.card')).toContainText('Кресельный');await expect(page.locator('.card')).toContainText('требуют подтверждения');await settled(page);
  await page.getByRole('button',{name:'ⓘ О данных',exact:true}).click();await expect(page.locator('dialog')).toBeVisible();await page.keyboard.press('Escape');await expect(page.locator('dialog')).not.toBeVisible();
 });
 

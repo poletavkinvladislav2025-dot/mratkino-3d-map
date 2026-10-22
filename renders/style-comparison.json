@@ -1,0 +1,17 @@
+{
+  "environment": "Chromium software WebGL, same loaded camera; not physical-device FPS",
+  "results": [
+    {
+      "method": "standard",
+      "medianFrameMs": 883.4000000000015
+    },
+    {
+      "method": "basic",
+      "medianFrameMs": 816.6999999999971
+    },
+    {
+      "method": "igor",
+      "medianFrameMs": 850
+    }
+  ]
+}

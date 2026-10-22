@@ -17,6 +17,16 @@ class LiveGeoTests(unittest.TestCase):
         conflict=next(f for f in lines if f['properties']['name']=='Ю3');self.assertEqual(conflict['properties']['ref'],'Ю2');self.assertTrue(conflict['properties']['warnings']);self.assertFalse(conflict['properties']['difficulty_verified'])
         self.assertEqual(len(layers['lifts']['features']),4);self.assertGreater(len(layers['forest']['features']),0);self.assertTrue(all(f['geometry']['type'] in ['Polygon','MultiPolygon'] for f in layers['forest']['features']))
         self.assertEqual(len(skipped),4)
+    def test_display_forest_never_extends_outside_osm(self):
+        import json
+        from rasterio.features import rasterize
+        from rasterio.transform import from_bounds
+        image=np.asarray(Image.open(ROOT/'public/live/forest-winter.png'))
+        manifest=json.loads((ROOT/'public/live/manifest.json').read_text())
+        forest=json.loads((ROOT/'public/live/forest.geojson').read_text())
+        mask=rasterize([(f['geometry'],1) for f in forest['features']],out_shape=image.shape[:2],transform=from_bounds(*manifest['bounds'],image.shape[1],image.shape[0]),fill=0)
+        self.assertTrue(np.all(image[:,:,3][mask==0]==0))
+        self.assertGreater(np.count_nonzero(image[:,:,3]),0)
     def test_prepared_center_tile_contains_real_summit_height(self):
         x,y=web.xy(*web.CENTER,14);tile=ROOT/f'public/live/dem/14/{x}/{y}.png';rgb=np.asarray(Image.open(tile)).astype('float64');z=rgb[:,:,0]*256+rgb[:,:,1]+rgb[:,:,2]/256-32768
         from pyproj import Transformer
