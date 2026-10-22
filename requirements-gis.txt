@@ -6,3 +6,4 @@ Pillow==13.0.0
 
 shapely==2.2.0
 contourpy==1.4.0
+mapbox-vector-tile==2.2.0

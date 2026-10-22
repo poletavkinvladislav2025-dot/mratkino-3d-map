@@ -29,3 +29,7 @@ data/region/*.html
 .site/
 # Raw API extracts remain locally available; compact matches and provenance are committed.
 data/region/*-osm.xml
+data/hiking/*.html
+data/hiking/*.xml
+data/hiking/*.pbf
+data/hiking/peaks.json

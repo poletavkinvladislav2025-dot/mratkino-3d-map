@@ -1,0 +1,154 @@
+{
+  "type": "Catalog",
+  "id": "pgc-data-stac",
+  "title": "PGC Data Catalog",
+  "description": "PGC Data Catalog of open digital elevation models",
+  "stac_version": "1.0.0",
+  "conformsTo": [
+    "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core",
+    "http://www.opengis.net/spec/cql2/1.0/conf/cql2-text",
+    "https://api.stacspec.org/v1.0.0/item-search#sort",
+    "https://api.stacspec.org/v1.0.0/ogcapi-features",
+    "http://www.opengis.net/spec/ogcapi-features-3/1.0/conf/filter",
+    "https://api.stacspec.org/v1.0.0/item-search#fields",
+    "https://api.stacspec.org/v1.0.0/item-search",
+    "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30",
+    "https://api.stacspec.org/v1.0.0/item-search#query",
+    "https://api.stacspec.org/v1.0.0-rc.2/item-search#filter",
+    "http://www.opengis.net/spec/cql2/1.0/conf/basic-cql2",
+    "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson",
+    "http://www.opengis.net/spec/ogcapi-features-3/1.0/conf/features-filter",
+    "https://api.stacspec.org/v1.0.0/core",
+    "http://www.opengis.net/spec/cql2/1.0/conf/cql2-json",
+    "https://api.stacspec.org/v1.0.0/collections"
+  ],
+  "links": [
+    {
+      "rel": "self",
+      "type": "application/json",
+      "href": "https://stac.pgc.umn.edu/api/v1/"
+    },
+    {
+      "rel": "root",
+      "type": "application/json",
+      "href": "https://stac.pgc.umn.edu/api/v1/"
+    },
+    {
+      "rel": "data",
+      "type": "application/json",
+      "href": "https://stac.pgc.umn.edu/api/v1/collections"
+    },
+    {
+      "rel": "conformance",
+      "type": "application/json",
+      "title": "STAC/OGC conformance classes implemented by this server",
+      "href": "https://stac.pgc.umn.edu/api/v1/conformance"
+    },
+    {
+      "rel": "search",
+      "type": "application/geo+json",
+      "title": "STAC search",
+      "href": "https://stac.pgc.umn.edu/api/v1/search",
+      "method": "GET"
+    },
+    {
+      "rel": "search",
+      "type": "application/geo+json",
+      "title": "STAC search",
+      "href": "https://stac.pgc.umn.edu/api/v1/search",
+      "method": "POST"
+    },
+    {
+      "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+      "type": "application/schema+json",
+      "title": "Queryables",
+      "href": "https://stac.pgc.umn.edu/api/v1/queryables",
+      "method": "GET"
+    },
+    {
+      "rel": "child",
+      "type": "application/json",
+      "title": "REMA DEM strips, version s2s041 2m",
+      "href": "https://stac.pgc.umn.edu/api/v1/collections/rema-strips-s2s041-2m"
+    },
+    {
+      "rel": "child",
+      "type": "application/json",
+      "title": "ArcticDEM DEM mosaics v4.1 2m",
+      "href": "https://stac.pgc.umn.edu/api/v1/collections/arcticdem-mosaics-v4.1-2m"
+    },
+    {
+      "rel": "child",
+      "type": "application/json",
+      "title": "ArcticDEM DEM mosaics v3.0 2m",
+      "href": "https://stac.pgc.umn.edu/api/v1/collections/arcticdem-mosaics-v3.0-2m"
+    },
+    {
+      "rel": "child",
+      "type": "application/json",
+      "title": "ArcticDEM DEM mosaics v3.0 32m",
+      "href": "https://stac.pgc.umn.edu/api/v1/collections/arcticdem-mosaics-v3.0-32m"
+    },
+    {
+      "rel": "child",
+      "type": "application/json",
+      "title": "EarthDEM DEM strips, version s2s041 2m",
+      "href": "https://stac.pgc.umn.edu/api/v1/collections/earthdem-strips-s2s041-2m"
+    },
+    {
+      "rel": "child",
+      "type": "application/json",
+      "title": "REMA DEM mosaics v2.0 2m",
+      "href": "https://stac.pgc.umn.edu/api/v1/collections/rema-mosaics-v2.0-2m"
+    },
+    {
+      "rel": "child",
+      "type": "application/json",
+      "title": "ArcticDEM DEM mosaics v4.1 10m",
+      "href": "https://stac.pgc.umn.edu/api/v1/collections/arcticdem-mosaics-v4.1-10m"
+    },
+    {
+      "rel": "child",
+      "type": "application/json",
+      "title": "REMA DEM mosaics v2.0 32m",
+      "href": "https://stac.pgc.umn.edu/api/v1/collections/rema-mosaics-v2.0-32m"
+    },
+    {
+      "rel": "child",
+      "type": "application/json",
+      "title": "ArcticDEM DEM strips, version s2s041 2m",
+      "href": "https://stac.pgc.umn.edu/api/v1/collections/arcticdem-strips-s2s041-2m"
+    },
+    {
+      "rel": "child",
+      "type": "application/json",
+      "title": "ArcticDEM DEM mosaics v3.0 10m",
+      "href": "https://stac.pgc.umn.edu/api/v1/collections/arcticdem-mosaics-v3.0-10m"
+    },
+    {
+      "rel": "child",
+      "type": "application/json",
+      "title": "REMA DEM mosaics v2.0 10m",
+      "href": "https://stac.pgc.umn.edu/api/v1/collections/rema-mosaics-v2.0-10m"
+    },
+    {
+      "rel": "child",
+      "type": "application/json",
+      "title": "ArcticDEM DEM mosaics v4.1 32m",
+      "href": "https://stac.pgc.umn.edu/api/v1/collections/arcticdem-mosaics-v4.1-32m"
+    },
+    {
+      "rel": "service-desc",
+      "type": "application/vnd.oai.openapi+json;version=3.0",
+      "title": "OpenAPI service description",
+      "href": "https://stac.pgc.umn.edu/api/v1/api"
+    },
+    {
+      "rel": "service-doc",
+      "type": "text/html",
+      "title": "OpenAPI service documentation",
+      "href": "https://stac.pgc.umn.edu/api/v1/api.html"
+    }
+  ],
+  "stac_extensions": []
+}

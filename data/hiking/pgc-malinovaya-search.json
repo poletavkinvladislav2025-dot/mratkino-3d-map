@@ -1,0 +1,20 @@
+{
+  "type": "FeatureCollection",
+  "context": {
+    "limit": 3,
+    "returned": 0
+  },
+  "features": [],
+  "links": [
+    {
+      "rel": "root",
+      "type": "application/json",
+      "href": "https://stac.pgc.umn.edu/api/v1/"
+    },
+    {
+      "rel": "self",
+      "type": "application/json",
+      "href": "https://stac.pgc.umn.edu/api/v1/search?bbox=58.30%2C53.995%2C58.325%2C54.015&limit=3"
+    }
+  ]
+}

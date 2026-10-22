@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
-import {ACTIVE_RIDER_TRAILS,ridersPerTrail,riderProfile,localRiderAreas,buildRiderCorridor,riderState} from './rider-motion.js';
+import {ACTIVE_RIDER_TRAILS,ridersPerTrail,riderProfile,localRiderAreas,riderAreasForTrail,insideRiderArea,buildRiderCorridor,advanceCrowd} from './rider-motion.js';
 import { SUMMIT } from './map-data.js';
 import { saplingPlacements, forestLOD, treeAppearance, liftVehicle, toLocal, toLngLat, pathLength, samplePath, liftLoop } from './resort-scene-data.js';
 
@@ -175,8 +175,13 @@ export class ResortScene {
  makeRiders(){
   this.riderAreas=localRiderAreas(this.data.trails.features);
   this.riderBoardPose=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,0,1),Math.PI/2);this.riderQuaternion=new THREE.Quaternion();this.riderBodyQuaternion=new THREE.Quaternion();this.riderOffset=new THREE.Vector3();this.riderEuler=new THREE.Euler();
-  this.riderRoutes=this.data.trails.features.filter(f=>f.geometry.type==='LineString'&&ACTIVE_RIDER_TRAILS.has(f.properties.name)).map(feature=>({feature,points:[],length:0,count:ridersPerTrail(this.mobile)}));
+  this.riderRoutes=this.data.trails.features.filter(f=>f.geometry.type==='LineString'&&ACTIVE_RIDER_TRAILS.has(f.properties.name)).map(feature=>({feature,areas:riderAreasForTrail(this.riderAreas,feature.properties.name),points:[],length:0,count:ridersPerTrail(this.mobile)}));
   this.riderProfiles=this.riderRoutes.flatMap((r,ri)=>Array.from({length:r.count},(_,i)=>riderProfile(ri,i,r.feature.properties.name)));
+  let pi=0;this.riderAgents=this.riderRoutes.flatMap(route=>Array.from({length:route.count},(_,index)=>({route,index,profile:this.riderProfiles[pi++],distance:0,active:false})));
+  const buildings=this.data.facilities.features.filter(f=>f.properties.tags?.building||f.properties.kind==='building');this.riderBuildings=localRiderAreas(buildings);
+  this.riderStations=this.data.stations.features.filter(f=>f.geometry.type==='Point').map(f=>toLocal(f.geometry.coordinates));
+  this.riderClosedAreas=this.riderAreas.filter(a=>a.id==='relation/12615529');
+  this.riderBlocked=point=>insideRiderArea(point,this.riderBuildings)||insideRiderArea(point,this.riderClosedAreas)||this.riderStations.some(p=>Math.hypot(point[0]-p[0],point[1]-p[1])<6);
   this.riderCount=this.riderRoutes.reduce((n,r)=>n+r.count,0);this.riderParts=[];
   const box=new THREE.BoxGeometry(1,1,1),head=new THREE.SphereGeometry(1,6,4);
   const jacket=this.material(0xffffff),warm=this.material(0xb86849),dark=this.material(0x33434b),helmet=this.material(0xe7dfcb);
@@ -194,21 +199,23 @@ export class ResortScene {
    if(a===null||b===null){route.length=0;route.points=[];continue;}
    if(a<b)coords=[...coords].reverse();
    const flat=coords.map(toLocal),length=pathLength(flat),points=[];
-   const reversed=a<b;if(!route.corridor||route.reversed!==reversed){route.corridor=buildRiderCorridor(flat,this.riderAreas);route.reversed=reversed;}
+   const reversed=a<b;if(!route.corridor||route.reversed!==reversed){route.corridor=buildRiderCorridor(flat,route.areas);route.reversed=reversed;}
    for(let d=0;d<length;d+=12){const ll=toLngLat(samplePath(flat,d).point),z=this.height(ll);if(z===null)continue;const [x,y]=this.local(ll);points.push([x,y,z+.05]);}
    const last=coords.at(-1),z=this.height(last),[x,y]=this.local(last);if(z!==null)points.push([x,y,z+.05]);
    route.points=points;route.length=points.length>1?route.corridor.length:0;
   }
  }
  updateRiders(){
-  const people=[];let personIndex=0;
+  const dt=this.lastRiderElapsed===undefined?0:Math.min(.15,Math.max(0,this.elapsed-this.lastRiderElapsed));this.lastRiderElapsed=this.elapsed;
+  let initial=false;
+  for(const agent of this.riderAgents)if(agent.corridor!==(agent.route.length?agent.route.corridor:null)){agent.corridor=agent.route.length?agent.route.corridor:null;agent.distance=(agent.index+.37)/agent.route.count*agent.route.length;agent.active=false;initial=true;}
+  const states=advanceCrowd(this.riderAgents,dt,{initial,blocked:this.riderBlocked}),people=[];
   const bounds=this.map.getBounds(),west=bounds.getWest(),east=bounds.getEast(),south=bounds.getSouth(),north=bounds.getNorth();
-  for(const route of this.riderRoutes)for(let index=0;index<route.count;index++){
-   const profile=this.riderProfiles[personIndex++],distance=index/route.count*route.length+this.elapsed*profile.speed;
-   const state=route.length?riderState(route.corridor,profile,distance):null;
+  for(const [personIndex,agent] of this.riderAgents.entries()){
+   const profile=agent.profile,state=states[personIndex];
    if(state){
     const ll=toLngLat(state.point),onScreen=ll[0]>=west&&ll[0]<=east&&ll[1]>=south&&ll[1]<=north;
-    const z=onScreen&&state.inside?this.height(ll):null;
+    const z=onScreen&&state.inside&&state.clear?this.height(ll):null;
     state.visible=z!==null&&state.fade>0;
     if(state.visible){const [x,y]=this.local(ll);state.position=[x,y,z+.04];}
    }

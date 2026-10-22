@@ -29,14 +29,14 @@ class MratkinoMap extends HTMLElement {
   this.bindUI();this.renderList();
   this.observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){this.observer.disconnect();this.init(this.token);}}, {rootMargin:'250px'});this.observer.observe(this);
  }
- disconnectedCallback(){this.started=false;this.token++;this.controller?.abort();this.observer?.disconnect();this.resizeObserver?.disconnect();clearTimeout(this.readyTimer);clearTimeout(this.hintTimer);this.disposeLife();this.map?.remove();this.map=null;this.lifeScene=null;offlinePools.delete(this.uid);}
+ disconnectedCallback(){this.started=false;this.token++;this.controller?.abort();this.observer?.disconnect();this.resizeObserver?.disconnect();clearTimeout(this.readyTimer);clearTimeout(this.hintTimer);this.region?.hiking.dispose();this.disposeLife();this.map?.remove();this.map=null;this.lifeScene=null;offlinePools.delete(this.uid);}
  url(path){return new URL(path,this.assetBase).href;}
  bindUI(){
   this.$$('[data-view]').forEach(b=>b.addEventListener('click',()=>this.chooseView(b.dataset.view)));
   this.$$('[data-action=sources]').forEach(b=>b.addEventListener('click',()=>this.$('dialog').showModal()));
   this.$('[data-action=close-dialog]').addEventListener('click',()=>this.$('dialog').close());
   this.$('dialog').addEventListener('click',e=>{const r=this.$('dialog').getBoundingClientRect();if(e.target===this.$('dialog')&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom))this.$('dialog').close();});
-  this.$('[data-action=retry]').addEventListener('click',()=>{this.disposeLife();this.map?.remove();this.map=null;this.lifeScene=null;this.lifeLoading=false;this.reflectLife();this.$('.fallback').hidden=true;this.$('.loading').hidden=false;this.init(this.token);});
+  this.$('[data-action=retry]').addEventListener('click',()=>{this.region?.hiking.dispose();this.disposeLife();this.map?.remove();this.map=null;this.lifeScene=null;this.lifeLoading=false;this.reflectLife();this.$('.fallback').hidden=true;this.$('.loading').hidden=false;this.init(this.token);});
   this.$('.mobile-panel-toggle').addEventListener('click',()=>this.openPanel(!this.$('.sidebar').classList.contains('open')));
   this.$('[data-action=life]').addEventListener('click',()=>this.toggleLife());
   this.$('[data-action=life-pause]').addEventListener('click',()=>{this.lifeScene?.setPaused(!this.lifeScene.paused);this.reflectLife();});
@@ -185,6 +185,7 @@ class MratkinoMap extends HTMLElement {
   const response=await fetch(this.url('live/forest-instances.bin'),{signal:this.abort});if(!response.ok)throw Error('Forest instances HTTP '+response.status);return response.arrayBuffer();
  }
  async toggleLife(force){
+  if(this.region?.hiking.active&&!this.resortActive)return this.region.hiking.toggleLife(force);
   if(!this.map||this.getAttribute('data-map-state')!=='ready'||this.lifeLoading||(this.region&&!this.resortActive))return;
   if(this.lifeScene){this.lifeScene.setEnabled(force===true||!this.lifeScene.enabled);this.reflectLife();return;}
   const map=this.map,token=this.token;let pendingScene;this.lifeLoading=true;this.$('[data-action=life]').disabled=true;this.$('[data-action=life]').textContent='Готовим 3D-сцену…';
@@ -197,11 +198,12 @@ class MratkinoMap extends HTMLElement {
   finally{if(this.map===map&&this.token===token){this.lifeLoading=false;this.reflectLife();}}
  }
  reflectLife(){
+  if(this.region?.hiking.active&&!this.resortActive){this.region.hiking.reflectLife();return;}
   const enabled=!!this.lifeScene?.enabled,paused=!!this.lifeScene?.paused;
   this.$('[data-action=life]').disabled=this.lifeLoading||this.getAttribute('data-map-state')!=='ready'||!!this.region&&!this.resortActive;
   this.$('[data-action=life]').textContent=enabled?'✦ Живая сцена':'✦ Оживить карту';this.$('[data-action=life]').setAttribute('aria-pressed',String(enabled));
   const pause=this.$('[data-action=life-pause]');pause.hidden=!enabled;pause.textContent=paused?'Продолжить':'Пауза';pause.setAttribute('aria-pressed',String(paused));
-  this.$('.life-note').hidden=!enabled;this.setAttribute('data-scene-state',enabled?(paused?'paused':'playing'):'off');
+  this.$('.life-note').hidden=!enabled;this.$('.life-note').textContent='Иллюстрация · не работа в реальном времени. Приблизьте карту, чтобы рассмотреть детали.';this.setAttribute('data-scene-state',enabled?(paused?'paused':'playing'):'off');
  }
  renderLifts(){
   const list=this.$('.lift-list');list.replaceChildren();
@@ -239,6 +241,7 @@ class MratkinoMap extends HTMLElement {
   for(const [name,layers] of Object.entries(groups)){const input=this.$(`[data-layer=${name}]`);for(const layer of layers)if(this.map.getLayer(layer))this.map.setLayoutProperty(layer,'visibility',input.checked&&(name==='forest'||local)?'visible':'none');}
   this.region?.layers();
   this.lifeScene?.setLayers({forest:this.$('[data-layer=forest]').checked,lifts:this.$('[data-layer=lifts]').checked});
+  this.region?.hiking.nature?.setForest(this.$('[data-layer=forest]').checked);
  }
  updateViewButtons(){this.$$('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===this.view)));this.$('.view-label').textContent=this.view==='overview'?'ОБЩИЙ ВИД':this.view==='north'?'СЕВЕРНЫЙ СКЛОН':'ЮЖНЫЙ СКЛОН';}
  chooseView(view,animate=true){

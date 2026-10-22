@@ -1,0 +1,82 @@
+{
+  "checkedAt": "2026-10-22T22:22:45.801514+00:00",
+  "sources": [
+    {
+      "url": "https://visitbeloretsk.ru/malinovaya",
+      "status": 200,
+      "cachedFile": null,
+      "sha256": "e97b8a8fce6e54e45dee76d6cd19606ff4efc5821f0bac4859cfade7479c449a",
+      "finding": "Page uses BRouter trekking; embedded verified tracks are null; preliminary second summit explicitly marked unconfirmed."
+    },
+    {
+      "url": "https://www.visitbeloretsk.ru/yalangas",
+      "status": 200,
+      "cachedFile": null,
+      "sha256": "0619a4308594f82cd713a39ea8a4df63df59551f99215a3e27835511a5f75741",
+      "finding": "www variant is accessible; page uses BRouter trekking for the supplied A1/A2 starts."
+    },
+    {
+      "url": "https://visitbeloretsk.ru/yalangas",
+      "status": 403,
+      "cachedFile": null,
+      "sha256": "41ffee3c4b3338617f64e452a4c47e4fe8f71b0d054ac532ae3c961eb9f1c266",
+      "finding": "Bare-domain response was blocked in this environment; reviewed accessible www variant."
+    },
+    {
+      "url": "https://greaturaltrail.ru/gpx-kml",
+      "status": 200,
+      "cachedFile": null,
+      "sha256": "f990debe0095506afaccad42d177513248753752e2a0d97eac1438864dd3fd4b",
+      "finding": "Reviewed official download page; a licensed, independently verified GPS trace for each of these five variants was not established. Original GPX files were not redistributed."
+    },
+    {
+      "url": "https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM",
+      "status": 200,
+      "cachedFile": null,
+      "sha256": "0e6a4eab8493eebe6dd78f4aaf9d5106214f35af4832eac198952352aeceb678",
+      "finding": "GLO-30 global 30 m; EEA-10 10 m covers European countries/overseas departments described by provider, no local 10 m survey established."
+    },
+    {
+      "url": "https://www.pgc.umn.edu/data/arcticdem/",
+      "status": 200,
+      "cachedFile": null,
+      "sha256": "7c27b3b443b2dcb65cb06ad84ee068a6a73ec3d689fee4e87cf3198b6b303357",
+      "finding": "Reviewed high-resolution Arctic DSM provider; checked actual local PGC catalog footprints separately."
+    },
+    {
+      "url": "https://www.pgc.umn.edu/data/earthdem/",
+      "status": 403,
+      "cachedFile": null,
+      "sha256": "32f2fa940d4b4fe19aca1e53a24e5aac29c57b7c5ee78588325b87f1b649c864",
+      "finding": "Web page inaccessible; queried open PGC STAC catalog including EarthDEM collection instead."
+    },
+    {
+      "url": "https://stac.pgc.umn.edu/",
+      "status": 200,
+      "cachedFile": "pgc-catalog.json",
+      "sha256": "5b5cc38ddc7f022863513a448e7e398030faee44da38551886e16b97331bbe18",
+      "finding": "Open PGC catalog lists EarthDEM 2 m strips and ArcticDEM mosaics/strips."
+    },
+    {
+      "url": "https://stac.pgc.umn.edu/api/v1/search?bbox=58.30,53.995,58.325,54.015&limit=3",
+      "status": 200,
+      "cachedFile": "pgc-malinovaya-search.json",
+      "sha256": "f6e68f49e86be928f2ad1386f2ddf6c5fcea2a50ca6d2a95d5cb5a92e659109e",
+      "finding": "No features returned for summit area on retrieval date; no local licensed high-resolution elevation tile was established."
+    },
+    {
+      "url": "https://stac.pgc.umn.edu/api/v1/search?bbox=58.31,54.12,58.33,54.135&limit=3",
+      "status": 200,
+      "cachedFile": "pgc-yalangas-search.json",
+      "sha256": "ac1841a704d2126736309d9554d82a38aea4230514e00a784321f0fa639199eb",
+      "finding": "No features returned for summit area on retrieval date."
+    },
+    {
+      "url": "https://brouter.de/brouter?lonlats=58.346343,53.981498%7C58.3151783,54.0042186&profile=trekking&alternativeidx=0&format=geojson",
+      "status": 200,
+      "cachedFile": "brouter-first.json",
+      "sha256": "0f4a6ca711819d98b089bed3c825736edc29b46cd20e24c53d0dcc645322f1ab",
+      "finding": "Comparison only: 3972 m ascent versus 3948 m own Dijkstra walking network. Both follow mapped paths; neither is a field-verified GPS track."
+    }
+  ]
+}

@@ -12,7 +12,7 @@ test('3D trees and real lift routes render; animation pauses, layers and cleanup
  await expect.poll(()=>read(page,el=>el.lifeScene?.stats.canopyClusters||0)).toBeGreaterThan(100);
  await expect.poll(()=>read(page,el=>el.lifeScene?.stats.frames||0)).toBeGreaterThan(1);
  expect(await read(page,el=>el.lifeScene.stats.saplings)).toBeGreaterThan(10);
- expect(await read(page,el=>el.lifeScene.stats.riders)).toBe(120);
+ expect(await read(page,el=>el.lifeScene.stats.riders)).toBe(360);
  expect(await read(page,el=>el.lifeScene.riderRoutes.map(r=>r.feature.properties.name).sort())).toEqual(['С2','С3','Ю1','Ю2','Ю3','Ю4']);
  expect(await read(page,el=>el.lifeScene.riderRoutes.every(r=>r.length>0&&r.points[0][2]>r.points.at(-1)[2]))).toBe(true);
  expect(await read(page,el=>el.lifeScene.routes.filter(r=>r.chair).length)).toBe(2);

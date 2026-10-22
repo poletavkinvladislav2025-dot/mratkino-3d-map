@@ -21,7 +21,7 @@ try{
   await page.screenshot({path:`renders/region-${id}.png`,fullPage:true});
  }
  start('enable detailed scene');await page.locator('[data-action=life]').click();await page.waitForFunction(()=>document.querySelector('mratkino-map').lifeScene?.stats.frames>0,null,{timeout:60000});await end();
- const scene=await page.locator('mratkino-map').evaluate(el=>({trees:el.lifeScene.stats.trees,clusters:el.lifeScene.stats.canopyClusters,riders:el.lifeScene.stats.riders,paths:el.lifeScene.riderRoutes.map(r=>({name:r.feature.properties.name,length:r.length})),triangleCount:el.lifeScene.renderer.info.render.triangles}));report.scene=scene;assert.equal(scene.riders,120);assert.equal(scene.paths.length,6);assert(scene.paths.every(r=>r.length>0));
+ const scene=await page.locator('mratkino-map').evaluate(el=>({trees:el.lifeScene.stats.trees,clusters:el.lifeScene.stats.canopyClusters,riders:el.lifeScene.stats.riders,paths:el.lifeScene.riderRoutes.map(r=>({name:r.feature.properties.name,length:r.length})),triangleCount:el.lifeScene.renderer.info.render.triangles}));report.scene=scene;assert.equal(scene.riders,360);assert.equal(scene.paths.length,6);assert(scene.paths.every(r=>r.length>0));
  await page.screenshot({path:'renders/region-living.png',fullPage:true,timeout:90000});
  await page.locator('mratkino-map').evaluate(el=>{window.qaOldScene=el.lifeScene;});await page.locator('.place-select').selectOption('all');await ready();assert(await page.evaluate(()=>window.qaOldScene.disposed));assert.equal(await page.locator('mratkino-map').evaluate(el=>el.lifeScene),null);report.sceneCleanup='passed';
  assert.deepEqual(report.errors,[]);

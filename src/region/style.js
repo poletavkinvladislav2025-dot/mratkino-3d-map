@@ -18,6 +18,7 @@ export function createRegionalStyle(data,forestURL){
  style.sources['region-places']={type:'geojson',data:{type:'FeatureCollection',features:PLACES.map(p=>({type:'Feature',geometry:{type:'Point',coordinates:p.coordinates},properties:{id:p.id,name:p.name,major:p.major?1:0,kind:p.kind}}))}};
  style.sources['touring-routes']={type:'geojson',data:EMPTY};
  style.sources['route-stops']={type:'geojson',data:EMPTY};
+ for(const id of ['hiking-routes','hiking-stops','nature-surfaces'])style.sources[id]={type:'geojson',data:EMPTY};
  // No city labels, POIs or building layers. The same street geometry continues across the region.
  const baseLayers=[
  {id:'region-landuse',type:'fill',source:'basemap','source-layer':'landuse',paint:{'fill-color':'#ced4cd','fill-opacity':.24}},
@@ -35,9 +36,16 @@ export function createRegionalStyle(data,forestURL){
  // Forest source already provides the continuous regional surface. Raster mask refines the resort only.
  style.layers.find(l=>l.id==='road').layout={visibility:'none'};
  style.layers.push(
+ {id:'nature-open',type:'fill',source:'nature-surfaces',filter:['all',['==',['geometry-type'],'Polygon'],['in',['get','kind'],['literal',['bare_rock','scree','grassland','heath','scrub','clearing']]]],paint:{'fill-color':['match',['get','kind'],'bare_rock','#a79e89','scree','#b5ab97','grassland','#b5bd8f','heath','#abb38b','scrub','#829776','#c8c9a5'],'fill-opacity':.75}},
+ {id:'nature-rock-edge',type:'line',source:'nature-surfaces',filter:['in',['get','kind'],['literal',['bare_rock','scree','cliff']]],paint:{'line-color':'#736e61','line-width':['interpolate',['linear'],['zoom'],14,.6,18,1.6],'line-opacity':.6}},
+ {id:'hiking-route-casing',type:'line',source:'hiking-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#fffdf4','line-width':7,'line-opacity':.95}},
+ {id:'hiking-route-line',type:'line',source:'hiking-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#a74d2f','line-width':3.2,'line-dasharray':[3,1]}},
+ {id:'hiking-route-stops',type:'circle',source:'hiking-stops',paint:{'circle-color':['match',['get','role'],'start','#2d7054','start-finish','#2d7054','finish','#a74d2f','#877747'],'circle-radius':5,'circle-stroke-color':'#fff','circle-stroke-width':2}},
  {id:'touring-route-casing',type:'line',source:'touring-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#fff','line-width':7}},
  {id:'touring-route-line',type:'line',source:'touring-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#b66542','line-width':3.2}},
  {id:'touring-route-stops',type:'circle',source:'route-stops',paint:{'circle-color':'#b66542','circle-radius':5,'circle-stroke-color':'#fff','circle-stroke-width':2}}
  );
+ // Surface colours receive the existing geographic hillshade instead of covering its shadows.
+ const naturalSurface=style.layers.splice(style.layers.findIndex(l=>l.id==='nature-open'),1)[0];style.layers.splice(style.layers.findIndex(l=>l.id==='hillshade'),0,naturalSurface);
  return style;
 }

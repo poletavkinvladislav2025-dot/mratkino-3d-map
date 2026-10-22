@@ -1,10 +1,11 @@
 import {PLACES,CITY,presetFor,byId,activeZones,distanceKm} from './presets.js';
 import {EMPTY} from '../map-data.js';
 import {resortFacilities} from './style.js';
+import {HikingController} from './hiking.js';
 
 /** Camera, local data and UI attached to the existing MapLibre instance. */
 export class RegionController{
- constructor(host){this.host=host;this.id=new URLSearchParams(location.search).get('place')||host.getAttribute('place')||'mratkino';this.id=presetFor(this.id).id;this.zones=new Map();}
+ constructor(host){this.host=host;this.id=new URLSearchParams(location.search).get('place')||host.getAttribute('place')||'mratkino';this.id=presetFor(this.id).id;this.zones=new Map();this.hiking=new HikingController(host);}
  setup(){
   const h=this.host;
   const navigation=document.createElement('div');navigation.className='region-navigation';
@@ -18,7 +19,7 @@ export class RegionController{
   const panel=document.createElement('section');panel.className='region-panel';panel.setAttribute('aria-live','polite');body.prepend(panel);
   const routes=document.createElement('section');routes.className='routes-panel';
   const heading=document.createElement('h3');heading.textContent='Туристические маршруты';routes.append(heading);
-  h.text(routes,'Проверенные треки пока не добавлены. Тропы OSM можно включить отдельным слоем; они не означают разрешённый маршрут.');
+  h.text(routes,'Для Малиновой и Ялангаса доступны варианты по сети OSM, требующие проверки. Можно открыть собственный GPS-трек.');
   const inputLabel=document.createElement('label');inputLabel.className='route-import';inputLabel.textContent='＋ Открыть свой GPX / GeoJSON';const input=document.createElement('input');input.type='file';input.accept='.gpx,.geojson,.json';input.setAttribute('aria-label','Открыть GPX или GeoJSON');inputLabel.append(input);routes.append(inputLabel);
   const card=document.createElement('div');card.className='route-card';card.setAttribute('aria-live','polite');routes.append(card);
   const link=document.createElement('a');link.href='https://greaturaltrail.ru/';link.target='_blank';link.rel='noopener noreferrer';link.textContent='Большая уральская тропа: источник ↗';routes.append(link);
@@ -26,7 +27,7 @@ export class RegionController{
   for(const [key,title,checked] of [['labels','Названия природных объектов',true],['paths','Тропы OSM · не проверены',false]]){
    const label=document.createElement('label'),span=document.createElement('span'),box=document.createElement('input');span.textContent=title;box.type='checkbox';box.dataset.layer=key;box.checked=checked;box.setAttribute('role','switch');box.addEventListener('change',()=>this.layers());label.append(span,box);layers.append(label);
   }
-  h.$('.mobile-panel-toggle > span').textContent='Локации, маршруты и слои';
+  this.hiking.setup();h.$('.mobile-panel-toggle > span').textContent='Локации, маршруты и слои';
   h.$('.loading p').textContent='Загружаем рельеф Южного Урала…';
   h.$('.title-line p').textContent='Горы. Лес. Дорога к новым местам.';
   h.$('.map').setAttribute('aria-label','Трёхмерная карта Белорецкого района');
@@ -38,6 +39,7 @@ export class RegionController{
   const h=this.host;this.id=presetFor(id).id;h.setAttribute('data-place',this.id);h.$('.place-select').value=this.id;this.renderPlace();
   if(!h.map?.getLayer('snow'))return;
   const preset=this.preset();for(const [key,value] of Object.entries(preset.layers)){const box=h.$(`[data-layer=${key}]`);if(box)box.checked=value;}this.layers();
+  const hiking=this.hiking.enter(this.id,animate);
   h.mode2D=preset.pitch<10;h.$('[data-action=mode]').setAttribute('aria-label',h.mode2D?'Вернуть объёмный вид':'Включить плоский вид');h.$('[data-action=mode]').textContent=h.mode2D?'3D':'2D';h.$('[data-action=mode]').setAttribute('aria-pressed',String(h.mode2D));
   h.map.stop();
   if(this.id==='mratkino'){
@@ -46,6 +48,7 @@ export class RegionController{
   }else if(this.id==='all'){
    const camera=h.map.cameraForBounds(preset.bounds,{padding:{top:60,bottom:70,left:40,right:50},maxZoom:9.4,bearing:preset.bearing});h.map.easeTo({...camera,pitch:preset.pitch,bearing:preset.bearing,duration:animate?h.duration():0});
   }else h.map.easeTo({...preset,pitch:preset.pitch,duration:animate?h.duration():0});
+  await hiking;
   this.sync();
  }
  renderPlace(){
@@ -81,8 +84,8 @@ export class RegionController{
   const near=distanceKm(center,byId('mratkino').coordinates)<2.2&&map.getZoom()>=12.7;
   if(near&&!h.resortLoaded&&performance.now()>(this.retryAfter||0)){try{await this.ensureResort();if(h.map===map)this.sync();return;}catch(error){this.retryAfter=performance.now()+30000;this.dataError(error);}}
   h.resortActive=near&&h.resortLoaded;h.$('.resort-content').hidden=!h.resortActive;h.$('.views').hidden=!h.resortActive;
-  h.$('.life-tools').hidden=!h.resortActive;h.$('.life-note').hidden=!h.resortActive||!h.lifeScene?.enabled;
-  h.$('h1').textContent=h.resortActive?'Мраткино':this.id==='beloretsk'?'Белорецк':'Белорецкий район';
+  h.$('.life-tools').hidden=!(h.resortActive||this.hiking.active);h.$('.life-note').hidden=h.resortActive?!h.lifeScene?.enabled:!this.hiking.enabled;
+  h.$('h1').textContent=h.resortActive?'Мраткино':this.id==='beloretsk'?'Белорецк':this.hiking.area==='malinovaya'?'Малиновая':this.hiking.area==='yalangas'?'Ялангас':'Белорецкий район';
   if(!near&&h.lifeScene){h.disposeLife();h.reflectLife();}
   for(const name of ['lifts','contours','facilities']){const label=h.$(`[data-layer=${name}]`)?.closest('label');if(label)label.hidden=!h.resortActive;}
   for(const item of h.markers)item.regionalHidden=!h.resortActive;
@@ -99,7 +102,8 @@ export class RegionController{
   const selected=this.id;
   for(const item of [...this.markers].sort((a,b)=>(b.p.id===selected?3:b.p.major?1:0)-(a.p.id===selected?3:a.p.major?1:0))){
    const {element,p}=item,point=map.project(p.coordinates),width=Math.max(110,element.offsetWidth),rect=[point.x-width/2-5,point.y-30,point.x+width/2+5,point.y+5];
-   const visible=enabled&&!(h.resortActive&&p.id==='mratkino')&&(zoom>=10.6||p.major||p.id===selected)&&rect[0]>=8&&rect[2]<=w-48&&rect[1]>=60&&rect[3]<=hh-80&&!occupied.some(r=>rect[0]<r[2]&&rect[2]>r[0]&&rect[1]<r[3]&&rect[3]>r[1]);
+   const hikingStop=this.hiking.active&&(['malinovaya','malinovaya-3'].includes(p.id)&&this.hiking.area==='malinovaya'||p.id==='yalangas'&&this.hiking.area==='yalangas');
+   const visible=enabled&&!hikingStop&&!(h.resortActive&&p.id==='mratkino')&&(zoom>=10.6||p.major||p.id===selected)&&rect[0]>=8&&rect[2]<=w-48&&rect[1]>=60&&rect[3]<=hh-80&&!occupied.some(r=>rect[0]<r[2]&&rect[2]>r[0]&&rect[1]<r[3]&&rect[3]>r[1]);
    element.style.visibility=visible?'visible':'hidden';element.tabIndex=visible?0:-1;element.setAttribute('aria-hidden',String(!visible));if(visible)occupied.push(rect);
   }
  }
