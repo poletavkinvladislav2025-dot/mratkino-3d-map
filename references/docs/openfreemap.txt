@@ -1,0 +1,113 @@
+OpenFreeMap
+OpenFreeMap
+What is OpenFreeMap?
+OpenFreeMap lets you display custom maps on your website and apps for free.
+You can either self-host or use our public instance. Everything is
+open-source
+, including the full production setup â thereâs no âopen-coreâ model here. Check out our
+GitHub
+. The map data comes from OpenStreetMap.
+Using our
+public instance
+is completely free: there are no limits on the number of map views or requests. Thereâs no registration, no user database, no API keys, and no cookies. We aim to cover the running costs of our public instance through donations.
+We also provide
+weekly
+full planet downloads both in Btrfs and MBTiles formats.
+How can I use it?
+OpenFreeMap
+Â© OpenMapTiles
+Data from
+OpenStreetMap
+Positron
+Bright
+Liberty
+Dark
+Fiord
+3D
+Have a look at the default styles and read more about how to integrate it to your website or app:
+Quick Start Guide
+Who is behind this project and how can I follow it?
+Iâm Zsolt Ero (
+blog
+,
+email
+).
+After 9 years of running my own map tile infrastructure for
+MapHub
+, Iâve open-sourced it and launched OpenFreeMap.
+X:
+@hyperknot
+(details)
+X:
+@OpenFreeMapOrg
+(announcements)
+bsky:
+@hyperknot.com
+GitHub:
+openfreemap
+and
+openfreemap-styles
+Why did you build this project?
+OpenStreetMap is one of the most important collective projects in history. It began 20 years ago, and today, 3 million edits are made each day!
+For a long time, when you wanted to use the map on your website or app, you had to look for a commercial map tile provider and hope your site didnât become too popular. Otherwise, you might end up with a $10,000 bill in a single day, as Hoodmaps
+did
+.
+Self-hosting was an option, but it required a big server and a lot of time to get it right.
+Since Iâve spent many years developing the map tile infrastructure for
+MapHub
+, I decided to open-source it so anyone can use it. With OpenFreeMap, you now have the option to either set up your own server or use our public instance.
+How can you offer a free public instance?
+There is no technical reason why map hosting costs as much as it does today. Vector tiles are just static files. Itâs true that serving hundreds of millions of files is not easy, but at the end of the day, they are just files.
+Financially, the plan is to keep renting servers until they cover the bandwidth. I believe it can be self-sustainable if enough people subscribe to the support plans.
+If this project helps you save on your map hosting costs, please consider subscribing to a support plan.
+How can I sponsor the project?
+If this project helps you save on your map hosting costs, please consider sponsoring me on
+GitHub Sponsors
+.
+If possible, please choose a monthly donation, even if itâs a smaller amount. The nature of this project needs recurring donations to cover the server costs.
+Sponsor me
+Is commercial usage allowed?
+Yes.
+Can my app download areas for offline use?
+Yes, as long as each download is at most 3,000 tiles or 50 MB, uses at most 4 parallel requests, and sends a unique User-Agent identifying your app. For anything larger, please
+contact us
+. See the
+Terms of Service
+.
+Do you offer support and SLA guarantees?
+At the moment, I donât offer SLA guarantees or personalized support. However, if thereâs enough interest, I may introduce a Pro plan in the future. If youâre interested, please let me know by sending an
+email
+.
+What is the tech stack?
+There is no tile server running; only nginx serving a Btrfs image with 300 million hard-linked files. This was my idea; I havenât read about anyone else doing this in production, but it works really well. (You can read more about it on
+GitHub
+.)
+There is no cloud, just dedicated servers.
+Special thanks go to
+Michael Barry
+for developing
+Planetiler
+. It made it possible to generate the tiles in 5 hours instead of 5 weeks.
+The
+styles
+are forked and heavily modified. The map schema is unmodified
+OpenMapTiles
+.
+Attribution
+Attribution is required. If you are using MapLibre, they are automatically added, you have nothing to do.
+If you are using alternative clients, or if you are using this in printed media or video, you must add the following attribution:
+OpenFreeMap
+Â© OpenMapTiles
+Data from
+OpenStreetMap
+You do not need to display the OpenFreeMap part, but it is nice if you do.
+License
+The license of this project is
+MIT
+. Map data is from
+OpenStreetMap
+. The licenses for included projects are listed in
+LICENSE.md
+.
+Privacy Policy
+Terms of Service

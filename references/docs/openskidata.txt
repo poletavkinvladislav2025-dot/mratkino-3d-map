@@ -1,0 +1,241 @@
+OpenSkiData â open data on ski areas, runs and lifts worldwide
+Skip to content
+Open
+Ski
+Data
+Downloads
+Datasets
+Schema
+How it's made
+License
+OpenSkiMap.org ↗
+Open data on the world's ski areas.
+OpenSkiData is a free, worldwide dataset of ski areas, runs, lifts
+            and points of interest, assembled every day from OpenStreetMap and
+            Skimap.org. It is the data behind
+OpenSkiMap.org
+â and it's yours
+            to download, analyse and build on.
+Download the data
+Explore the map
+12,000+
+ski areas
+33,000+
+lifts
+190,000+ km
+of runs
+What's in the data
+Four datasets. They are available on their own
+            or together in a single GeoPackage, and every feature carries its
+            source, the ski area it belongs to, and the country, region and
+            locality it sits in.
+Ski areas
+Resorts and nordic centres, clustered from OpenStreetMap
+site=piste
+relations and
+landuse=winter_sports
+areas, then merged with
+                Skimap.org records. Points, polygons or multipolygons.
+Downhill and nordic activity flags
+Operating status and run colour convention
+Official websites and Wikidata ID
+Computed statistics: run length and count by difficulty, lift
+                  count by type, elevation range and vertical
+Runs
+Every OpenStreetMap piste â downhill, nordic, ski touring,
+                sledding, winter hiking and more. Note that a single trail as
+                signed on the mountain is often several run features, split
+                where it branches or where its tags change.
+Difficulty, colour and regional difficulty convention
+Grooming, lit, gladed, patrolled, oneway, snowmaking
+Elevation profile, ascent and descent, average and max pitch
+Uses: downhill, nordic, skitour, sled, hike, snow park…
+Lifts
+Aerialways and winter-sports railways: gondolas, chairlifts,
+                drag lifts, funiculars and more. Railways other than funiculars
+                are included only when they belong to a
+site=piste
+relation.
+Lift type, status and access restriction
+Capacity, occupancy, duration and ride speed
+Detachable, bubble, heating
+Inclined length, vertical and overall pitch
+Spots
+Point features in and around ski areas: lift stations, places
+                where a run crosses a road or path, avalanche transceiver
+                training areas and checkpoints, and halfpipes.
+Lift stations with position, boarding and alighting
+Crossings with dismount requirement
+Avalanche transceiver training and checkpoints
+Halfpipes
+Feature IDs are content hashes.
+They change
+            whenever the feature changes, so they are not stable between daily
+            builds. For a durable join key use the Wikidata ID or the upstream
+            OpenStreetMap or Skimap.org source ID, both of which are included.
+Downloads
+GeoJSON
+carries the full data: nested statistics,
+            elevation profiles and 3D coordinates.
+CSV
+is the same features flattened to one row each,
+            for spreadsheets and analysis.
+GeoPackage
+puts all four layers in one file that
+            opens directly in QGIS.
+Last updated
+Dataset
+GeoJSON
+CSV
+Ski areas
+Download
+Download
+Runs
+Download
+Download
+Lifts
+Download
+Download
+Spots
+Download
+Download
+GeoJSON is served compressed. Where two sizes are shown, the first
+            is what you download and the second is the file once it is on disk.
+Everything in one file
+openskidata.gpkg
+contains all four geographic datasets as separate layers in a
+              single GeoPackage â drag it into QGIS and start working.
+Terms of use
+The data is rebuilt daily. Automated downloading is permitted at most once per day.
+Direct use of the vector tiles at
+tiles.openskimap.org
+is
+not
+permitted. Build and host your own tiles
+              from these files instead.
+The formats are not stable. Attributes may be added, renamed or
+              removed as the project evolves â pin nothing you can't re-check.
+Automating a sync?
+metadata.json
+carries the build time, the OpenStreetMap data timestamp,
+              per-dataset feature counts and uncompressed file sizes, so you can
+              tell whether there is a new build â and how much disk it needs â
+              without downloading anything large.
+Use is subject to the
+licenses and attribution
+              requirements
+below.
+Schema
+The authoritative, typed definition of every field lives in
+openskidata-format
+,
+            published to npm as
+openskidata-format
+.
+            If you work in TypeScript, install it and get the types for free.
+How the data is made
+Every day, the
+openskidata-processor
+pipeline rebuilds the whole dataset from scratch.
+Extract
+Pull winter sports features out of OpenStreetMap â
+piste:type
+ways and areas,
+aerialway
+lines,
+landuse=winter_sports
+areas and
+site=piste
+relations â alongside the ski area
+                records from Skimap.org.
+Normalize
+Clean up tagging inconsistencies, merge overlapping ways into a
+                single run with multiple uses, and join connected segments that
+                share the same properties.
+Cluster
+Group runs and lifts into ski areas using piste relations,
+                winter sports landuse and proximity, then merge the
+                OpenStreetMap and Skimap.org views of the same resort into one
+                feature.
+Augment
+Add elevation to every coordinate, reverse-geocode each feature
+                to a country, region and locality, compute per-ski-area
+                statistics from the runs and lifts that belong to it.
+Export
+Write out GeoJSON, CSV and GeoPackage â plus the vector tiles
+                that power OpenSkiMap.org.
+Improve the data
+OpenSkiData has no separate database to edit. Everything except the
+            Skimap.org ski area records comes straight from OpenStreetMap, so
+            the way to fix or add something is to edit OpenStreetMap â your
+            change flows into the dataset within a few days.
+Tagging a ski area
+Ski areas are the trickiest part of the pipeline, and good
+                tagging is what keeps a resort from being split into duplicates:
+Start with a
+landuse=winter_sports
+area. It's
+                  easy to add and easy to maintain.
+If that isn't explicit enough, add a
+site=piste
+relation as well â but make sure it
+                  contains
+all
+of the resort's lifts and runs. If many
+                  are missing, the merge will fail.
+Where one resort needs several separate areas, combine them
+                  into a single multipolygon relation rather than leaving them
+                  as separate winter sports areas.
+Where to start
+Piste
+                  Maps
+on the OpenStreetMap wiki â the tagging reference for
+                  runs.
+Key:aerialway
+â the tagging reference for lifts.
+OpenSkiMap.org
+â find the
+                  gap, then use its edit link to jump straight into the
+                  OpenStreetMap editor at that spot.
+Report
+                  a bug or request a feature
+if something looks wrong in the
+                  processing rather than in the source data.
+License & attribution
+The data is free to use, including commercially. It is derived from
+            OpenStreetMap and is therefore available under the
+Open Database
+            License (ODbL)
+: if you distribute a modified version of the
+            data, you must share it alike. Several sources are combined, and
+            each needs crediting.
+Map data
+© OpenStreetMap contributors
+and
+OpenSkiMap.org
+.
+Ski areas
+Skimap.org
+.
+Place data
+Who's On First
+(
+license
+).
+Elevation
+© Mapterhorn
+.
+Ready-made attribution
+Credit all four sources wherever you show the data:
+Data from OpenSkiData / OpenSkiMap.org, Â© OpenStreetMap contributors (ODbL), Skimap.org, Who's On First, Â© Mapterhorn
+OpenSkiData
+Questions or suggestions?
+contact@skimap.org
+Project
+OpenSkiMap.org
+Skimap.org
+OpenStreetMap
+Source
+openskidata-processor
+openskidata-format
+openskimap.org

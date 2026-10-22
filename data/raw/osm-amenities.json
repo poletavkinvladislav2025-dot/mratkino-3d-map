@@ -1,0 +1,5066 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-22T09:45:19Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+    {
+      "type": "node",
+      "id": 1512508848,
+      "lat": 53.9712433,
+      "lon": 58.4085628,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "healthcare:speciality": "general;dermatology;otolaryngology;urology;allergology",
+        "name": "Городская поликлиника"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1588164081,
+      "lat": 53.9938014,
+      "lon": 58.447,
+      "tags": {
+        "amenity": "parking",
+        "fee": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1675777808,
+      "lat": 53.9715314,
+      "lon": 58.408456,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Аптека \"Вита\""
+      }
+    },
+    {
+      "type": "node",
+      "id": 2002871322,
+      "lat": 53.9707816,
+      "lon": 58.422566,
+      "tags": {
+        "amenity": "bank",
+        "bic": "SABRRUMM",
+        "branch": "Уральский банк",
+        "brand": "Сбербанк",
+        "brand:wikidata": "Q205012",
+        "brand:wikipedia": "ru:Сбербанк России",
+        "contact:facebook": "https://www.facebook.com/sberbank",
+        "contact:instagram": "https://www.instagram.com/sberbank",
+        "contact:ok": "https://ok.ru/sberbank",
+        "contact:phone": "+7 800 5555550",
+        "contact:twitter": "https://twitter.com/sberbank",
+        "contact:vk": "https://vk.com/sberbank",
+        "contact:website": "https://www.sberbank.ru",
+        "contact:youtube": "https://www.youtube.com/sberbank",
+        "name": "Сбербанк",
+        "name:en": "Sberbank",
+        "name:ru": "Сбербанк",
+        "opening_hours": "Mo-Fr 09:00-18:00",
+        "operator": "ПАО Сбербанк",
+        "operator:wikidata": "Q205012",
+        "operator:wikipedia": "ru:Сбербанк России",
+        "phone": "+7 34792 30213",
+        "ref": "8598/0308",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2125923216,
+      "lat": 53.9709571,
+      "lon": 58.4115744,
+      "tags": {
+        "amenity": "post_office",
+        "contact:website": "https://www.pochta.ru",
+        "name": "Отделение связи №453511",
+        "opening_hours": "Mo-Fr 08:00-13:00,14:00-20:00; Sa 09:00-13:00,14:00-18:00; Su off",
+        "operator": "Почта России",
+        "phone": "+7 34792 51863",
+        "ref": "453511",
+        "website": "http://www.russianpost.ru"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2195937976,
+      "lat": 53.9946724,
+      "lon": 58.4468949,
+      "tags": {
+        "amenity": "cafe",
+        "name": "Ширм-бар"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2195937977,
+      "lat": 53.9945431,
+      "lon": 58.4472197,
+      "tags": {
+        "amenity": "toilets"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4180867844,
+      "lat": 53.9729261,
+      "lon": 58.4109653,
+      "tags": {
+        "amenity": "cafe",
+        "name": "Никола"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5006479044,
+      "lat": 53.9736949,
+      "lon": 58.4092295,
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5068641358,
+      "lat": 53.9970393,
+      "lon": 58.4065121,
+      "tags": {
+        "amenity": "drinking_water"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5269913078,
+      "lat": 53.9731078,
+      "lon": 58.4084198,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5573980922,
+      "lat": 53.9943548,
+      "lon": 58.4491015,
+      "tags": {
+        "addr:city": "Белорецк",
+        "addr:country": "RU",
+        "addr:district": "Белорецкий район",
+        "addr:housenumber": "130",
+        "addr:postcode": "453500",
+        "addr:region": "Башкортостан",
+        "addr:street": "улица Ленина",
+        "amenity": "cafe",
+        "cuisine": "italian_pizza;oriental",
+        "internet_access": "wlan",
+        "name": "Кислород",
+        "opening_hours": "Mo-Su 09:00-24:00",
+        "phone": "+7 982 3067406"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5857130597,
+      "lat": 53.9742026,
+      "lon": 58.4168991,
+      "tags": {
+        "amenity": "studio",
+        "contact:phone": "+7 34792 46162",
+        "name": "Белорецкая телерадиокомпания",
+        "website": "http://beloreck-tv.ru"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6257313097,
+      "lat": 53.9711582,
+      "lon": 58.3987763,
+      "tags": {
+        "amenity": "fountain"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6393509596,
+      "lat": 53.9741118,
+      "lon": 58.4170242,
+      "tags": {
+        "addr:city": "Белорецк",
+        "addr:country": "RU",
+        "addr:district": "Белорецкий район",
+        "addr:housenumber": "47",
+        "addr:postcode": "453500",
+        "addr:region": "Башкортостан",
+        "addr:street": "улица Крупской",
+        "amenity": "veterinary",
+        "name": "Мокрый нос",
+        "website": "https://vetbel.ru/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6866659168,
+      "lat": 53.9717474,
+      "lon": 58.414438,
+      "tags": {
+        "amenity": "waste_disposal"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7783150485,
+      "lat": 53.9740948,
+      "lon": 58.4115095,
+      "tags": {
+        "addr:housenumber": "38",
+        "addr:street": "улица Ленина",
+        "amenity": "fast_food",
+        "cuisine": "burger",
+        "name": "Chicken Burg"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8938930034,
+      "lat": 53.974217,
+      "lon": 58.411375,
+      "tags": {
+        "amenity": "post_office",
+        "contact:email": "a.chernecov@cdek.ru",
+        "contact:phone": "+7 905 3094488",
+        "contact:website": "https://www.cdek.ru/",
+        "name": "СДЭК",
+        "opening_hours": "Mo-Fr 09:00-19:00; Sa-Su 10:00-16:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9432580188,
+      "lat": 53.9879884,
+      "lon": 58.4009844,
+      "tags": {
+        "amenity": "drinking_water"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9432619730,
+      "lat": 53.9949281,
+      "lon": 58.4014644,
+      "tags": {
+        "amenity": "drinking_water"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9432638426,
+      "lat": 53.9955175,
+      "lon": 58.4033795,
+      "tags": {
+        "amenity": "drinking_water"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9432640456,
+      "lat": 53.9837574,
+      "lon": 58.3936688,
+      "tags": {
+        "amenity": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9432662452,
+      "lat": 53.9903646,
+      "lon": 58.4033928,
+      "tags": {
+        "amenity": "waste_disposal"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9432670981,
+      "lat": 53.9878375,
+      "lon": 58.4035698,
+      "tags": {
+        "amenity": "waste_disposal"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9432673618,
+      "lat": 54.0000528,
+      "lon": 58.4018621,
+      "tags": {
+        "amenity": "post_office"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9432686529,
+      "lat": 53.993811,
+      "lon": 58.4121498,
+      "tags": {
+        "amenity": "drinking_water"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9432704076,
+      "lat": 53.993681,
+      "lon": 58.4152204,
+      "tags": {
+        "amenity": "drinking_water"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9433179804,
+      "lat": 53.972986,
+      "lon": 58.4203602,
+      "tags": {
+        "amenity": "fast_food"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9433193872,
+      "lat": 53.9929158,
+      "lon": 58.4077803,
+      "tags": {
+        "amenity": "drinking_water"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9433194061,
+      "lat": 53.9712613,
+      "lon": 58.4065105,
+      "tags": {
+        "amenity": "fast_food"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9433205931,
+      "lat": 53.9999543,
+      "lon": 58.4049969,
+      "tags": {
+        "amenity": "drinking_water"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9433213578,
+      "lat": 53.9802611,
+      "lon": 58.3928187,
+      "tags": {
+        "amenity": "waste_disposal"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9433220827,
+      "lat": 53.9929602,
+      "lon": 58.406,
+      "tags": {
+        "amenity": "drinking_water"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9433221165,
+      "lat": 53.9929612,
+      "lon": 58.4046217,
+      "tags": {
+        "amenity": "drinking_water"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9433221443,
+      "lat": 53.9849311,
+      "lon": 58.3931672,
+      "tags": {
+        "amenity": "kindergarten"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9433222941,
+      "lat": 53.9879022,
+      "lon": 58.4035131,
+      "tags": {
+        "amenity": "toilets"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10697388018,
+      "lat": 53.971357,
+      "lon": 58.417799,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:email": "info@b-apteka.ru",
+        "contact:phone": "+7 800 7004455",
+        "contact:website": "https://b-apteka.ru",
+        "healthcare": "pharmacy",
+        "name": "Экона",
+        "name:ru": "Экона",
+        "opening_hours": "Mo-Su 09:00-21:30"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10979353827,
+      "lat": 53.9783993,
+      "lon": 58.4486939,
+      "tags": {
+        "amenity": "bench"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10979353828,
+      "lat": 53.9783708,
+      "lon": 58.4488813,
+      "tags": {
+        "amenity": "bench"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10979353841,
+      "lat": 53.9759688,
+      "lon": 58.425636,
+      "tags": {
+        "amenity": "bench"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10979353842,
+      "lat": 53.97576,
+      "lon": 58.4252729,
+      "tags": {
+        "amenity": "bench"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10979353843,
+      "lat": 53.9755122,
+      "lon": 58.4248245,
+      "tags": {
+        "amenity": "bench"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10979353844,
+      "lat": 53.975283,
+      "lon": 58.4244168,
+      "tags": {
+        "amenity": "bench"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10979353845,
+      "lat": 53.9750468,
+      "lon": 58.4240042,
+      "tags": {
+        "amenity": "bench"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11067256619,
+      "lat": 53.9706593,
+      "lon": 58.4070271,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:email": "info@b-apteka.ru",
+        "contact:phone": "+7 800 7004455;+7 800 7009119",
+        "contact:website": "https://b-apteka.ru",
+        "healthcare": "pharmacy",
+        "name": "Фармаимпекс",
+        "opening_hours": "Mo-Fr 08:00-22:00; Sa-Su 08:30-21:30"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11838809607,
+      "lat": 53.979503,
+      "lon": 58.425723,
+      "tags": {
+        "amenity": "drinking_water"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11841959663,
+      "lat": 53.97913,
+      "lon": 58.4207187,
+      "tags": {
+        "amenity": "bench"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11934885933,
+      "lat": 53.985744,
+      "lon": 58.427943,
+      "tags": {
+        "amenity": "bench",
+        "colour": "Серый",
+        "material": "wood",
+        "seats": "4"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11942713727,
+      "lat": 53.9768794,
+      "lon": 58.4203365,
+      "tags": {
+        "amenity": "drinking_water"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11942765950,
+      "lat": 53.9902523,
+      "lon": 58.4379189,
+      "tags": {
+        "amenity": "bench"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12254623260,
+      "lat": 53.9712375,
+      "lon": 58.4088387,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:email": "info@farmlend.ru",
+        "contact:phone": "+7 347 2600393;+7 800 5500393",
+        "contact:website": "https://farmlend.ru",
+        "healthcare": "pharmacy",
+        "name": "Фармленд",
+        "opening_hours": "Mo-Fr 08:00-20:00; Sa-Su 08:00-18:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12254625023,
+      "lat": 53.9708681,
+      "lon": 58.4166273,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:email": "info@farmlend.ru",
+        "contact:phone": "+7 347 2600393;+7 800 5500393",
+        "contact:website": "https://farmlend.ru",
+        "healthcare": "pharmacy",
+        "name": "Фармленд",
+        "opening_hours": "Mo-Su 09:00-21:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12254625141,
+      "lat": 53.9709167,
+      "lon": 58.4108005,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:email": "info@farmlend.ru",
+        "contact:phone": "+7 347 2600393;+7 800 5500393",
+        "contact:website": "https://farmlend.ru",
+        "healthcare": "pharmacy",
+        "name": "Фармленд",
+        "opening_hours": "Mo-Su 09:00-21:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12254625142,
+      "lat": 53.9727164,
+      "lon": 58.4186465,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:email": "info@farmlend.ru",
+        "contact:phone": "+7 347 2600393;+7 800 5500393",
+        "contact:website": "https://farmlend.ru",
+        "healthcare": "pharmacy",
+        "name": "Фармленд",
+        "opening_hours": "Mo-Su 08:00-22:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12254625184,
+      "lat": 53.9729862,
+      "lon": 58.4112436,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:email": "info@farmlend.ru",
+        "contact:phone": "+7 347 2600393;+7 800 5500393",
+        "contact:website": "https://farmlend.ru",
+        "healthcare": "pharmacy",
+        "name": "Фармленд",
+        "opening_hours": "Mo-Su 08:00-22:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12254625202,
+      "lat": 53.9713621,
+      "lon": 58.4267231,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:email": "info@farmlend.ru",
+        "contact:phone": "+7 347 2600393;+7 800 5500393",
+        "contact:website": "https://farmlend.ru",
+        "healthcare": "pharmacy",
+        "name": "Фармленд",
+        "opening_hours": "Mo-Su 08:00-20:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12254625283,
+      "lat": 53.9712101,
+      "lon": 58.4191099,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:email": "info@farmlend.ru",
+        "contact:phone": "+7 347 2600393;+7 800 5500393",
+        "contact:website": "https://farmlend.ru",
+        "healthcare": "pharmacy",
+        "name": "Фармленд",
+        "opening_hours": "Mo-Su 08:00-22:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12281086756,
+      "lat": 53.9708836,
+      "lon": 58.4072481,
+      "tags": {
+        "amenity": "pharmacy",
+        "contact:email": "info@deshapt.ru",
+        "contact:phone": "+7 800 7759903",
+        "contact:website": "https://deshapt.ru",
+        "healthcare": "pharmacy",
+        "name": "Витаминка",
+        "opening_hours": "Mo-Su 08:00-21:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12691155526,
+      "lat": 53.9738886,
+      "lon": 58.4112037,
+      "tags": {
+        "amenity": "cafe",
+        "check_date": "2025-03-22",
+        "name": "7 вкусов"
+      }
+    },
+    {
+      "type": "way",
+      "id": 134017716,
+      "bounds": {
+        "minlat": 53.970865,
+        "minlon": 58.405405,
+        "maxlat": 53.9715328,
+        "maxlon": 58.4066105
+      },
+      "nodes": [
+        1474283344,
+        1474283346,
+        1474283347,
+        1474283355,
+        1474283358,
+        1474283357,
+        1474283356,
+        1474283354,
+        1474283353,
+        1474283351,
+        1474283352,
+        1474283350,
+        1474283348,
+        1474283349,
+        1474283345,
+        6590996569,
+        1474283344
+      ],
+      "geometry": [
+        {
+          "lat": 53.970865,
+          "lon": 58.405926
+        },
+        {
+          "lat": 53.9711663,
+          "lon": 58.4065189
+        },
+        {
+          "lat": 53.9712095,
+          "lon": 58.4064455
+        },
+        {
+          "lat": 53.9712982,
+          "lon": 58.4066105
+        },
+        {
+          "lat": 53.9715328,
+          "lon": 58.4062407
+        },
+        {
+          "lat": 53.9714696,
+          "lon": 58.406051
+        },
+        {
+          "lat": 53.9714352,
+          "lon": 58.4060883
+        },
+        {
+          "lat": 53.971399,
+          "lon": 58.4060242
+        },
+        {
+          "lat": 53.9713688,
+          "lon": 58.4060418
+        },
+        {
+          "lat": 53.9712953,
+          "lon": 58.4059075
+        },
+        {
+          "lat": 53.971347,
+          "lon": 58.4058334
+        },
+        {
+          "lat": 53.9712735,
+          "lon": 58.4057084
+        },
+        {
+          "lat": 53.9712463,
+          "lon": 58.405602
+        },
+        {
+          "lat": 53.9712517,
+          "lon": 58.4055557
+        },
+        {
+          "lat": 53.9711518,
+          "lon": 58.405405
+        },
+        {
+          "lat": 53.9709959,
+          "lon": 58.4057187
+        },
+        {
+          "lat": 53.970865,
+          "lon": 58.405926
+        }
+      ],
+      "tags": {
+        "amenity": "school",
+        "name": "Башкирская гимназия №22"
+      }
+    },
+    {
+      "type": "way",
+      "id": 134017720,
+      "bounds": {
+        "minlat": 53.9750853,
+        "minlon": 58.4278623,
+        "maxlat": 53.976335,
+        "maxlon": 58.430356
+      },
+      "nodes": [
+        1474283382,
+        5257434270,
+        5257434269,
+        1474283371,
+        1474283369,
+        1474283375,
+        1474283370,
+        1474283374,
+        1474283372,
+        1474283376,
+        1474283373,
+        1474283377,
+        1474283379,
+        1474283378,
+        1474283380,
+        1474283381,
+        1474283382
+      ],
+      "geometry": [
+        {
+          "lat": 53.976335,
+          "lon": 58.4289017
+        },
+        {
+          "lat": 53.9760762,
+          "lon": 58.4293103
+        },
+        {
+          "lat": 53.975927,
+          "lon": 58.4295362
+        },
+        {
+          "lat": 53.9754158,
+          "lon": 58.430356
+        },
+        {
+          "lat": 53.9750853,
+          "lon": 58.429752
+        },
+        {
+          "lat": 53.9755144,
+          "lon": 58.429073
+        },
+        {
+          "lat": 53.9753925,
+          "lon": 58.4288503
+        },
+        {
+          "lat": 53.9755113,
+          "lon": 58.4286623
+        },
+        {
+          "lat": 53.9754899,
+          "lon": 58.4286231
+        },
+        {
+          "lat": 53.975605,
+          "lon": 58.4284411
+        },
+        {
+          "lat": 53.975502,
+          "lon": 58.4282529
+        },
+        {
+          "lat": 53.9757489,
+          "lon": 58.4278623
+        },
+        {
+          "lat": 53.9759605,
+          "lon": 58.428249
+        },
+        {
+          "lat": 53.9759237,
+          "lon": 58.4283072
+        },
+        {
+          "lat": 53.9760194,
+          "lon": 58.4284821
+        },
+        {
+          "lat": 53.9760655,
+          "lon": 58.4284091
+        },
+        {
+          "lat": 53.976335,
+          "lon": 58.4289017
+        }
+      ],
+      "tags": {
+        "amenity": "kindergarten",
+        "name": "Детский сад №44 \"Дельфин\""
+      }
+    },
+    {
+      "type": "way",
+      "id": 134017721,
+      "bounds": {
+        "minlat": 53.9727906,
+        "minlon": 58.4218468,
+        "maxlat": 53.9745649,
+        "maxlon": 58.4247869
+      },
+      "nodes": [
+        1474283367,
+        1474283368,
+        1474283366,
+        1474283364,
+        1474283365,
+        1474283361,
+        1474283360,
+        1474283359,
+        1474283362,
+        1474283363,
+        1474283367
+      ],
+      "geometry": [
+        {
+          "lat": 53.9737774,
+          "lon": 58.4218468
+        },
+        {
+          "lat": 53.9745649,
+          "lon": 58.4233496
+        },
+        {
+          "lat": 53.9736777,
+          "lon": 58.4247869
+        },
+        {
+          "lat": 53.9736167,
+          "lon": 58.4247214
+        },
+        {
+          "lat": 53.9736199,
+          "lon": 58.4246612
+        },
+        {
+          "lat": 53.973157,
+          "lon": 58.4238524
+        },
+        {
+          "lat": 53.9731217,
+          "lon": 58.4239235
+        },
+        {
+          "lat": 53.9727906,
+          "lon": 58.4233551
+        },
+        {
+          "lat": 53.9733692,
+          "lon": 58.4223878
+        },
+        {
+          "lat": 53.9734174,
+          "lon": 58.4224479
+        },
+        {
+          "lat": 53.9737774,
+          "lon": 58.4218468
+        }
+      ],
+      "tags": {
+        "amenity": "college",
+        "name": "Белорецкий педагогический колледж"
+      }
+    },
+    {
+      "type": "way",
+      "id": 134017722,
+      "bounds": {
+        "minlat": 53.9767699,
+        "minlon": 58.4157925,
+        "maxlat": 53.9784017,
+        "maxlon": 58.4185422
+      },
+      "nodes": [
+        1474283383,
+        1474283386,
+        6624737844,
+        1471133982,
+        6624737842,
+        6624737841,
+        1471133986,
+        6624737839,
+        1471133990,
+        6624737874,
+        6624737875,
+        1474283385,
+        6625531314,
+        1474283384,
+        6624737837,
+        6625531322,
+        1474283383
+      ],
+      "geometry": [
+        {
+          "lat": 53.9767699,
+          "lon": 58.4169007
+        },
+        {
+          "lat": 53.9773949,
+          "lon": 58.4181052
+        },
+        {
+          "lat": 53.9774092,
+          "lon": 58.4181954
+        },
+        {
+          "lat": 53.9775959,
+          "lon": 58.4185422
+        },
+        {
+          "lat": 53.9778231,
+          "lon": 58.4181743
+        },
+        {
+          "lat": 53.9777608,
+          "lon": 58.4180503
+        },
+        {
+          "lat": 53.9782157,
+          "lon": 58.4172934
+        },
+        {
+          "lat": 53.978145,
+          "lon": 58.4171431
+        },
+        {
+          "lat": 53.9784017,
+          "lon": 58.4166465
+        },
+        {
+          "lat": 53.9781582,
+          "lon": 58.4161573
+        },
+        {
+          "lat": 53.9780179,
+          "lon": 58.4158756
+        },
+        {
+          "lat": 53.9779053,
+          "lon": 58.4157925
+        },
+        {
+          "lat": 53.9773532,
+          "lon": 58.4162222
+        },
+        {
+          "lat": 53.977229,
+          "lon": 58.4163107
+        },
+        {
+          "lat": 53.9770439,
+          "lon": 58.4164231
+        },
+        {
+          "lat": 53.9769817,
+          "lon": 58.416514
+        },
+        {
+          "lat": 53.9767699,
+          "lon": 58.4169007
+        }
+      ],
+      "tags": {
+        "amenity": "hospital",
+        "barrier": "fence",
+        "healthcare": "hospital",
+        "name": "Противотуберкулезный диспансер"
+      }
+    },
+    {
+      "type": "way",
+      "id": 134018606,
+      "bounds": {
+        "minlat": 53.9757092,
+        "minlon": 58.4233563,
+        "maxlat": 53.9769344,
+        "maxlon": 58.4253832
+      },
+      "nodes": [
+        1474293152,
+        1474293150,
+        1676035010,
+        1474293157,
+        1474293152
+      ],
+      "geometry": [
+        {
+          "lat": 53.9761572,
+          "lon": 58.4253832
+        },
+        {
+          "lat": 53.9757092,
+          "lon": 58.4245881
+        },
+        {
+          "lat": 53.9764857,
+          "lon": 58.4233563
+        },
+        {
+          "lat": 53.9769344,
+          "lon": 58.4241551
+        },
+        {
+          "lat": 53.9761572,
+          "lon": 58.4253832
+        }
+      ],
+      "tags": {
+        "amenity": "school",
+        "name": "Белорецкая компьютерная школа"
+      }
+    },
+    {
+      "type": "way",
+      "id": 155127456,
+      "bounds": {
+        "minlat": 53.9737552,
+        "minlon": 58.413225,
+        "maxlat": 53.9741115,
+        "maxlon": 58.4140586
+      },
+      "nodes": [
+        1675606893,
+        1675606892,
+        10074963883,
+        10074963884,
+        1675606891,
+        10074963880,
+        1675606912,
+        10074963881,
+        10074963882,
+        2659359480,
+        2659359479,
+        1675606893
+      ],
+      "geometry": [
+        {
+          "lat": 53.9739003,
+          "lon": 58.4140586
+        },
+        {
+          "lat": 53.9741115,
+          "lon": 58.4137426
+        },
+        {
+          "lat": 53.974083,
+          "lon": 58.4136875
+        },
+        {
+          "lat": 53.974086,
+          "lon": 58.4136436
+        },
+        {
+          "lat": 53.9738693,
+          "lon": 58.413225
+        },
+        {
+          "lat": 53.9738282,
+          "lon": 58.4132289
+        },
+        {
+          "lat": 53.9737552,
+          "lon": 58.4133381
+        },
+        {
+          "lat": 53.9737747,
+          "lon": 58.4133756
+        },
+        {
+          "lat": 53.9737841,
+          "lon": 58.4133615
+        },
+        {
+          "lat": 53.9739634,
+          "lon": 58.4137079
+        },
+        {
+          "lat": 53.9738256,
+          "lon": 58.4139142
+        },
+        {
+          "lat": 53.9739003,
+          "lon": 58.4140586
+        }
+      ],
+      "tags": {
+        "addr:city": "Белорецк",
+        "addr:country": "RU",
+        "addr:district": "Белорецкий район",
+        "addr:housenumber": "71",
+        "addr:postcode": "453500",
+        "addr:region": "Башкортостан",
+        "addr:street": "улица Ленина",
+        "amenity": "townhall",
+        "building": "yes",
+        "name": "Администрация МР Белорецкий район"
+      }
+    },
+    {
+      "type": "way",
+      "id": 155147973,
+      "bounds": {
+        "minlat": 53.9703189,
+        "minlon": 58.4251846,
+        "maxlat": 53.9706378,
+        "maxlon": 58.4256301
+      },
+      "nodes": [
+        1675745472,
+        5269583353,
+        5269583354,
+        5269583357,
+        5269583358,
+        1675745499,
+        1675745447,
+        1675745477,
+        11909028588,
+        11909028590,
+        11909028589,
+        1675745476,
+        11909028591,
+        1675745472
+      ],
+      "geometry": [
+        {
+          "lat": 53.9706378,
+          "lon": 58.425398
+        },
+        {
+          "lat": 53.9706361,
+          "lon": 58.4254705
+        },
+        {
+          "lat": 53.970633,
+          "lon": 58.4255995
+        },
+        {
+          "lat": 53.9705291,
+          "lon": 58.4255924
+        },
+        {
+          "lat": 53.9705282,
+          "lon": 58.4256301
+        },
+        {
+          "lat": 53.9704996,
+          "lon": 58.4256281
+        },
+        {
+          "lat": 53.9703189,
+          "lon": 58.4252788
+        },
+        {
+          "lat": 53.9703819,
+          "lon": 58.4251846
+        },
+        {
+          "lat": 53.9704208,
+          "lon": 58.4252598
+        },
+        {
+          "lat": 53.9704346,
+          "lon": 58.4252392
+        },
+        {
+          "lat": 53.9705021,
+          "lon": 58.4253697
+        },
+        {
+          "lat": 53.9705164,
+          "lon": 58.4253483
+        },
+        {
+          "lat": 53.9705386,
+          "lon": 58.4253912
+        },
+        {
+          "lat": 53.9706378,
+          "lon": 58.425398
+        }
+      ],
+      "tags": {
+        "addr:city": "Белорецк",
+        "addr:country": "RU",
+        "addr:district": "Белорецкий район",
+        "addr:housenumber": "76",
+        "addr:postcode": "453501",
+        "addr:region": "Башкортостан",
+        "addr:street": "улица 50 лет Октября",
+        "amenity": "registry_office",
+        "building": "yes",
+        "government": "register_office",
+        "name": "Отдел ЗАГС Белорецкого района и г. Белорецк",
+        "office": "government"
+      }
+    },
+    {
+      "type": "way",
+      "id": 155154612,
+      "bounds": {
+        "minlat": 53.9730809,
+        "minlon": 58.4152621,
+        "maxlat": 53.9743432,
+        "maxlon": 58.4173431
+      },
+      "nodes": [
+        1675798888,
+        1675798875,
+        1675798872,
+        1675798870,
+        1675798893,
+        2659558608,
+        1675798888
+      ],
+      "geometry": [
+        {
+          "lat": 53.9730809,
+          "lon": 58.4163889
+        },
+        {
+          "lat": 53.9736058,
+          "lon": 58.4173431
+        },
+        {
+          "lat": 53.9741363,
+          "lon": 58.4165127
+        },
+        {
+          "lat": 53.9743432,
+          "lon": 58.4155324
+        },
+        {
+          "lat": 53.9742245,
+          "lon": 58.4153207
+        },
+        {
+          "lat": 53.9738222,
+          "lon": 58.4152621
+        },
+        {
+          "lat": 53.9730809,
+          "lon": 58.4163889
+        }
+      ],
+      "tags": {
+        "amenity": "kindergarten",
+        "name": "детский сад №29 \"Ягодка\""
+      }
+    },
+    {
+      "type": "way",
+      "id": 155154613,
+      "bounds": {
+        "minlat": 53.97018,
+        "minlon": 58.420072,
+        "maxlat": 53.9714328,
+        "maxlon": 58.4222969
+      },
+      "nodes": [
+        1675798880,
+        1675798887,
+        6393269016,
+        1675798889,
+        2561449208,
+        2561449212,
+        1675798874,
+        6393269015,
+        1675798880
+      ],
+      "geometry": [
+        {
+          "lat": 53.97018,
+          "lon": 58.4215581
+        },
+        {
+          "lat": 53.9705769,
+          "lon": 58.4222969
+        },
+        {
+          "lat": 53.9709649,
+          "lon": 58.4216917
+        },
+        {
+          "lat": 53.9714284,
+          "lon": 58.4209688
+        },
+        {
+          "lat": 53.9713303,
+          "lon": 58.4207947
+        },
+        {
+          "lat": 53.9714328,
+          "lon": 58.4206351
+        },
+        {
+          "lat": 53.9711347,
+          "lon": 58.420072
+        },
+        {
+          "lat": 53.9705713,
+          "lon": 58.420949
+        },
+        {
+          "lat": 53.97018,
+          "lon": 58.4215581
+        }
+      ],
+      "tags": {
+        "amenity": "kindergarten",
+        "name": "Детский сад № 31 Золотая рыбка"
+      }
+    },
+    {
+      "type": "way",
+      "id": 155154616,
+      "bounds": {
+        "minlat": 53.9715152,
+        "minlon": 58.4149296,
+        "maxlat": 53.9727154,
+        "maxlon": 58.4169728
+      },
+      "nodes": [
+        1675798881,
+        1675798891,
+        1675798883,
+        1675798895,
+        1675798881
+      ],
+      "geometry": [
+        {
+          "lat": 53.9727154,
+          "lon": 58.4160122
+        },
+        {
+          "lat": 53.9721344,
+          "lon": 58.4169728
+        },
+        {
+          "lat": 53.9715152,
+          "lon": 58.4158902
+        },
+        {
+          "lat": 53.9720963,
+          "lon": 58.4149296
+        },
+        {
+          "lat": 53.9727154,
+          "lon": 58.4160122
+        }
+      ],
+      "tags": {
+        "amenity": "kindergarten",
+        "name": "Детский сад №9 \"Колокольчик\""
+      }
+    },
+    {
+      "type": "way",
+      "id": 155154692,
+      "bounds": {
+        "minlat": 53.9697339,
+        "minlon": 58.41221,
+        "maxlat": 53.9712554,
+        "maxlon": 58.4147948
+      },
+      "nodes": [
+        1675799530,
+        1675799528,
+        1675799532,
+        1675799541,
+        1675799530
+      ],
+      "geometry": [
+        {
+          "lat": 53.9712554,
+          "lon": 58.4135365
+        },
+        {
+          "lat": 53.970459,
+          "lon": 58.4147948
+        },
+        {
+          "lat": 53.9697339,
+          "lon": 58.4134682
+        },
+        {
+          "lat": 53.9705303,
+          "lon": 58.41221
+        },
+        {
+          "lat": 53.9712554,
+          "lon": 58.4135365
+        }
+      ],
+      "tags": {
+        "amenity": "school",
+        "barrier": "fence",
+        "name": "Школа №1"
+      }
+    },
+    {
+      "type": "way",
+      "id": 155182454,
+      "bounds": {
+        "minlat": 53.9741687,
+        "minlon": 58.4113501,
+        "maxlat": 53.9751881,
+        "maxlon": 58.4131194
+      },
+      "nodes": [
+        1676008527,
+        5006479049,
+        1676008529,
+        1676008514,
+        11676280253,
+        1676008512,
+        11676280254,
+        1676008527
+      ],
+      "geometry": [
+        {
+          "lat": 53.974797,
+          "lon": 58.4131194
+        },
+        {
+          "lat": 53.9741799,
+          "lon": 58.4119416
+        },
+        {
+          "lat": 53.9741687,
+          "lon": 58.4119095
+        },
+        {
+          "lat": 53.9745485,
+          "lon": 58.4113501
+        },
+        {
+          "lat": 53.9749602,
+          "lon": 58.4121182
+        },
+        {
+          "lat": 53.9751881,
+          "lon": 58.4125432
+        },
+        {
+          "lat": 53.9751115,
+          "lon": 58.4126561
+        },
+        {
+          "lat": 53.974797,
+          "lon": 58.4131194
+        }
+      ],
+      "tags": {
+        "addr:city": "Белорецк",
+        "addr:housenumber": "42",
+        "addr:postcode": "453500",
+        "addr:street": "улица Ленина",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "healthcare:speciality": "paediatrics"
+      }
+    },
+    {
+      "type": "way",
+      "id": 155183961,
+      "bounds": {
+        "minlat": 53.976644,
+        "minlon": 58.4163117,
+        "maxlat": 53.9768738,
+        "maxlon": 58.4167014
+      },
+      "nodes": [
+        1676022106,
+        1676022111,
+        1676022027,
+        1676022126,
+        1676022106
+      ],
+      "geometry": [
+        {
+          "lat": 53.9767362,
+          "lon": 58.4167014
+        },
+        {
+          "lat": 53.9768738,
+          "lon": 58.416471
+        },
+        {
+          "lat": 53.9767816,
+          "lon": 58.4163117
+        },
+        {
+          "lat": 53.976644,
+          "lon": 58.4165421
+        },
+        {
+          "lat": 53.9767362,
+          "lon": 58.4167014
+        }
+      ],
+      "tags": {
+        "addr:city": "Белорецк",
+        "addr:country": "RU",
+        "addr:district": "Белорецкий район",
+        "addr:housenumber": "64/1",
+        "addr:postcode": "453511",
+        "addr:region": "Башкортостан",
+        "addr:street": "улица Ленина",
+        "amenity": "nightclub",
+        "building": "yes",
+        "name": "Сова",
+        "smoking": "outside"
+      }
+    },
+    {
+      "type": "way",
+      "id": 155185519,
+      "bounds": {
+        "minlat": 53.9764857,
+        "minlon": 58.4219781,
+        "maxlat": 53.9776421,
+        "maxlon": 58.4241551
+      },
+      "nodes": [
+        1676035010,
+        1474293157,
+        1676035040,
+        1676035067,
+        3186371017,
+        1676035062,
+        1676035063,
+        1676035010
+      ],
+      "geometry": [
+        {
+          "lat": 53.9764857,
+          "lon": 58.4233563
+        },
+        {
+          "lat": 53.9769344,
+          "lon": 58.4241551
+        },
+        {
+          "lat": 53.9776421,
+          "lon": 58.4229615
+        },
+        {
+          "lat": 53.9774357,
+          "lon": 58.4219781
+        },
+        {
+          "lat": 53.9772938,
+          "lon": 58.4220881
+        },
+        {
+          "lat": 53.9771802,
+          "lon": 58.4222678
+        },
+        {
+          "lat": 53.9766202,
+          "lon": 58.4231342
+        },
+        {
+          "lat": 53.9764857,
+          "lon": 58.4233563
+        }
+      ],
+      "tags": {
+        "amenity": "school",
+        "name": "Школа №3"
+      }
+    },
+    {
+      "type": "way",
+      "id": 260308692,
+      "bounds": {
+        "minlat": 53.9713514,
+        "minlon": 58.4019407,
+        "maxlat": 53.9718823,
+        "maxlon": 58.4026927
+      },
+      "nodes": [
+        2657792532,
+        2657792533,
+        2657792534,
+        2657792535,
+        5971574282,
+        2657792536,
+        2657792537,
+        2657792532
+      ],
+      "geometry": [
+        {
+          "lat": 53.9714372,
+          "lon": 58.4024745
+        },
+        {
+          "lat": 53.9715873,
+          "lon": 58.4022849
+        },
+        {
+          "lat": 53.9717655,
+          "lon": 58.4026927
+        },
+        {
+          "lat": 53.9718823,
+          "lon": 58.4025453
+        },
+        {
+          "lat": 53.9718458,
+          "lon": 58.4024557
+        },
+        {
+          "lat": 53.9716184,
+          "lon": 58.4019407
+        },
+        {
+          "lat": 53.9713514,
+          "lon": 58.4022781
+        },
+        {
+          "lat": 53.9714372,
+          "lon": 58.4024745
+        }
+      ],
+      "tags": {
+        "addr:city": "Белорецк",
+        "addr:country": "RU",
+        "addr:district": "Белорецкий район",
+        "addr:housenumber": "1",
+        "addr:postcode": "453500",
+        "addr:region": "Башкортостан",
+        "addr:street": "улица Точисского",
+        "amenity": "public_bath",
+        "bath:open_air": "no",
+        "bath:sand_bath": "no",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 260460931,
+      "bounds": {
+        "minlat": 53.9736862,
+        "minlon": 58.412579,
+        "maxlat": 53.9744351,
+        "maxlon": 58.4137964
+      },
+      "nodes": [
+        2659451952,
+        2659518649,
+        2659451955,
+        2659451958,
+        2659518647,
+        2659518635,
+        2659451961,
+        2659451964,
+        2659451966,
+        2659451969,
+        2659451975,
+        2659518615,
+        2659451976,
+        2659451996,
+        2659451998,
+        2659451977,
+        2659451952
+      ],
+      "geometry": [
+        {
+          "lat": 53.9744351,
+          "lon": 58.4136597
+        },
+        {
+          "lat": 53.9744098,
+          "lon": 58.4137
+        },
+        {
+          "lat": 53.974349,
+          "lon": 58.4137964
+        },
+        {
+          "lat": 53.9742896,
+          "lon": 58.4136824
+        },
+        {
+          "lat": 53.9742163,
+          "lon": 58.4136502
+        },
+        {
+          "lat": 53.9741887,
+          "lon": 58.4136381
+        },
+        {
+          "lat": 53.9741785,
+          "lon": 58.4136336
+        },
+        {
+          "lat": 53.9739544,
+          "lon": 58.4131874
+        },
+        {
+          "lat": 53.9739218,
+          "lon": 58.4132265
+        },
+        {
+          "lat": 53.973872,
+          "lon": 58.4131288
+        },
+        {
+          "lat": 53.9738407,
+          "lon": 58.4131446
+        },
+        {
+          "lat": 53.9738314,
+          "lon": 58.4131401
+        },
+        {
+          "lat": 53.9736862,
+          "lon": 58.4128813
+        },
+        {
+          "lat": 53.9737315,
+          "lon": 58.412808
+        },
+        {
+          "lat": 53.9737972,
+          "lon": 58.4127017
+        },
+        {
+          "lat": 53.9738774,
+          "lon": 58.412579
+        },
+        {
+          "lat": 53.9744351,
+          "lon": 58.4136597
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 260461488,
+      "bounds": {
+        "minlat": 53.9741218,
+        "minlon": 58.4124969,
+        "maxlat": 53.9746736,
+        "maxlon": 58.4135232
+      },
+      "nodes": [
+        2659458466,
+        2659458468,
+        2659458470,
+        2659458472,
+        2659458466
+      ],
+      "geometry": [
+        {
+          "lat": 53.9745963,
+          "lon": 58.4135232
+        },
+        {
+          "lat": 53.9746736,
+          "lon": 58.4134066
+        },
+        {
+          "lat": 53.9741991,
+          "lon": 58.4124969
+        },
+        {
+          "lat": 53.9741218,
+          "lon": 58.4126135
+        },
+        {
+          "lat": 53.9745963,
+          "lon": 58.4135232
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 260471620,
+      "bounds": {
+        "minlat": 53.9746533,
+        "minlon": 58.4155368,
+        "maxlat": 53.9749985,
+        "maxlon": 58.4161519
+      },
+      "nodes": [
+        2659518659,
+        2659545510,
+        2659545462,
+        2659518661,
+        2659518659
+      ],
+      "geometry": [
+        {
+          "lat": 53.9749985,
+          "lon": 58.4159985
+        },
+        {
+          "lat": 53.9749253,
+          "lon": 58.4161519
+        },
+        {
+          "lat": 53.9746533,
+          "lon": 58.4156335
+        },
+        {
+          "lat": 53.9747653,
+          "lon": 58.4155368
+        },
+        {
+          "lat": 53.9749985,
+          "lon": 58.4159985
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 260471621,
+      "bounds": {
+        "minlat": 53.9744026,
+        "minlon": 58.4168025,
+        "maxlat": 53.974688,
+        "maxlon": 58.4172682
+      },
+      "nodes": [
+        2659545480,
+        2659545481,
+        2659545482,
+        2659545483,
+        2659545480
+      ],
+      "geometry": [
+        {
+          "lat": 53.974688,
+          "lon": 58.4168025
+        },
+        {
+          "lat": 53.9746018,
+          "lon": 58.4168025
+        },
+        {
+          "lat": 53.9744026,
+          "lon": 58.4171054
+        },
+        {
+          "lat": 53.9744083,
+          "lon": 58.4172682
+        },
+        {
+          "lat": 53.974688,
+          "lon": 58.4168025
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 260471622,
+      "bounds": {
+        "minlat": 53.9735943,
+        "minlon": 58.4179391,
+        "maxlat": 53.9739716,
+        "maxlon": 58.418584
+      },
+      "nodes": [
+        2659545485,
+        2659545486,
+        2659545487,
+        2659545488,
+        2659545485
+      ],
+      "geometry": [
+        {
+          "lat": 53.9739716,
+          "lon": 58.4179587
+        },
+        {
+          "lat": 53.9738931,
+          "lon": 58.4179391
+        },
+        {
+          "lat": 53.9736,
+          "lon": 58.4184146
+        },
+        {
+          "lat": 53.9735943,
+          "lon": 58.418584
+        },
+        {
+          "lat": 53.9739716,
+          "lon": 58.4179587
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 260471623,
+      "bounds": {
+        "minlat": 53.9729909,
+        "minlon": 58.4190106,
+        "maxlat": 53.9732878,
+        "maxlon": 58.4194926
+      },
+      "nodes": [
+        2659545489,
+        2659545490,
+        2659545506,
+        2659545491,
+        2659545492,
+        2659545489
+      ],
+      "geometry": [
+        {
+          "lat": 53.9732878,
+          "lon": 58.4190887
+        },
+        {
+          "lat": 53.9732457,
+          "lon": 58.4190106
+        },
+        {
+          "lat": 53.9731931,
+          "lon": 58.4190939
+        },
+        {
+          "lat": 53.9729909,
+          "lon": 58.4194144
+        },
+        {
+          "lat": 53.9730349,
+          "lon": 58.4194926
+        },
+        {
+          "lat": 53.9732878,
+          "lon": 58.4190887
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 260471625,
+      "bounds": {
+        "minlat": 53.9750059,
+        "minlon": 58.4159037,
+        "maxlat": 53.9752339,
+        "maxlon": 58.4162489
+      },
+      "nodes": [
+        2659545512,
+        2659545511,
+        2659545508,
+        2659545507,
+        2659545512
+      ],
+      "geometry": [
+        {
+          "lat": 53.975027,
+          "lon": 58.4162489
+        },
+        {
+          "lat": 53.9750059,
+          "lon": 58.4161414
+        },
+        {
+          "lat": 53.9751515,
+          "lon": 58.4159037
+        },
+        {
+          "lat": 53.9752339,
+          "lon": 58.4159265
+        },
+        {
+          "lat": 53.975027,
+          "lon": 58.4162489
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 260472922,
+      "bounds": {
+        "minlat": 53.971679,
+        "minlon": 58.4174509,
+        "maxlat": 53.9719464,
+        "maxlon": 58.4179151
+      },
+      "nodes": [
+        2659558618,
+        2659558621,
+        2659558620,
+        2659558619,
+        2659558618
+      ],
+      "geometry": [
+        {
+          "lat": 53.9719189,
+          "lon": 58.4179151
+        },
+        {
+          "lat": 53.971679,
+          "lon": 58.417494
+        },
+        {
+          "lat": 53.971738,
+          "lon": 58.4174509
+        },
+        {
+          "lat": 53.9719464,
+          "lon": 58.4178373
+        },
+        {
+          "lat": 53.9719189,
+          "lon": 58.4179151
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 260472923,
+      "bounds": {
+        "minlat": 53.9711501,
+        "minlon": 58.4164801,
+        "maxlat": 53.9713071,
+        "maxlon": 58.4167537
+      },
+      "nodes": [
+        2659558622,
+        2659558625,
+        2659558624,
+        2659558623,
+        2659558622
+      ],
+      "geometry": [
+        {
+          "lat": 53.9712861,
+          "lon": 58.4167537
+        },
+        {
+          "lat": 53.9711501,
+          "lon": 58.4164834
+        },
+        {
+          "lat": 53.9712114,
+          "lon": 58.4164801
+        },
+        {
+          "lat": 53.9713071,
+          "lon": 58.4166592
+        },
+        {
+          "lat": 53.9712861,
+          "lon": 58.4167537
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 265004272,
+      "bounds": {
+        "minlat": 53.9730676,
+        "minlon": 58.4133772,
+        "maxlat": 53.9737158,
+        "maxlon": 58.414761
+      },
+      "nodes": [
+        2706644635,
+        2706644634,
+        2706644633,
+        2706644632,
+        2706644631,
+        2706644630,
+        2706644639,
+        2706644640,
+        2706644635
+      ],
+      "geometry": [
+        {
+          "lat": 53.9732107,
+          "lon": 58.4134521
+        },
+        {
+          "lat": 53.9731719,
+          "lon": 58.4133772
+        },
+        {
+          "lat": 53.9730676,
+          "lon": 58.4135333
+        },
+        {
+          "lat": 53.9731204,
+          "lon": 58.4136354
+        },
+        {
+          "lat": 53.9730906,
+          "lon": 58.4136801
+        },
+        {
+          "lat": 53.9736503,
+          "lon": 58.414761
+        },
+        {
+          "lat": 53.9737158,
+          "lon": 58.414663
+        },
+        {
+          "lat": 53.973142,
+          "lon": 58.4135548
+        },
+        {
+          "lat": 53.9732107,
+          "lon": 58.4134521
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 265004273,
+      "bounds": {
+        "minlat": 53.9729417,
+        "minlon": 58.4136672,
+        "maxlat": 53.9735771,
+        "maxlon": 58.414907
+      },
+      "nodes": [
+        2706644629,
+        2706644641,
+        2706644642,
+        2706644643,
+        2706644629
+      ],
+      "geometry": [
+        {
+          "lat": 53.9735771,
+          "lon": 58.414881
+        },
+        {
+          "lat": 53.9735595,
+          "lon": 58.414907
+        },
+        {
+          "lat": 53.9729417,
+          "lon": 58.4136932
+        },
+        {
+          "lat": 53.9729593,
+          "lon": 58.4136672
+        },
+        {
+          "lat": 53.9735771,
+          "lon": 58.414881
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 265004280,
+      "bounds": {
+        "minlat": 53.9732118,
+        "minlon": 58.4129343,
+        "maxlat": 53.9735063,
+        "maxlon": 58.413388
+      },
+      "nodes": [
+        2706644665,
+        2706644680,
+        2706644681,
+        2706644636,
+        2706644665
+      ],
+      "geometry": [
+        {
+          "lat": 53.9735063,
+          "lon": 58.4130007
+        },
+        {
+          "lat": 53.9734708,
+          "lon": 58.4129343
+        },
+        {
+          "lat": 53.9732118,
+          "lon": 58.4133209
+        },
+        {
+          "lat": 53.9732754,
+          "lon": 58.413388
+        },
+        {
+          "lat": 53.9735063,
+          "lon": 58.4130007
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 265006205,
+      "bounds": {
+        "minlat": 53.9701693,
+        "minlon": 58.4252431,
+        "maxlat": 53.970818,
+        "maxlon": 58.4264443
+      },
+      "nodes": [
+        2706655956,
+        2706655970,
+        2706655972,
+        2706655973,
+        2706655975,
+        2706655977,
+        2706655979,
+        2706655956
+      ],
+      "geometry": [
+        {
+          "lat": 53.9702688,
+          "lon": 58.4252431
+        },
+        {
+          "lat": 53.9706138,
+          "lon": 58.4258548
+        },
+        {
+          "lat": 53.9706751,
+          "lon": 58.4258481
+        },
+        {
+          "lat": 53.9706868,
+          "lon": 58.4260672
+        },
+        {
+          "lat": 53.970818,
+          "lon": 58.4263269
+        },
+        {
+          "lat": 53.9707435,
+          "lon": 58.4264443
+        },
+        {
+          "lat": 53.9701693,
+          "lon": 58.4254021
+        },
+        {
+          "lat": 53.9702688,
+          "lon": 58.4252431
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 312724393,
+      "bounds": {
+        "minlat": 53.9724771,
+        "minlon": 58.4248889,
+        "maxlat": 53.9729041,
+        "maxlon": 58.425638
+      },
+      "nodes": [
+        3186144648,
+        3705192963,
+        3705192962,
+        3186144649,
+        3186144648
+      ],
+      "geometry": [
+        {
+          "lat": 53.9726094,
+          "lon": 58.4248889
+        },
+        {
+          "lat": 53.9729041,
+          "lon": 58.425427
+        },
+        {
+          "lat": 53.9727725,
+          "lon": 58.425638
+        },
+        {
+          "lat": 53.9724771,
+          "lon": 58.4250984
+        },
+        {
+          "lat": 53.9726094,
+          "lon": 58.4248889
+        }
+      ],
+      "tags": {
+        "addr:city": "Белорецк",
+        "addr:country": "RU",
+        "addr:district": "Белорецкий район",
+        "addr:housenumber": "39",
+        "addr:postcode": "453500",
+        "addr:region": "Башкортостан",
+        "addr:street": "улица Гафури",
+        "amenity": "fire_station",
+        "building": "yes",
+        "name": "Пожарная часть №44"
+      }
+    },
+    {
+      "type": "way",
+      "id": 312749258,
+      "bounds": {
+        "minlat": 53.97806,
+        "minlon": 58.4279715,
+        "maxlat": 53.9787387,
+        "maxlon": 58.4289827
+      },
+      "nodes": [
+        3186371057,
+        3186371058,
+        3186371059,
+        3186371060,
+        3186375261,
+        3186375262,
+        3186375263,
+        3186375264,
+        3186371057
+      ],
+      "geometry": [
+        {
+          "lat": 53.9781789,
+          "lon": 58.4279715
+        },
+        {
+          "lat": 53.9784285,
+          "lon": 58.4284318
+        },
+        {
+          "lat": 53.9784845,
+          "lon": 58.428344
+        },
+        {
+          "lat": 53.9787387,
+          "lon": 58.4288126
+        },
+        {
+          "lat": 53.9786302,
+          "lon": 58.4289827
+        },
+        {
+          "lat": 53.9783972,
+          "lon": 58.4285532
+        },
+        {
+          "lat": 53.9783309,
+          "lon": 58.4286572
+        },
+        {
+          "lat": 53.97806,
+          "lon": 58.4281578
+        },
+        {
+          "lat": 53.9781789,
+          "lon": 58.4279715
+        }
+      ],
+      "tags": {
+        "addr:city": "Белорецк",
+        "addr:country": "RU",
+        "addr:district": "Белорецкий район",
+        "addr:housenumber": "136",
+        "addr:postcode": "453500",
+        "addr:region": "Башкортостан",
+        "addr:street": "улица Карла Маркса",
+        "amenity": "driving_school",
+        "building": "yes",
+        "name": "Автошкола ДОСААФ"
+      }
+    },
+    {
+      "type": "way",
+      "id": 329327588,
+      "bounds": {
+        "minlat": 53.9989903,
+        "minlon": 58.4576376,
+        "maxlat": 54.0023309,
+        "maxlon": 58.4615974
+      },
+      "nodes": [
+        3361948941,
+        3361948942,
+        3361948943,
+        3361948944,
+        3361948945,
+        3361948946,
+        3361948947,
+        3361948948,
+        3361948949,
+        3361948950,
+        3361948951,
+        3361948952,
+        3361948953,
+        3361948941
+      ],
+      "geometry": [
+        {
+          "lat": 53.9996259,
+          "lon": 58.4576376
+        },
+        {
+          "lat": 54.0007443,
+          "lon": 58.4586784
+        },
+        {
+          "lat": 54.0019582,
+          "lon": 58.4598411
+        },
+        {
+          "lat": 54.0023214,
+          "lon": 58.4601013
+        },
+        {
+          "lat": 54.0023309,
+          "lon": 58.4605404
+        },
+        {
+          "lat": 54.002049,
+          "lon": 58.4615324
+        },
+        {
+          "lat": 54.0016714,
+          "lon": 58.4615974
+        },
+        {
+          "lat": 54.0001899,
+          "lon": 58.4608981
+        },
+        {
+          "lat": 53.9992866,
+          "lon": 58.4602558
+        },
+        {
+          "lat": 53.9991384,
+          "lon": 58.4598086
+        },
+        {
+          "lat": 53.9990476,
+          "lon": 58.4587841
+        },
+        {
+          "lat": 53.9989903,
+          "lon": 58.4585158
+        },
+        {
+          "lat": 53.9994013,
+          "lon": 58.4577027
+        },
+        {
+          "lat": 53.9996259,
+          "lon": 58.4576376
+        }
+      ],
+      "tags": {
+        "amenity": "parking",
+        "name": "Автодром ДОСААФ России"
+      }
+    },
+    {
+      "type": "way",
+      "id": 366528570,
+      "bounds": {
+        "minlat": 53.9736632,
+        "minlon": 58.4246497,
+        "maxlat": 53.9748936,
+        "maxlon": 58.4267512
+      },
+      "nodes": [
+        3705191290,
+        3705191291,
+        3705191292,
+        3705191293,
+        3705191290
+      ],
+      "geometry": [
+        {
+          "lat": 53.9742419,
+          "lon": 58.4246497
+        },
+        {
+          "lat": 53.9736632,
+          "lon": 58.4255835
+        },
+        {
+          "lat": 53.9743149,
+          "lon": 58.4267512
+        },
+        {
+          "lat": 53.9748936,
+          "lon": 58.4258174
+        },
+        {
+          "lat": 53.9742419,
+          "lon": 58.4246497
+        }
+      ],
+      "tags": {
+        "addr:country": "RU",
+        "addr:district": "Белорецкий район",
+        "addr:region": "Башкортостан",
+        "addr:street": "улица Гафури",
+        "amenity": "kindergarten"
+      }
+    },
+    {
+      "type": "way",
+      "id": 508958013,
+      "bounds": {
+        "minlat": 53.9804928,
+        "minlon": 58.4148291,
+        "maxlat": 53.980791,
+        "maxlon": 58.4153061
+      },
+      "nodes": [
+        4982547823,
+        4982547824,
+        4982547825,
+        4982547826,
+        4982547823
+      ],
+      "geometry": [
+        {
+          "lat": 53.9805686,
+          "lon": 58.4148291
+        },
+        {
+          "lat": 53.980791,
+          "lon": 58.4150999
+        },
+        {
+          "lat": 53.9807127,
+          "lon": 58.4153061
+        },
+        {
+          "lat": 53.9804928,
+          "lon": 58.4150225
+        },
+        {
+          "lat": 53.9805686,
+          "lon": 58.4148291
+        }
+      ],
+      "tags": {
+        "amenity": "cafe",
+        "building": "yes",
+        "name": "Лодочная Станция"
+      }
+    },
+    {
+      "type": "way",
+      "id": 510467654,
+      "bounds": {
+        "minlat": 53.9868582,
+        "minlon": 58.404288,
+        "maxlat": 53.987176,
+        "maxlon": 58.4050143
+      },
+      "nodes": [
+        4994682301,
+        4994682302,
+        4994682303,
+        4994682304,
+        4994682305,
+        4994682301
+      ],
+      "geometry": [
+        {
+          "lat": 53.9868582,
+          "lon": 58.4044222
+        },
+        {
+          "lat": 53.9870768,
+          "lon": 58.4050143
+        },
+        {
+          "lat": 53.987176,
+          "lon": 58.4043568
+        },
+        {
+          "lat": 53.9870262,
+          "lon": 58.404288
+        },
+        {
+          "lat": 53.986923,
+          "lon": 58.4043258
+        },
+        {
+          "lat": 53.9868582,
+          "lon": 58.4044222
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 510467664,
+      "bounds": {
+        "minlat": 53.9869143,
+        "minlon": 58.4008286,
+        "maxlat": 53.9873724,
+        "maxlon": 58.4016146
+      },
+      "nodes": [
+        4994688326,
+        4994688327,
+        4994688328,
+        4994688336,
+        4994688329,
+        4994688326
+      ],
+      "geometry": [
+        {
+          "lat": 53.9871039,
+          "lon": 58.4008286
+        },
+        {
+          "lat": 53.9869143,
+          "lon": 58.401137
+        },
+        {
+          "lat": 53.9871828,
+          "lon": 58.4016146
+        },
+        {
+          "lat": 53.9872605,
+          "lon": 58.4014883
+        },
+        {
+          "lat": 53.9873724,
+          "lon": 58.4013062
+        },
+        {
+          "lat": 53.9871039,
+          "lon": 58.4008286
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 511791060,
+      "bounds": {
+        "minlat": 53.9972612,
+        "minlon": 58.4040769,
+        "maxlat": 53.9980863,
+        "maxlon": 58.4055667
+      },
+      "nodes": [
+        5005447905,
+        5005447906,
+        5005447907,
+        5005447908,
+        5005447905
+      ],
+      "geometry": [
+        {
+          "lat": 53.9980863,
+          "lon": 58.4044902
+        },
+        {
+          "lat": 53.9976484,
+          "lon": 58.4055667
+        },
+        {
+          "lat": 53.9972612,
+          "lon": 58.4048491
+        },
+        {
+          "lat": 53.9977819,
+          "lon": 58.4040769
+        },
+        {
+          "lat": 53.9980863,
+          "lon": 58.4044902
+        }
+      ],
+      "tags": {
+        "amenity": "school",
+        "name": "Белорецкая коррекционная школа для обучающихся с ограниченными возможностями здоровья",
+        "official_name": "Государственное бюджетное общеобразовательное учреждение Белорецкая коррекционная школа для обучающихся с ограниченными возможностями здоровья",
+        "phone": "+7 347 9225075",
+        "website": "https://belor-skh.bashkirschool.ru/"
+      }
+    },
+    {
+      "type": "way",
+      "id": 511912204,
+      "bounds": {
+        "minlat": 53.9733167,
+        "minlon": 58.4086688,
+        "maxlat": 53.9736949,
+        "maxlon": 58.4093277
+      },
+      "nodes": [
+        5006479043,
+        5006479044,
+        5006479045,
+        5006479046,
+        5006479043
+      ],
+      "geometry": [
+        {
+          "lat": 53.9733745,
+          "lon": 58.4086688
+        },
+        {
+          "lat": 53.9736949,
+          "lon": 58.4092295
+        },
+        {
+          "lat": 53.9736316,
+          "lon": 58.4093277
+        },
+        {
+          "lat": 53.9733167,
+          "lon": 58.4087702
+        },
+        {
+          "lat": 53.9733745,
+          "lon": 58.4086688
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 511912206,
+      "bounds": {
+        "minlat": 53.9741799,
+        "minlon": 58.4116283,
+        "maxlat": 53.9744651,
+        "maxlon": 58.4120772
+      },
+      "nodes": [
+        5006479047,
+        5006479048,
+        5006479049,
+        5006479050,
+        5006479047
+      ],
+      "geometry": [
+        {
+          "lat": 53.9744651,
+          "lon": 58.4117639
+        },
+        {
+          "lat": 53.9742475,
+          "lon": 58.4120772
+        },
+        {
+          "lat": 53.9741799,
+          "lon": 58.4119416
+        },
+        {
+          "lat": 53.9743975,
+          "lon": 58.4116283
+        },
+        {
+          "lat": 53.9744651,
+          "lon": 58.4117639
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 511912208,
+      "bounds": {
+        "minlat": 53.9723364,
+        "minlon": 58.4078283,
+        "maxlat": 53.9725768,
+        "maxlon": 58.408253
+      },
+      "nodes": [
+        5006479051,
+        5006479052,
+        5006479053,
+        5006479054,
+        5006479055,
+        5006479051
+      ],
+      "geometry": [
+        {
+          "lat": 53.972494,
+          "lon": 58.4078283
+        },
+        {
+          "lat": 53.9725768,
+          "lon": 58.4079668
+        },
+        {
+          "lat": 53.9725768,
+          "lon": 58.4080349
+        },
+        {
+          "lat": 53.9724459,
+          "lon": 58.408253
+        },
+        {
+          "lat": 53.9723364,
+          "lon": 58.4081053
+        },
+        {
+          "lat": 53.972494,
+          "lon": 58.4078283
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 511912222,
+      "bounds": {
+        "minlat": 53.971492,
+        "minlon": 58.4090009,
+        "maxlat": 53.9719725,
+        "maxlon": 58.4097826
+      },
+      "nodes": [
+        5006479073,
+        5006479074,
+        5006479075,
+        5006479076,
+        5006479073
+      ],
+      "geometry": [
+        {
+          "lat": 53.9718814,
+          "lon": 58.4090009
+        },
+        {
+          "lat": 53.971492,
+          "lon": 58.409616
+        },
+        {
+          "lat": 53.9715831,
+          "lon": 58.4097826
+        },
+        {
+          "lat": 53.9719725,
+          "lon": 58.4091674
+        },
+        {
+          "lat": 53.9718814,
+          "lon": 58.4090009
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 511990972,
+      "bounds": {
+        "minlat": 53.9805048,
+        "minlon": 58.3922283,
+        "maxlat": 53.9809175,
+        "maxlon": 58.3929252
+      },
+      "nodes": [
+        5006917725,
+        5006917726,
+        5006917727,
+        5006917728,
+        5006917725
+      ],
+      "geometry": [
+        {
+          "lat": 53.9809175,
+          "lon": 58.3925525
+        },
+        {
+          "lat": 53.9807524,
+          "lon": 58.3929252
+        },
+        {
+          "lat": 53.9805048,
+          "lon": 58.3925767
+        },
+        {
+          "lat": 53.9806983,
+          "lon": 58.3922283
+        },
+        {
+          "lat": 53.9809175,
+          "lon": 58.3925525
+        }
+      ],
+      "tags": {
+        "amenity": "fuel",
+        "name": "Уралнефтепродукт"
+      }
+    },
+    {
+      "type": "way",
+      "id": 519490777,
+      "bounds": {
+        "minlat": 53.9782647,
+        "minlon": 58.4479683,
+        "maxlat": 53.9785731,
+        "maxlon": 58.448418
+      },
+      "nodes": [
+        5065495837,
+        5065495834,
+        5065495838,
+        1473266033,
+        5065495841,
+        5065495842,
+        5065495844,
+        5065495845,
+        5065495837
+      ],
+      "geometry": [
+        {
+          "lat": 53.9784805,
+          "lon": 58.448418
+        },
+        {
+          "lat": 53.9784195,
+          "lon": 58.4484055
+        },
+        {
+          "lat": 53.9783585,
+          "lon": 58.448393
+        },
+        {
+          "lat": 53.9783145,
+          "lon": 58.4481848
+        },
+        {
+          "lat": 53.9782647,
+          "lon": 58.4481078
+        },
+        {
+          "lat": 53.978345,
+          "lon": 58.4479683
+        },
+        {
+          "lat": 53.9784256,
+          "lon": 58.4479703
+        },
+        {
+          "lat": 53.9785731,
+          "lon": 58.4481082
+        },
+        {
+          "lat": 53.9784805,
+          "lon": 58.448418
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 578427442,
+      "bounds": {
+        "minlat": 53.9706062,
+        "minlon": 58.4012821,
+        "maxlat": 53.9708254,
+        "maxlon": 58.4017413
+      },
+      "nodes": [
+        5542403606,
+        5542403607,
+        5542403608,
+        5542403609,
+        5542403606
+      ],
+      "geometry": [
+        {
+          "lat": 53.9707065,
+          "lon": 58.4012821
+        },
+        {
+          "lat": 53.9706062,
+          "lon": 58.4016468
+        },
+        {
+          "lat": 53.9707251,
+          "lon": 58.4017413
+        },
+        {
+          "lat": 53.9708254,
+          "lon": 58.4013766
+        },
+        {
+          "lat": 53.9707065,
+          "lon": 58.4012821
+        }
+      ],
+      "tags": {
+        "addr:city": "Белорецк",
+        "addr:country": "RU",
+        "addr:district": "Белорецкий район",
+        "addr:housenumber": "5",
+        "addr:postcode": "453500",
+        "addr:region": "Башкортостан",
+        "addr:street": "улица Точисского",
+        "amenity": "police",
+        "building": "yes",
+        "name": "Вневедомственная охрана"
+      }
+    },
+    {
+      "type": "way",
+      "id": 632110508,
+      "bounds": {
+        "minlat": 53.9798479,
+        "minlon": 58.4284188,
+        "maxlat": 53.9818571,
+        "maxlon": 58.433099
+      },
+      "nodes": [
+        5968460015,
+        5968460018,
+        5968460017,
+        5968460019,
+        5968460020,
+        5971926610,
+        5971926609,
+        5968460021,
+        5968460015
+      ],
+      "geometry": [
+        {
+          "lat": 53.9805225,
+          "lon": 58.4284188
+        },
+        {
+          "lat": 53.9818571,
+          "lon": 58.4308356
+        },
+        {
+          "lat": 53.9804434,
+          "lon": 58.433099
+        },
+        {
+          "lat": 53.9798479,
+          "lon": 58.4320196
+        },
+        {
+          "lat": 53.9807726,
+          "lon": 58.4304774
+        },
+        {
+          "lat": 53.9804639,
+          "lon": 58.4298539
+        },
+        {
+          "lat": 53.9804958,
+          "lon": 58.4297882
+        },
+        {
+          "lat": 53.9800991,
+          "lon": 58.4290882
+        },
+        {
+          "lat": 53.9805225,
+          "lon": 58.4284188
+        }
+      ],
+      "tags": {
+        "amenity": "college",
+        "name": "ГБПОУ Белорецкий металлургический колледж"
+      }
+    },
+    {
+      "type": "way",
+      "id": 632110510,
+      "bounds": {
+        "minlat": 53.9791068,
+        "minlon": 58.4290882,
+        "maxlat": 53.9807726,
+        "maxlon": 58.4320196
+      },
+      "nodes": [
+        5968460021,
+        5971926609,
+        5971926610,
+        5968460020,
+        5968460019,
+        5968460016,
+        5968460021
+      ],
+      "geometry": [
+        {
+          "lat": 53.9800991,
+          "lon": 58.4290882
+        },
+        {
+          "lat": 53.9804958,
+          "lon": 58.4297882
+        },
+        {
+          "lat": 53.9804639,
+          "lon": 58.4298539
+        },
+        {
+          "lat": 53.9807726,
+          "lon": 58.4304774
+        },
+        {
+          "lat": 53.9798479,
+          "lon": 58.4320196
+        },
+        {
+          "lat": 53.9791068,
+          "lon": 58.4306762
+        },
+        {
+          "lat": 53.9800991,
+          "lon": 58.4290882
+        }
+      ],
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Инфекционное отделение"
+      }
+    },
+    {
+      "type": "way",
+      "id": 632119960,
+      "bounds": {
+        "minlat": 53.9692504,
+        "minlon": 58.4163611,
+        "maxlat": 53.9705577,
+        "maxlon": 58.4186326
+      },
+      "nodes": [
+        5968529339,
+        5968529340,
+        6393269019,
+        5968529341,
+        5968529342,
+        6440937158,
+        5968529343,
+        5968529344,
+        5968529339
+      ],
+      "geometry": [
+        {
+          "lat": 53.969954,
+          "lon": 58.4163611
+        },
+        {
+          "lat": 53.9692504,
+          "lon": 58.4174625
+        },
+        {
+          "lat": 53.9699003,
+          "lon": 58.4186326
+        },
+        {
+          "lat": 53.970123,
+          "lon": 58.4186222
+        },
+        {
+          "lat": 53.9705577,
+          "lon": 58.4179325
+        },
+        {
+          "lat": 53.9704599,
+          "lon": 58.4177635
+        },
+        {
+          "lat": 53.970312,
+          "lon": 58.4175078
+        },
+        {
+          "lat": 53.9703204,
+          "lon": 58.4170442
+        },
+        {
+          "lat": 53.969954,
+          "lon": 58.4163611
+        }
+      ],
+      "tags": {
+        "amenity": "kindergarten",
+        "barrier": "fence",
+        "name": "Детский сад № 27 \"Улыбка\""
+      }
+    },
+    {
+      "type": "way",
+      "id": 632153931,
+      "bounds": {
+        "minlat": 53.9712538,
+        "minlon": 58.4035836,
+        "maxlat": 53.971754,
+        "maxlon": 58.4042846
+      },
+      "nodes": [
+        5968873122,
+        5968935970,
+        5968935969,
+        5968935968,
+        5968935967,
+        5968935966,
+        5968935965,
+        5968873123,
+        5968935971,
+        5968935972,
+        5968873124,
+        5969201553,
+        5969201555,
+        5969201556,
+        5969201554,
+        5968873125,
+        5968873126,
+        5968873127,
+        5968873128,
+        5968873129,
+        5968873122
+      ],
+      "geometry": [
+        {
+          "lat": 53.971754,
+          "lon": 58.4039512
+        },
+        {
+          "lat": 53.971612,
+          "lon": 58.4036811
+        },
+        {
+          "lat": 53.971635,
+          "lon": 58.4036461
+        },
+        {
+          "lat": 53.9716022,
+          "lon": 58.4035836
+        },
+        {
+          "lat": 53.9715695,
+          "lon": 58.4036334
+        },
+        {
+          "lat": 53.9715504,
+          "lon": 58.403597
+        },
+        {
+          "lat": 53.9715108,
+          "lon": 58.403657
+        },
+        {
+          "lat": 53.9714973,
+          "lon": 58.4036313
+        },
+        {
+          "lat": 53.9713191,
+          "lon": 58.4039022
+        },
+        {
+          "lat": 53.9713347,
+          "lon": 58.4039319
+        },
+        {
+          "lat": 53.9712538,
+          "lon": 58.4040548
+        },
+        {
+          "lat": 53.9712816,
+          "lon": 58.4041076
+        },
+        {
+          "lat": 53.9712633,
+          "lon": 58.4041354
+        },
+        {
+          "lat": 53.9712933,
+          "lon": 58.4041924
+        },
+        {
+          "lat": 53.971315,
+          "lon": 58.4041594
+        },
+        {
+          "lat": 53.9713808,
+          "lon": 58.4042846
+        },
+        {
+          "lat": 53.971453,
+          "lon": 58.4041749
+        },
+        {
+          "lat": 53.9713833,
+          "lon": 58.4040424
+        },
+        {
+          "lat": 53.9715335,
+          "lon": 58.4038143
+        },
+        {
+          "lat": 53.9716714,
+          "lon": 58.4040767
+        },
+        {
+          "lat": 53.971754,
+          "lon": 58.4039512
+        }
+      ],
+      "tags": {
+        "addr:city": "Белорецк",
+        "addr:country": "RU",
+        "addr:district": "Белорецкий район",
+        "addr:housenumber": "6",
+        "addr:postcode": "453500",
+        "addr:region": "Башкортостан",
+        "addr:street": "улица Точисского",
+        "amenity": "police",
+        "building": "yes",
+        "name": "Отдел МВД России по Белорецкому району"
+      }
+    },
+    {
+      "type": "way",
+      "id": 632492443,
+      "bounds": {
+        "minlat": 53.978831,
+        "minlon": 58.4375254,
+        "maxlat": 53.9813548,
+        "maxlon": 58.4423447
+      },
+      "nodes": [
+        5971908684,
+        6639707873,
+        5971908685,
+        6639707871,
+        6639707874,
+        1446029042,
+        5971908686,
+        5971908687,
+        5971908688,
+        5971908684
+      ],
+      "geometry": [
+        {
+          "lat": 53.9805835,
+          "lon": 58.4375254
+        },
+        {
+          "lat": 53.980533,
+          "lon": 58.4376115
+        },
+        {
+          "lat": 53.978831,
+          "lon": 58.4405054
+        },
+        {
+          "lat": 53.9790858,
+          "lon": 58.4409549
+        },
+        {
+          "lat": 53.9795115,
+          "lon": 58.4416892
+        },
+        {
+          "lat": 53.9798913,
+          "lon": 58.4423447
+        },
+        {
+          "lat": 53.9813548,
+          "lon": 58.4400503
+        },
+        {
+          "lat": 53.980754,
+          "lon": 58.4389099
+        },
+        {
+          "lat": 53.9810775,
+          "lon": 58.4384108
+        },
+        {
+          "lat": 53.9805835,
+          "lon": 58.4375254
+        }
+      ],
+      "tags": {
+        "amenity": "school",
+        "barrier": "fence",
+        "name": "МОБУ Белорецкий лицей-интернат"
+      }
+    },
+    {
+      "type": "way",
+      "id": 632492446,
+      "bounds": {
+        "minlat": 53.980754,
+        "minlon": 58.4384108,
+        "maxlat": 53.9816969,
+        "maxlon": 58.4400503
+      },
+      "nodes": [
+        1473226485,
+        5971908688,
+        5971908687,
+        5971908686,
+        1446029074,
+        1473226485
+      ],
+      "geometry": [
+        {
+          "lat": 53.9813735,
+          "lon": 58.4389401
+        },
+        {
+          "lat": 53.9810775,
+          "lon": 58.4384108
+        },
+        {
+          "lat": 53.980754,
+          "lon": 58.4389099
+        },
+        {
+          "lat": 53.9813548,
+          "lon": 58.4400503
+        },
+        {
+          "lat": 53.9816969,
+          "lon": 58.4395245
+        },
+        {
+          "lat": 53.9813735,
+          "lon": 58.4389401
+        }
+      ],
+      "tags": {
+        "amenity": "kindergarten",
+        "barrier": "fence"
+      }
+    },
+    {
+      "type": "way",
+      "id": 682633405,
+      "bounds": {
+        "minlat": 53.9714843,
+        "minlon": 58.4117896,
+        "maxlat": 53.9715986,
+        "maxlon": 58.41198
+      },
+      "nodes": [
+        6393296076,
+        6009341754,
+        6393296074,
+        6393296075,
+        6393296076
+      ],
+      "geometry": [
+        {
+          "lat": 53.9715106,
+          "lon": 58.41198
+        },
+        {
+          "lat": 53.9715986,
+          "lon": 58.411836
+        },
+        {
+          "lat": 53.9715723,
+          "lon": 58.4117896
+        },
+        {
+          "lat": 53.9714843,
+          "lon": 58.4119336
+        },
+        {
+          "lat": 53.9715106,
+          "lon": 58.41198
+        }
+      ],
+      "tags": {
+        "amenity": "waste_disposal"
+      }
+    },
+    {
+      "type": "way",
+      "id": 699041765,
+      "bounds": {
+        "minlat": 53.9923427,
+        "minlon": 58.4467919,
+        "maxlat": 53.9926606,
+        "maxlon": 58.4473789
+      },
+      "nodes": [
+        6564396405,
+        6564396409,
+        6564396408,
+        6564396407,
+        6564396406,
+        12072082229,
+        6564396405
+      ],
+      "geometry": [
+        {
+          "lat": 53.9924363,
+          "lon": 58.4467919
+        },
+        {
+          "lat": 53.9926606,
+          "lon": 58.4471751
+        },
+        {
+          "lat": 53.9925727,
+          "lon": 58.4473174
+        },
+        {
+          "lat": 53.9925337,
+          "lon": 58.4473789
+        },
+        {
+          "lat": 53.9923427,
+          "lon": 58.4470993
+        },
+        {
+          "lat": 53.992423,
+          "lon": 58.4468948
+        },
+        {
+          "lat": 53.9924363,
+          "lon": 58.4467919
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 705059501,
+      "bounds": {
+        "minlat": 53.9826969,
+        "minlon": 58.4192684,
+        "maxlat": 53.9834372,
+        "maxlon": 58.4198511
+      },
+      "nodes": [
+        1452263094,
+        11850892161,
+        1471134032,
+        1471134031,
+        1471134029,
+        6622106547,
+        6622106546,
+        6622106548,
+        1452263103,
+        11114279184,
+        1452263094
+      ],
+      "geometry": [
+        {
+          "lat": 53.9833961,
+          "lon": 58.4192684
+        },
+        {
+          "lat": 53.9834123,
+          "lon": 58.4193241
+        },
+        {
+          "lat": 53.9834372,
+          "lon": 58.4194094
+        },
+        {
+          "lat": 53.9833956,
+          "lon": 58.4195604
+        },
+        {
+          "lat": 53.9831148,
+          "lon": 58.4197517
+        },
+        {
+          "lat": 53.9827453,
+          "lon": 58.4198511
+        },
+        {
+          "lat": 53.9827136,
+          "lon": 58.4197203
+        },
+        {
+          "lat": 53.9826969,
+          "lon": 58.4196511
+        },
+        {
+          "lat": 53.9829512,
+          "lon": 58.4195798
+        },
+        {
+          "lat": 53.9831179,
+          "lon": 58.4195014
+        },
+        {
+          "lat": 53.9833961,
+          "lon": 58.4192684
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 705059507,
+      "bounds": {
+        "minlat": 53.9809504,
+        "minlon": 58.4194362,
+        "maxlat": 53.9815185,
+        "maxlon": 58.4200856
+      },
+      "nodes": [
+        1471134019,
+        6622106563,
+        1471134008,
+        6622106566,
+        2659581155,
+        6622106561,
+        1471134004,
+        1471134015,
+        1471134019
+      ],
+      "geometry": [
+        {
+          "lat": 53.9815185,
+          "lon": 58.4196634
+        },
+        {
+          "lat": 53.981306,
+          "lon": 58.4194362
+        },
+        {
+          "lat": 53.9811658,
+          "lon": 58.4195327
+        },
+        {
+          "lat": 53.9809504,
+          "lon": 58.4195744
+        },
+        {
+          "lat": 53.9809549,
+          "lon": 58.4196231
+        },
+        {
+          "lat": 53.9809634,
+          "lon": 58.4197155
+        },
+        {
+          "lat": 53.9810043,
+          "lon": 58.4200856
+        },
+        {
+          "lat": 53.9813141,
+          "lon": 58.4199125
+        },
+        {
+          "lat": 53.9815185,
+          "lon": 58.4196634
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 705245936,
+      "bounds": {
+        "minlat": 53.977524,
+        "minlon": 58.4186268,
+        "maxlat": 53.9779737,
+        "maxlon": 58.4193358
+      },
+      "nodes": [
+        6624711966,
+        11841959625,
+        6624711967,
+        6624711968,
+        6624711969,
+        6624711970,
+        6624711966
+      ],
+      "geometry": [
+        {
+          "lat": 53.9776456,
+          "lon": 58.4186394
+        },
+        {
+          "lat": 53.9776547,
+          "lon": 58.4186268
+        },
+        {
+          "lat": 53.9779737,
+          "lon": 58.4192137
+        },
+        {
+          "lat": 53.9778717,
+          "lon": 58.4193332
+        },
+        {
+          "lat": 53.9777957,
+          "lon": 58.4193358
+        },
+        {
+          "lat": 53.977524,
+          "lon": 58.4188191
+        },
+        {
+          "lat": 53.9776456,
+          "lon": 58.4186394
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 705666458,
+      "bounds": {
+        "minlat": 53.9797407,
+        "minlon": 58.4246789,
+        "maxlat": 53.9799263,
+        "maxlon": 58.4250943
+      },
+      "nodes": [
+        6630631977,
+        6630631978,
+        6630631979,
+        6630631980,
+        6630631981,
+        6630631982,
+        6630631983,
+        6630631984,
+        6630631977
+      ],
+      "geometry": [
+        {
+          "lat": 53.9798796,
+          "lon": 58.4246789
+        },
+        {
+          "lat": 53.9799263,
+          "lon": 58.4247635
+        },
+        {
+          "lat": 53.9798895,
+          "lon": 58.4248224
+        },
+        {
+          "lat": 53.9799243,
+          "lon": 58.4248852
+        },
+        {
+          "lat": 53.9797935,
+          "lon": 58.4250943
+        },
+        {
+          "lat": 53.9797486,
+          "lon": 58.4250132
+        },
+        {
+          "lat": 53.9797773,
+          "lon": 58.4249673
+        },
+        {
+          "lat": 53.9797407,
+          "lon": 58.424901
+        },
+        {
+          "lat": 53.9798796,
+          "lon": 58.4246789
+        }
+      ],
+      "tags": {
+        "amenity": "toilets",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 705666460,
+      "bounds": {
+        "minlat": 53.9785756,
+        "minlon": 58.4244377,
+        "maxlat": 53.9791584,
+        "maxlon": 58.4254865
+      },
+      "nodes": [
+        6630632789,
+        11841959610,
+        6630632790,
+        6630632791,
+        6630632817,
+        6630632792,
+        6630632789
+      ],
+      "geometry": [
+        {
+          "lat": 53.9786653,
+          "lon": 58.4244377
+        },
+        {
+          "lat": 53.9785983,
+          "lon": 58.424551
+        },
+        {
+          "lat": 53.9785756,
+          "lon": 58.4245516
+        },
+        {
+          "lat": 53.9790929,
+          "lon": 58.4254865
+        },
+        {
+          "lat": 53.9790922,
+          "lon": 58.425434
+        },
+        {
+          "lat": 53.9791584,
+          "lon": 58.4253245
+        },
+        {
+          "lat": 53.9786653,
+          "lon": 58.4244377
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 736457792,
+      "bounds": {
+        "minlat": 53.9897584,
+        "minlon": 58.4039498,
+        "maxlat": 53.9903671,
+        "maxlon": 58.4055028
+      },
+      "nodes": [
+        6895124620,
+        6895124621,
+        6895124622,
+        6895124623,
+        6895124624,
+        6895124625,
+        6895124626,
+        6895124627,
+        6895124620
+      ],
+      "geometry": [
+        {
+          "lat": 53.9898072,
+          "lon": 58.4044218
+        },
+        {
+          "lat": 53.9902441,
+          "lon": 58.4039766
+        },
+        {
+          "lat": 53.9903308,
+          "lon": 58.4039498
+        },
+        {
+          "lat": 53.9903671,
+          "lon": 58.4039793
+        },
+        {
+          "lat": 53.990345,
+          "lon": 58.4055028
+        },
+        {
+          "lat": 53.9898419,
+          "lon": 58.4052614
+        },
+        {
+          "lat": 53.9897584,
+          "lon": 58.4048751
+        },
+        {
+          "lat": 53.9897678,
+          "lon": 58.4046874
+        },
+        {
+          "lat": 53.9898072,
+          "lon": 58.4044218
+        }
+      ],
+      "tags": {
+        "amenity": "school"
+      }
+    },
+    {
+      "type": "way",
+      "id": 771561933,
+      "bounds": {
+        "minlat": 53.9744524,
+        "minlon": 58.410049,
+        "maxlat": 53.9745857,
+        "maxlon": 58.4102755
+      },
+      "nodes": [
+        7202733541,
+        7202733542,
+        7202733543,
+        7202733544,
+        7202733541
+      ],
+      "geometry": [
+        {
+          "lat": 53.9745857,
+          "lon": 58.4101643
+        },
+        {
+          "lat": 53.9745167,
+          "lon": 58.4102755
+        },
+        {
+          "lat": 53.9744524,
+          "lon": 58.4101601
+        },
+        {
+          "lat": 53.9745214,
+          "lon": 58.410049
+        },
+        {
+          "lat": 53.9745857,
+          "lon": 58.4101643
+        }
+      ],
+      "tags": {
+        "amenity": "waste_transfer_station"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1182311750,
+      "bounds": {
+        "minlat": 53.9709627,
+        "minlon": 58.4265722,
+        "maxlat": 53.9716667,
+        "maxlon": 58.4277293
+      },
+      "nodes": [
+        10979326882,
+        10979326883,
+        10979326884,
+        10979326885,
+        10979326886,
+        10979326887,
+        10979326882
+      ],
+      "geometry": [
+        {
+          "lat": 53.971124,
+          "lon": 58.4265722
+        },
+        {
+          "lat": 53.971228,
+          "lon": 58.4267549
+        },
+        {
+          "lat": 53.9712627,
+          "lon": 58.4266976
+        },
+        {
+          "lat": 53.9716667,
+          "lon": 58.4274066
+        },
+        {
+          "lat": 53.9714707,
+          "lon": 58.4277293
+        },
+        {
+          "lat": 53.9709627,
+          "lon": 58.4268377
+        },
+        {
+          "lat": 53.971124,
+          "lon": 58.4265722
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1182311755,
+      "bounds": {
+        "minlat": 53.9709487,
+        "minlon": 58.4277615,
+        "maxlat": 53.971189,
+        "maxlon": 58.428174
+      },
+      "nodes": [
+        10979326898,
+        10979326899,
+        10979326900,
+        10979326903,
+        10979326901,
+        10979326898
+      ],
+      "geometry": [
+        {
+          "lat": 53.9710538,
+          "lon": 58.4277615
+        },
+        {
+          "lat": 53.971189,
+          "lon": 58.4280058
+        },
+        {
+          "lat": 53.9710839,
+          "lon": 58.428174
+        },
+        {
+          "lat": 53.9710208,
+          "lon": 58.4280601
+        },
+        {
+          "lat": 53.9709487,
+          "lon": 58.4279297
+        },
+        {
+          "lat": 53.9710538,
+          "lon": 58.4277615
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1191903942,
+      "bounds": {
+        "minlat": 53.9756318,
+        "minlon": 58.4247704,
+        "maxlat": 53.9757998,
+        "maxlon": 58.4250468
+      },
+      "nodes": [
+        11065601489,
+        11065601490,
+        11065601491,
+        11065601492,
+        11065601489
+      ],
+      "geometry": [
+        {
+          "lat": 53.9757998,
+          "lon": 58.4250243
+        },
+        {
+          "lat": 53.9757358,
+          "lon": 58.4250468
+        },
+        {
+          "lat": 53.9756318,
+          "lon": 58.4248558
+        },
+        {
+          "lat": 53.9756617,
+          "lon": 58.4247704
+        },
+        {
+          "lat": 53.9757998,
+          "lon": 58.4250243
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1198028731,
+      "bounds": {
+        "minlat": 53.9824315,
+        "minlon": 58.4194675,
+        "maxlat": 53.9828263,
+        "maxlon": 58.4196274
+      },
+      "nodes": [
+        11114279177,
+        11114279178,
+        11114279179,
+        11114279180,
+        11114279190,
+        11114279187,
+        11114279177
+      ],
+      "geometry": [
+        {
+          "lat": 53.9828223,
+          "lon": 58.4194675
+        },
+        {
+          "lat": 53.9828263,
+          "lon": 58.4195668
+        },
+        {
+          "lat": 53.9824354,
+          "lon": 58.4196274
+        },
+        {
+          "lat": 53.9824315,
+          "lon": 58.4195306
+        },
+        {
+          "lat": 53.982555,
+          "lon": 58.4195171
+        },
+        {
+          "lat": 53.9826638,
+          "lon": 58.4195037
+        },
+        {
+          "lat": 53.9828223,
+          "lon": 58.4194675
+        }
+      ],
+      "tags": {
+        "amenity": "cafe",
+        "building": "yes"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1199980408,
+      "bounds": {
+        "minlat": 53.9807367,
+        "minlon": 58.4538569,
+        "maxlat": 53.9808437,
+        "maxlon": 58.4542613
+      },
+      "nodes": [
+        5065495905,
+        6412498793,
+        6412498792,
+        5065495904,
+        5065495905
+      ],
+      "geometry": [
+        {
+          "lat": 53.9807813,
+          "lon": 58.4538569
+        },
+        {
+          "lat": 53.9807367,
+          "lon": 58.4542613
+        },
+        {
+          "lat": 53.9808141,
+          "lon": 58.4541795
+        },
+        {
+          "lat": 53.9808437,
+          "lon": 58.4540143
+        },
+        {
+          "lat": 53.9807813,
+          "lon": 58.4538569
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1199980409,
+      "bounds": {
+        "minlat": 53.9803678,
+        "minlon": 58.452142,
+        "maxlat": 53.9805254,
+        "maxlon": 58.4524902
+      },
+      "nodes": [
+        11128599531,
+        11128599532,
+        11128599533,
+        11128599534,
+        11128599531
+      ],
+      "geometry": [
+        {
+          "lat": 53.9803678,
+          "lon": 58.4522807
+        },
+        {
+          "lat": 53.9804611,
+          "lon": 58.452142
+        },
+        {
+          "lat": 53.9805254,
+          "lon": 58.4523531
+        },
+        {
+          "lat": 53.9804719,
+          "lon": 58.4524902
+        },
+        {
+          "lat": 53.9803678,
+          "lon": 58.4522807
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1255702324,
+      "bounds": {
+        "minlat": 53.977869,
+        "minlon": 58.4246758,
+        "maxlat": 53.9780588,
+        "maxlon": 58.4250009
+      },
+      "nodes": [
+        11673071037,
+        11673071036,
+        11673071035,
+        11673071034,
+        11673071037
+      ],
+      "geometry": [
+        {
+          "lat": 53.977869,
+          "lon": 58.4248187
+        },
+        {
+          "lat": 53.9779604,
+          "lon": 58.4246758
+        },
+        {
+          "lat": 53.9780588,
+          "lon": 58.424858
+        },
+        {
+          "lat": 53.9779674,
+          "lon": 58.4250009
+        },
+        {
+          "lat": 53.977869,
+          "lon": 58.4248187
+        }
+      ],
+      "tags": {
+        "amenity": "parking",
+        "parking": "surface",
+        "surface": "asphalt"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1255702325,
+      "bounds": {
+        "minlat": 53.9774253,
+        "minlon": 58.4251697,
+        "maxlat": 53.9776299,
+        "maxlon": 58.4254974
+      },
+      "nodes": [
+        11673071043,
+        11673071042,
+        11673071041,
+        11673071040,
+        11673071043
+      ],
+      "geometry": [
+        {
+          "lat": 53.9774253,
+          "lon": 58.4254455
+        },
+        {
+          "lat": 53.9776019,
+          "lon": 58.4251697
+        },
+        {
+          "lat": 53.9776299,
+          "lon": 58.4252216
+        },
+        {
+          "lat": 53.9774534,
+          "lon": 58.4254974
+        },
+        {
+          "lat": 53.9774253,
+          "lon": 58.4254455
+        }
+      ],
+      "tags": {
+        "amenity": "parking",
+        "parking": "street_side",
+        "surface": "asphalt"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1255702326,
+      "bounds": {
+        "minlat": 53.976879,
+        "minlon": 58.4261654,
+        "maxlat": 53.9770634,
+        "maxlon": 58.4264676
+      },
+      "nodes": [
+        11673071047,
+        11673071046,
+        11673071045,
+        11673071044,
+        11673071047
+      ],
+      "geometry": [
+        {
+          "lat": 53.9769079,
+          "lon": 58.4261654
+        },
+        {
+          "lat": 53.9770634,
+          "lon": 58.4264156
+        },
+        {
+          "lat": 53.9770345,
+          "lon": 58.4264676
+        },
+        {
+          "lat": 53.976879,
+          "lon": 58.4262174
+        },
+        {
+          "lat": 53.9769079,
+          "lon": 58.4261654
+        }
+      ],
+      "tags": {
+        "amenity": "parking",
+        "parking": "street_side",
+        "surface": "asphalt"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1255702327,
+      "bounds": {
+        "minlat": 53.9775099,
+        "minlon": 58.4254948,
+        "maxlat": 53.9777608,
+        "maxlon": 58.4259038
+      },
+      "nodes": [
+        11673071051,
+        11673071050,
+        11673071049,
+        11673071048,
+        11673071051
+      ],
+      "geometry": [
+        {
+          "lat": 53.9775389,
+          "lon": 58.4254948
+        },
+        {
+          "lat": 53.9777608,
+          "lon": 58.4258518
+        },
+        {
+          "lat": 53.9777319,
+          "lon": 58.4259038
+        },
+        {
+          "lat": 53.9775099,
+          "lon": 58.4255468
+        },
+        {
+          "lat": 53.9775389,
+          "lon": 58.4254948
+        }
+      ],
+      "tags": {
+        "amenity": "parking",
+        "parking": "street_side",
+        "surface": "asphalt"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1255702328,
+      "bounds": {
+        "minlat": 53.9771805,
+        "minlon": 58.4258877,
+        "maxlat": 53.9774313,
+        "maxlon": 58.4262968
+      },
+      "nodes": [
+        11673071055,
+        11673071054,
+        11673071053,
+        11673071052,
+        11673071055
+      ],
+      "geometry": [
+        {
+          "lat": 53.9772094,
+          "lon": 58.4258877
+        },
+        {
+          "lat": 53.9774313,
+          "lon": 58.4262448
+        },
+        {
+          "lat": 53.9774024,
+          "lon": 58.4262968
+        },
+        {
+          "lat": 53.9771805,
+          "lon": 58.4259397
+        },
+        {
+          "lat": 53.9772094,
+          "lon": 58.4258877
+        }
+      ],
+      "tags": {
+        "amenity": "parking",
+        "parking": "street_side",
+        "surface": "asphalt"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1255969422,
+      "bounds": {
+        "minlat": 53.975962,
+        "minlon": 58.4132576,
+        "maxlat": 53.9762609,
+        "maxlon": 58.413755
+      },
+      "nodes": [
+        11676290988,
+        11676290985,
+        11676290986,
+        11676290987,
+        11676290988
+      ],
+      "geometry": [
+        {
+          "lat": 53.9761507,
+          "lon": 58.4132576
+        },
+        {
+          "lat": 53.9762609,
+          "lon": 58.4134648
+        },
+        {
+          "lat": 53.9760722,
+          "lon": 58.413755
+        },
+        {
+          "lat": 53.975962,
+          "lon": 58.4135478
+        },
+        {
+          "lat": 53.9761507,
+          "lon": 58.4132576
+        }
+      ],
+      "tags": {
+        "amenity": "parking",
+        "parking": "surface",
+        "surface": "asphalt"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1255978880,
+      "bounds": {
+        "minlat": 53.9704513,
+        "minlon": 58.40699,
+        "maxlat": 53.9706344,
+        "maxlon": 58.4073107
+      },
+      "nodes": [
+        11676361706,
+        11676361705,
+        11676361704,
+        11676361703,
+        11676361706
+      ],
+      "geometry": [
+        {
+          "lat": 53.9704851,
+          "lon": 58.40699
+        },
+        {
+          "lat": 53.9706344,
+          "lon": 58.4072556
+        },
+        {
+          "lat": 53.9706006,
+          "lon": 58.4073107
+        },
+        {
+          "lat": 53.9704513,
+          "lon": 58.4070451
+        },
+        {
+          "lat": 53.9704851,
+          "lon": 58.40699
+        }
+      ],
+      "tags": {
+        "amenity": "parking",
+        "parking": "street_side",
+        "surface": "asphalt"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1275364590,
+      "bounds": {
+        "minlat": 53.9775385,
+        "minlon": 58.4210247,
+        "maxlat": 53.9778017,
+        "maxlon": 58.422162
+      },
+      "nodes": [
+        11841959589,
+        11841959604,
+        11841959602,
+        11841959605,
+        11841959603,
+        1469193434,
+        11841959592,
+        11841959591,
+        11841959590,
+        11841959589
+      ],
+      "geometry": [
+        {
+          "lat": 53.9776487,
+          "lon": 58.4210247
+        },
+        {
+          "lat": 53.9775833,
+          "lon": 58.421057
+        },
+        {
+          "lat": 53.9775385,
+          "lon": 58.4210791
+        },
+        {
+          "lat": 53.9776638,
+          "lon": 58.4218545
+        },
+        {
+          "lat": 53.9776914,
+          "lon": 58.4220248
+        },
+        {
+          "lat": 53.9777164,
+          "lon": 58.422162
+        },
+        {
+          "lat": 53.9777691,
+          "lon": 58.42214
+        },
+        {
+          "lat": 53.9777995,
+          "lon": 58.4220541
+        },
+        {
+          "lat": 53.9778017,
+          "lon": 58.4219681
+        },
+        {
+          "lat": 53.9776487,
+          "lon": 58.4210247
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1275364603,
+      "bounds": {
+        "minlat": 53.979135,
+        "minlon": 58.4206745,
+        "maxlat": 53.9792391,
+        "maxlon": 58.420848
+      },
+      "nodes": [
+        11841959664,
+        11841959665,
+        11841959666,
+        11841959667,
+        11842006669,
+        11841959664
+      ],
+      "geometry": [
+        {
+          "lat": 53.9791975,
+          "lon": 58.4206745
+        },
+        {
+          "lat": 53.9792391,
+          "lon": 58.4207644
+        },
+        {
+          "lat": 53.9791766,
+          "lon": 58.420848
+        },
+        {
+          "lat": 53.979135,
+          "lon": 58.4207581
+        },
+        {
+          "lat": 53.9791689,
+          "lon": 58.4207128
+        },
+        {
+          "lat": 53.9791975,
+          "lon": 58.4206745
+        }
+      ],
+      "tags": {
+        "amenity": "shelter",
+        "building": "carport",
+        "shelter_type": "gazebo"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1276502614,
+      "bounds": {
+        "minlat": 53.9806733,
+        "minlon": 58.416762,
+        "maxlat": 53.980922,
+        "maxlon": 58.4174173
+      },
+      "nodes": [
+        6625531350,
+        6622106564,
+        6625531357,
+        11850892175,
+        6625531350
+      ],
+      "geometry": [
+        {
+          "lat": 53.9807966,
+          "lon": 58.416762
+        },
+        {
+          "lat": 53.980922,
+          "lon": 58.4173441
+        },
+        {
+          "lat": 53.9808283,
+          "lon": 58.4174173
+        },
+        {
+          "lat": 53.9806733,
+          "lon": 58.4168505
+        },
+        {
+          "lat": 53.9807966,
+          "lon": 58.416762
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1283506718,
+      "bounds": {
+        "minlat": 53.9717418,
+        "minlon": 58.4272165,
+        "maxlat": 53.9722909,
+        "maxlon": 58.4280715
+      },
+      "nodes": [
+        11909006291,
+        11909006292,
+        11909006293,
+        11909006294,
+        11909006295,
+        11909006291
+      ],
+      "geometry": [
+        {
+          "lat": 53.9722909,
+          "lon": 58.4272611
+        },
+        {
+          "lat": 53.9717844,
+          "lon": 58.4280638
+        },
+        {
+          "lat": 53.9717609,
+          "lon": 58.4280715
+        },
+        {
+          "lat": 53.9717418,
+          "lon": 58.4279667
+        },
+        {
+          "lat": 53.972223,
+          "lon": 58.4272165
+        },
+        {
+          "lat": 53.9722909,
+          "lon": 58.4272611
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1283508083,
+      "bounds": {
+        "minlat": 53.972789,
+        "minlon": 58.4201587,
+        "maxlat": 53.9728892,
+        "maxlon": 58.4203282
+      },
+      "nodes": [
+        11909028592,
+        11909028593,
+        11909028594,
+        11909028595,
+        11909028592
+      ],
+      "geometry": [
+        {
+          "lat": 53.9728892,
+          "lon": 58.4202391
+        },
+        {
+          "lat": 53.9728334,
+          "lon": 58.4203282
+        },
+        {
+          "lat": 53.972789,
+          "lon": 58.4202478
+        },
+        {
+          "lat": 53.9728448,
+          "lon": 58.4201587
+        },
+        {
+          "lat": 53.9728892,
+          "lon": 58.4202391
+        }
+      ],
+      "tags": {
+        "amenity": "cafe",
+        "building": "commercial",
+        "name": "Дофамин"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1286034738,
+      "bounds": {
+        "minlat": 53.9812954,
+        "minlon": 58.4286869,
+        "maxlat": 53.9817123,
+        "maxlon": 58.4293948
+      },
+      "nodes": [
+        11928886630,
+        11928886631,
+        11928886633,
+        11928886632,
+        11928886630
+      ],
+      "geometry": [
+        {
+          "lat": 53.9817123,
+          "lon": 58.4289981
+        },
+        {
+          "lat": 53.9814763,
+          "lon": 58.4293948
+        },
+        {
+          "lat": 53.9812954,
+          "lon": 58.4290835
+        },
+        {
+          "lat": 53.9815314,
+          "lon": 58.4286869
+        },
+        {
+          "lat": 53.9817123,
+          "lon": 58.4289981
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1286034740,
+      "bounds": {
+        "minlat": 53.9815564,
+        "minlon": 58.4296913,
+        "maxlat": 53.9818182,
+        "maxlon": 58.4301425
+      },
+      "nodes": [
+        11928886636,
+        11928886637,
+        11928886638,
+        11928886639,
+        11928886636
+      ],
+      "geometry": [
+        {
+          "lat": 53.9816592,
+          "lon": 58.4296913
+        },
+        {
+          "lat": 53.9815564,
+          "lon": 58.4298681
+        },
+        {
+          "lat": 53.9817118,
+          "lon": 58.4301425
+        },
+        {
+          "lat": 53.9818182,
+          "lon": 58.4299616
+        },
+        {
+          "lat": 53.9816592,
+          "lon": 58.4296913
+        }
+      ],
+      "tags": {
+        "amenity": "parking"
+      }
+    },
+    {
+      "type": "relation",
+      "id": 17287337,
+      "bounds": {
+        "minlat": 53.9755823,
+        "minlon": 58.4126619,
+        "maxlat": 53.9760493,
+        "maxlon": 58.4132648
+      },
+      "members": [
+        {
+          "type": "way",
+          "ref": 1255969421,
+          "role": "outer",
+          "geometry": [
+            {
+              "lat": 53.9759295,
+              "lon": 58.4127189
+            },
+            {
+              "lat": 53.9756081,
+              "lon": 58.4131394
+            },
+            {
+              "lat": 53.9755823,
+              "lon": 58.4130824
+            },
+            {
+              "lat": 53.9759037,
+              "lon": 58.4126619
+            },
+            {
+              "lat": 53.9759295,
+              "lon": 58.4127189
+            }
+          ]
+        },
+        {
+          "type": "way",
+          "ref": 1255969420,
+          "role": "outer",
+          "geometry": [
+            {
+              "lat": 53.9760493,
+              "lon": 58.413017
+            },
+            {
+              "lat": 53.9758882,
+              "lon": 58.4132648
+            },
+            {
+              "lat": 53.9758599,
+              "lon": 58.4132116
+            },
+            {
+              "lat": 53.976021,
+              "lon": 58.4129638
+            },
+            {
+              "lat": 53.9760493,
+              "lon": 58.413017
+            }
+          ]
+        }
+      ],
+      "tags": {
+        "amenity": "parking",
+        "parking": "street_side",
+        "surface": "asphalt",
+        "type": "multipolygon"
+      }
+    }
+  ]
+}

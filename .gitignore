@@ -4,3 +4,21 @@ dist/
 .env.*
 !.env.example
 .DS_Store
+
+# Python/tooling and repeatable generated assets
+.venv/
+__pycache__/
+*.pyc
+test-results/
+playwright-report/
+data/dem/*.tif
+data/dem/*.tif.*
+data/terrain.json
+data/projected.json
+blender/*.blend
+blender/*.blend1
+public/renders/
+
+# Rebuildable live-map delivery artifacts
+build-embed/
+deliverables/

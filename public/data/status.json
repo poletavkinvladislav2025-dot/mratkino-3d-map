@@ -1,0 +1,60 @@
+{
+  "ready": true,
+  "terrain_prepared": true,
+  "center": [
+    58.4371909,
+    53.9974603
+  ],
+  "elevation_range": [
+    486.83154296875,
+    901.1265869140625
+  ],
+  "crs": "EPSG:32640",
+  "incomplete_requests": [
+    {
+      "layer": "ski",
+      "error": "502 Server Error: Bad Gateway for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A45%5D%3Bnwr%5B~%22%5E%28piste%3Atype%7Caerialway%29%24%22~%22.%22%5D%2853.97051096475027%2C58.39134474938446%2C54.02440963524973%2C58.483037050615536%29%3Bout+geom%3B"
+    },
+    {
+      "layer": "forest",
+      "error": "502 Server Error: Bad Gateway for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A45%5D%3Bnwr%5B%22landuse%22%3D%22forest%22%5D%2853.97051096475027%2C58.39134474938446%2C54.02440963524973%2C58.483037050615536%29%3Bout+geom%3B"
+    },
+    {
+      "layer": "wood",
+      "error": "502 Server Error: Bad Gateway for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A45%5D%3Bnwr%5B%22natural%22%3D%22wood%22%5D%2853.97051096475027%2C58.39134474938446%2C54.02440963524973%2C58.483037050615536%29%3Bout+geom%3B"
+    },
+    {
+      "layer": "tourism",
+      "error": "502 Server Error: Bad Gateway for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A45%5D%3Bnwr%5B%22tourism%22%5D%2853.97051096475027%2C58.39134474938446%2C54.02440963524973%2C58.483037050615536%29%3Bout+geom%3B"
+    },
+    {
+      "layer": "roads",
+      "error": "502 Server Error: Bad Gateway for url: https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A45%5D%3Bnwr%5B%22highway%22%5D%2853.97051096475027%2C58.39134474938446%2C54.02440963524973%2C58.483037050615536%29%3Bout+geom%3B"
+    }
+  ],
+  "skipped_osm": [
+    "relation/9033296 (relation or missing geometry)",
+    "relation/17283562 (relation or missing geometry)",
+    "relation/17283563 (relation or missing geometry)",
+    "relation/17283564 (relation or missing geometry)",
+    "relation/17283565 (relation or missing geometry)",
+    "relation/17287337 (relation or missing geometry)"
+  ],
+  "counts": {
+    "trails": 0,
+    "lifts": 0,
+    "facilities": 3215,
+    "forest": 0,
+    "roads": 0
+  },
+  "message": "Рельеф по DEM. Объекты OSM требуют независимой проверки.",
+  "styles": [
+    "A",
+    "B",
+    "C"
+  ],
+  "views": [
+    "south",
+    "north"
+  ]
+}

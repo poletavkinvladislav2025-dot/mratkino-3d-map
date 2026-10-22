@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenSkiData â open data on ski areas, runs and lifts worldwide</title>
+    <meta
+      name="description"
+      content="A free, worldwide dataset of ski areas, runs, lifts and spots, built daily from OpenStreetMap and Skimap.org. Download as GeoJSON, CSV or GeoPackage."
+    />
+    <link rel="canonical" href="https://openskidata.org/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://openskidata.org/" />
+    <meta property="og:site_name" content="OpenSkiData" />
+    <meta
+      property="og:title"
+      content="OpenSkiData â open data on ski areas, runs and lifts worldwide"
+    />
+    <meta
+      property="og:description"
+      content="A free, worldwide dataset of ski areas, runs, lifts and spots, built daily from OpenStreetMap and Skimap.org."
+    />
+    <meta name="twitter:card" content="summary" />
+
+    <!--
+      Matomo. Tracking is off until MATOMO_SITE_ID is set to the id of a new
+      site created at https://analytics.skimap.org/ for openskidata.org.
+      Site id 4 belongs to openskimap.org and must not be reused here.
+    -->
+    <script>
+      var MATOMO_SITE_ID = null;
+      if (MATOMO_SITE_ID) {
+        var _paq = (window._paq = window._paq || []);
+        _paq.push(["trackPageView"]);
+        _paq.push(["enableLinkTracking"]);
+        (function () {
+          var u = "https://analytics.skimap.org/";
+          _paq.push(["setTrackerUrl", u + "matomo.php"]);
+          _paq.push(["setSiteId", MATOMO_SITE_ID]);
+          var d = document,
+            g = d.createElement("script"),
+            s = d.getElementsByTagName("script")[0];
+          g.async = true;
+          g.src = u + "matomo.js";
+          s.parentNode.insertBefore(g, s);
+        })();
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="wordmark" href="/">
+          <span class="wordmark-open">Open</span><span class="wordmark-ski">Ski</span><span class="wordmark-data">Data</span>
+        </a>
+        <nav aria-label="Sections">
+          <a href="#downloads">Downloads</a>
+          <a href="#datasets">Datasets</a>
+          <a href="#schema">Schema</a>
+          <a href="#pipeline">How it's made</a>
+          <a href="#license">License</a>
+          <a class="nav-external" href="https://openskimap.org">OpenSkiMap.org &#8599;</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="wrap">
+          <h1>Open data on the world's ski areas.</h1>
+          <p class="lede">
+            OpenSkiData is a free, worldwide dataset of ski areas, runs, lifts
+            and points of interest, assembled every day from OpenStreetMap and
+            Skimap.org. It is the data behind
+            <a href="https://openskimap.org">OpenSkiMap.org</a> â and it's yours
+            to download, analyse and build on.
+          </p>
+          <p class="cta-row">
+            <a class="button button-primary" href="#downloads">Download the data</a>
+            <a class="button" href="https://openskimap.org">Explore the map</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="stats" aria-label="Dataset at a glance">
+        <div class="wrap stat-grid">
+          <div class="stat">
+            <span class="stat-value" id="stat-ski-areas">12,000+</span>
+            <span class="stat-label">ski areas</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-lifts">33,000+</span>
+            <span class="stat-label">lifts</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-run-length">190,000+ km</span>
+            <span class="stat-label">of runs</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="datasets" class="section">
+        <div class="wrap">
+          <h2>What's in the data</h2>
+          <p class="section-intro">
+            Four datasets. They are available on their own
+            or together in a single GeoPackage, and every feature carries its
+            source, the ski area it belongs to, and the country, region and
+            locality it sits in.
+          </p>
+
+          <div class="card-grid">
+            <article class="card">
+              <h3>Ski areas</h3>
+              <p>
+                Resorts and nordic centres, clustered from OpenStreetMap
+                <code>site=piste</code> relations and
+                <code>landuse=winter_sports</code> areas, then merged with
+                Skimap.org records. Points, polygons or multipolygons.
+              </p>
+              <ul class="attrs">
+                <li>Downhill and nordic activity flags</li>
+                <li>Operating status and run colour convention</li>
+                <li>Official websites and Wikidata ID</li>
+                <li>
+                  Computed statistics: run length and count by difficulty, lift
+                  count by type, elevation range and vertical
+                </li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <h3>Runs</h3>
+              <p>
+                Every OpenStreetMap piste â downhill, nordic, ski touring,
+                sledding, winter hiking and more. Note that a single trail as
+                signed on the mountain is often several run features, split
+                where it branches or where its tags change.
+              </p>
+              <ul class="attrs">
+                <li>Difficulty, colour and regional difficulty convention</li>
+                <li>Grooming, lit, gladed, patrolled, oneway, snowmaking</li>
+                <li>Elevation profile, ascent and descent, average and max pitch</li>
+                <li>Uses: downhill, nordic, skitour, sled, hike, snow park&hellip;</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <h3>Lifts</h3>
+              <p>
+                Aerialways and winter-sports railways: gondolas, chairlifts,
+                drag lifts, funiculars and more. Railways other than funiculars
+                are included only when they belong to a
+                <code>site=piste</code> relation.
+              </p>
+              <ul class="attrs">
+                <li>Lift type, status and access restriction</li>
+                <li>Capacity, occupancy, duration and ride speed</li>
+                <li>Detachable, bubble, heating</li>
+                <li>Inclined length, vertical and overall pitch</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <h3>Spots</h3>
+              <p>
+                Point features in and around ski areas: lift stations, places
+                where a run crosses a road or path, avalanche transceiver
+                training areas and checkpoints, and halfpipes.
+              </p>
+              <ul class="attrs">
+                <li>Lift stations with position, boarding and alighting</li>
+                <li>Crossings with dismount requirement</li>
+                <li>Avalanche transceiver training and checkpoints</li>
+                <li>Halfpipes</li>
+              </ul>
+            </article>
+
+          </div>
+
+          <p class="note">
+            <strong>Feature IDs are content hashes.</strong> They change
+            whenever the feature changes, so they are not stable between daily
+            builds. For a durable join key use the Wikidata ID or the upstream
+            OpenStreetMap or Skimap.org source ID, both of which are included.
+          </p>
+        </div>
+      </section>
+
+      <section id="downloads" class="section section-alt">
+        <div class="wrap">
+          <h2>Downloads</h2>
+          <p class="section-intro">
+            <strong>GeoJSON</strong> carries the full data: nested statistics,
+            elevation profiles and 3D coordinates.
+            <strong>CSV</strong> is the same features flattened to one row each,
+            for spreadsheets and analysis.
+            <strong>GeoPackage</strong> puts all four layers in one file that
+            opens directly in QGIS.
+          </p>
+
+          <p class="freshness" id="freshness" hidden>
+            Last updated <time id="last-updated"></time>
+          </p>
+
+          <div class="table-scroll">
+            <table class="downloads">
+              <thead>
+                <tr>
+                  <th scope="col">Dataset</th>
+                  <th scope="col">GeoJSON</th>
+                  <th scope="col">CSV</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">
+                    Ski areas
+                    <span class="count" data-features="skiAreas" hidden></span>
+                  </th>
+                  <td>
+                    <a href="https://tiles.openskimap.org/geojson/ski_areas.geojson">Download</a>
+                    <span class="size" data-size-for="/geojson/ski_areas.geojson" data-file="geojson.skiAreas" hidden></span>
+                  </td>
+                  <td>
+                    <a href="https://tiles.openskimap.org/csv/ski_areas.csv">Download</a>
+                    <span class="size" data-size-for="/csv/ski_areas.csv" data-file="csv.skiAreas" hidden></span>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    Runs
+                    <span class="count" data-features="runs" hidden></span>
+                  </th>
+                  <td>
+                    <a href="https://tiles.openskimap.org/geojson/runs.geojson">Download</a>
+                    <span class="size" data-size-for="/geojson/runs.geojson" data-file="geojson.runs" hidden></span>
+                  </td>
+                  <td>
+                    <a href="https://tiles.openskimap.org/csv/runs.csv">Download</a>
+                    <span class="size" data-size-for="/csv/runs.csv" data-file="csv.runs" hidden></span>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    Lifts
+                    <span class="count" data-features="lifts" hidden></span>
+                  </th>
+                  <td>
+                    <a href="https://tiles.openskimap.org/geojson/lifts.geojson">Download</a>
+                    <span class="size" data-size-for="/geojson/lifts.geojson" data-file="geojson.lifts" hidden></span>
+                  </td>
+                  <td>
+                    <a href="https://tiles.openskimap.org/csv/lifts.csv">Download</a>
+                    <span class="size" data-size-for="/csv/lifts.csv" data-file="csv.lifts" hidden></span>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    Spots
+                    <span class="count" data-features="spots" hidden></span>
+                  </th>
+                  <td>
+                    <a href="https://tiles.openskimap.org/geojson/spots.geojson">Download</a>
+                    <span class="size" data-size-for="/geojson/spots.geojson" data-file="geojson.spots" hidden></span>
+                  </td>
+                  <td>
+                    <a href="https://tiles.openskimap.org/csv/spots.csv">Download</a>
+                    <span class="size" data-size-for="/csv/spots.csv" data-file="csv.spots" hidden></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="table-note">
+            GeoJSON is served compressed. Where two sizes are shown, the first
+            is what you download and the second is the file once it is on disk.
+          </p>
+
+          <div class="callout">
+            <h3>Everything in one file</h3>
+            <p>
+              <a href="https://tiles.openskimap.org/openskidata.gpkg">openskidata.gpkg</a>
+              <span class="size" data-size-for="/openskidata.gpkg" data-file="geoPackage" hidden></span>
+              contains all four geographic datasets as separate layers in a
+              single GeoPackage â drag it into QGIS and start working.
+            </p>
+          </div>
+
+          <h3>Terms of use</h3>
+          <ul class="notes-list">
+            <li>The data is rebuilt daily. Automated downloading is permitted at most once per day.</li>
+            <li>
+              Direct use of the vector tiles at <code>tiles.openskimap.org</code>
+              is <strong>not</strong> permitted. Build and host your own tiles
+              from these files instead.
+            </li>
+            <li>
+              The formats are not stable. Attributes may be added, renamed or
+              removed as the project evolves â pin nothing you can't re-check.
+            </li>
+            <li>
+              Automating a sync?
+              <a href="https://tiles.openskimap.org/metadata.json"><code>metadata.json</code></a>
+              carries the build time, the OpenStreetMap data timestamp,
+              per-dataset feature counts and uncompressed file sizes, so you can
+              tell whether there is a new build â and how much disk it needs â
+              without downloading anything large.
+            </li>
+            <li>
+              Use is subject to the <a href="#license">licenses and attribution
+              requirements</a> below.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="schema" class="section">
+        <div class="wrap">
+          <h2>Schema</h2>
+          <p class="section-intro">
+            The authoritative, typed definition of every field lives in
+            <a href="https://github.com/russellporter/openskidata-format">openskidata-format</a>,
+            published to npm as
+            <a href="https://www.npmjs.com/package/openskidata-format"><code>openskidata-format</code></a>.
+            If you work in TypeScript, install it and get the types for free.
+          </p>
+        </div>
+      </section>
+
+      <section id="pipeline" class="section section-alt">
+        <div class="wrap">
+          <h2>How the data is made</h2>
+          <p class="section-intro">
+            Every day, the
+            <a href="https://github.com/russellporter/openskidata-processor">openskidata-processor</a>
+            pipeline rebuilds the whole dataset from scratch.
+          </p>
+          <ol class="pipeline">
+            <li>
+              <h3>Extract</h3>
+              <p>
+                Pull winter sports features out of OpenStreetMap â
+                <code>piste:type</code> ways and areas, <code>aerialway</code>
+                lines, <code>landuse=winter_sports</code> areas and
+                <code>site=piste</code> relations â alongside the ski area
+                records from Skimap.org.
+              </p>
+            </li>
+            <li>
+              <h3>Normalize</h3>
+              <p>
+                Clean up tagging inconsistencies, merge overlapping ways into a
+                single run with multiple uses, and join connected segments that
+                share the same properties.
+              </p>
+            </li>
+            <li>
+              <h3>Cluster</h3>
+              <p>
+                Group runs and lifts into ski areas using piste relations,
+                winter sports landuse and proximity, then merge the
+                OpenStreetMap and Skimap.org views of the same resort into one
+                feature.
+              </p>
+            </li>
+            <li>
+              <h3>Augment</h3>
+              <p>
+                Add elevation to every coordinate, reverse-geocode each feature
+                to a country, region and locality, compute per-ski-area
+                statistics from the runs and lifts that belong to it.
+              </p>
+            </li>
+            <li>
+              <h3>Export</h3>
+              <p>
+                Write out GeoJSON, CSV and GeoPackage â plus the vector tiles
+                that power OpenSkiMap.org.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="contribute" class="section">
+        <div class="wrap">
+          <h2>Improve the data</h2>
+          <p class="section-intro">
+            OpenSkiData has no separate database to edit. Everything except the
+            Skimap.org ski area records comes straight from OpenStreetMap, so
+            the way to fix or add something is to edit OpenStreetMap â your
+            change flows into the dataset within a few days.
+          </p>
+
+          <div class="two-col">
+            <div>
+              <h3>Tagging a ski area</h3>
+              <p>
+                Ski areas are the trickiest part of the pipeline, and good
+                tagging is what keeps a resort from being split into duplicates:
+              </p>
+              <ul class="attrs">
+                <li>
+                  Start with a <code>landuse=winter_sports</code> area. It's
+                  easy to add and easy to maintain.
+                </li>
+                <li>
+                  If that isn't explicit enough, add a
+                  <code>site=piste</code> relation as well â but make sure it
+                  contains <em>all</em> of the resort's lifts and runs. If many
+                  are missing, the merge will fail.
+                </li>
+                <li>
+                  Where one resort needs several separate areas, combine them
+                  into a single multipolygon relation rather than leaving them
+                  as separate winter sports areas.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3>Where to start</h3>
+              <ul class="attrs">
+                <li>
+                  <a href="https://wiki.openstreetmap.org/wiki/Piste_Maps">Piste
+                  Maps</a> on the OpenStreetMap wiki â the tagging reference for
+                  runs.
+                </li>
+                <li>
+                  <a href="https://wiki.openstreetmap.org/wiki/Key:aerialway">Key:aerialway</a>
+                  â the tagging reference for lifts.
+                </li>
+                <li>
+                  <a href="https://openskimap.org">OpenSkiMap.org</a> â find the
+                  gap, then use its edit link to jump straight into the
+                  OpenStreetMap editor at that spot.
+                </li>
+                <li>
+                  <a href="https://github.com/russellporter/openskimap.org/issues">Report
+                  a bug or request a feature</a> if something looks wrong in the
+                  processing rather than in the source data.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="license" class="section section-alt">
+        <div class="wrap">
+          <h2>License &amp; attribution</h2>
+          <p class="section-intro">
+            The data is free to use, including commercially. It is derived from
+            OpenStreetMap and is therefore available under the
+            <a href="https://opendatacommons.org/licenses/odbl/">Open Database
+            License (ODbL)</a>: if you distribute a modified version of the
+            data, you must share it alike. Several sources are combined, and
+            each needs crediting.
+          </p>
+
+          <div class="credits">
+            <div class="credit">
+              <h3>Map data</h3>
+              <p>
+                <a href="https://www.openstreetmap.org/copyright">&copy; OpenStreetMap contributors</a>
+                and <a href="https://openskimap.org">OpenSkiMap.org</a>.
+              </p>
+            </div>
+            <div class="credit">
+              <h3>Ski areas</h3>
+              <p><a href="https://skimap.org">Skimap.org</a>.</p>
+            </div>
+            <div class="credit">
+              <h3>Place data</h3>
+              <p>
+                <a href="https://whosonfirst.org/">Who's On First</a>
+                (<a href="https://whosonfirst.org/docs/licenses/">license</a>).
+              </p>
+            </div>
+            <div class="credit">
+              <h3>Elevation</h3>
+              <p><a href="https://mapterhorn.com/attribution">&copy; Mapterhorn</a>.</p>
+            </div>
+          </div>
+
+          <h3>Ready-made attribution</h3>
+          <p>Credit all four sources wherever you show the data:</p>
+          <pre id="attribution">Data from OpenSkiData / OpenSkiMap.org, Â© OpenStreetMap contributors (ODbL), Skimap.org, Who's On First, Â© Mapterhorn</pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-inner">
+        <div>
+          <p class="footer-brand">OpenSkiData</p>
+          <p>
+            Questions or suggestions?
+            <a href="mailto:contact@skimap.org">contact@skimap.org</a>
+          </p>
+        </div>
+        <nav aria-label="Project links">
+          <h2>Project</h2>
+          <ul>
+            <li><a href="https://openskimap.org">OpenSkiMap.org</a></li>
+            <li><a href="https://skimap.org">Skimap.org</a></li>
+            <li><a href="https://www.openstreetmap.org">OpenStreetMap</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Source code">
+          <h2>Source</h2>
+          <ul>
+            <li><a href="https://github.com/russellporter/openskidata-processor">openskidata-processor</a></li>
+            <li><a href="https://github.com/russellporter/openskidata-format">openskidata-format</a></li>
+            <li><a href="https://github.com/russellporter/openskimap.org">openskimap.org</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <script src="/script.js"></script>
+  </body>
+</html>

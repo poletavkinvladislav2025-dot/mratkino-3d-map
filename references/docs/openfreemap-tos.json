@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Terms of Service</title><meta name="title" content="Terms of Service"><meta name="description" content="OpenFreeMap Terms of Service."><link rel="canonical" href="https://openfreemap.org/tos/"><link rel="icon" type="image/png" sizes="32x32" href="/_astro/favicon-32x32.Bs-1NbaC.png"><link rel="apple-touch-icon" sizes="180x180" href="/_astro/apple-touch-icon.Dr3QVSUa.png"><meta property="og:site_name" content="OpenFreeMap"><meta property="og:title" content="Terms of Service"><meta property="og:type" content="website"><meta property="og:url" content="https://openfreemap.org/tos/"><meta property="og:description" content="OpenFreeMap Terms of Service."><meta property="og:image" content="https://openfreemap.org/og/_index.png"><meta property="og:image:alt" content="Terms of Service - OpenFreeMap"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="en_US"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Terms of Service"><meta name="twitter:description" content="OpenFreeMap Terms of Service."><meta name="twitter:image" content="https://openfreemap.org/og/_index.png"><meta name="twitter:image:alt" content="Terms of Service - OpenFreeMap"><link rel="sitemap" href="/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="OpenFreeMap" href="/rss.xml"><meta name="generator" content="Astro v7.3.1"><link rel="stylesheet" href="/_astro/BaseHead.CkhypRi6.css"></head><body class="bg-white antialiased"><main><div class="markdown mx-auto max-w-2xl px-5 mt-16"><h1 id="openfreemap-terms-of-service">OpenFreeMap Terms of Service</h1>
+<p><strong>Last Updated:</strong> October 14, 2026</p>
+<h2 id="overview">Overview</h2>
+<p>This Terms of Service agreement (âAgreementâ) is between Hyperknot Software Kft., located at Petofi Sandor utca 48., Ujlengyel, 2724, Hungary (âwe,â âus,â âourâ), and you (âyou,â âuserâ). It becomes effective when you use <a href="https://openfreemap.org">https://openfreemap.org</a> (âSiteâ).</p>
+<p>OpenFreeMap is a completely free service provided âas-is,â with no warranties. By using this Site, you accept these terms. If you disagree with them, please do not use the Site.</p>
+<h2 id="eligibility">Eligibility</h2>
+<p>You must be at least 18 years old and legally able to enter into this Agreement to integrate our public service into a website or application. If representing an organization, you must have authority to bind it.</p>
+<p>This age requirement does not apply to end users who merely view or interact with embedded maps. Websites and applications using OpenFreeMap may serve users of any age.</p>
+<h2 id="user-conduct">User Conduct</h2>
+<p>You agree to use the Site legally and responsibly. You will not:</p>
+<ul>
+<li>Use it for illegal activities</li>
+<li>Disrupt the service or introduce harmful code</li>
+<li>Violate intellectual property rights</li>
+<li>Collect data from the service in automated ways, except for offline downloads as described below</li>
+</ul>
+<h2 id="offline-downloads">Offline Downloads</h2>
+<p>Your app may let users download areas for offline use if each download is:</p>
+<ul>
+<li>at most 3,000 tiles or 50 MB</li>
+<li>made with at most 4 parallel requests</li>
+<li>sent with a unique User-Agent identifying your app</li>
+</ul>
+<p>For anything larger, please contact us at <a href="mailto:info@openfreemap.org">info@openfreemap.org</a>.</p>
+<h2 id="intellectual-property">Intellectual Property</h2>
+<p>Our content is owned or licensed by us and protected by law.</p>
+<h2 id="third-party-links">Third-Party Links</h2>
+<p>We are not responsible for any third-party websites linked from our Site.</p>
+<h2 id="disclaimer-of-warranties">Disclaimer of Warranties</h2>
+<p>THE SITE IS PROVIDED âAS-IS,â âAS AVAILABLE,â AND âWITH ALL FAULTS.â WE MAKE NO WARRANTIES REGARDING ACCURACY, AVAILABILITY, OR FITNESS FOR ANY PURPOSE. YOUR USE IS AT YOUR OWN RISK.</p>
+<h2 id="limitation-of-liability">Limitation of Liability</h2>
+<p>TO THE FULLEST EXTENT PERMITTED BY LAW, WE ARE NOT LIABLE FOR ANY DAMAGES ARISING FROM YOUR USE OF THE SITE, INCLUDING DIRECT, INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES.</p>
+<h2 id="site-availability-and-changes">Site Availability and Changes</h2>
+<p>We aim to maintain the Siteâs availability but may discontinue it at any time without notice. When possible, we will announce changes through our X and Bluesky accounts.</p>
+<h2 id="cloudflare-cdn">Cloudflare CDN</h2>
+<p>We may use Cloudflare as a CDN to deliver content more efficiently. By using the Site, you consent to Cloudflareâs processing of your requests.</p>
+<h2 id="governing-law">Governing Law</h2>
+<p>This Agreement is governed by Hungarian law.</p>
+<h2 id="dispute-resolution">Dispute Resolution</h2>
+<p>Any dispute will be resolved by binding arbitration in Budapest, Hungary, on an individual basis.</p>
+<h2 id="changes-to-terms">Changes to Terms</h2>
+<p>We may update these Terms at any time. Updates will be announced on X and Bluesky. Your continued use after changes constitutes acceptance.</p>
+<h2 id="contact-information">Contact Information</h2>
+<p>For questions about these Terms, email <a href="mailto:info@openfreemap.org">info@openfreemap.org</a>.</p>
+<p>By using this Site, you also accept our <a href="/privacy">Privacy Policy</a>.</p>
+</div></main><footer class="mx-auto mt-24 mb-16 flex max-w-2xl justify-evenly px-5 text-neutral-500"><a href="/privacy/" class="hover:text-neutral-800">Privacy Policy</a><a href="/tos/" class="hover:text-neutral-800">Terms of Service</a></footer></body></html>

@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "formatVersion": "16.0.0",
+  "bbox": null,
+  "source": {
+    "openStreetMap": {
+      "dataTimestamp": "2026-10-20T08:00:00.000Z"
+    },
+    "skiMapOrg": {
+      "downloadedAt": "2026-10-21T00:38:56.757Z"
+    }
+  },
+  "run": {
+    "startedAt": "2026-10-21T00:38:55.793Z",
+    "finishedAt": "2026-10-21T02:33:01.967Z",
+    "durationSeconds": 6846
+  },
+  "counts": {
+    "skiAreas": {
+      "total": 12398,
+      "operating": 11061,
+      "downhill": 6957,
+      "nordic": 5798
+    },
+    "runs": 230515,
+    "lifts": 33351,
+    "spots": 33960
+  },
+  "files": {
+    "geojson": {
+      "skiAreas": 21166460,
+      "runs": 836030177,
+      "lifts": 118853617,
+      "spots": 107814688
+    },
+    "csv": {
+      "skiAreas": 3351562,
+      "runs": 89189240,
+      "lifts": 11436564,
+      "spots": 6265081
+    },
+    "geoPackage": 410460160
+  },
+  "totals": {
+    "runLengthKm": 190723.5,
+    "liftLengthKm": 21882.2,
+    "countries": 82
+  }
+}

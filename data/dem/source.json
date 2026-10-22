@@ -1,0 +1,12 @@
+{
+  "sources": [
+    "https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_N53_00_E058_00_DEM/Copernicus_DSM_COG_10_N53_00_E058_00_DEM.tif",
+    "https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_N54_00_E058_00_DEM/Copernicus_DSM_COG_10_N54_00_E058_00_DEM.tif"
+  ],
+  "sha256": "652eb58d544c40570bf6cd8d0c0fc426d846b784bad83ba6ea1e2aad5cc928c5",
+  "retrieved_at": "2026-10-22T09:49:09.488750+00:00",
+  "source_type": "Copernicus DEM GLO-30 DSM",
+  "license": "Copernicus DEM License (free use; attribution required)",
+  "vertical_reference": "EGM2008 orthometric heights, metres",
+  "notice": "Copernicus DSM measures surface incl. vegetation/buildings, not bare-earth survey."
+}

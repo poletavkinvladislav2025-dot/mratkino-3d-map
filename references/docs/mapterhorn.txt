@@ -1,0 +1,122 @@
+Mapterhorn
+Viewer
+Data Access
+Coverage
+Attribution
+Examples
+Public terrain tiles for interactive web map visualizations
+Viewer
+Explore the Mapterhorn terrain tiles at
+https://mapterhorn.com/viewer
+.
+Resolutions
+✅ Global, 30 m
+✅ Australia, partial, 5 m
+✅ Australia, Tasmania, partial, 2 m
+✅ Austria, country-wide, 1 m
+✅ Austria, Burgenland, 5 m
+✅ Austria, Salzburg, 1 m
+✅ Austria, Oberösterreich, 1 m
+✅ Austria, Kärnten, 1 m
+✅ Belgium, Flanders, 1 m
+✅ Belgium, Wallonie, 0.5 m
+✅ Canada, partial, 2 m
+✅ Cyprus, country-wide, 1 m
+✅ Czech Republic, country-wide, 5 m
+✅ Denmark, country-wide, 0.4 m
+✅ Denmark, Greenland, 2 m
+✅ Denmark, Faroe, 10 m
+✅ Estonia, country-wide, 1 m
+✅ Finland, country-wide, 2 m
+✅ France, partial, 0.5 m
+✅ France, partial, 1 m
+✅ France, country-wide, 5 m
+✅ Germany, Baden-Württemberg, 0.25 m
+✅ Germany, Bayern, 1 m
+✅ Germany, Berlin, 1 m
+✅ Germany, Brandenburg, 1 m
+✅ Germany, Bremen, 1 m
+✅ Germany, Hamburg, 1 m
+✅ Germany, Hessen, 1 m
+✅ Germany, Mecklenburg-Vorpommern, 1 m
+✅ Germany, Niedersachsen, 1 m
+✅ Germany, Nordrhein-Westfalen, 1 m
+✅ Germany, Rheinland-Pfalz, 1 m
+✅ Germany, Saarland, 1 m
+✅ Germany, Sachsen, 1 m
+✅ Germany, Sachsen-Anhalt, 1 m
+✅ Germany, Schleswig-Holstein, 1 m
+✅ Germany, Thüringen, 1 m
+✅ Iceland, country-wide, 10 m
+✅ Israel, country-wide, 10 m
+✅ Italy, country-wide, 10 m
+✅ Italy, Aosta, 2 m
+✅ Italy, Bozen, 2.5 m
+✅ Italy, Lombardia, 5 m
+✅ Italy, Piemonte, 5 m
+✅ Italy, Sardegna partial, 1 m
+✅ Italy, Sicily, 2 m
+✅ Italy, Trentino, 5 m
+✅ Japan, country-wide, 1 m, 5 m, 10 m
+✅ Latvia, country-wide, 20 m
+✅ Luxembourg, country-wide, 0.5 m
+✅ Netherlands, partial, 5 m
+✅ Netherlands, Dutch Carribean Islands, 0.5 m
+✅ New Zealand, partial, 1 m
+✅ Norway, country-wide, 1 m
+✅ Norway, Svalbard, 20 m
+✅ Poland, country-wide, 5 m
+✅ Poland, partial, 1 m
+✅ Poland, partial, 1 m
+✅ Portugal, partial, 0.5 m
+✅ Portugal, Madeira, 10 m
+✅ Romania, partial, 0.5 m
+✅ Rwanda, country-wide, 10 m
+✅ Slovakia, country-wide, 1 m
+✅ Slovenia, country-wide, 0.5 m
+✅ Spain, partial, 0.5 m
+✅ Spain, country-wide, 2 m
+✅ Sweden, country-wide, 1 m
+✅ Switzerland, country-wide, 2 m
+✅ Switzerland, partial, 0.5 m
+✅ Switzerland, Canton Zürich, 0.25 m
+✅ Taiwan, country-wide, 20 m
+✅ UK, England, 1 m
+✅ UK, Scotland, 1 m
+✅ UK, Wales, 1 m
+✅ USA, country-wide, 10 m
+✅ USA, partial, 1 m
+Code
+Mapterhorn is fully open-source, find the source code at
+https://github.com/mapterhorn/mapterhorn
+.
+License
+Code: BSD-3, see
+LICENSE
+.
+Terrain data: various open-data sources, for a full list see
+https://mapterhorn.com/attribution
+.
+About
+Mapterhorn is an open-data project that was made possible
+    thanks to support from the NGI0 Core Fund, a fund established by
+NLnet
+with financial support
+    from the European Commission's
+Next Generation Internet
+programme.
+Mapterhorn is currently maintained by
+Oliver Wipfli
+. He shares admin access rights to the GitHub organization and the mapterhorn.com domain with
+Brandon Liu
+and
+Sascha Brawer
+.
+Backers and Sponsors
+Copyright 2025 - 2026 · Mapterhorn
+Privacy Policy
+Sponsor
+LinkedIn
+Bluesky
+Mastodon
+GitHub

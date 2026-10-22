@@ -6,9 +6,17 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "playwright test",
+    "build:standalone": "vite build --config vite.embed.config.js && node scripts/export_standalone.mjs",
+    "prepare:web": "python scripts/prepare_web_data.py",
+    "test:unit": "node --test tests/map-data.test.js"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "vite": "^7.0.0"
+  },
+  "dependencies": {
+    "maplibre-gl": "6.15.0"
   }
 }

@@ -1,0 +1,7 @@
+{
+  "source": "https://api.openstreetmap.org/api/0.6/map?bbox=58.405,53.975,58.47,54.02",
+  "retrieved_at": "2026-10-22T13:12:23.713486+00:00",
+  "sha256": "afb70049d2bc6b41749f44eb018afe7f6a47c444408bb9306528d495a03827cf",
+  "license": "ODbL 1.0",
+  "operation": "read-only OSM map API; no OSM edits"
+}
