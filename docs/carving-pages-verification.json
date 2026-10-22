@@ -1,0 +1,162 @@
+{
+  "measuredAt": "2026-10-22T20:05:30.313516+00:00",
+  "previewUrl": "https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/region/",
+  "previewRef": "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0",
+  "actionRun": "https://github.com/poletavkinvladislav2025-dot/mratkino-3d-map/actions/runs/39845611085",
+  "assets": [
+    {
+      "path": "assets/index-C4NwicCl.css",
+      "generation": "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0",
+      "bytes": 263,
+      "sha256Verified": true,
+      "mime": "text/css; charset=utf-8"
+    },
+    {
+      "path": "assets/index-CCN6eJmj.js",
+      "generation": "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0",
+      "bytes": 161733,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-Y_FXurWg.js",
+      "generation": "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0",
+      "bytes": 1094988,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-worker-BrB25tGK.mjs",
+      "generation": "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0",
+      "bytes": 518806,
+      "sha256Verified": true,
+      "mime": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-DMC9YFrw.js",
+      "generation": "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0",
+      "bytes": 503536,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-data-Gl1BI7H8.js",
+      "generation": "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0",
+      "bytes": 3958,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/routes-Cbuk-Rnl.js",
+      "generation": "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0",
+      "bytes": 3651,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/index-C4NwicCl.css",
+      "generation": "82d10d278dd35a53c93df4d3d93d1fd7ea5d2d11",
+      "bytes": 263,
+      "sha256Verified": true,
+      "mime": "text/css; charset=utf-8"
+    },
+    {
+      "path": "assets/index-Cyr3EFok.js",
+      "generation": "82d10d278dd35a53c93df4d3d93d1fd7ea5d2d11",
+      "bytes": 161251,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-Y_FXurWg.js",
+      "generation": "82d10d278dd35a53c93df4d3d93d1fd7ea5d2d11",
+      "bytes": 1094988,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-worker-BrB25tGK.mjs",
+      "generation": "82d10d278dd35a53c93df4d3d93d1fd7ea5d2d11",
+      "bytes": 518806,
+      "sha256Verified": true,
+      "mime": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-Bp_sSo1e.js",
+      "generation": "82d10d278dd35a53c93df4d3d93d1fd7ea5d2d11",
+      "bytes": 499875,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-data-CmSAbQ8O.js",
+      "generation": "82d10d278dd35a53c93df4d3d93d1fd7ea5d2d11",
+      "bytes": 3958,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/routes-DQtKI3uE.js",
+      "generation": "82d10d278dd35a53c93df4d3d93d1fd7ea5d2d11",
+      "bytes": 3651,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/index-C4NwicCl.css",
+      "generation": "94d5f4d708b31cab17e75cb8b98257f52f83ffdf",
+      "bytes": 263,
+      "sha256Verified": true,
+      "mime": "text/css; charset=utf-8"
+    },
+    {
+      "path": "assets/index-CE63JhqI.js",
+      "generation": "94d5f4d708b31cab17e75cb8b98257f52f83ffdf",
+      "bytes": 160703,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-Y_FXurWg.js",
+      "generation": "94d5f4d708b31cab17e75cb8b98257f52f83ffdf",
+      "bytes": 1094988,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-worker-BrB25tGK.mjs",
+      "generation": "94d5f4d708b31cab17e75cb8b98257f52f83ffdf",
+      "bytes": 518806,
+      "sha256Verified": true,
+      "mime": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-CMTiGzN_.js",
+      "generation": "94d5f4d708b31cab17e75cb8b98257f52f83ffdf",
+      "bytes": 499875,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-data-DmUvQx7d.js",
+      "generation": "94d5f4d708b31cab17e75cb8b98257f52f83ffdf",
+      "bytes": 3958,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/routes-_RL__xPg.js",
+      "generation": "94d5f4d708b31cab17e75cb8b98257f52f83ffdf",
+      "bytes": 3651,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    }
+  ],
+  "previewHtmlIdenticalToLocalBuild": true,
+  "stableRootAndEntryUnchanged": true,
+  "retainedPreviousGenerations": [
+    "82d10d278dd35a53c93df4d3d93d1fd7ea5d2d11",
+    "94d5f4d708b31cab17e75cb8b98257f52f83ffdf"
+  ],
+  "frameBlockingHeaders": {}
+}
