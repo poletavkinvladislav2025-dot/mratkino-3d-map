@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import { SUMMIT } from './map-data.js';
 import { saplingPlacements, forestLOD, treeAppearance, liftVehicle, toLocal, toLngLat, pathLength, samplePath, liftLoop } from './resort-scene-data.js';
 
@@ -21,12 +22,13 @@ export class ResortScene {
   this.renderer.autoClear=false;this.renderer.outputColorSpace=THREE.SRGBColorSpace;
   this.transform=new THREE.Matrix4().makeTranslation(this.origin.x,this.origin.y,0).scale(new THREE.Vector3(this.units,-this.units,this.units));
   this.matrix=new THREE.Matrix4();this.dummy=new THREE.Object3D();
-  this.forest=new THREE.Group();this.vehicles=new THREE.Group();this.scene.add(this.forest,this.vehicles);
-  this.makeTrees();this.makeLifts();this.refreshTerrain();
+  this.forest=new THREE.Group();this.vehicles=new THREE.Group();this.riders=new THREE.Group();this.scene.add(this.forest,this.vehicles,this.riders);
+  this.makeTrees();this.makeLifts();this.makeRiders();this.refreshTerrain();
   this.visibility=()=>{this.lastTime=null;this.schedule();};document.addEventListener('visibilitychange',this.visibility);
   this.motion=matchMedia('(prefers-reduced-motion: reduce)');this.motionChange=()=>{if(this.motion.matches)this.setPaused(true);};this.motion.addEventListener('change',this.motionChange);
   this.onMove=()=>this.refreshTerrain();map.on('moveend',this.onMove);
   this.onSource=e=>{if(e.sourceId==='dem'&&e.isSourceLoaded&&!this.terrainTimer)this.terrainTimer=setTimeout(()=>{this.terrainTimer=null;if(!this.disposed)this.refreshTerrain();},200);};map.on('sourcedata',this.onSource);
+  this.inViewport=true;this.viewportObserver=new IntersectionObserver(entries=>{this.inViewport=entries[0]?.isIntersecting;this.lastTime=null;this.schedule();if(this.inViewport)this.map.triggerRepaint();});this.viewportObserver.observe(map.getContainer());
   this.schedule();
  }
  material(color,flatShading=true){const material=new THREE.MeshLambertMaterial({color,flatShading});this.resources.add(material);return material;}
@@ -37,15 +39,18 @@ export class ResortScene {
  local(lngLat){const p=this.ml.MercatorCoordinate.fromLngLat(lngLat);return [(p.x-this.origin.x)/this.units,(this.origin.y-p.y)/this.units];}
  height(lngLat){const value=this.map.queryTerrainElevation(lngLat);return Number.isFinite(value)?value:null;}
  makeTrees(){
-  const crown=this.geometry(new THREE.IcosahedronGeometry(1,0));
-  const nearCrown=this.geometry(new THREE.IcosahedronGeometry(1,1));
+  // Layered, tapered conifer profile: pointed tiers instead of round broadleaf crowns.
+  const profile=[new THREE.Vector2(0,-.5),new THREE.Vector2(.92,-.44),new THREE.Vector2(.57,-.29),new THREE.Vector2(1,-.27),new THREE.Vector2(.52,-.08),new THREE.Vector2(.8,-.06),new THREE.Vector2(.36,.14),new THREE.Vector2(.55,.16),new THREE.Vector2(.2,.34),new THREE.Vector2(.3,.35),new THREE.Vector2(0,.5)];
+  const silhouettes=[[-.32,.1,1],[.32,-.12,.9]].map(([x,y,h])=>new THREE.ConeGeometry(.56,h,5).rotateX(Math.PI/2).translate(x,y,(h-1)/2));
+  const crown=this.geometry(mergeGeometries(silhouettes));silhouettes.forEach(g=>g.dispose());
+  const nearCrown=this.geometry(new THREE.LatheGeometry(profile,6).rotateX(Math.PI/2));
   const cone=this.geometry(new THREE.ConeGeometry(1,1,7).rotateX(Math.PI/2));
-  const trunk=this.geometry(new THREE.CylinderGeometry(.7,1,1,6).rotateX(Math.PI/2));
-  this.nearCapacity=this.mobile?2500:6500;
+  const trunk=this.geometry(new THREE.CylinderGeometry(.7,1,1,5).rotateX(Math.PI/2));
+  this.nearCapacity=this.mobile?1800:4000;
   this.farCapacity=Math.ceil(this.forestInstances.count/(this.mobile?8:4)*1.2);
   this.trunks=this.batch(trunk,this.material(0x94705b),this.nearCapacity,this.forest);
-  this.nearCrowns=[0,1].map(()=>this.batch(nearCrown,this.material(0xffffff,false),this.nearCapacity,this.forest));
-  this.farTrunks=this.batch(trunk,this.material(0x796a55),this.farCapacity,this.forest);
+  this.nearCrowns=[0].map(()=>this.batch(nearCrown,this.material(0xffffff,false),this.nearCapacity,this.forest));
+  this.farTrunks=this.batch(new THREE.CylinderGeometry(.7,1,1,3).rotateX(Math.PI/2),this.material(0x796a55),this.farCapacity,this.forest);
   this.farCrowns=this.batch(crown,this.material(0xffffff),this.farCapacity,this.forest);
   this.palette=[0x3b5845,0x476349,0x526c4a,0x405c4c].map(color=>new THREE.Color(color));
   this.saplingTrunks=this.batch(trunk,this.material(0x79624e),this.saplings.length,this.forest);
@@ -58,17 +63,16 @@ export class ResortScene {
   near.forEach((id,i)=>{
    const [x,y,base]=pool.positions.subarray(id*3,id*3+3),ll=toLngLat([x,y]),[mx,my]=this.local(ll);
    const z=this.height(ll)??base,{height:h,radius:r,rotation}=treeAppearance(pool.seeds[id]);
-   put(this.trunks,i,mx,my,z+h*.34,rotation,.27+h*.004,.27+h*.004,h*.68);
-   put(this.nearCrowns[0],i,mx,my,z+h*.76,rotation,r,r*.91,h*.245);
-   put(this.nearCrowns[1],i,mx+r*.25,my-r*.12,z+h*.9,rotation+1,r*.72,r*.8,h*.13);
+   put(this.trunks,i,mx,my,z+h*.28,rotation,.27+h*.004,.27+h*.004,h*.56);
+   put(this.nearCrowns[0],i,mx,my,z+h*.72,rotation,r,r*.84,h*.56);
    for(const mesh of this.nearCrowns)mesh.setColorAt(i,this.palette[(pool.seeds[id]>>>3)%this.palette.length]);
   });
   far.forEach((id,i)=>{
    const [x,y,z]=pool.positions.subarray(id*3,id*3+3),[mx,my]=this.local(toLngLat([x,y]));
-   const {height:h,radius:r,rotation}=treeAppearance(pool.seeds[id]),cluster=this.mobile?3.5:2.5;
-   // A distant crown is a stand of trees; full individual trunks replace it nearby.
-   put(this.farTrunks,i,mx,my,z+h*.34,rotation,.5,.5,h*.68);
-   put(this.farCrowns,i,mx,my,z+h*.77,rotation,r*cluster,r*cluster*.94,h*.26);
+   const {height:h,radius:r,rotation}=treeAppearance(pool.seeds[id]),cluster=.92;
+   // Sparse pointed silhouettes above the continuous forest surface; full tiered pines nearby.
+   put(this.farTrunks,i,mx,my,z+h*.24,rotation,.4,.4,h*.48);
+   put(this.farCrowns,i,mx,my,z+h*.68,rotation,r*cluster,r*cluster*.85,h*.64);
    this.farCrowns.setColorAt(i,this.palette[(pool.seeds[id]>>>3)%this.palette.length]);
   });
   for(const mesh of [this.trunks,...this.nearCrowns]){mesh.count=near.length;mesh.instanceMatrix.needsUpdate=true;if(mesh.instanceColor)mesh.instanceColor.needsUpdate=true;}
@@ -144,7 +148,7 @@ export class ResortScene {
    if(route.cable){route.cable.geometry.dispose();route.cable.geometry=new THREE.BufferGeometry().setFromPoints(route.points.map(p=>new THREE.Vector3(...p)));route.cable.visible=true;}
    else {route.cable=new THREE.Line(new THREE.BufferGeometry().setFromPoints(route.points.map(p=>new THREE.Vector3(...p))),this.cableMaterial);this.vehicles.add(route.cable);}
   }
-  this.updateVehicles();this.onStats({...this.stats});this.map.triggerRepaint();
+  this.refreshRiderPaths();this.updateVehicles();this.updateRiders();this.onStats({...this.stats});this.map.triggerRepaint();
  }
  updateVehicles(){
   const groups={chair:[],drag:[]};
@@ -167,29 +171,67 @@ export class ResortScene {
    });part.mesh.instanceMatrix.needsUpdate=true;
   }
  }
+ makeRiders(){
+  const allowed=new Set(['Ю1','Ю2','Ю3','Ю4','С2','С3']);
+  this.riderRoutes=this.data.trails.features.filter(f=>f.geometry.type==='LineString'&&allowed.has(f.properties.name)).map(feature=>({feature,points:[],length:0,count:this.mobile?2:4}));
+  this.riderCount=this.riderRoutes.reduce((n,r)=>n+r.count,0);this.riderParts=[];
+  const box=new THREE.BoxGeometry(1,1,1),head=new THREE.SphereGeometry(1,6,4);
+  const jacket=this.material(0x467a89),warm=this.material(0xb86849),dark=this.material(0x33434b),helmet=this.material(0xe7dfcb);
+  const add=(geometry,material,position,scale,kind='all')=>this.riderParts.push({position,scale,kind,mesh:this.batch(geometry,material,this.riderCount,this.riders)});
+  add(box,jacket,[0,0,1.08],[.4,.3,.58]);add(head,helmet,[0,0,1.52],[.19,.19,.21]);
+  for(const side of [-1,1]){add(box,dark,[side*.11,0,.52],[.15,.19,.65]);add(box,warm,[side*.29,.08,1.05],[.13,.4,.15]);add(box,dark,[side*.12,.22,.12],[.09,1.7,.045],'ski');}
+  add(box,dark,[0,0,.12],[.28,1.25,.065],'board');
+  this.stats.riders=this.riderCount;
+ }
+ refreshRiderPaths(){
+  for(const route of this.riderRoutes){
+   let coords=route.feature.geometry.coordinates;const a=this.height(coords[0]),b=this.height(coords.at(-1));
+   if(a===null||b===null){route.length=0;route.points=[];continue;}
+   if(a<b)coords=[...coords].reverse();
+   const flat=coords.map(toLocal),length=pathLength(flat),points=[];
+   for(let d=0;d<length;d+=12){const ll=toLngLat(samplePath(flat,d).point),z=this.height(ll);if(z===null)continue;const [x,y]=this.local(ll);points.push([x,y,z+.05]);}
+   const last=coords.at(-1),z=this.height(last),[x,y]=this.local(last);if(z!==null)points.push([x,y,z+.05]);
+   route.points=points;route.length=points.length>1?pathLength(points):0;
+  }
+ }
+ updateRiders(){
+  const people=[];
+  for(const [ri,route] of this.riderRoutes.entries())for(let index=0;index<route.count;index++){
+   const speed=3.2+(ri*7+index*3)%13/3,phase=(index/route.count*route.length+this.elapsed*speed)%(route.length||1);
+   const sample=route.length?samplePath(route.points,phase):null;
+   people.push({sample,board:(ri+index)%3===0,turn:Math.sin(this.elapsed*.7+index*2+ri)*.13});
+  }
+  // Keep trajectories on source centrelines; small heading/lean changes do not invent new paths.
+  for(const part of this.riderParts){people.forEach((r,i)=>{
+   const visible=r.sample&&(part.kind==='all'||(part.kind==='board')===r.board),angle=r.sample?r.sample.angle-Math.PI/2+r.turn:0;
+   if(r.sample){const [x,y,z]=part.position,c=Math.cos(angle),s=Math.sin(angle);this.dummy.position.set(r.sample.point[0]+x*c-y*s,r.sample.point[1]+x*s+y*c,r.sample.point[2]+z);this.dummy.rotation.set(0,r.turn*.25,angle);}
+   this.dummy.scale.set(...part.scale.map(v=>visible?v:0));this.dummy.updateMatrix();part.mesh.setMatrixAt(i,this.dummy.matrix);
+  });part.mesh.instanceMatrix.needsUpdate=true;}
+ }
  setEnabled(value){this.enabled=value;this.lastTime=null;this.schedule();this.map.triggerRepaint();}
  setPaused(value){this.paused=value;this.lastTime=null;this.schedule();this.onStats({...this.stats,paused:value});}
  setLayers({forest,lifts}){this.forestVisible=forest;this.liftsVisible=lifts;this.schedule();this.map.triggerRepaint();}
  schedule(){
   clearTimeout(this.timer);this.timer=null;
-  if(this.disposed||!this.enabled||this.paused||document.hidden||!this.liftsVisible)return;
-  this.timer=setTimeout(()=>{this.timer=null;if(!this.disposed)this.map.triggerRepaint();},1000/(this.mobile?18:24));
+  if(this.disposed||!this.enabled||this.paused||document.hidden||!this.inViewport)return;
+  this.timer=setTimeout(()=>{this.timer=null;if(!this.disposed)this.map.triggerRepaint();},this.frameInterval||1000/(this.mobile?18:24));
  }
  render(gl,args){
-  if(this.disposed||!this.enabled)return;
+  if(this.disposed||!this.enabled||!this.inViewport)return;
   const now=performance.now();
-  if(!this.paused&&!document.hidden&&this.liftsVisible){if(this.lastTime!==null)this.elapsed+=Math.min((now-this.lastTime)/1000,.15);this.lastTime=now;this.updateVehicles();}
+  if(!this.paused&&!document.hidden){if(this.lastTime!==null)this.elapsed+=Math.min((now-this.lastTime)/1000,.15);this.lastTime=now;this.updateVehicles();this.updateRiders();}
   else this.lastTime=null;
   this.forest.visible=this.forestVisible&&this.map.getZoom()>=13.5;
-  this.vehicles.visible=this.liftsVisible;
+  this.vehicles.visible=this.liftsVisible;this.riders.visible=this.map.getZoom()>=14.3;
   this.camera.projectionMatrix.copy(this.matrix.fromArray(args.defaultProjectionData.mainMatrix)).multiply(this.transform);
   this.renderer.resetState();this.renderer.setViewport(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight);this.renderer.render(this.scene,this.camera);this.renderer.resetState();
+  this.frameInterval=Math.max(1000/(this.mobile?18:24),Math.min(500,(performance.now()-now)*2));
   this.stats.frames++;this.stats.elapsed=this.elapsed;this.schedule();
  }
  onRemove(){
   if(this.disposed)return;
   this.disposed=true;clearTimeout(this.timer);clearTimeout(this.terrainTimer);this.timer=null;this.terrainTimer=null;
-  document.removeEventListener('visibilitychange',this.visibility);this.motion?.removeEventListener('change',this.motionChange);
+  this.viewportObserver?.disconnect();document.removeEventListener('visibilitychange',this.visibility);this.motion?.removeEventListener('change',this.motionChange);
   this.map.off('moveend',this.onMove);this.map.off('sourcedata',this.onSource);
   const geometries=new Set();this.scene?.traverse(object=>{if(object.geometry)geometries.add(object.geometry);if(object.isInstancedMesh)object.dispose();});
   geometries.forEach(g=>g.dispose());this.resources.forEach(r=>r.dispose());this.renderer?.dispose();

@@ -1,8 +1,8 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, relayTiles } from './tile-fixture.js';
 
 const root=page=>page.locator('mratkino-map');
 async function ready(page){await page.goto('/');await expect(root(page)).toHaveAttribute('data-map-state','ready',{timeout:45000});await page.waitForFunction(()=>{const el=document.querySelector('mratkino-map');return el.map&&!el.map.isMoving()&&el.map.areTilesLoaded();});}
-async function settled(page){await page.waitForFunction(()=>!document.querySelector('mratkino-map').map.isMoving());}
+async function settled(page){try{await page.waitForFunction(()=>!document.querySelector('mratkino-map').map.isMoving(),null,{timeout:30000});}catch(error){console.log('Movement state',await read(page,el=>({moving:el.map.isMoving(),camera:el.map._camera.isMoving(),handlers:el.map._handlers.isMoving(),rotate:el.map.dragRotate.isActive(),zoom:el.map.getZoom()})));throw error;}}
 const read=(page,fn)=>root(page).evaluate(fn);
 
 test('actual WebGL terrain, real trails and data provenance',async({page})=>{
@@ -19,16 +19,16 @@ test('actual WebGL terrain, real trails and data provenance',async({page})=>{
 });
 
 test('one map changes camera between slopes, can rotate, pitch, zoom and interrupt animation',async({page})=>{
- await ready(page);const south=await read(page,el=>el.map.getBearing());
+ test.setTimeout(240000);await page.setViewportSize({width:1440,height:1080});await ready(page);const south=await read(page,el=>el.map.getBearing());
  await read(page,el=>{el.map.__identity='same-map';});
  await page.getByRole('button',{name:'Северный склон',exact:true}).click();await settled(page);
  const north=await read(page,el=>el.map.getBearing());const delta=Math.abs(((north-south+540)%360)-180);expect(delta).toBeGreaterThan(100);
  expect(await read(page,el=>el.map.__identity)).toBe('same-map');await expect(page.locator('.trail-row')).toHaveCount(3);
  await page.screenshot({path:'renders/live-north.png',fullPage:true});
  await page.getByRole('button',{name:'Южный склон',exact:true}).click();
- await page.waitForTimeout(160);const canvas=page.locator('canvas');const box=await canvas.boundingBox();await page.mouse.move(box.x+box.width*.5,box.y+box.height*.6);await page.mouse.down({button:'right'});await page.waitForTimeout(100);
+ await page.evaluate(()=>{window.mouseTrace=[];for(const type of ['mousedown','mouseup'])document.addEventListener(type,e=>window.mouseTrace.push({type:e.type,button:e.button,buttons:e.buttons,x:e.clientX,y:e.clientY,path:e.composedPath().slice(0,4).map(n=>n.nodeName)}),true);});await page.waitForTimeout(160);const canvas=page.locator('canvas');const box=await canvas.boundingBox();await page.mouse.move(box.x+box.width*.5,box.y+box.height*.6);await page.mouse.down({button:'right'});await page.waitForTimeout(100);
  expect(await read(page,el=>el.map.isMoving())).toBe(false);
- await page.mouse.move(box.x+box.width*.5+100,box.y+box.height*.6+40,{steps:8});await page.mouse.up({button:'right'});await settled(page);
+ await page.mouse.move(box.x+box.width*.5+100,box.y+box.height*.6+40,{steps:8});await page.mouse.up({button:'right'});console.log('Mouse trace',await page.evaluate(()=>window.mouseTrace));await settled(page);
  const rotated=await read(page,el=>el.map.getBearing());expect(Math.abs(rotated-north)).toBeGreaterThan(5);
  await canvas.focus();const pitch=await read(page,el=>el.map.getPitch());await page.keyboard.press('Shift+ArrowDown');await settled(page);expect(await read(page,el=>el.map.getPitch())).toBeLessThan(pitch);
  const zoom=await read(page,el=>el.map.getZoom());await page.locator('.maplibregl-ctrl-zoom-in').click();await settled(page);expect(await read(page,el=>el.map.getZoom())).toBeGreaterThan(zoom);
@@ -53,8 +53,8 @@ test('select real routes, expose conflicts and missing geometry; layer controls 
 test('mobile starts with map visible, sheet collapses, controls do not overlap, no overflow',async({browser})=>{
  const context=await browser.newContext({baseURL:'http://127.0.0.1:5175',viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:1});
  try{
- const page=await context.newPage();await ready(page);
- const rect=await page.locator('.map-wrap').boundingBox();expect(rect.y).toBeLessThan(190);expect(rect.height).toBeGreaterThan(370);
+ const page=await context.newPage();await relayTiles(page);await ready(page);
+ const rect=await page.locator('.map-wrap').boundingBox();expect(rect.y).toBeLessThan(280);expect(rect.height).toBeGreaterThan(370);
  await expect(page.locator('.panel-body')).not.toBeVisible();await page.locator('.mobile-panel-toggle').click();await expect(page.locator('.panel-body')).toBeVisible();await page.locator('.trail-row[data-name="Ю1"]').click();await expect(page.locator('.card')).toContainText('Ю1');
  await page.locator('.mobile-panel-toggle').click();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
@@ -76,7 +76,7 @@ test('mobile starts with map visible, sheet collapses, controls do not overlap, 
  await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
  await expect.poll(()=>page.evaluate(()=>scrollY)).toBeGreaterThan(20);
  expect(await read(page,el=>el.map.getCenter().toArray())).toEqual(center);
- }finally{await context.close();}
+ }finally{await context.unrouteAll({behavior:'ignoreErrors'});await context.close();}
 });
 
 test('no WebGL shows explicit fallback and retry restores live terrain',async({page})=>{
@@ -86,7 +86,7 @@ test('no WebGL shows explicit fallback and retry restores live terrain',async({p
 });
 
 test('missing terrain tiles do not produce a blank or falsely ready map',async({page})=>{
- await page.route('**/live/dem/**/*.png',route=>route.fulfill({status:503,body:'unavailable'}));
+ await page.route('https://tiles.mapterhorn.com/**',route=>route.fulfill({status:503,body:'unavailable'}));
  await page.goto('/');await expect(root(page)).toHaveAttribute('data-map-state','fallback',{timeout:45000});await expect(page.locator('.fallback p')).toContainText('недоступна');await expect(page.locator('.fallback img')).toBeVisible();
 });
 

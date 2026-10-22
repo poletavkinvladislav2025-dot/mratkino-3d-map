@@ -4,11 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#ffffff" />
-    <meta name="description" content="Интерактивная карта горнолыжного центра Мраткино — проект Visit Beloretsk." />
-    <title>Мраткино — интерактивная карта | Visit Beloretsk</title>
+    <meta name="description" content="Единая 3D-карта Белорецкого района: горы, Белорецк и подробная сцена Мраткино." />
+    <title>Белорецкий район — интерактивная карта | Visit Beloretsk</title>
   </head>
   <body>
     <div id="app"></div>
+    <script>
+      // This small recovery handler runs before the hashed entry module.
+      function recoverMapModule() {
+        if (document.querySelector('.module-recovery')) return;
+        var note=document.createElement('div');note.className='module-recovery';note.setAttribute('role','alert');
+        note.style.cssText='position:fixed;bottom:16px;left:16px;right:16px;z-index:99999;padding:16px;background:#244f45;color:white;border-radius:10px;font:14px/1.5 sans-serif;box-shadow:0 2px 20px #0003';
+        note.append(document.createTextNode('Не удалось загрузить часть карты. Возможно, страница открыта до обновления или прервалось соединение. '));
+        var button=document.createElement('button');button.textContent='Загрузить свежую версию';button.style.cssText='padding:8px;margin-left:12px;cursor:pointer';
+        button.onclick=function(){var url=new URL(location.href);url.searchParams.set('_v',Date.now());location.replace(url.href);};note.append(button);document.body.append(note);
+      }
+      window.addEventListener('vite:preloadError',function(event){event.preventDefault();recoverMapModule();});
+      window.addEventListener('error',function(event){if(event.target && event.target.tagName==='SCRIPT' && event.target.src)recoverMapModule();},true);
+    </script>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

@@ -22,3 +22,10 @@ public/renders/
 # Rebuildable live-map delivery artifacts
 build-embed/
 deliverables/
+
+# Downloaded source pages are audit inputs, not redistributed site content.
+data/region/*.html
+.stable/
+.site/
+# Raw API extracts remain locally available; compact matches and provenance are committed.
+data/region/*-osm.xml

@@ -1,0 +1,921 @@
+{
+  "aygir": [
+    {
+      "type": "node",
+      "id": "1187049826",
+      "lat": "54.1383065",
+      "lon": "57.6865765",
+      "tags": {
+        "alt_name": "Айгир",
+        "name": "Айгирский порог",
+        "rapids": "2",
+        "waterway": "rapids"
+      }
+    },
+    {
+      "type": "node",
+      "id": "5863775785",
+      "lat": "54.1349345",
+      "lon": "57.6719795",
+      "tags": {
+        "name": "Хребет Караташ",
+        "name:en": "Karatash ridge",
+        "tourism": "viewpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": "5907614188",
+      "lat": "54.1347295",
+      "lon": "57.6764098",
+      "tags": {
+        "alt_name": "Айгирводоканал",
+        "description": "Родник \"Капелька\" пересыхает к середине лета. А иногда в засушливую весну и вовсе не течет. Капелька назван неспроста, из-за того что идет не привычным ручьем, а просачивается по капельке.",
+        "drinking_water": "yes",
+        "intermittent": "yes",
+        "name": "Капелька",
+        "name:en": "Kapelka",
+        "natural": "spring"
+      }
+    },
+    {
+      "type": "node",
+      "id": "9963391308",
+      "lat": "54.1332346",
+      "lon": "57.6767743",
+      "tags": {
+        "name": "Хребет Караташ",
+        "name:en": "Karatash ridge",
+        "tourism": "viewpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": "11968357649",
+      "lat": "54.1334539",
+      "lon": "57.6767351",
+      "tags": {
+        "name": "Скала \"Чертов палец\"",
+        "tourism": "attraction"
+      }
+    },
+    {
+      "type": "way",
+      "id": "363860243",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "Орлиные скалы",
+        "natural": "cliff"
+      }
+    },
+    {
+      "type": "way",
+      "id": "363860246",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "Скалы Зубы Шурале",
+        "natural": "cliff"
+      }
+    },
+    {
+      "type": "way",
+      "id": "1087429537",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "Зубы Шурале",
+        "name:ru": "Зубы Шурале",
+        "natural": "cliff"
+      }
+    },
+    {
+      "type": "way",
+      "id": "1093575923",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "Малый Инзер",
+        "waterway": "river"
+      }
+    }
+  ],
+  "inzerskie-zubchatki": [
+    {
+      "type": "node",
+      "id": "4349525290",
+      "lat": "54.2708589",
+      "lon": "58.3740960",
+      "tags": {
+        "name": "Инзерские зубчатки",
+        "name:ru": "Инзерские зубчатки",
+        "tourism": "attraction"
+      }
+    },
+    {
+      "type": "node",
+      "id": "12065214069",
+      "lat": "54.2708107",
+      "lon": "58.3735583",
+      "tags": {
+        "name": "Тимина расщелина",
+        "tourism": "attraction"
+      }
+    },
+    {
+      "type": "node",
+      "id": "13130479766",
+      "lat": "54.2717893",
+      "lon": "58.3749732",
+      "tags": {
+        "name": "Многоликая скала",
+        "natural": "rock"
+      }
+    },
+    {
+      "type": "way",
+      "id": "427161963",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "image": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Инзерские_зубчатки.jpg",
+        "name": "Инзерские Зубчатки",
+        "name:ba": "Ирәктәш",
+        "name:en": "Izerskiye Zubchatki",
+        "natural": "ridge",
+        "wikidata": "Q16219212",
+        "wikipedia": "ru:Инзерские Зубчатки"
+      }
+    },
+    {
+      "type": "way",
+      "id": "500237676",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "Амфитеатр",
+        "natural": "bare_rock"
+      }
+    },
+    {
+      "type": "way",
+      "id": "691063989",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "Горный цирк \"Инзерские зубчатки\"",
+        "natural": "bare_rock"
+      }
+    },
+    {
+      "type": "way",
+      "id": "691063990",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "Горный цирк \"Инзерские зубчатки\"",
+        "natural": "bare_rock"
+      }
+    }
+  ],
+  "sinie-skaly": [
+    {
+      "type": "node",
+      "id": "2615905721",
+      "lat": "53.8854244",
+      "lon": "58.5098786",
+      "tags": {
+        "ele": "947.9",
+        "loc_name": "Синие скалы",
+        "name": "Кульсугадыташ",
+        "natural": "peak"
+      }
+    },
+    {
+      "type": "node",
+      "id": "13439669931",
+      "lat": "53.8876430",
+      "lon": "58.5127331",
+      "tags": {
+        "name": "вид на скал. стену и Курташ",
+        "tourism": "viewpoint"
+      }
+    },
+    {
+      "type": "way",
+      "id": "255876322",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "Синие скалы",
+        "natural": "bare_rock",
+        "source": "Bing"
+      }
+    },
+    {
+      "type": "way",
+      "id": "981829702",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "alt_name": "Уральский хребет",
+        "int_name": "Uraltau",
+        "name": "Уралтау",
+        "name:ar": "أورالتو",
+        "name:arz": "اورالتو",
+        "name:ba": "Уралтау",
+        "name:bg": "Уралтау",
+        "name:ceb": "Uraltau",
+        "name:en": "Uraltau",
+        "name:fa": "رشته‌کوه اورالتائو",
+        "name:fr": "Ouraltaou",
+        "name:it": "Uraltau",
+        "name:kk": "Оралтау",
+        "name:lt": "Uraltau",
+        "name:myv": "Уралтау",
+        "name:nl": "Oeraltaoe",
+        "name:ru:word_stress": "Уралта́у",
+        "name:tt": "Уралтау",
+        "name:uk": "Уралтау",
+        "natural": "ridge",
+        "wikipedia": "ru:Уралтау"
+      }
+    },
+    {
+      "type": "way",
+      "id": "983238251",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "Синие скалы",
+        "natural": "bare_rock",
+        "source": "Bing"
+      }
+    }
+  ],
+  "arskiy-kamen": [
+    {
+      "type": "node",
+      "id": "4298954002",
+      "lat": "53.8710369",
+      "lon": "58.2569995",
+      "tags": {
+        "name": "Арский камень",
+        "tourism": "viewpoint"
+      }
+    },
+    {
+      "type": "way",
+      "id": "31679400",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "canoe": "yes",
+        "gvr:code": "10010200112111100016731",
+        "int_name": "Belaya",
+        "kayak": "yes",
+        "name": "Белая",
+        "name:en": "Belaya River",
+        "name:ru": "Белая",
+        "source": "landsat",
+        "waterway": "river"
+      }
+    },
+    {
+      "type": "way",
+      "id": "729855643",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "landuse": "residential",
+        "name": "Арский Камень",
+        "place": "village"
+      }
+    },
+    {
+      "type": "relation",
+      "id": "165099",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "destination": "Kama",
+        "distance": "1420",
+        "gvr:code": "10010200112111100016731",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Мост_через_реку_Белую_(Ишимбай).jpg",
+        "int_name": "Belaya",
+        "name": "Белая",
+        "name:ar": "نهر بيلايا",
+        "name:ba": "Ағиҙел",
+        "name:bxr": "Белой мүрэн",
+        "name:ca": "Riu Bélaia",
+        "name:cv": "Шур Атăл",
+        "name:de": "Belaja",
+        "name:en": "Belaya River",
+        "name:eo": "Belaja",
+        "name:es": "Bélaya",
+        "name:hr": "Belaja",
+        "name:kk": "Ақеділ",
+        "name:ky": "Акедил",
+        "name:mhr": "Ош Виче",
+        "name:myv": "Ашо",
+        "name:pt": "Belaia",
+        "name:ru": "Белая",
+        "name:tr": "Ağizel Nehri",
+        "name:tt": "Агыйдел",
+        "name:udm": "Тӧдьы Кам",
+        "name:uk": "Біла",
+        "name:xmf": "ბელაია",
+        "name:zh": "别拉亚河",
+        "order:classic": "3",
+        "type": "waterway",
+        "waterway": "river",
+        "wikidata": "Q192157",
+        "wikipedia": "ru:Белая (приток Камы)"
+      }
+    }
+  ],
+  "atysh": [
+    {
+      "type": "node",
+      "id": "1184208917",
+      "lat": "54.5992713",
+      "lon": "57.5670629",
+      "tags": {
+        "name": "Чёрная речка (Караманташ)",
+        "rapids": "3",
+        "waterway": "rapids"
+      }
+    },
+    {
+      "type": "node",
+      "id": "1333674537",
+      "lat": "54.5556043",
+      "lon": "57.2716656",
+      "tags": {
+        "access": "yes",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Водопад_Атыш_2016.jpg",
+        "name": "Атыш",
+        "name:ba": "Атыш-Сумған",
+        "name:en": "Atish",
+        "name:ru:word_stress": "Аты́ш",
+        "tourism": "attraction",
+        "waterway": "waterfall",
+        "wikidata": "Q4072321",
+        "wikimedia_commons": "Category:Atysh waterfall",
+        "wikipedia": "ru:Атыш (водопад)"
+      }
+    },
+    {
+      "type": "node",
+      "id": "3681363286",
+      "lat": "54.5743494",
+      "lon": "57.2902526",
+      "tags": {
+        "name": "Понор Атыш-Сумган",
+        "tourism": "attraction"
+      }
+    },
+    {
+      "type": "node",
+      "id": "6451263487",
+      "lat": "54.5564620",
+      "lon": "57.2728163",
+      "tags": {
+        "name": "Вид на реку Лемеза",
+        "tourism": "viewpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": "6451269385",
+      "lat": "54.5562675",
+      "lon": "57.2729641",
+      "tags": {
+        "name": "Медвежья пещера",
+        "natural": "cave_entrance"
+      }
+    },
+    {
+      "type": "node",
+      "id": "6581116877",
+      "lat": "54.5555866",
+      "lon": "57.2714664",
+      "tags": {
+        "name": "Водопад Атыш",
+        "tourism": "viewpoint"
+      }
+    },
+    {
+      "type": "node",
+      "id": "14102585860",
+      "lat": "54.5556052",
+      "lon": "57.2716677",
+      "tags": {
+        "alt_name": "Атышский грот;Атышская пещера",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Пещера_водопада_Атыш.JPG",
+        "name": "Атыш",
+        "name:ba": "Атыш-Сумған",
+        "name:en": "Atish",
+        "name:ru:word_stress": "Аты́ш",
+        "natural": "cave_entrance",
+        "wikidata": "Q4072322",
+        "wikipedia": "ru:Атыш (пещера)"
+      }
+    },
+    {
+      "type": "way",
+      "id": "102540554",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "image": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Lemeza_river.jpg",
+        "int_name": "Lemeza",
+        "name": "Лемеза",
+        "name:ba": "Ләмәҙ",
+        "name:en": "Lemeza",
+        "name:ru:word_stress": "Лемеза́",
+        "name:tt": "Ләмәз",
+        "status": "река",
+        "waterway": "river",
+        "whitewater": "section",
+        "whitewater:section_grade": "2",
+        "whitewater:section_name": "Лемеза",
+        "wikidata": "Q4736242",
+        "wikimedia_commons": "Category:Lemeza River",
+        "wikipedia": "ru:Лемеза (река)"
+      }
+    },
+    {
+      "type": "way",
+      "id": "155422745",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "int_name": "Atysh",
+        "name": "Атыш",
+        "name:en": "Atysh",
+        "source": "bing",
+        "waterway": "river",
+        "wikidata": "Q4072326",
+        "wikimedia_commons": "Category:Atysh",
+        "wikipedia": "ru:Атыш (река)"
+      }
+    },
+    {
+      "type": "way",
+      "id": "562497846",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "layer": "-1",
+        "name": "Атыш",
+        "tunnel": "yes",
+        "waterway": "stream"
+      }
+    }
+  ],
+  "kamennaya-rechka": [
+    {
+      "type": "node",
+      "id": "2031955421",
+      "lat": "54.0561241",
+      "lon": "58.2966181",
+      "tags": {
+        "ele": "745",
+        "name": "Золотые шишки",
+        "natural": "peak"
+      }
+    },
+    {
+      "type": "node",
+      "id": "4936557223",
+      "lat": "54.0498012",
+      "lon": "58.2653651",
+      "tags": {
+        "name": "Каменная река",
+        "name:ru": "Каменная река",
+        "tourism": "attraction"
+      }
+    },
+    {
+      "type": "node",
+      "id": "13245263501",
+      "lat": "54.0456055",
+      "lon": "58.2621089",
+      "tags": {
+        "name": "Ручей",
+        "natural": "spring"
+      }
+    },
+    {
+      "type": "way",
+      "id": "60986192",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "int_name": "Nura",
+        "name": "Нура",
+        "name:ba": "Нур",
+        "name:en": "Nura River",
+        "name:ru": "Нура",
+        "waterway": "river"
+      }
+    },
+    {
+      "type": "way",
+      "id": "192651888",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "горы Золотые Шишки",
+        "natural": "ridge"
+      }
+    }
+  ],
+  "abzakovo": [
+    {
+      "type": "way",
+      "id": "96913564",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "addr:city": "Новоабзаково",
+        "addr:country": "RU",
+        "addr:housenumber": "101/1",
+        "addr:street": "Горнолыжная улица",
+        "building": "hotel",
+        "name": "Абзаково Спорт-отель",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "way",
+      "id": "96913566",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "addr:city": "Новоабзаково",
+        "addr:country": "RU",
+        "addr:housenumber": "101",
+        "addr:street": "Горнолыжная улица",
+        "building": "yes",
+        "building:levels": "3",
+        "information": "office",
+        "name": "ГЛЦ «Абзаково»",
+        "tourism": "information"
+      }
+    }
+  ],
+  "beloretsk": [
+    {
+      "type": "node",
+      "id": "253261493",
+      "lat": "53.9680705",
+      "lon": "58.4099549",
+      "tags": {
+        "addr:city": "Белорецк",
+        "addr:country": "RU",
+        "addr:district": "Белорецкий район",
+        "addr:postcode": "453500",
+        "addr:region": "Башкортостан",
+        "contact:website": "https://beloretsk.bashkortostan.ru/district/settlements/113/",
+        "ele": "500",
+        "flag": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Flag_of_Beloretsk_(Bashkortostan).png",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Beloret_square.jpg",
+        "int_name": "Beloretsk",
+        "name": "Белорецк",
+        "name:ar": "بيلوريتسك",
+        "name:az": "Beloretsk",
+        "name:ba": "Белорет",
+        "name:be": "Беларэцк",
+        "name:ca": "Beloretsk",
+        "name:crh": "Beloret",
+        "name:cs": "Běloreck",
+        "name:de": "Belorezk",
+        "name:en": "Beloretsk",
+        "name:eo": "Beloreck",
+        "name:es": "Beloretsk",
+        "name:et": "Beloretsk",
+        "name:fa": "بلورتسک",
+        "name:fi": "Beloretsk",
+        "name:fr": "Beloretsk",
+        "name:hr": "Beloreck",
+        "name:hu": "Beloreck",
+        "name:it": "Beloreck",
+        "name:ja": "ベロレツク",
+        "name:ka": "ბელორეცკი",
+        "name:ko": "벨로레츠크",
+        "name:lt": "Beloreckas",
+        "name:lv": "Belorecka",
+        "name:nb": "Beloretsk",
+        "name:nn": "Beloretsk",
+        "name:pl": "Biełorieck",
+        "name:ro": "Belorețk",
+        "name:ru": "Белорецк",
+        "name:ru:word_stress": "Белоре́цк",
+        "name:sv": "Beloretsk",
+        "name:tl": "Beloretsk",
+        "name:tr": "Beloretsk",
+        "name:tt": "Белорет",
+        "name:uk": "Бєлорєцьк",
+        "name:ur": "بیلورتسک",
+        "name:vi": "Beloretsk",
+        "name:zh": "別洛列茨克",
+        "name:zh-Hant": "別洛列茨克",
+        "official_status": "ru:город",
+        "place": "city",
+        "population": "63743",
+        "population:date": "2024",
+        "postal_code": "453500",
+        "sqkm": "41",
+        "start_date": "1762",
+        "wikidata": "Q104778",
+        "wikimedia_commons": "Category:Beloretsk",
+        "wikipedia": "ru:Белорецк"
+      }
+    },
+    {
+      "type": "node",
+      "id": "9954224008",
+      "lat": "53.9708592",
+      "lon": "58.4004830",
+      "tags": {
+        "name": "Скала Уроки",
+        "tourism": "attraction"
+      }
+    },
+    {
+      "type": "node",
+      "id": "10650491105",
+      "lat": "53.9703267",
+      "lon": "58.4049130",
+      "tags": {
+        "name": "Водонапорная башня",
+        "tourism": "attraction"
+      }
+    },
+    {
+      "type": "way",
+      "id": "28169087",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "canoe": "yes",
+        "gvr:code": "10010200112111100016731",
+        "int_name": "Belaya",
+        "kayak": "yes",
+        "name": "Белая",
+        "name:ba": "Ағиҙел",
+        "name:en": "Belaya River",
+        "name:ru": "Белая",
+        "source": "landsat",
+        "waterway": "river"
+      }
+    },
+    {
+      "type": "way",
+      "id": "28169089",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "Белорецкий пруд",
+        "natural": "water",
+        "water": "pond"
+      }
+    },
+    {
+      "type": "way",
+      "id": "60986192",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "int_name": "Nura",
+        "name": "Нура",
+        "name:ba": "Нур",
+        "name:en": "Nura River",
+        "name:ru": "Нура",
+        "waterway": "river"
+      }
+    },
+    {
+      "type": "way",
+      "id": "62371219",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "Белая",
+        "name:ru": "Белая",
+        "natural": "water",
+        "water": "river"
+      }
+    },
+    {
+      "type": "way",
+      "id": "131380982",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "Выселки",
+        "place": "suburb",
+        "residential": "rural"
+      }
+    },
+    {
+      "type": "way",
+      "id": "133658824",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "Мата",
+        "waterway": "river"
+      }
+    },
+    {
+      "type": "way",
+      "id": "155182877",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "addr:city": "Белорецк",
+        "addr:country": "RU",
+        "addr:district": "Белорецкий район",
+        "addr:housenumber": "30А",
+        "addr:postcode": "453500",
+        "addr:region": "Башкортостан",
+        "addr:street": "улица Ленина",
+        "building": "yes",
+        "name": "Белорецкий историко-краеведческий музей",
+        "tourism": "museum"
+      }
+    },
+    {
+      "type": "way",
+      "id": "155238535",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "addr:city": "Белорецк",
+        "addr:country": "RU",
+        "addr:district": "Белорецкий район",
+        "addr:housenumber": "39",
+        "addr:postcode": "453500",
+        "addr:region": "Башкортостан",
+        "addr:street": "улица Ленина",
+        "building": "commercial",
+        "building:levels": "6",
+        "name": "Белорецк",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "way",
+      "id": "417552625",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "canoe": "no",
+        "gvr:code": "10010200112111100016731",
+        "int_name": "Belaya",
+        "kayak": "no",
+        "layer": "-1",
+        "name": "Белая",
+        "name:ba": "Ағиҙел",
+        "name:en": "Belaya River",
+        "name:ru": "Белая",
+        "source": "landsat",
+        "tunnel": "culvert",
+        "waterway": "river"
+      }
+    },
+    {
+      "type": "way",
+      "id": "417552634",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "canoe": "yes",
+        "gvr:code": "10010200112111100016731",
+        "int_name": "Belaya",
+        "kayak": "yes",
+        "name": "Белая",
+        "name:ba": "Ағиҙел",
+        "name:en": "Belaya River",
+        "name:ru": "Белая",
+        "source": "landsat",
+        "waterway": "river"
+      }
+    },
+    {
+      "type": "way",
+      "id": "510354116",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "addr:city": "Белорецк",
+        "addr:country": "RU",
+        "addr:district": "Белорецкий район",
+        "addr:housenumber": "84",
+        "addr:postcode": "453500",
+        "addr:region": "Башкортостан",
+        "addr:street": "улица Маяковского",
+        "building": "yes",
+        "name": "Отель \"Банкир\"",
+        "tourism": "hotel"
+      }
+    },
+    {
+      "type": "way",
+      "id": "531065202",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "Гуменный ключ",
+        "waterway": "stream"
+      }
+    },
+    {
+      "type": "way",
+      "id": "545441851",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "construction": "yes",
+        "landuse": "residential",
+        "name": "Выселки-2",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "way",
+      "id": "701835959",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "canoe": "no",
+        "gvr:code": "10010200112111100016731",
+        "int_name": "Belaya",
+        "kayak": "no",
+        "layer": "-1",
+        "name": "Белая",
+        "name:ba": "Ағиҙел",
+        "name:en": "Belaya River",
+        "name:ru": "Белая",
+        "source": "landsat",
+        "tunnel": "culvert",
+        "waterway": "river"
+      }
+    },
+    {
+      "type": "way",
+      "id": "1198427629",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "name": "Веревочный парк",
+        "tourism": "theme_park"
+      }
+    },
+    {
+      "type": "relation",
+      "id": "165099",
+      "lat": null,
+      "lon": null,
+      "tags": {
+        "destination": "Kama",
+        "distance": "1420",
+        "gvr:code": "10010200112111100016731",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Мост_через_реку_Белую_(Ишимбай).jpg",
+        "int_name": "Belaya",
+        "name": "Белая",
+        "name:ar": "نهر بيلايا",
+        "name:ba": "Ағиҙел",
+        "name:bxr": "Белой мүрэн",
+        "name:ca": "Riu Bélaia",
+        "name:cv": "Шур Атăл",
+        "name:de": "Belaja",
+        "name:en": "Belaya River",
+        "name:eo": "Belaja",
+        "name:es": "Bélaya",
+        "name:hr": "Belaja",
+        "name:kk": "Ақеділ",
+        "name:ky": "Акедил",
+        "name:mhr": "Ош Виче",
+        "name:myv": "Ашо",
+        "name:pt": "Belaia",
+        "name:ru": "Белая",
+        "name:tr": "Ağizel Nehri",
+        "name:tt": "Агыйдел",
+        "name:udm": "Тӧдьы Кам",
+        "name:uk": "Біла",
+        "name:xmf": "ბელაია",
+        "name:zh": "别拉亚河",
+        "order:classic": "3",
+        "type": "waterway",
+        "waterway": "river",
+        "wikidata": "Q192157",
+        "wikipedia": "ru:Белая (приток Камы)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,467 @@
+{
+  "checkedOn": "2026-10-22",
+  "source": "OpenStreetMap Overpass API, natural=peak, bbox 53.4,57.1,54.85,59.1; OSM API 0.6 map bounding boxes for natural features and city node",
+  "method": "name and proximity matching; ridge centres and unverified project references retained explicitly",
+  "places": [
+    {
+      "id": "aygir",
+      "name": "Айгир",
+      "kind": "rocks",
+      "projectCoordinates": [
+        57.677734,
+        54.133177
+      ],
+      "coordinates": [
+        57.6767743,
+        54.1332346
+      ],
+      "coordinateStatus": "osm-reference-matched",
+      "major": true,
+      "zoneRadiusKm": 10,
+      "note": "Айгирские скалы: ориентир привязан к видовой площадке хребта Караташ в OSM, а не к отдельной вершине.",
+      "osmId": "node/9963391308",
+      "osmName": "Хребет Караташ",
+      "checkedOn": "2026-10-22"
+    },
+    {
+      "id": "iremel",
+      "name": "Большой Иремель",
+      "kind": "peak",
+      "projectCoordinates": [
+        58.842533,
+        54.52
+      ],
+      "coordinates": [
+        58.8426569,
+        54.5200868
+      ],
+      "coordinateStatus": "osm-peak-matched",
+      "major": true,
+      "zoneRadiusKm": 10,
+      "osmId": "node/365668953",
+      "osmName": "Большой Иремель",
+      "elevation": 1582.3,
+      "checkedOn": "2026-10-22",
+      "note": "Вершина сопоставлена с OSM по названию и положению; это не геодезическая проверка.",
+      "access": "Природный парк «Иремель»: перед поездкой уточните действующие правила посещения."
+    },
+    {
+      "id": "inzerskie-zubchatki",
+      "name": "Инзерские Зубчатки",
+      "kind": "ridge",
+      "projectCoordinates": [
+        58.374117,
+        54.270733
+      ],
+      "coordinates": [
+        58.374096,
+        54.2708589
+      ],
+      "coordinateStatus": "osm-reference-matched",
+      "major": false,
+      "zoneRadiusKm": 10,
+      "note": "Ориентир скального массива сопоставлен с объектом OSM; это не координаты всей границы хребта.",
+      "osmId": "node/4349525290",
+      "osmName": "Инзерские зубчатки",
+      "checkedOn": "2026-10-22"
+    },
+    {
+      "id": "malinovaya",
+      "name": "Первая Малиновая",
+      "kind": "peak",
+      "projectCoordinates": [
+        58.316773,
+        54.003275
+      ],
+      "coordinates": [
+        58.3151783,
+        54.0042186
+      ],
+      "coordinateStatus": "osm-peak-matched",
+      "major": false,
+      "zoneRadiusKm": 10,
+      "osmId": "node/2031955355",
+      "osmName": "Малиновая (1)",
+      "elevation": 914.7,
+      "checkedOn": "2026-10-22",
+      "note": "Вершина сопоставлена с OSM по названию и положению; это не геодезическая проверка."
+    },
+    {
+      "id": "malinovaya-3",
+      "name": "Третья Малиновая",
+      "kind": "peak",
+      "projectCoordinates": [
+        58.292092,
+        54.021079
+      ],
+      "coordinates": [
+        58.2915922,
+        54.0205484
+      ],
+      "coordinateStatus": "osm-peak-matched",
+      "major": false,
+      "zoneRadiusKm": 10,
+      "osmId": "node/763490278",
+      "osmName": "Малиновая (3)",
+      "elevation": 1152.0,
+      "checkedOn": "2026-10-22",
+      "note": "Вершина сопоставлена с OSM по названию и положению; это не геодезическая проверка."
+    },
+    {
+      "id": "yalangas",
+      "name": "Ялангас",
+      "kind": "peak",
+      "projectCoordinates": [
+        58.31903,
+        54.127702
+      ],
+      "coordinates": [
+        58.31852,
+        54.1278441
+      ],
+      "coordinateStatus": "osm-peak-matched",
+      "major": true,
+      "zoneRadiusKm": 10,
+      "osmId": "node/743130758",
+      "osmName": "Ялангас",
+      "elevation": 1297.0,
+      "checkedOn": "2026-10-22",
+      "note": "Вершина сопоставлена с OSM по названию и положению; это не геодезическая проверка."
+    },
+    {
+      "id": "yamantau",
+      "name": "Ямантау",
+      "kind": "peak",
+      "projectCoordinates": [
+        58.105652,
+        54.254422
+      ],
+      "coordinates": [
+        58.1040145,
+        54.2549012
+      ],
+      "coordinateStatus": "osm-peak-matched",
+      "major": true,
+      "zoneRadiusKm": 10,
+      "osmId": "node/763489581",
+      "osmName": "Ямантау",
+      "elevation": 1640.4,
+      "checkedOn": "2026-10-22",
+      "note": "Вершина сопоставлена с OSM по названию и положению; это не геодезическая проверка.",
+      "access": "Район Южно-Уральского заповедника. Свободное посещение не предполагается; правила и разрешение уточняйте у администрации. Маршрут не предлагается."
+    },
+    {
+      "id": "maly-yamantau",
+      "name": "Малый Ямантау",
+      "kind": "peak",
+      "projectCoordinates": [
+        57.696156,
+        54.184593
+      ],
+      "coordinates": [
+        57.6953917,
+        54.1832167
+      ],
+      "coordinateStatus": "osm-peak-matched",
+      "major": false,
+      "zoneRadiusKm": 10,
+      "osmId": "node/4069900686",
+      "osmName": "Малый Ямантау",
+      "elevation": 974.0,
+      "checkedOn": "2026-10-22",
+      "note": "Вершина сопоставлена с OSM по названию и положению; это не геодезическая проверка.",
+      "access": "Район Южно-Уральского заповедника. Свободное посещение не предполагается; правила и разрешение уточняйте у администрации. Маршрут не предлагается."
+    },
+    {
+      "id": "kirel",
+      "name": "Кирель",
+      "kind": "peak",
+      "projectCoordinates": [
+        58.23166,
+        54.028744
+      ],
+      "coordinates": [
+        58.2308329,
+        54.0285532
+      ],
+      "coordinateStatus": "osm-peak-matched",
+      "major": false,
+      "zoneRadiusKm": 10,
+      "osmId": "node/763489954",
+      "osmName": "Кирель",
+      "elevation": 1162.0,
+      "checkedOn": "2026-10-22",
+      "note": "Вершина сопоставлена с OSM по названию и положению; это не геодезическая проверка."
+    },
+    {
+      "id": "kushay",
+      "name": "Кушай",
+      "kind": "peak",
+      "projectCoordinates": [
+        58.583285,
+        53.709749
+      ],
+      "coordinates": [
+        58.5830585,
+        53.7097259
+      ],
+      "coordinateStatus": "osm-peak-matched",
+      "major": false,
+      "zoneRadiusKm": 10,
+      "osmId": "node/1930833277",
+      "osmName": "Кушай",
+      "elevation": 1049.0,
+      "checkedOn": "2026-10-22",
+      "note": "Вершина сопоставлена с OSM по названию и положению; это не геодезическая проверка."
+    },
+    {
+      "id": "kraka",
+      "name": "Хребет Крака",
+      "kind": "ridge",
+      "projectCoordinates": [
+        58.039331,
+        53.605817
+      ],
+      "coordinates": [
+        58.039331,
+        53.605817
+      ],
+      "coordinateStatus": "project-reference",
+      "major": true,
+      "zoneRadiusKm": 10,
+      "note": "Ориентир хребта из задания, не координаты отдельной вершины. Положение требует дальнейшей сверки."
+    },
+    {
+      "id": "kurtashtau",
+      "name": "Курташтау",
+      "kind": "peak",
+      "projectCoordinates": [
+        58.573613,
+        53.927334
+      ],
+      "coordinates": [
+        58.57374,
+        53.9272676
+      ],
+      "coordinateStatus": "osm-peak-matched",
+      "major": false,
+      "zoneRadiusKm": 10,
+      "osmId": "node/1995587027",
+      "osmName": "Курташтау",
+      "elevation": 1019.6,
+      "checkedOn": "2026-10-22",
+      "note": "Вершина сопоставлена с OSM по названию и положению; это не геодезическая проверка."
+    },
+    {
+      "id": "kumardak",
+      "name": "Кумардак",
+      "kind": "peak",
+      "projectCoordinates": [
+        58.419291,
+        54.377466
+      ],
+      "coordinates": [
+        58.41947,
+        54.3772791
+      ],
+      "coordinateStatus": "osm-peak-matched",
+      "major": false,
+      "zoneRadiusKm": 10,
+      "osmId": "node/5243028449",
+      "osmName": "Большой Кумардак",
+      "elevation": 1318.2,
+      "checkedOn": "2026-10-22",
+      "note": "Вершина сопоставлена с OSM по названию и положению; это не геодезическая проверка."
+    },
+    {
+      "id": "rassypnaya",
+      "name": "Рассыпная",
+      "kind": "peak",
+      "projectCoordinates": [
+        58.425567,
+        54.105889
+      ],
+      "coordinates": [
+        58.4254459,
+        54.1060836
+      ],
+      "coordinateStatus": "osm-peak-matched",
+      "major": false,
+      "zoneRadiusKm": 10,
+      "osmId": "node/743129983",
+      "osmName": "Рассыпная",
+      "elevation": 1019.0,
+      "checkedOn": "2026-10-22",
+      "note": "Вершина сопоставлена с OSM по названию и положению; это не геодезическая проверка."
+    },
+    {
+      "id": "poperechnaya",
+      "name": "Поперечная",
+      "kind": "peak",
+      "projectCoordinates": [
+        58.65272,
+        54.648918
+      ],
+      "coordinates": [
+        58.6527199,
+        54.64892
+      ],
+      "coordinateStatus": "osm-peak-matched",
+      "major": false,
+      "zoneRadiusKm": 10,
+      "osmId": "node/747120985",
+      "osmName": "Поперечная",
+      "elevation": 1389.2,
+      "checkedOn": "2026-10-22",
+      "note": "Вершина сопоставлена с OSM по названию и положению; это не геодезическая проверка."
+    },
+    {
+      "id": "arvyak-ryaz",
+      "name": "Арвяк-Рязь",
+      "kind": "peak",
+      "projectCoordinates": [
+        58.326348,
+        53.774752
+      ],
+      "coordinates": [
+        58.3270721,
+        53.7732485
+      ],
+      "coordinateStatus": "osm-peak-matched",
+      "major": false,
+      "zoneRadiusKm": 10,
+      "osmId": "node/5814433220",
+      "osmName": "Арвякрязь",
+      "elevation": 1068.0,
+      "checkedOn": "2026-10-22",
+      "note": "Вершина сопоставлена с OSM по названию и положению; это не геодезическая проверка."
+    },
+    {
+      "id": "mratkino",
+      "name": "Мраткино",
+      "kind": "resort",
+      "projectCoordinates": [
+        58.441455,
+        54.000315
+      ],
+      "coordinates": [
+        58.4371909,
+        53.9974603
+      ],
+      "coordinateStatus": "osm-peak-matched",
+      "major": true,
+      "zoneRadiusKm": 10,
+      "osmId": "node/11910295814",
+      "osmName": "Мраткино",
+      "elevation": 795.1,
+      "checkedOn": "2026-10-22",
+      "note": "Камера охватывает курорт. Подпись вершины привязана к отдельной вершине OSM, а не к исходной точке комплекса."
+    },
+    {
+      "id": "sinie-skaly",
+      "name": "Синие скалы",
+      "kind": "rocks",
+      "projectCoordinates": [
+        58.509249,
+        53.885056
+      ],
+      "coordinates": [
+        58.5098786,
+        53.8854244
+      ],
+      "coordinateStatus": "osm-reference-matched",
+      "major": false,
+      "zoneRadiusKm": 10,
+      "note": "Вершина Кульсугадыташ, местное название в OSM — «Синие скалы».",
+      "osmId": "node/2615905721",
+      "osmName": "Кульсугадыташ",
+      "checkedOn": "2026-10-22",
+      "elevation": 947.9
+    },
+    {
+      "id": "arskiy-kamen",
+      "name": "Арский камень",
+      "kind": "rocks",
+      "projectCoordinates": [
+        58.256564,
+        53.870892
+      ],
+      "coordinates": [
+        58.2569995,
+        53.8710369
+      ],
+      "coordinateStatus": "osm-reference-matched",
+      "major": false,
+      "zoneRadiusKm": 10,
+      "note": "Ориентир привязан к видовой точке «Арский камень» в OSM.",
+      "osmId": "node/4298954002",
+      "osmName": "Арский камень",
+      "checkedOn": "2026-10-22"
+    },
+    {
+      "id": "atysh",
+      "name": "Водопад Атыш",
+      "kind": "waterfall",
+      "projectCoordinates": [
+        57.271753,
+        54.555669
+      ],
+      "coordinates": [
+        57.2716656,
+        54.5556043
+      ],
+      "coordinateStatus": "osm-reference-matched",
+      "major": false,
+      "zoneRadiusKm": 10,
+      "note": "Точка водопада сопоставлена с узлом waterway=waterfall в OSM.",
+      "osmId": "node/1333674537",
+      "osmName": "Атыш",
+      "checkedOn": "2026-10-22"
+    },
+    {
+      "id": "kamennaya-rechka",
+      "name": "Каменная речка",
+      "kind": "natural",
+      "projectCoordinates": [
+        58.267802,
+        54.050217
+      ],
+      "coordinates": [
+        58.2653651,
+        54.0498012
+      ],
+      "coordinateStatus": "osm-reference-matched",
+      "major": false,
+      "zoneRadiusKm": 10,
+      "note": "Ориентир сопоставлен с объектом «Каменная река» в OSM; границы каменной россыпи не обследованы.",
+      "osmId": "node/4936557223",
+      "osmName": "Каменная река",
+      "checkedOn": "2026-10-22"
+    },
+    {
+      "id": "abzakovo",
+      "name": "ГЛЦ Абзаково",
+      "kind": "resort",
+      "projectCoordinates": [
+        58.6224,
+        53.7959
+      ],
+      "coordinates": [
+        58.6224,
+        53.7959
+      ],
+      "coordinateStatus": "project-reference",
+      "major": true,
+      "zoneRadiusKm": 10,
+      "note": "Приблизительная точка комплекса из задания; границы и трассы курорта пока не нанесены."
+    }
+  ],
+  "city": {
+    "id": "node/253261493",
+    "coordinates": [
+      58.4099549,
+      53.9680705
+    ],
+    "name": "Белорецк"
+  }
+}
