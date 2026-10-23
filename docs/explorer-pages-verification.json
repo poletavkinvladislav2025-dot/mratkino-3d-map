@@ -1,0 +1,395 @@
+{
+  "checkedAt": "2026-10-23T09:23:32.574497+00:00",
+  "previewRef": "fc1ac28b5fb3fd50781d8d91733ab8ad9e43da7c",
+  "previewUrl": "https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/explorer/?place=all",
+  "previousRegionalRef": "479b349eef16218a6d7d96bda7612270a11a416a",
+  "preservedPreviousFiles": 22,
+  "verifiedFiles": 42,
+  "files": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 681,
+      "sha256": "d6ee091305882e470637764442e022f97e3a540921403b1ba00026c54d9780bb",
+      "sha256Verified": true,
+      "mime": "text/html; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "assets/index-PP_qyEw1.js",
+      "status": 200,
+      "bytes": 126039,
+      "sha256": "ed1a5de49ceb53afda554f911957e6f3c6a252ace1eae402f6cd65087f9b8da0",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/index.html",
+      "status": 200,
+      "bytes": 2112,
+      "sha256": "64f551fa79b6debdfafbe13987af9db21eee35781319b6e454bd8d2e45a9ad84",
+      "sha256Verified": true,
+      "mime": "text/html; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/index-C4NwicCl.css",
+      "status": 200,
+      "bytes": 263,
+      "sha256": "5696b5bd3f3827d6290d5f2e41901ad664fbe7a4135d6d261b8785782ed6d15c",
+      "sha256Verified": true,
+      "mime": "text/css; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/index-CqYOAn4i.js",
+      "status": 200,
+      "bytes": 193014,
+      "sha256": "2e44a5eed3980e9497a921b6c2beb5307e5ecc913fa3f98ef69b8c3c3a2bc495",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/maplibre-gl-Y_FXurWg.js",
+      "status": 200,
+      "bytes": 1094988,
+      "sha256": "6c6686f8396ef684d500c1df4bb9228df2cc4a3f7ca1b9380416016512b1d817",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/maplibre-gl-worker-BrB25tGK.mjs",
+      "status": 200,
+      "bytes": 518806,
+      "sha256": "1c69066368331aae63967ed24a9affcf962cf55fcc6d8f532a8b040f736dbcfa",
+      "sha256Verified": true,
+      "mime": "text/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/nature-scene-qXGf--Ii.js",
+      "status": 200,
+      "bytes": 5709,
+      "sha256": "e92a096c04e51ae921f10c2b1546cf0449569d8d3136eb7b3a620eece9515e2c",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/resort-scene-BQ6VlT7A.js",
+      "status": 200,
+      "bytes": 26349,
+      "sha256": "58289239f70e218af8605ae42f578eeb6e7bee57235c62374ca19cbd9d7f335d",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/resort-scene-data-lD3vtiI1.js",
+      "status": 200,
+      "bytes": 4132,
+      "sha256": "c269b2a884326cd32c4790fa7cf4f6211391e777d620ed2beb3ee14770a2e4af",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/routes-cUAb4RNe.js",
+      "status": 200,
+      "bytes": 3651,
+      "sha256": "ab249e4511a00c7d00c4a75dab03b269eb89081d90b5a560fb66cbf626e2cb7a",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/three.module-C7-2b9wl.js",
+      "status": 200,
+      "bytes": 481720,
+      "sha256": "e29d7c06a2243cb88afe4e94852f9752be74a8e20b46bceac08a3f0720fb09a4",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/index-DRLImaiS.js",
+      "status": 200,
+      "bytes": 190916,
+      "sha256": "a0ee9a68c69fc62b35d1acdf9be476aca0f1ad715b54a1eab3021f1ef15d4e83",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/nature-scene-DyN4wYGC.js",
+      "status": 200,
+      "bytes": 5709,
+      "sha256": "999433cd992a8283bbeeef7ffdb948a06a8981ae8f686435831176a957d7fef7",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/resort-scene-CyZOI_qv.js",
+      "status": 200,
+      "bytes": 25939,
+      "sha256": "9e82131dc5dbd475eadd388c9b2c3dbfb1ca7622a8d9934ec7353ec004f78efc",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/resort-scene-data-D-ZbFFaf.js",
+      "status": 200,
+      "bytes": 4116,
+      "sha256": "141a72541a326aa0047ef200d3692fcf8c3eb243ea5faf75793ce75d44d5056e",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/routes-GUvelYn5.js",
+      "status": 200,
+      "bytes": 3651,
+      "sha256": "82ffbbff6dd8b76e555cb2601a569d6c5c79f856e9f8c0d2f4aebb94671c4afc",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/index-C1H0Gt4d.js",
+      "status": 200,
+      "bytes": 174132,
+      "sha256": "a613b7451419ee37c9c1160a37eab8bf2966e77c2c9bc09ae21caed73c9c7233",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/nature-scene-Bwaw-48p.js",
+      "status": 200,
+      "bytes": 5709,
+      "sha256": "f18d25a87b872f0b48a27266af4f1444d3038a2b496f8a0a8c6baff611948369",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/resort-scene-data-yQYy5qRu.js",
+      "status": 200,
+      "bytes": 3958,
+      "sha256": "1d8165430644255343a6b7628726673a672609367cacb053dbe86916e6eb58a2",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/resort-scene-pLwjdvn8.js",
+      "status": 200,
+      "bytes": 24864,
+      "sha256": "f4cc4bcf8939e89171ca876e6015de8f1eb0bfa07098b225980a1891ed880e9f",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/region/assets/routes-CDZvHPp2.js",
+      "status": 200,
+      "bytes": 3651,
+      "sha256": "39bca777fc9a3d39abedff87b59f08d7df85ff86880c79f391745b5e8bf67086",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": true
+    },
+    {
+      "path": "preview/explorer/index.html",
+      "status": 200,
+      "bytes": 2112,
+      "sha256": "5ed5a7d2c0360e7a50c7454227cc8042615ec9773eed350735018007dc1573ba",
+      "sha256Verified": true,
+      "mime": "text/html; charset=utf-8",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/integration-demo.html",
+      "status": 200,
+      "bytes": 2831,
+      "sha256": "7649502971c04a530271143b8e44edb890770f461d71769d044c0632fec05f16",
+      "sha256Verified": true,
+      "mime": "text/html; charset=utf-8",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/region/piste-catalog.json",
+      "status": 200,
+      "bytes": 2303,
+      "sha256": "c627780f287569ee6e2cd0f3cb3dd3e48c15c9ef773648a086c5c640ba9b1658",
+      "sha256Verified": true,
+      "mime": "application/json; charset=utf-8",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/region/abzakovo/trails.geojson",
+      "status": 200,
+      "bytes": 17347,
+      "sha256": "e2f4c635eec5509a4606d630f0de924279ab0daf44e6bd94371a314ee5fa7208",
+      "sha256Verified": true,
+      "mime": "application/geo+json",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/region/abzakovo/lifts.geojson",
+      "status": 200,
+      "bytes": 5695,
+      "sha256": "800bb61260f91a1a78cc2e1ee97f648006d4b2bba59a5e8a7d2feca9fd20362d",
+      "sha256Verified": true,
+      "mime": "application/geo+json",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/region/abzakovo/piste-areas.geojson",
+      "status": 200,
+      "bytes": 83630,
+      "sha256": "acc9d05a6f41b436be77578eb5996f47db820a1b46cd01b4dd26f5c8e2510c58",
+      "sha256Verified": true,
+      "mime": "application/geo+json",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/region/abzakovo/forest-instances.bin",
+      "status": 200,
+      "bytes": 405776,
+      "sha256": "f9ace716001e1689a12ac3f6a6a693abacd1f261d8034b1860e11caf08bd1446",
+      "sha256Verified": true,
+      "mime": "application/octet-stream",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/live/trails.geojson",
+      "status": 200,
+      "bytes": 15211,
+      "sha256": "ad756a241442a88acea7add8881466a60e5b1c49572dc252c3fa6a98b437fc26",
+      "sha256Verified": true,
+      "mime": "application/geo+json",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/live/lifts.geojson",
+      "status": 200,
+      "bytes": 2994,
+      "sha256": "a56f2d0632f662e03e892df7aca1f404393ca979960be841dae873767273e1f2",
+      "sha256Verified": true,
+      "mime": "application/geo+json",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/region/hiking/yalangas/routes.geojson",
+      "status": 200,
+      "bytes": 16166,
+      "sha256": "feac2cdd4389c2e3c5fbfd1fa55b944acb4e02a5b13b497ac0f5f398c30de601",
+      "sha256Verified": true,
+      "mime": "application/geo+json",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/region/hiking/malinovaya/routes.geojson",
+      "status": 200,
+      "bytes": 29720,
+      "sha256": "e66b89d7b1f88e36bbd2ff6914247253a7a73f8f7618ef319dac7dfae76772ae",
+      "sha256Verified": true,
+      "mime": "application/geo+json",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/assets/resort-scene-data-DvfJGHa2.js",
+      "status": 200,
+      "bytes": 4132,
+      "sha256": "31a97c20c41003689e2585bbe4fb4450cccbd1973664e3decc1a903312b59f4c",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/assets/resort-scene-D0zMNRFP.js",
+      "status": 200,
+      "bytes": 26349,
+      "sha256": "f3fd76d89a2d5f1d22dd59552ef18c7cfec4bc1ba6d6f54068e1e9faa6de3d13",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/assets/routes-DkpyAU1c.js",
+      "status": 200,
+      "bytes": 3651,
+      "sha256": "88d1862b2422ff294e81677ba61d32ebb9ff214ea17ab803fb0f014da21c6d0f",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/assets/maplibre-gl-worker-BrB25tGK.mjs",
+      "status": 200,
+      "bytes": 518806,
+      "sha256": "1c69066368331aae63967ed24a9affcf962cf55fcc6d8f532a8b040f736dbcfa",
+      "sha256Verified": true,
+      "mime": "text/javascript; charset=utf-8",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/assets/nature-scene-5a-bCPyD.js",
+      "status": 200,
+      "bytes": 5709,
+      "sha256": "1da15f2a3e4ecbd12134b53ed698980b080ee742a9ef12a0c95c13f7bbda7a5f",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/assets/index-BJhTCuV1.js",
+      "status": 200,
+      "bytes": 218803,
+      "sha256": "32c0e805441e855461f6c44915de76cb556b2bbb1cdf4127781496ad9b58c0a5",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/assets/three.module-C7-2b9wl.js",
+      "status": 200,
+      "bytes": 481720,
+      "sha256": "e29d7c06a2243cb88afe4e94852f9752be74a8e20b46bceac08a3f0720fb09a4",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/assets/maplibre-gl-Y_FXurWg.js",
+      "status": 200,
+      "bytes": 1094988,
+      "sha256": "6c6686f8396ef684d500c1df4bb9228df2cc4a3f7ca1b9380416016512b1d817",
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8",
+      "preservedPrevious": false
+    },
+    {
+      "path": "preview/explorer/assets/index-CQy1QMaR.css",
+      "status": 200,
+      "bytes": 235,
+      "sha256": "f8d5275e65405b907c44a627c343f3be1a62e55b5a85be92efe4d1f8083497ec",
+      "sha256Verified": true,
+      "mime": "text/css; charset=utf-8",
+      "preservedPrevious": false
+    }
+  ],
+  "workflowRun": "https://github.com/poletavkinvladislav2025-dot/mratkino-3d-map/actions/runs/39931306885",
+  "browserValidation": {
+    "productionLocal": "5 Explorer scenarios passed; 2 additional WebGL/reconnect scenarios passed; final mobile URL-state recheck passed",
+    "renderer": "Chromium with SwiftShader; real upstream tiles through a TLS-verifying test relay",
+    "physicalDevicesTested": false,
+    "publishedTildaTested": false
+  }
+}

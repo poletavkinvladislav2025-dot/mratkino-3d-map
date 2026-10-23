@@ -47,4 +47,4 @@
 
 Старые browser-spec предыдущего интерфейса остаются историческими проверками (в них есть удалённые кнопки и автоматический выбор первого пешего маршрута); для нового поведения используется `explorer.spec.js`. Физические iOS/Safari и опубликованный Tilda-блок в этой среде не проверялись. Полевая точность трасс не подтверждалась браузерными тестами.
 
-Снимки фактического рендера: `renders/explorer-overview.png`, `explorer-abzakovo.png`, `explorer-mratkino.png`, `explorer-mobile.png`. Проверка опубликованных файлов будет записана в `explorer-pages-verification.json`.
+Снимки фактического рендера: `renders/explorer-overview.png`, `explorer-abzakovo.png`, `explorer-mratkino.png`, `explorer-mobile.png`. Публикация [39931306885](https://github.com/poletavkinvladislav2025-dot/mratkino-3d-map/actions/runs/39931306885) завершилась успешно. HTTP-проверка 42 опубликованных файлов: новая сборка соответствует локальной; 22 файла прежних карт, включая все прежние chunks из manifest, сохранились побайтно. Результат: [`explorer-pages-verification.json`](explorer-pages-verification.json). Релиз приложения: `fc1ac28b5fb3fd50781d8d91733ab8ad9e43da7c`.
