@@ -1,0 +1,310 @@
+{
+  "checkedAt": "2026-10-23T06:59:55.878302+00:00",
+  "previewRef": "479b349eef16218a6d7d96bda7612270a11a416a",
+  "previewUrl": "https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/region/",
+  "assets": [
+    {
+      "path": "assets/index-C4NwicCl.css",
+      "generation": "479b349eef16218a6d7d96bda7612270a11a416a",
+      "bytes": 263,
+      "sha256Verified": true,
+      "mime": "text/css; charset=utf-8"
+    },
+    {
+      "path": "assets/index-CqYOAn4i.js",
+      "generation": "479b349eef16218a6d7d96bda7612270a11a416a",
+      "bytes": 193014,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-Y_FXurWg.js",
+      "generation": "479b349eef16218a6d7d96bda7612270a11a416a",
+      "bytes": 1094988,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-worker-BrB25tGK.mjs",
+      "generation": "479b349eef16218a6d7d96bda7612270a11a416a",
+      "bytes": 518806,
+      "sha256Verified": true,
+      "mime": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/nature-scene-qXGf--Ii.js",
+      "generation": "479b349eef16218a6d7d96bda7612270a11a416a",
+      "bytes": 5709,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-BQ6VlT7A.js",
+      "generation": "479b349eef16218a6d7d96bda7612270a11a416a",
+      "bytes": 26349,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-data-lD3vtiI1.js",
+      "generation": "479b349eef16218a6d7d96bda7612270a11a416a",
+      "bytes": 4132,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/routes-cUAb4RNe.js",
+      "generation": "479b349eef16218a6d7d96bda7612270a11a416a",
+      "bytes": 3651,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/three.module-C7-2b9wl.js",
+      "generation": "479b349eef16218a6d7d96bda7612270a11a416a",
+      "bytes": 481720,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/index-C4NwicCl.css",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 263,
+      "sha256Verified": true,
+      "mime": "text/css; charset=utf-8"
+    },
+    {
+      "path": "assets/index-DRLImaiS.js",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 190916,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-Y_FXurWg.js",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 1094988,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-worker-BrB25tGK.mjs",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 518806,
+      "sha256Verified": true,
+      "mime": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/nature-scene-DyN4wYGC.js",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 5709,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-CyZOI_qv.js",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 25939,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-data-D-ZbFFaf.js",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 4116,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/routes-GUvelYn5.js",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 3651,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/three.module-C7-2b9wl.js",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 481720,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/index-C1H0Gt4d.js",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 174132,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/index-C4NwicCl.css",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 263,
+      "sha256Verified": true,
+      "mime": "text/css; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-Y_FXurWg.js",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 1094988,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-worker-BrB25tGK.mjs",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 518806,
+      "sha256Verified": true,
+      "mime": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/nature-scene-Bwaw-48p.js",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 5709,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-data-yQYy5qRu.js",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 3958,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-pLwjdvn8.js",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 24864,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/routes-CDZvHPp2.js",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 3651,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/three.module-C7-2b9wl.js",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 481720,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    }
+  ],
+  "data": [
+    {
+      "path": "region/abzakovo/manifest.json",
+      "status": 200,
+      "bytes": 1118,
+      "sha256": "73cee9e02c56da88ec202e231636bea075109f7ea0b2974031793e736d4f6bdc",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/trails.geojson",
+      "status": 200,
+      "bytes": 17347,
+      "sha256": "e2f4c635eec5509a4606d630f0de924279ab0daf44e6bd94371a314ee5fa7208",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/lifts.geojson",
+      "status": 200,
+      "bytes": 5695,
+      "sha256": "800bb61260f91a1a78cc2e1ee97f648006d4b2bba59a5e8a7d2feca9fd20362d",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/stations.geojson",
+      "status": 200,
+      "bytes": 7632,
+      "sha256": "ec289179753cfaf4ab388d5742258936151aca6cbbfd2f78158086a3770f0e23",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/facilities.geojson",
+      "status": 200,
+      "bytes": 98381,
+      "sha256": "f6d535dd03ac919533e72f636d9798820e096650ae6be74031076effb64fd063",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/boundary.geojson",
+      "status": 200,
+      "bytes": 7093,
+      "sha256": "e3ac657b8e7c0b00cf318fad88a714ec18b8c20f7f7216e944a7a555a2aec26d",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/source-audit.json",
+      "status": 200,
+      "bytes": 17899,
+      "sha256": "0cd0fc5a2d0685e8e064afb0ddc0a9566b502be3918f0e1022563b09673a2d3a",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/piste-areas.geojson",
+      "status": 200,
+      "bytes": 83630,
+      "sha256": "acc9d05a6f41b436be77578eb5996f47db820a1b46cd01b4dd26f5c8e2510c58",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/forest-instances.json",
+      "status": 200,
+      "bytes": 2829,
+      "sha256": "9137163b0d68158fbb5312c585a1f83285eb791dd7e0e39b2a3e5e64b2b4361a",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/forest-instances.bin",
+      "status": 200,
+      "bytes": 405776,
+      "sha256": "f9ace716001e1689a12ac3f6a6a693abacd1f261d8034b1860e11caf08bd1446",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/forest.geojson",
+      "status": 200,
+      "bytes": 132710,
+      "sha256": "f6e811931fdef18af6ec08df841b00283a297d9508ebe5a88b11e6e569fca9c5",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/riding-obstacles.geojson",
+      "status": 200,
+      "bytes": 1040939,
+      "sha256": "e462a6ed387f8b11d399ae3a9d9cd5595e84509d69eae87415467e7330f61e49",
+      "identicalToLocal": true
+    }
+  ],
+  "modes": [
+    {
+      "place": "abzakovo",
+      "status": 200,
+      "htmlMatchesLocalBuild": true
+    },
+    {
+      "place": "malinovaya",
+      "status": 200,
+      "htmlMatchesLocalBuild": true
+    },
+    {
+      "place": "yalangas",
+      "status": 200,
+      "htmlMatchesLocalBuild": true
+    },
+    {
+      "place": "mratkino",
+      "status": 200,
+      "htmlMatchesLocalBuild": true
+    }
+  ],
+  "frameBlockingHeaders": {},
+  "stableRootAndEntryUnchanged": true,
+  "retainedPreviousGenerations": [
+    "ceaf707c8b11086d07a627b74fb8c273d84cface",
+    "d02a958590c1cb7b6a2833db1e4527c0f06b3d05"
+  ]
+}
