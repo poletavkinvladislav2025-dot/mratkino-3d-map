@@ -63,7 +63,8 @@ export function createRegionalStyle(data,forestURL){
  {id:'touring-route-line',type:'line',source:'touring-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#b66542','line-width':3.2}},
  {id:'touring-route-stops',type:'circle',source:'route-stops',paint:{'circle-color':'#b66542','circle-radius':5,'circle-stroke-color':'#fff','circle-stroke-width':2}}
  );
- style.layers.push({id:'region-buildings',type:'fill-extrusion',source:'basemap','source-layer':'building',minzoom:14.5,paint:{'fill-extrusion-color':'#c3beb0','fill-extrusion-height':['coalesce',['get','render_height'],6],'fill-extrusion-base':['coalesce',['get','render_min_height'],0],'fill-extrusion-opacity':.85}});
+ // Owner restriction: imported city points are markers/cards, never arbitrary 3D buildings.
+ style.layers.push({id:'stamp-geographic-anchors',type:'circle',source:'region-places',minzoom:14,filter:['==',['get','kind'],'stamp-point'],paint:{'circle-radius':3,'circle-color':'#b16b3e','circle-stroke-color':'#fff','circle-stroke-width':1}});
  // Surface colours receive the existing geographic hillshade instead of covering its shadows.
  const naturalSurface=style.layers.splice(style.layers.findIndex(l=>l.id==='nature-open'),1)[0];style.layers.splice(style.layers.findIndex(l=>l.id==='hillshade'),0,naturalSurface);
  return style;

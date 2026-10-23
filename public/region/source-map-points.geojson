@@ -1,0 +1,967 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "malinovaya",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.292092,
+          54.021079
+        ]
+      },
+      "properties": {
+        "sourceId": "malinovaya",
+        "canonicalId": "malinovaya-3",
+        "name": "Третья Малиновая",
+        "recordType": "place",
+        "sourceLatitude": "54.021079",
+        "sourceLongitude": "58.292092",
+        "sourceCoordinates": [
+          58.292092,
+          54.021079
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "malinovaya1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.316773,
+          54.003275
+        ]
+      },
+      "properties": {
+        "sourceId": "malinovaya1",
+        "canonicalId": "malinovaya",
+        "name": "Первая Малиновая",
+        "recordType": "place",
+        "sourceLatitude": "54.003275",
+        "sourceLongitude": "58.316773",
+        "sourceCoordinates": [
+          58.316773,
+          54.003275
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "bigIremel",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.842533,
+          54.52
+        ]
+      },
+      "properties": {
+        "sourceId": "bigIremel",
+        "canonicalId": "iremel",
+        "name": "Большой Иремель",
+        "recordType": "place",
+        "sourceLatitude": "54.520000",
+        "sourceLongitude": "58.842533",
+        "sourceCoordinates": [
+          58.842533,
+          54.52
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "kumardak",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.419291,
+          54.377466
+        ]
+      },
+      "properties": {
+        "sourceId": "kumardak",
+        "canonicalId": "kumardak",
+        "name": "Кумардак",
+        "recordType": "place",
+        "sourceLatitude": "54.377466",
+        "sourceLongitude": "58.419291",
+        "sourceCoordinates": [
+          58.419291,
+          54.377466
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "rassypnaya",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.425567,
+          54.105889
+        ]
+      },
+      "properties": {
+        "sourceId": "rassypnaya",
+        "canonicalId": "rassypnaya",
+        "name": "Рассыпная",
+        "recordType": "place",
+        "sourceLatitude": "54.105889",
+        "sourceLongitude": "58.425567",
+        "sourceCoordinates": [
+          58.425567,
+          54.105889
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "poperechnaya",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.65272,
+          54.648918
+        ]
+      },
+      "properties": {
+        "sourceId": "poperechnaya",
+        "canonicalId": "poperechnaya",
+        "name": "Поперечная",
+        "recordType": "place",
+        "sourceLatitude": "54.648918",
+        "sourceLongitude": "58.652720",
+        "sourceCoordinates": [
+          58.65272,
+          54.648918
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "inzerskieZubchatki",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.374117,
+          54.270733
+        ]
+      },
+      "properties": {
+        "sourceId": "inzerskieZubchatki",
+        "canonicalId": "inzerskie-zubchatki",
+        "name": "Инзерские Зубчатки",
+        "recordType": "place",
+        "sourceLatitude": "54.270733",
+        "sourceLongitude": "58.374117",
+        "sourceCoordinates": [
+          58.374117,
+          54.270733
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "aygir",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          57.677734,
+          54.133177
+        ]
+      },
+      "properties": {
+        "sourceId": "aygir",
+        "canonicalId": "aygir",
+        "name": "Айгир",
+        "recordType": "place",
+        "sourceLatitude": "54.133177",
+        "sourceLongitude": "57.677734",
+        "sourceCoordinates": [
+          57.677734,
+          54.133177
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "atysh",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          57.271753,
+          54.555669
+        ]
+      },
+      "properties": {
+        "sourceId": "atysh",
+        "canonicalId": "atysh",
+        "name": "Водопад Атыш",
+        "recordType": "place",
+        "sourceLatitude": "54.555669",
+        "sourceLongitude": "57.271753",
+        "sourceCoordinates": [
+          57.271753,
+          54.555669
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "yamantau",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.105652,
+          54.254422
+        ]
+      },
+      "properties": {
+        "sourceId": "yamantau",
+        "canonicalId": "yamantau",
+        "name": "Ямантау",
+        "recordType": "place",
+        "sourceLatitude": "54.254422",
+        "sourceLongitude": "58.105652",
+        "sourceCoordinates": [
+          58.105652,
+          54.254422
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "smallYamantau",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          57.696156,
+          54.184593
+        ]
+      },
+      "properties": {
+        "sourceId": "smallYamantau",
+        "canonicalId": "maly-yamantau",
+        "name": "Малый Ямантау",
+        "recordType": "place",
+        "sourceLatitude": "54.184593",
+        "sourceLongitude": "57.696156",
+        "sourceCoordinates": [
+          57.696156,
+          54.184593
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "arvyakRyaz",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.326348,
+          53.774752
+        ]
+      },
+      "properties": {
+        "sourceId": "arvyakRyaz",
+        "canonicalId": "arvyak-ryaz",
+        "name": "Арвяк-Рязь",
+        "recordType": "place",
+        "sourceLatitude": "53.774752",
+        "sourceLongitude": "58.326348",
+        "sourceCoordinates": [
+          58.326348,
+          53.774752
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "mratkino",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.441455,
+          54.000315
+        ]
+      },
+      "properties": {
+        "sourceId": "mratkino",
+        "canonicalId": "mratkino",
+        "name": "Мраткино",
+        "recordType": "place",
+        "sourceLatitude": "54.000315",
+        "sourceLongitude": "58.441455",
+        "sourceCoordinates": [
+          58.441455,
+          54.000315
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "yalangas",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.31903,
+          54.127702
+        ]
+      },
+      "properties": {
+        "sourceId": "yalangas",
+        "canonicalId": "yalangas",
+        "name": "Ялангас",
+        "recordType": "place",
+        "sourceLatitude": "54.127702",
+        "sourceLongitude": "58.319030",
+        "sourceCoordinates": [
+          58.31903,
+          54.127702
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "arskiyKamen",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.256564,
+          53.870892
+        ]
+      },
+      "properties": {
+        "sourceId": "arskiyKamen",
+        "canonicalId": "arskiy-kamen",
+        "name": "Арский камень",
+        "recordType": "place",
+        "sourceLatitude": "53.870892",
+        "sourceLongitude": "58.256564",
+        "sourceCoordinates": [
+          58.256564,
+          53.870892
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "masim",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          57.251818,
+          53.153992
+        ]
+      },
+      "properties": {
+        "sourceId": "masim",
+        "canonicalId": "masim",
+        "name": "Масим",
+        "recordType": "place",
+        "sourceLatitude": "53.153992",
+        "sourceLongitude": "57.251818",
+        "sourceCoordinates": [
+          57.251818,
+          53.153992
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "kraka",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.039331,
+          53.605817
+        ]
+      },
+      "properties": {
+        "sourceId": "kraka",
+        "canonicalId": "kraka",
+        "name": "Хребет Крака — координаты из исходного кода",
+        "recordType": "place",
+        "sourceLatitude": "53.584992",
+        "sourceLongitude": "58.033943",
+        "sourceCoordinates": [
+          58.033943,
+          53.584992
+        ],
+        "coordinateStatus": "project-reference",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "kurtashtau",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.573613,
+          53.927334
+        ]
+      },
+      "properties": {
+        "sourceId": "kurtashtau",
+        "canonicalId": "kurtashtau",
+        "name": "Курташтау",
+        "recordType": "place",
+        "sourceLatitude": "53.927334",
+        "sourceLongitude": "58.573613",
+        "sourceCoordinates": [
+          58.573613,
+          53.927334
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "kirel",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.23166,
+          54.028744
+        ]
+      },
+      "properties": {
+        "sourceId": "kirel",
+        "canonicalId": "kirel",
+        "name": "Кирель",
+        "recordType": "place",
+        "sourceLatitude": "54.028744",
+        "sourceLongitude": "58.231660",
+        "sourceCoordinates": [
+          58.23166,
+          54.028744
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "kushay",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.583285,
+          53.709749
+        ]
+      },
+      "properties": {
+        "sourceId": "kushay",
+        "canonicalId": "kushay",
+        "name": "Кушай",
+        "recordType": "place",
+        "sourceLatitude": "53.709749",
+        "sourceLongitude": "58.583285",
+        "sourceCoordinates": [
+          58.583285,
+          53.709749
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "moose",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.337262,
+          53.952007
+        ]
+      },
+      "properties": {
+        "sourceId": "moose",
+        "canonicalId": "moose",
+        "name": "Скульптурная композиция «Лоси»",
+        "recordType": "place",
+        "sourceLatitude": "53.952007",
+        "sourceLongitude": "58.337262",
+        "sourceCoordinates": [
+          58.337262,
+          53.952007
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "waterTower",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.404897,
+          53.970428
+        ]
+      },
+      "properties": {
+        "sourceId": "waterTower",
+        "canonicalId": "waterTower",
+        "name": "Водонапорная башня Белорецка",
+        "recordType": "place",
+        "sourceLatitude": "53.970428",
+        "sourceLongitude": "58.404897",
+        "sourceCoordinates": [
+          58.404897,
+          53.970428
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "beloretskFactory",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.397852,
+          53.971129
+        ]
+      },
+      "properties": {
+        "sourceId": "beloretskFactory",
+        "canonicalId": "beloretskFactory",
+        "name": "Белорецкий завод",
+        "recordType": "place",
+        "sourceLatitude": "53.971129",
+        "sourceLongitude": "58.397852",
+        "sourceCoordinates": [
+          58.397852,
+          53.971129
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "factoryWhistle",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.397944,
+          53.972507
+        ]
+      },
+      "properties": {
+        "sourceId": "factoryWhistle",
+        "canonicalId": "factoryWhistle",
+        "name": "Белорецкий заводской гудок",
+        "recordType": "place",
+        "sourceLatitude": "53.972507",
+        "sourceLongitude": "58.397944",
+        "sourceCoordinates": [
+          58.397944,
+          53.972507
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "blueSky",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.509249,
+          53.885056
+        ]
+      },
+      "properties": {
+        "sourceId": "blueSky",
+        "canonicalId": "sinie-skaly",
+        "name": "Синие скалы",
+        "recordType": "place",
+        "sourceLatitude": "53.885056",
+        "sourceLongitude": "58.509249",
+        "sourceCoordinates": [
+          58.509249,
+          53.885056
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "narrowGauge1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.594842,
+          54.221817
+        ]
+      },
+      "properties": {
+        "sourceId": "narrowGauge1",
+        "canonicalId": "narrowGauge1",
+        "name": "Белорецкая узкоколейка",
+        "recordType": "place",
+        "sourceLatitude": "54.221817",
+        "sourceLongitude": "58.594842",
+        "sourceCoordinates": [
+          58.594842,
+          54.221817
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lostSymbol",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.410522,
+          53.980521
+        ]
+      },
+      "properties": {
+        "sourceId": "lostSymbol",
+        "canonicalId": "lostSymbol",
+        "name": "Белорецк — утраченный символ",
+        "recordType": "place",
+        "sourceLatitude": "53.980521",
+        "sourceLongitude": "58.410522",
+        "sourceCoordinates": [
+          58.410522,
+          53.980521
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tyrlyannWheel",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.588118,
+          54.219259
+        ]
+      },
+      "properties": {
+        "sourceId": "tyrlyannWheel",
+        "canonicalId": "tyrlyannWheel",
+        "name": "Тирлянское колесо",
+        "recordType": "place",
+        "sourceLatitude": "54.219259",
+        "sourceLongitude": "58.588118",
+        "sourceCoordinates": [
+          58.588118,
+          54.219259
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "tyrlyannRuins",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.586884,
+          54.217785
+        ]
+      },
+      "properties": {
+        "sourceId": "tyrlyannRuins",
+        "canonicalId": "tyrlyannRuins",
+        "name": "Руины Тирлянского металлургического завода",
+        "recordType": "place",
+        "sourceLatitude": "54.217785",
+        "sourceLongitude": "58.586884",
+        "sourceCoordinates": [
+          58.586884,
+          54.217785
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "stoneyRiver",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.267802,
+          54.050217
+        ]
+      },
+      "properties": {
+        "sourceId": "stoneyRiver",
+        "canonicalId": "kamennaya-rechka",
+        "name": "Каменная речка",
+        "recordType": "place",
+        "sourceLatitude": "54.050217",
+        "sourceLongitude": "58.267802",
+        "sourceCoordinates": [
+          58.267802,
+          54.050217
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "narrowGauge2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.404807,
+          53.984282
+        ]
+      },
+      "properties": {
+        "sourceId": "narrowGauge2",
+        "canonicalId": "narrowGauge2",
+        "name": "Наследие Белорецкой узкоколейки",
+        "recordType": "place",
+        "sourceLatitude": "53.984282",
+        "sourceLongitude": "58.404807",
+        "sourceCoordinates": [
+          58.404807,
+          53.984282
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": null,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "stampStation",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.410206,
+          53.967439
+        ]
+      },
+      "properties": {
+        "sourceId": "stampStation",
+        "canonicalId": "stampStation",
+        "name": "Штамп-станция «Счастье в горах»",
+        "recordType": "stamp-point",
+        "sourceLatitude": "53.967439",
+        "sourceLongitude": "58.410206",
+        "sourceCoordinates": [
+          58.410206,
+          53.967439
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": false,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "kiosk3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.410272,
+          53.967411
+        ]
+      },
+      "properties": {
+        "sourceId": "kiosk3",
+        "canonicalId": "kiosk3",
+        "name": "Центральная площадь",
+        "recordType": "stamp-point",
+        "sourceLatitude": "53.967411",
+        "sourceLongitude": "58.410272",
+        "sourceCoordinates": [
+          58.410272,
+          53.967411
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": true,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "kiosk2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.419482,
+          53.972548
+        ]
+      },
+      "properties": {
+        "sourceId": "kiosk2",
+        "canonicalId": "kiosk2",
+        "name": "Карла Маркса, 79",
+        "recordType": "stamp-point",
+        "sourceLatitude": "53.972548",
+        "sourceLongitude": "58.419482",
+        "sourceCoordinates": [
+          58.419482,
+          53.972548
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": true,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "kiosk4",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.405329,
+          53.960132
+        ]
+      },
+      "properties": {
+        "sourceId": "kiosk4",
+        "canonicalId": "kiosk4",
+        "name": "50 лет Октября, 46",
+        "recordType": "stamp-point",
+        "sourceLatitude": "53.960132",
+        "sourceLongitude": "58.405329",
+        "sourceCoordinates": [
+          58.405329,
+          53.960132
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": true,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "kiosk7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.409446,
+          53.972137
+        ]
+      },
+      "properties": {
+        "sourceId": "kiosk7",
+        "canonicalId": "kiosk7",
+        "name": "Ленина, 67",
+        "recordType": "stamp-point",
+        "sourceLatitude": "53.972137",
+        "sourceLongitude": "58.409446",
+        "sourceCoordinates": [
+          58.409446,
+          53.972137
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": true,
+        "historical": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "kiosk8",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          58.413822,
+          53.969501
+        ]
+      },
+      "properties": {
+        "sourceId": "kiosk8",
+        "canonicalId": "kiosk8",
+        "name": "Карла Маркса, 67",
+        "recordType": "stamp-point",
+        "sourceLatitude": "53.969501",
+        "sourceLongitude": "58.413822",
+        "sourceCoordinates": [
+          58.413822,
+          53.969501
+        ],
+        "coordinateStatus": "owner-source-map",
+        "sellsPassport": true,
+        "historical": false
+      }
+    }
+  ]
+}

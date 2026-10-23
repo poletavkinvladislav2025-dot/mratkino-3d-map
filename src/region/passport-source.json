@@ -1,0 +1,1017 @@
+{
+  "source": "owner-supplied Yandex map export",
+  "sourceUrl": "https://visitbeloretsk.ru/map",
+  "importedOn": "2026-10-23",
+  "coordinateOrder": "source latitude/longitude strings; converted to longitude/latitude without rounding",
+  "inventoryNotice": "Состав исходной карты, не оперативные остатки штампов.",
+  "records": [
+    {
+      "sourceId": "malinovaya",
+      "canonicalId": "malinovaya-3",
+      "recordType": "place",
+      "name": "Гора Малиновая — точка Третьей Малиновой",
+      "latitude": "54.021079",
+      "longitude": "58.292092",
+      "description": "Третья вершина массива Малиновая. Первая Малиновая обозначена отдельно.",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3566-3563-4234-b334-353838343434/_ChatGPT_2__2026__17.png",
+          "alt": "Гора Малиновая — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ],
+      "displayName": "Третья Малиновая"
+    },
+    {
+      "sourceId": "malinovaya1",
+      "canonicalId": "malinovaya",
+      "recordType": "place",
+      "name": "Первая Малиновая",
+      "latitude": "54.003275",
+      "longitude": "58.316773",
+      "description": "Первая вершина массива Малиновая; отдельная точка от Третьей Малиновой.",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6565-6563-4361-b633-633735396134/_ChatGPT_2__2026__17.png",
+          "alt": "Первая Малиновая — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "bigIremel",
+      "canonicalId": "iremel",
+      "recordType": "place",
+      "name": "Большой Иремель",
+      "latitude": "54.520000",
+      "longitude": "58.842533",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3233-3131-4263-b465-393932623635/DTa5jVyUYIc.jpg",
+          "alt": "Большой Иремель — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "kumardak",
+      "canonicalId": "kumardak",
+      "recordType": "place",
+      "name": "Кумардак",
+      "latitude": "54.377466",
+      "longitude": "58.419291",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3131-6366-4335-b262-653934633338/photo-1723323423524-.jpg",
+          "alt": "Кумардак — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "rassypnaya",
+      "canonicalId": "rassypnaya",
+      "recordType": "place",
+      "name": "Рассыпная",
+      "latitude": "54.105889",
+      "longitude": "58.425567",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6361-3434-4535-b662-313064336330/_____.png",
+          "alt": "Рассыпная — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "poperechnaya",
+      "canonicalId": "poperechnaya",
+      "recordType": "place",
+      "name": "Поперечная",
+      "latitude": "54.648918",
+      "longitude": "58.652720",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6566-3163-4836-a536-303631363534/____.png",
+          "alt": "Поперечная — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "inzerskieZubchatki",
+      "canonicalId": "inzerskie-zubchatki",
+      "recordType": "place",
+      "name": "Инзерские Зубчатки",
+      "latitude": "54.270733",
+      "longitude": "58.374117",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6439-3063-4661-a537-643539613162/____.png",
+          "alt": "Инзерские Зубчатки — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "aygir",
+      "canonicalId": "aygir",
+      "recordType": "place",
+      "name": "Айгир",
+      "latitude": "54.133177",
+      "longitude": "57.677734",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6533-6265-4331-a234-353838383534/____.png",
+          "alt": "Айгир — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        },
+        {
+          "url": "https://static.tildacdn.com/tild3163-3065-4438-a235-393232313066/photo-1565073182887-.jpg",
+          "alt": "Айгир — фото 2",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "atysh",
+      "canonicalId": "atysh",
+      "recordType": "place",
+      "name": "Водопад Атыш",
+      "latitude": "54.555669",
+      "longitude": "57.271753",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6161-6435-4062-a366-643235393763/____.png",
+          "alt": "Водопад Атыш — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "yamantau",
+      "canonicalId": "yamantau",
+      "recordType": "place",
+      "name": "Ямантау",
+      "latitude": "54.254422",
+      "longitude": "58.105652",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6439-3430-4532-b731-333265386565/_____.png",
+          "alt": "Ямантау — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "smallYamantau",
+      "canonicalId": "maly-yamantau",
+      "recordType": "place",
+      "name": "Малый Ямантау",
+      "latitude": "54.184593",
+      "longitude": "57.696156",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6337-3731-4632-b536-653537636536/____.png",
+          "alt": "Малый Ямантау — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "arvyakRyaz",
+      "canonicalId": "arvyak-ryaz",
+      "recordType": "place",
+      "name": "Арвяк-Рязь",
+      "latitude": "53.774752",
+      "longitude": "58.326348",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6633-6132-4631-a630-656465336166/_ChatGPT_2__2026__18.png",
+          "alt": "Арвяк-Рязь — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        },
+        {
+          "url": "https://static.tildacdn.com/tild3139-3565-4830-b234-353631653633/photo-1551189496-17e.jpg",
+          "alt": "Арвяк-Рязь — фото 2",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "mratkino",
+      "canonicalId": "mratkino",
+      "recordType": "place",
+      "name": "Мраткино",
+      "latitude": "54.000315",
+      "longitude": "58.441455",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6665-3761-4336-b139-633434343766/_ChatGPT_2__2026__18.png",
+          "alt": "Мраткино — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "yalangas",
+      "canonicalId": "yalangas",
+      "recordType": "place",
+      "name": "Ялангас",
+      "latitude": "54.127702",
+      "longitude": "58.319030",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3634-6134-4765-b839-313365343232/___.png",
+          "alt": "Ялангас — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        },
+        {
+          "url": "https://static.tildacdn.com/tild3832-3939-4534-b837-393734613739/____at_dawn.png",
+          "alt": "Ялангас — фото 2",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "arskiyKamen",
+      "canonicalId": "arskiy-kamen",
+      "recordType": "place",
+      "name": "Арский камень",
+      "latitude": "53.870892",
+      "longitude": "58.256564",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6239-3738-4530-a136-616636316266/___.png",
+          "alt": "Арский камень — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "masim",
+      "canonicalId": "masim",
+      "recordType": "place",
+      "name": "Масим",
+      "latitude": "53.153992",
+      "longitude": "57.251818",
+      "description": "Гора Масим на Южном Урале. Точка перенесена из карты проекта; маршрут не добавлен.",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3466-6630-4138-b263-356334653463/____.png",
+          "alt": "Масим — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "kraka",
+      "canonicalId": "kraka",
+      "recordType": "place",
+      "name": "Хребет Крака — координаты из исходного кода",
+      "latitude": "53.584992",
+      "longitude": "58.033943",
+      "ownerCoordinates": [
+        58.039331,
+        53.605817
+      ],
+      "description": "Ориентир хребта Крака. Использовано более новое уточнение владельца; точка не является границей всего хребта.",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3231-3035-4339-a131-326639333630/___.png",
+          "alt": "Хребет Крака — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        },
+        {
+          "url": "https://static.tildacdn.com/tild3235-3032-4736-b337-323932396162/____.png",
+          "alt": "Хребет Крака — фото 2",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        },
+        {
+          "url": "https://static.tildacdn.com/tild3537-3330-4364-b962-306332653234/1IKH3Y8S9D6x_vaIZ9FB.jpg",
+          "alt": "Хребет Крака — фото 3",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "kurtashtau",
+      "canonicalId": "kurtashtau",
+      "recordType": "place",
+      "name": "Курташтау",
+      "latitude": "53.927334",
+      "longitude": "58.573613",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3239-3835-4564-b634-323739383465/GkgZUUvC2Ak_1600x900.jpg",
+          "alt": "Курташтау — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        },
+        {
+          "url": "https://static.tildacdn.com/tild3763-3861-4232-b038-653365323934/DSC_4307_1600x900.jpg",
+          "alt": "Курташтау — фото 2",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        },
+        {
+          "url": "https://static.tildacdn.com/tild6665-3033-4463-b362-643331356133/uralweb_1600x900.jpg",
+          "alt": "Курташтау — фото 3",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "kirel",
+      "canonicalId": "kirel",
+      "recordType": "place",
+      "name": "Кирель",
+      "latitude": "54.028744",
+      "longitude": "58.231660",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3162-6237-4637-b230-313765636637/39528593610_1600x900.jpg",
+          "alt": "Кирель — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "kushay",
+      "canonicalId": "kushay",
+      "recordType": "place",
+      "name": "Кушай",
+      "latitude": "53.709749",
+      "longitude": "58.583285",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3436-6539-4464-b436-336633326530/luw0O6N9zJbPypIrPJOZ.jpg",
+          "alt": "Кушай — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        },
+        {
+          "url": "https://static.tildacdn.com/tild6365-6465-4239-b937-396362643933/1RAEWr3RbvmmJPNS4sMc.jpg",
+          "alt": "Кушай — фото 2",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        },
+        {
+          "url": "https://static.tildacdn.com/tild3138-6636-4930-b339-343661393430/_oRknAjPIPpDBAjq7Zvi.jpg",
+          "alt": "Кушай — фото 3",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "moose",
+      "canonicalId": "moose",
+      "recordType": "place",
+      "name": "Скульптурная композиция «Лоси»",
+      "latitude": "53.952007",
+      "longitude": "58.337262",
+      "description": "Скульптурная композиция «Лоси» в Белорецке.",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6639-3561-4665-a331-333963373636/_____.png",
+          "alt": "Скульптурная композиция «Лоси» — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "waterTower",
+      "canonicalId": "waterTower",
+      "recordType": "place",
+      "name": "Водонапорная башня Белорецка",
+      "latitude": "53.970428",
+      "longitude": "58.404897",
+      "description": "Историческая водонапорная башня Белорецка.",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6530-6230-4064-a431-663335356639/____.png",
+          "alt": "Водонапорная башня Белорецка — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        },
+        {
+          "url": "https://static.tildacdn.com/tild3035-3966-4465-b666-643532343232/_____.png",
+          "alt": "Водонапорная башня Белорецка — фото 2",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "beloretskFactory",
+      "canonicalId": "beloretskFactory",
+      "recordType": "place",
+      "name": "Белорецкий завод",
+      "latitude": "53.971129",
+      "longitude": "58.397852",
+      "description": "Белорецкий металлургический завод. Заводской гудок отмечен отдельно.",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3765-6330-4534-b833-386662643433/r3agdpicfm04fw0lw6fy.jpg",
+          "alt": "Белорецкий завод — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        },
+        {
+          "url": "https://static.tildacdn.com/tild6563-3531-4463-a665-306462353064/15-78_1600x900.jpg",
+          "alt": "Белорецкий завод — фото 2",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        },
+        {
+          "url": "https://static.tildacdn.com/tild3836-6136-4761-b565-646336383236/40355864045_2.jpg",
+          "alt": "Белорецкий завод — фото 3",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "factoryWhistle",
+      "canonicalId": "factoryWhistle",
+      "recordType": "place",
+      "name": "Белорецкий заводской гудок",
+      "latitude": "53.972507",
+      "longitude": "58.397944",
+      "description": "Заводской гудок на крыше котельной №1 Белорецкого металлургического комбината. Это не отдельная башня.",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3733-6561-4564-a461-383936316365/_____.png",
+          "alt": "Белорецкий заводской гудок — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "blueSky",
+      "canonicalId": "sinie-skaly",
+      "recordType": "place",
+      "name": "Синие скалы",
+      "latitude": "53.885056",
+      "longitude": "58.509249",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6539-3737-4536-a266-366138346161/maxresdefault_3_2_16.jpg",
+          "alt": "Синие скалы — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "narrowGauge1",
+      "canonicalId": "narrowGauge1",
+      "recordType": "place",
+      "name": "Белорецкая узкоколейка",
+      "latitude": "54.221817",
+      "longitude": "58.594842",
+      "description": "Точка наследия Белорецкой узкоколейной железной дороги в районе Тирляна.",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3332-3434-4135-b238-386439373134/IMG_3494.JPG",
+          "alt": "Белорецкая узкоколейка — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "lostSymbol",
+      "canonicalId": "lostSymbol",
+      "recordType": "place",
+      "name": "Белорецк — утраченный символ",
+      "latitude": "53.980521",
+      "longitude": "58.410522",
+      "description": "Историческая точка «Утраченный символ», связанная с периодом 1936–2020. Объект не показан как существующий сегодня.",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3637-3433-4134-a563-313034336363/____.png",
+          "alt": "Белорецк — утраченный символ — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        },
+        {
+          "url": "https://static.tildacdn.com/tild6334-3265-4961-a631-336564313635/a0ed70b6-2636-4133-8.png",
+          "alt": "Белорецк — утраченный символ — фото 2",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        },
+        {
+          "url": "https://static.tildacdn.com/tild3361-3935-4233-b563-643566306566/____.png",
+          "alt": "Белорецк — утраченный символ — фото 3",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ],
+      "historical": true
+    },
+    {
+      "sourceId": "tyrlyannWheel",
+      "canonicalId": "tyrlyannWheel",
+      "recordType": "place",
+      "name": "Тирлянское колесо",
+      "latitude": "54.219259",
+      "longitude": "58.588118",
+      "description": "Маховик прокатного стана бывшего Тирлянского завода.",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3263-3164-4462-a630-663333633966/958bf8e0-1de1-4a5e-a.png",
+          "alt": "Тирлянское колесо — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "tyrlyannRuins",
+      "canonicalId": "tyrlyannRuins",
+      "recordType": "place",
+      "name": "Руины Тирлянского металлургического завода",
+      "latitude": "54.217785",
+      "longitude": "58.586884",
+      "description": "Руины Тирлянского металлургического завода.",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6432-3064-4731-b236-653131316262/____.png",
+          "alt": "Руины Тирлянского металлургического завода — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "stoneyRiver",
+      "canonicalId": "kamennaya-rechka",
+      "recordType": "place",
+      "name": "Каменная речка",
+      "latitude": "54.050217",
+      "longitude": "58.267802",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3837-6531-4330-b738-623834346436/____.png",
+          "alt": "Каменная речка — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "narrowGauge2",
+      "canonicalId": "narrowGauge2",
+      "recordType": "place",
+      "name": "Наследие Белорецкой узкоколейки",
+      "latitude": "53.984282",
+      "longitude": "58.404807",
+      "description": "Отдельная точка наследия Белорецкой узкоколейки в Белорецке.",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3332-3536-4132-b736-313835326436/_____1.png",
+          "alt": "Наследие Белорецкой узкоколейки — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ]
+    },
+    {
+      "sourceId": "stampStation",
+      "canonicalId": "stampStation",
+      "recordType": "stamp-point",
+      "name": "Штамп-станция «Счастье в горах»",
+      "latitude": "53.967439",
+      "longitude": "58.410206",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3435-3738-4134-a433-353136343964/_ChatGPT_2__2026__16.png",
+          "alt": "",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ],
+      "sellsPassport": false,
+      "address": "Центральная площадь, Белорецк",
+      "description": "Штамп-станция проекта «Счастье в горах».",
+      "conditions": "Бесплатный штамп «Белорецк — Счастье в горах». Паспорта здесь не продаются.",
+      "stamps": [
+        {
+          "id": "stampStation:1",
+          "name": "Белорецк — Счастье в горах"
+        }
+      ]
+    },
+    {
+      "sourceId": "kiosk3",
+      "canonicalId": "kiosk3",
+      "recordType": "stamp-point",
+      "name": "Центральная площадь",
+      "latitude": "53.967411",
+      "longitude": "58.410272",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6665-3230-4366-a461-653666623238/_ChatGPT_2__2026__16.png",
+          "alt": "Точка со штампом «Центральная площадь» — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ],
+      "sellsPassport": true,
+      "address": "Центральная площадь, Белорецк",
+      "description": "Киоск с туристическими штампами и продажей паспорта туриста.",
+      "conditions": "Штампы бесплатно ставят в паспорт туриста. На открытку или бумагу — бесплатно при покупке сувенира.",
+      "stamps": [
+        {
+          "id": "kiosk3:1",
+          "name": "Иремель",
+          "sourcePlaceId": "bigIremel",
+          "placeId": "iremel"
+        },
+        {
+          "id": "kiosk3:2",
+          "name": "Белорецкий завод — круглый",
+          "sourcePlaceId": "beloretskFactory",
+          "placeId": "beloretskFactory"
+        },
+        {
+          "id": "kiosk3:3",
+          "name": "Белорецкий гудок — «Голос города»",
+          "sourcePlaceId": "factoryWhistle",
+          "placeId": "factoryWhistle"
+        },
+        {
+          "id": "kiosk3:4",
+          "name": "Синие скалы — вариант 1",
+          "sourcePlaceId": "blueSky",
+          "placeId": "sinie-skaly"
+        },
+        {
+          "id": "kiosk3:5",
+          "name": "Гора Малиновая — три вершины",
+          "sourcePlaceId": "malinovaya",
+          "placeId": "malinovaya-3"
+        },
+        {
+          "id": "kiosk3:6",
+          "name": "Белорецкая узкоколейка — вариант 1",
+          "sourcePlaceId": "narrowGauge1",
+          "placeId": "narrowGauge1"
+        },
+        {
+          "id": "kiosk3:7",
+          "name": "Лось — Белорецк",
+          "sourcePlaceId": "moose",
+          "placeId": "moose"
+        },
+        {
+          "id": "kiosk3:8",
+          "name": "Арский камень — «Пропавшая экспедиция»",
+          "sourcePlaceId": "arskiyKamen",
+          "placeId": "arskiy-kamen"
+        },
+        {
+          "id": "kiosk3:9",
+          "name": "Белорецк — утраченный символ 1936–2020",
+          "sourcePlaceId": "lostSymbol",
+          "placeId": "lostSymbol"
+        },
+        {
+          "id": "kiosk3:10",
+          "name": "Тирлянское колесо — маховик прокатного стана",
+          "sourcePlaceId": "tyrlyannWheel",
+          "placeId": "tyrlyannWheel"
+        },
+        {
+          "id": "kiosk3:11",
+          "name": "Белорецк — завод, мост и башня"
+        },
+        {
+          "id": "kiosk3:12",
+          "name": "Белорецк — город металлургов, вариант 1"
+        },
+        {
+          "id": "kiosk3:13",
+          "name": "Мелодия горной Башкирии"
+        },
+        {
+          "id": "kiosk3:14",
+          "name": "Медовый Башкортостан"
+        },
+        {
+          "id": "kiosk3:15",
+          "name": "Башкортостан — медовый край"
+        },
+        {
+          "id": "kiosk3:16",
+          "name": "Куница — герб Белорецка"
+        },
+        {
+          "id": "kiosk3:17",
+          "name": "Агидель"
+        },
+        {
+          "id": "kiosk3:18",
+          "name": "Лапа медведя"
+        },
+        {
+          "id": "kiosk3:19",
+          "name": "Ящерица — вариант 1"
+        },
+        {
+          "id": "kiosk3:20",
+          "name": "«Вечный зов» — вариант 1"
+        },
+        {
+          "id": "kiosk3:21",
+          "name": "Панорама Белорецка — Южный Урал"
+        }
+      ]
+    },
+    {
+      "sourceId": "kiosk2",
+      "canonicalId": "kiosk2",
+      "recordType": "stamp-point",
+      "name": "Карла Маркса, 79",
+      "latitude": "53.972548",
+      "longitude": "58.419482",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild3930-3762-4939-b063-346133373331/_ChatGPT_2__2026__16.png",
+          "alt": "Точка со штампом «Карла Маркса, 79» — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ],
+      "sellsPassport": true,
+      "address": "Карла Маркса, 79, Белорецк",
+      "description": "Киоск с туристическими штампами и продажей паспорта туриста.",
+      "conditions": "Штампы бесплатно ставят в паспорт туриста. На открытку или бумагу — бесплатно при покупке сувенира.",
+      "stamps": [
+        {
+          "id": "kiosk2:1",
+          "name": "Белорецкий гудок — «Голос завода»",
+          "sourcePlaceId": "factoryWhistle",
+          "placeId": "factoryWhistle"
+        },
+        {
+          "id": "kiosk2:2",
+          "name": "Ямантау",
+          "sourcePlaceId": "yamantau",
+          "placeId": "yamantau"
+        },
+        {
+          "id": "kiosk2:3",
+          "name": "Масим",
+          "sourcePlaceId": "masim",
+          "placeId": "masim"
+        },
+        {
+          "id": "kiosk2:4",
+          "name": "Кирель",
+          "sourcePlaceId": "kirel",
+          "placeId": "kirel"
+        },
+        {
+          "id": "kiosk2:5",
+          "name": "Кушай",
+          "sourcePlaceId": "kushay",
+          "placeId": "kushay"
+        },
+        {
+          "id": "kiosk2:6",
+          "name": "«Вечный зов» — вариант 2"
+        },
+        {
+          "id": "kiosk2:7",
+          "name": "Счастье в горах — надпись"
+        }
+      ]
+    },
+    {
+      "sourceId": "kiosk4",
+      "canonicalId": "kiosk4",
+      "recordType": "stamp-point",
+      "name": "50 лет Октября, 46",
+      "latitude": "53.960132",
+      "longitude": "58.405329",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6432-3363-4230-a461-386364643362/_ChatGPT_2__2026__16.png",
+          "alt": "Точка со штампом «50 лет Октября, 46» — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ],
+      "sellsPassport": true,
+      "address": "50 лет Октября, 46, Белорецк",
+      "description": "Киоск с туристическими штампами и продажей паспорта туриста.",
+      "conditions": "Штампы бесплатно ставят в паспорт туриста. На открытку или бумагу — бесплатно при покупке сувенира.",
+      "stamps": [
+        {
+          "id": "kiosk4:1",
+          "name": "Айгир",
+          "sourcePlaceId": "aygir",
+          "placeId": "aygir"
+        },
+        {
+          "id": "kiosk4:2",
+          "name": "Водопад Атыш",
+          "sourcePlaceId": "atysh",
+          "placeId": "atysh"
+        },
+        {
+          "id": "kiosk4:3",
+          "name": "Синие скалы — вариант 2",
+          "sourcePlaceId": "blueSky",
+          "placeId": "sinie-skaly"
+        },
+        {
+          "id": "kiosk4:4",
+          "name": "Третья Малиновая",
+          "sourcePlaceId": "malinovaya",
+          "placeId": "malinovaya-3"
+        },
+        {
+          "id": "kiosk4:5",
+          "name": "Малый Ямантау",
+          "sourcePlaceId": "smallYamantau",
+          "placeId": "maly-yamantau"
+        },
+        {
+          "id": "kiosk4:6",
+          "name": "Хребет Крака",
+          "sourcePlaceId": "kraka",
+          "placeId": "kraka"
+        },
+        {
+          "id": "kiosk4:7",
+          "name": "Курташтау",
+          "sourcePlaceId": "kurtashtau",
+          "placeId": "kurtashtau"
+        },
+        {
+          "id": "kiosk4:8",
+          "name": "Каменная речка / «Золотая речка»",
+          "sourcePlaceId": "stoneyRiver",
+          "placeId": "kamennaya-rechka"
+        },
+        {
+          "id": "kiosk4:9",
+          "name": "Ящерица — вариант 3"
+        },
+        {
+          "id": "kiosk4:10",
+          "name": "Природа Башкортостана — горы и лось"
+        },
+        {
+          "id": "kiosk4:11",
+          "name": "Горная столица Башкортостана — Белорецк"
+        }
+      ]
+    },
+    {
+      "sourceId": "kiosk7",
+      "canonicalId": "kiosk7",
+      "recordType": "stamp-point",
+      "name": "Ленина, 67",
+      "latitude": "53.972137",
+      "longitude": "58.409446",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6264-6164-4764-b137-343736623030/_ChatGPT_2__2026__16.png",
+          "alt": "Точка со штампом «Ленина, 67» — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ],
+      "sellsPassport": true,
+      "address": "Ленина, 67, Белорецк",
+      "description": "Киоск с туристическими штампами и продажей паспорта туриста.",
+      "conditions": "Штампы бесплатно ставят в паспорт туриста. На открытку или бумагу — бесплатно при покупке сувенира.",
+      "stamps": [
+        {
+          "id": "kiosk7:1",
+          "name": "Первая Малиновая",
+          "sourcePlaceId": "malinovaya1",
+          "placeId": "malinovaya"
+        },
+        {
+          "id": "kiosk7:2",
+          "name": "Ялангас — Freeride Ural",
+          "sourcePlaceId": "yalangas",
+          "placeId": "yalangas"
+        },
+        {
+          "id": "kiosk7:3",
+          "name": "Мраткино — J-CARVE",
+          "sourcePlaceId": "mratkino",
+          "placeId": "mratkino"
+        },
+        {
+          "id": "kiosk7:4",
+          "name": "Арвяк-Рязь",
+          "sourcePlaceId": "arvyakRyaz",
+          "placeId": "arvyak-ryaz"
+        },
+        {
+          "id": "kiosk7:5",
+          "name": "Арский камень",
+          "sourcePlaceId": "arskiyKamen",
+          "placeId": "arskiy-kamen"
+        },
+        {
+          "id": "kiosk7:6",
+          "name": "Белорецкий завод — квадратный",
+          "sourcePlaceId": "beloretskFactory",
+          "placeId": "beloretskFactory"
+        },
+        {
+          "id": "kiosk7:7",
+          "name": "Белорецк — прямоугольный"
+        },
+        {
+          "id": "kiosk7:8",
+          "name": "Счастье в горах — круглый"
+        },
+        {
+          "id": "kiosk7:9",
+          "name": "Лапа медведя"
+        },
+        {
+          "id": "kiosk7:10",
+          "name": "«Вечный зов» — вариант 3"
+        }
+      ]
+    },
+    {
+      "sourceId": "kiosk8",
+      "canonicalId": "kiosk8",
+      "recordType": "stamp-point",
+      "name": "Карла Маркса, 67",
+      "latitude": "53.969501",
+      "longitude": "58.413822",
+      "photos": [
+        {
+          "url": "https://static.tildacdn.com/tild6235-3366-4266-a130-323636623963/_ChatGPT_2__2026__16.png",
+          "alt": "Точка со штампом «Карла Маркса, 67» — фото 1",
+          "sourceUrl": "https://visitbeloretsk.ru/map"
+        }
+      ],
+      "sellsPassport": true,
+      "address": "Карла Маркса, 67, Белорецк",
+      "description": "Киоск с туристическими штампами и продажей паспорта туриста.",
+      "conditions": "Штампы бесплатно ставят в паспорт туриста. На открытку или бумагу — бесплатно при покупке сувенира.",
+      "stamps": [
+        {
+          "id": "kiosk8:1",
+          "name": "Большой Иремель",
+          "sourcePlaceId": "bigIremel",
+          "placeId": "iremel"
+        },
+        {
+          "id": "kiosk8:2",
+          "name": "Белорецкая узкоколейка — вариант 2",
+          "sourcePlaceId": "narrowGauge2",
+          "placeId": "narrowGauge2"
+        },
+        {
+          "id": "kiosk8:3",
+          "name": "Тирлянский завод",
+          "sourcePlaceId": "tyrlyannRuins",
+          "placeId": "tyrlyannRuins"
+        },
+        {
+          "id": "kiosk8:4",
+          "name": "Кумардак",
+          "sourcePlaceId": "kumardak",
+          "placeId": "kumardak"
+        },
+        {
+          "id": "kiosk8:5",
+          "name": "Рассыпная",
+          "sourcePlaceId": "rassypnaya",
+          "placeId": "rassypnaya"
+        },
+        {
+          "id": "kiosk8:6",
+          "name": "Поперечная",
+          "sourcePlaceId": "poperechnaya",
+          "placeId": "poperechnaya"
+        },
+        {
+          "id": "kiosk8:7",
+          "name": "Инзерские Зубчатки",
+          "sourcePlaceId": "inzerskieZubchatki",
+          "placeId": "inzerskie-zubchatki"
+        },
+        {
+          "id": "kiosk8:8",
+          "name": "Рәхим итегеҙ — Башҡортостан!"
+        },
+        {
+          "id": "kiosk8:9",
+          "name": "Башкирская юрта"
+        },
+        {
+          "id": "kiosk8:10",
+          "name": "Куница — герб Белорецка"
+        },
+        {
+          "id": "kiosk8:11",
+          "name": "Лапа медведя"
+        },
+        {
+          "id": "kiosk8:12",
+          "name": "Ящерица — вариант 2"
+        },
+        {
+          "id": "kiosk8:13",
+          "name": "Белорецк — город металлургов, вариант 2"
+        },
+        {
+          "id": "kiosk8:14",
+          "name": "«Вечный зов» — вариант 2"
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
-import {PLACES,CITY} from './presets.js';
-const places=new Set(['all',CITY.id,...PLACES.map(p=>p.id)]);
+import {PLACES,CITY,PLACE_ALIASES,canonicalPlaceId} from './presets.js';
+const places=new Set(['all',CITY.id,...PLACES.map(p=>p.id),...Object.keys(PLACE_ALIASES)]);
 export const ROUTE_IDS=[...['1','2','3','4','5','7','8','9','10','11','12','13'].map(n=>'abzakovo/trail/'+n),...[1,2,3,4].map(n=>'mratkino/trail/south-'+n),...[1,2,3].map(n=>'mratkino/trail/north-'+n),'malinovaya/first-return','malinovaya/third','malinovaya/three-peaks','yalangas/a1','yalangas/a2'];
 const routes=new Set(ROUTE_IDS),record=x=>!!x&&typeof x==='object'&&!Array.isArray(x),finite=(v,min,max)=>typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=max;
 const knownRoute=id=>routes.has(id)||typeof id==='string'&&/^[a-z-]+\/way\/\d{1,14}$/.test(id)&&PLACES.some(p=>p.id===id.split('/')[0]&&p.geometryUrl);
@@ -20,7 +20,7 @@ export function validateCommand(d){
  return null;
 }
 export function readURLState(search=''){
- const p=new URLSearchParams(search),place=p.get('place'),out={place:places.has(place)?place:'all',card:p.get('card')!=='0'};
+ const p=new URLSearchParams(search),place=p.get('place'),out={place:places.has(place)?canonicalPlaceId(place):'all',card:p.get('card')!=='0'};
  if(knownRoute(p.get('route')))out.route=p.get('route');
  if(['0','1'].includes(p.get('effects')))out.effects=p.get('effects')==='1';
  const numeric=key=>p.get(key)?.trim()?Number(p.get(key)):NaN;

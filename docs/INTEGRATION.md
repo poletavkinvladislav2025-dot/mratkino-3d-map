@@ -83,6 +83,10 @@ window.addEventListener('message', e => {
 
 Места: `all`, `beloretsk`, `mratkino`, `abzakovo`, `yalangas`, `malinovaya`, `malinovaya-3` и новые `ethnopark`, `bannoye`, `rodeo`, `zavyaliha`, `euroasia`, `sunny-valley`, `minyar`, `adzhigardak`, `kushtau`, `ak-yort`, `ufa-biathlon`, `abzakovo-biathlon`. Реестры: [`places.json`](../src/region/places.json) и [`winter-places.json`](../src/region/winter-places.json). Точный реестр мест также доступен в [`presets.js`](../src/region/presets.js).
 
+После переноса исходной карты добавлены городские места и шесть точек штампов: `stampStation`, `kiosk3`, `kiosk2`, `kiosk4`, `kiosk7`, `kiosk8`. [Все 37 соответствий и решения о координатах](PASSPORT-MIGRATION.md). Данные: [`passport-source.json`](../src/region/passport-source.json). Алиасы принимаются в URL и `openPlace`; ответ содержит канонический ID.
+
+Исходные ID доступны однозначно как `yandex:{sourceId}`. Например, `?place=yandex%3Amalinovaya` и `openPlace {placeId:'yandex:malinovaya'}` открывают **Третью** Малиновую (`malinovaya-3`). Старый 3D-ID `malinovaya` продолжает открывать **Первую**; исходный `malinovaya1` — её дополнительный alias. Это разрешает конфликт исходников без переименования старых пеших маршрутов `malinovaya/...`. `bigIremel` также принимается как alias `iremel`; полный список формирует `PLACE_ALIASES` в presets.js.
+
 Маршруты:
 
 - `abzakovo/trail/{1,2,3,4,5,7,8,9,10,11,12,13}`; №6 не добавлен без геометрии.

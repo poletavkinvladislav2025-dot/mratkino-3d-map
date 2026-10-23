@@ -1,0 +1,811 @@
+{
+  "date": "2026-10-23",
+  "records": 37,
+  "matchedExisting": 21,
+  "added": 16,
+  "finalPlaces": 50,
+  "stampAssignments": 64,
+  "explicitGeographicLinks": 36,
+  "rows": [
+    {
+      "sourceId": "malinovaya",
+      "canonicalId": "malinovaya-3",
+      "name": "Третья Малиновая",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "54.021079",
+      "sourceLongitude": "58.292092",
+      "sourceCoordinates": [
+        58.292092,
+        54.021079
+      ],
+      "coordinates": [
+        58.292092,
+        54.021079
+      ],
+      "previousCoordinates": [
+        58.2915922,
+        54.0205484
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:malinovaya"
+    },
+    {
+      "sourceId": "malinovaya1",
+      "canonicalId": "malinovaya",
+      "name": "Первая Малиновая",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "54.003275",
+      "sourceLongitude": "58.316773",
+      "sourceCoordinates": [
+        58.316773,
+        54.003275
+      ],
+      "coordinates": [
+        58.316773,
+        54.003275
+      ],
+      "previousCoordinates": [
+        58.3151783,
+        54.0042186
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:malinovaya1"
+    },
+    {
+      "sourceId": "bigIremel",
+      "canonicalId": "iremel",
+      "name": "Большой Иремель",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "54.520000",
+      "sourceLongitude": "58.842533",
+      "sourceCoordinates": [
+        58.842533,
+        54.52
+      ],
+      "coordinates": [
+        58.842533,
+        54.52
+      ],
+      "previousCoordinates": [
+        58.8426569,
+        54.5200868
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:bigIremel"
+    },
+    {
+      "sourceId": "kumardak",
+      "canonicalId": "kumardak",
+      "name": "Кумардак",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "54.377466",
+      "sourceLongitude": "58.419291",
+      "sourceCoordinates": [
+        58.419291,
+        54.377466
+      ],
+      "coordinates": [
+        58.419291,
+        54.377466
+      ],
+      "previousCoordinates": [
+        58.41947,
+        54.3772791
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:kumardak"
+    },
+    {
+      "sourceId": "rassypnaya",
+      "canonicalId": "rassypnaya",
+      "name": "Рассыпная",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "54.105889",
+      "sourceLongitude": "58.425567",
+      "sourceCoordinates": [
+        58.425567,
+        54.105889
+      ],
+      "coordinates": [
+        58.425567,
+        54.105889
+      ],
+      "previousCoordinates": [
+        58.4254459,
+        54.1060836
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:rassypnaya"
+    },
+    {
+      "sourceId": "poperechnaya",
+      "canonicalId": "poperechnaya",
+      "name": "Поперечная",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "54.648918",
+      "sourceLongitude": "58.652720",
+      "sourceCoordinates": [
+        58.65272,
+        54.648918
+      ],
+      "coordinates": [
+        58.65272,
+        54.648918
+      ],
+      "previousCoordinates": [
+        58.6527199,
+        54.64892
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:poperechnaya"
+    },
+    {
+      "sourceId": "inzerskieZubchatki",
+      "canonicalId": "inzerskie-zubchatki",
+      "name": "Инзерские Зубчатки",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "54.270733",
+      "sourceLongitude": "58.374117",
+      "sourceCoordinates": [
+        58.374117,
+        54.270733
+      ],
+      "coordinates": [
+        58.374117,
+        54.270733
+      ],
+      "previousCoordinates": [
+        58.374096,
+        54.2708589
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:inzerskieZubchatki"
+    },
+    {
+      "sourceId": "aygir",
+      "canonicalId": "aygir",
+      "name": "Айгир",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "54.133177",
+      "sourceLongitude": "57.677734",
+      "sourceCoordinates": [
+        57.677734,
+        54.133177
+      ],
+      "coordinates": [
+        57.677734,
+        54.133177
+      ],
+      "previousCoordinates": [
+        57.6767743,
+        54.1332346
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:aygir"
+    },
+    {
+      "sourceId": "atysh",
+      "canonicalId": "atysh",
+      "name": "Водопад Атыш",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "54.555669",
+      "sourceLongitude": "57.271753",
+      "sourceCoordinates": [
+        57.271753,
+        54.555669
+      ],
+      "coordinates": [
+        57.271753,
+        54.555669
+      ],
+      "previousCoordinates": [
+        57.2716656,
+        54.5556043
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:atysh"
+    },
+    {
+      "sourceId": "yamantau",
+      "canonicalId": "yamantau",
+      "name": "Ямантау",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "54.254422",
+      "sourceLongitude": "58.105652",
+      "sourceCoordinates": [
+        58.105652,
+        54.254422
+      ],
+      "coordinates": [
+        58.105652,
+        54.254422
+      ],
+      "previousCoordinates": [
+        58.1040145,
+        54.2549012
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:yamantau"
+    },
+    {
+      "sourceId": "smallYamantau",
+      "canonicalId": "maly-yamantau",
+      "name": "Малый Ямантау",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "54.184593",
+      "sourceLongitude": "57.696156",
+      "sourceCoordinates": [
+        57.696156,
+        54.184593
+      ],
+      "coordinates": [
+        57.696156,
+        54.184593
+      ],
+      "previousCoordinates": [
+        57.6953917,
+        54.1832167
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:smallYamantau"
+    },
+    {
+      "sourceId": "arvyakRyaz",
+      "canonicalId": "arvyak-ryaz",
+      "name": "Арвяк-Рязь",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "53.774752",
+      "sourceLongitude": "58.326348",
+      "sourceCoordinates": [
+        58.326348,
+        53.774752
+      ],
+      "coordinates": [
+        58.326348,
+        53.774752
+      ],
+      "previousCoordinates": [
+        58.3270721,
+        53.7732485
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:arvyakRyaz"
+    },
+    {
+      "sourceId": "mratkino",
+      "canonicalId": "mratkino",
+      "name": "Мраткино",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "54.000315",
+      "sourceLongitude": "58.441455",
+      "sourceCoordinates": [
+        58.441455,
+        54.000315
+      ],
+      "coordinates": [
+        58.441455,
+        54.000315
+      ],
+      "previousCoordinates": [
+        58.4371909,
+        53.9974603
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:mratkino"
+    },
+    {
+      "sourceId": "yalangas",
+      "canonicalId": "yalangas",
+      "name": "Ялангас",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "54.127702",
+      "sourceLongitude": "58.319030",
+      "sourceCoordinates": [
+        58.31903,
+        54.127702
+      ],
+      "coordinates": [
+        58.31903,
+        54.127702
+      ],
+      "previousCoordinates": [
+        58.31852,
+        54.1278441
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:yalangas"
+    },
+    {
+      "sourceId": "arskiyKamen",
+      "canonicalId": "arskiy-kamen",
+      "name": "Арский камень",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "53.870892",
+      "sourceLongitude": "58.256564",
+      "sourceCoordinates": [
+        58.256564,
+        53.870892
+      ],
+      "coordinates": [
+        58.256564,
+        53.870892
+      ],
+      "previousCoordinates": [
+        58.2569995,
+        53.8710369
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:arskiyKamen"
+    },
+    {
+      "sourceId": "masim",
+      "canonicalId": "masim",
+      "name": "Масим",
+      "recordType": "place",
+      "action": "added",
+      "sourceLatitude": "53.153992",
+      "sourceLongitude": "57.251818",
+      "sourceCoordinates": [
+        57.251818,
+        53.153992
+      ],
+      "coordinates": [
+        57.251818,
+        53.153992
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:masim"
+    },
+    {
+      "sourceId": "kraka",
+      "canonicalId": "kraka",
+      "name": "Хребет Крака — координаты из исходного кода",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "53.584992",
+      "sourceLongitude": "58.033943",
+      "sourceCoordinates": [
+        58.033943,
+        53.584992
+      ],
+      "coordinates": [
+        58.039331,
+        53.605817
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Kept the later owner correction; original source coordinates retained",
+      "sourceAlias": "yandex:kraka"
+    },
+    {
+      "sourceId": "kurtashtau",
+      "canonicalId": "kurtashtau",
+      "name": "Курташтау",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "53.927334",
+      "sourceLongitude": "58.573613",
+      "sourceCoordinates": [
+        58.573613,
+        53.927334
+      ],
+      "coordinates": [
+        58.573613,
+        53.927334
+      ],
+      "previousCoordinates": [
+        58.57374,
+        53.9272676
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:kurtashtau"
+    },
+    {
+      "sourceId": "kirel",
+      "canonicalId": "kirel",
+      "name": "Кирель",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "54.028744",
+      "sourceLongitude": "58.231660",
+      "sourceCoordinates": [
+        58.23166,
+        54.028744
+      ],
+      "coordinates": [
+        58.23166,
+        54.028744
+      ],
+      "previousCoordinates": [
+        58.2308329,
+        54.0285532
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:kirel"
+    },
+    {
+      "sourceId": "kushay",
+      "canonicalId": "kushay",
+      "name": "Кушай",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "53.709749",
+      "sourceLongitude": "58.583285",
+      "sourceCoordinates": [
+        58.583285,
+        53.709749
+      ],
+      "coordinates": [
+        58.583285,
+        53.709749
+      ],
+      "previousCoordinates": [
+        58.5830585,
+        53.7097259
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:kushay"
+    },
+    {
+      "sourceId": "moose",
+      "canonicalId": "moose",
+      "name": "Скульптурная композиция «Лоси»",
+      "recordType": "place",
+      "action": "added",
+      "sourceLatitude": "53.952007",
+      "sourceLongitude": "58.337262",
+      "sourceCoordinates": [
+        58.337262,
+        53.952007
+      ],
+      "coordinates": [
+        58.337262,
+        53.952007
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:moose"
+    },
+    {
+      "sourceId": "waterTower",
+      "canonicalId": "waterTower",
+      "name": "Водонапорная башня Белорецка",
+      "recordType": "place",
+      "action": "added",
+      "sourceLatitude": "53.970428",
+      "sourceLongitude": "58.404897",
+      "sourceCoordinates": [
+        58.404897,
+        53.970428
+      ],
+      "coordinates": [
+        58.404897,
+        53.970428
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:waterTower"
+    },
+    {
+      "sourceId": "beloretskFactory",
+      "canonicalId": "beloretskFactory",
+      "name": "Белорецкий завод",
+      "recordType": "place",
+      "action": "added",
+      "sourceLatitude": "53.971129",
+      "sourceLongitude": "58.397852",
+      "sourceCoordinates": [
+        58.397852,
+        53.971129
+      ],
+      "coordinates": [
+        58.397852,
+        53.971129
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:beloretskFactory"
+    },
+    {
+      "sourceId": "factoryWhistle",
+      "canonicalId": "factoryWhistle",
+      "name": "Белорецкий заводской гудок",
+      "recordType": "place",
+      "action": "added",
+      "sourceLatitude": "53.972507",
+      "sourceLongitude": "58.397944",
+      "sourceCoordinates": [
+        58.397944,
+        53.972507
+      ],
+      "coordinates": [
+        58.397944,
+        53.972507
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:factoryWhistle"
+    },
+    {
+      "sourceId": "blueSky",
+      "canonicalId": "sinie-skaly",
+      "name": "Синие скалы",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "53.885056",
+      "sourceLongitude": "58.509249",
+      "sourceCoordinates": [
+        58.509249,
+        53.885056
+      ],
+      "coordinates": [
+        58.509249,
+        53.885056
+      ],
+      "previousCoordinates": [
+        58.5098786,
+        53.8854244
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:blueSky"
+    },
+    {
+      "sourceId": "narrowGauge1",
+      "canonicalId": "narrowGauge1",
+      "name": "Белорецкая узкоколейка",
+      "recordType": "place",
+      "action": "added",
+      "sourceLatitude": "54.221817",
+      "sourceLongitude": "58.594842",
+      "sourceCoordinates": [
+        58.594842,
+        54.221817
+      ],
+      "coordinates": [
+        58.594842,
+        54.221817
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:narrowGauge1"
+    },
+    {
+      "sourceId": "lostSymbol",
+      "canonicalId": "lostSymbol",
+      "name": "Белорецк — утраченный символ",
+      "recordType": "place",
+      "action": "added",
+      "sourceLatitude": "53.980521",
+      "sourceLongitude": "58.410522",
+      "sourceCoordinates": [
+        58.410522,
+        53.980521
+      ],
+      "coordinates": [
+        58.410522,
+        53.980521
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:lostSymbol"
+    },
+    {
+      "sourceId": "tyrlyannWheel",
+      "canonicalId": "tyrlyannWheel",
+      "name": "Тирлянское колесо",
+      "recordType": "place",
+      "action": "added",
+      "sourceLatitude": "54.219259",
+      "sourceLongitude": "58.588118",
+      "sourceCoordinates": [
+        58.588118,
+        54.219259
+      ],
+      "coordinates": [
+        58.588118,
+        54.219259
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:tyrlyannWheel"
+    },
+    {
+      "sourceId": "tyrlyannRuins",
+      "canonicalId": "tyrlyannRuins",
+      "name": "Руины Тирлянского металлургического завода",
+      "recordType": "place",
+      "action": "added",
+      "sourceLatitude": "54.217785",
+      "sourceLongitude": "58.586884",
+      "sourceCoordinates": [
+        58.586884,
+        54.217785
+      ],
+      "coordinates": [
+        58.586884,
+        54.217785
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:tyrlyannRuins"
+    },
+    {
+      "sourceId": "stoneyRiver",
+      "canonicalId": "kamennaya-rechka",
+      "name": "Каменная речка",
+      "recordType": "place",
+      "action": "matched-existing",
+      "sourceLatitude": "54.050217",
+      "sourceLongitude": "58.267802",
+      "sourceCoordinates": [
+        58.267802,
+        54.050217
+      ],
+      "coordinates": [
+        58.267802,
+        54.050217
+      ],
+      "previousCoordinates": [
+        58.2653651,
+        54.0498012
+      ],
+      "coordinateDecision": "Owner source point used; previous OSM/reference point retained in metadata",
+      "sourceAlias": "yandex:stoneyRiver"
+    },
+    {
+      "sourceId": "narrowGauge2",
+      "canonicalId": "narrowGauge2",
+      "name": "Наследие Белорецкой узкоколейки",
+      "recordType": "place",
+      "action": "added",
+      "sourceLatitude": "53.984282",
+      "sourceLongitude": "58.404807",
+      "sourceCoordinates": [
+        58.404807,
+        53.984282
+      ],
+      "coordinates": [
+        58.404807,
+        53.984282
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:narrowGauge2"
+    },
+    {
+      "sourceId": "stampStation",
+      "canonicalId": "stampStation",
+      "name": "Штамп-станция «Счастье в горах»",
+      "recordType": "stamp-point",
+      "action": "added",
+      "sourceLatitude": "53.967439",
+      "sourceLongitude": "58.410206",
+      "sourceCoordinates": [
+        58.410206,
+        53.967439
+      ],
+      "coordinates": [
+        58.410206,
+        53.967439
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:stampStation"
+    },
+    {
+      "sourceId": "kiosk3",
+      "canonicalId": "kiosk3",
+      "name": "Центральная площадь",
+      "recordType": "stamp-point",
+      "action": "added",
+      "sourceLatitude": "53.967411",
+      "sourceLongitude": "58.410272",
+      "sourceCoordinates": [
+        58.410272,
+        53.967411
+      ],
+      "coordinates": [
+        58.410272,
+        53.967411
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:kiosk3"
+    },
+    {
+      "sourceId": "kiosk2",
+      "canonicalId": "kiosk2",
+      "name": "Карла Маркса, 79",
+      "recordType": "stamp-point",
+      "action": "added",
+      "sourceLatitude": "53.972548",
+      "sourceLongitude": "58.419482",
+      "sourceCoordinates": [
+        58.419482,
+        53.972548
+      ],
+      "coordinates": [
+        58.419482,
+        53.972548
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:kiosk2"
+    },
+    {
+      "sourceId": "kiosk4",
+      "canonicalId": "kiosk4",
+      "name": "50 лет Октября, 46",
+      "recordType": "stamp-point",
+      "action": "added",
+      "sourceLatitude": "53.960132",
+      "sourceLongitude": "58.405329",
+      "sourceCoordinates": [
+        58.405329,
+        53.960132
+      ],
+      "coordinates": [
+        58.405329,
+        53.960132
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:kiosk4"
+    },
+    {
+      "sourceId": "kiosk7",
+      "canonicalId": "kiosk7",
+      "name": "Ленина, 67",
+      "recordType": "stamp-point",
+      "action": "added",
+      "sourceLatitude": "53.972137",
+      "sourceLongitude": "58.409446",
+      "sourceCoordinates": [
+        58.409446,
+        53.972137
+      ],
+      "coordinates": [
+        58.409446,
+        53.972137
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:kiosk7"
+    },
+    {
+      "sourceId": "kiosk8",
+      "canonicalId": "kiosk8",
+      "name": "Карла Маркса, 67",
+      "recordType": "stamp-point",
+      "action": "added",
+      "sourceLatitude": "53.969501",
+      "sourceLongitude": "58.413822",
+      "sourceCoordinates": [
+        58.413822,
+        53.969501
+      ],
+      "coordinates": [
+        58.413822,
+        53.969501
+      ],
+      "previousCoordinates": null,
+      "coordinateDecision": "Exact owner source coordinates",
+      "sourceAlias": "yandex:kiosk8"
+    }
+  ]
+}
