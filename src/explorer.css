@@ -123,3 +123,8 @@
 @media(max-width:760px){.explorer .region-panel>p,.explorer .region-panel>.tiny{display:block}.explorer .sidebar{max-height:46%}.explorer .sidebar.collapsed{max-height:66px}.explorer .sidebar.collapsed .region-panel>:not(h3){display:none!important}.explorer .region-navigation{min-height:56px;padding:6px;gap:5px}.explorer .region-navigation [data-action=life]{min-width:128px;font-size:11px}.explorer .region-navigation .search-toggle{font-size:11px}.explorer .region-panel h3{font-size:19px;padding-right:74px}.explorer .mode-button{width:88px;right:8px}.explorer .place-gallery img{height:150px}}
 @media(prefers-reduced-motion:reduce){.explorer [data-action=life]::after{animation:none}}
 @media(min-width:761px){.explorer .sidebar{right:116px}}
+/* Big Kraka: the owner's two anchors, separate from the older southern point. */
+.kraka-anchor{padding:7px 10px;border:2px solid white;border-radius:12px;background:#17452f;color:#fff;font:700 12px/1.3 Arial,sans-serif;box-shadow:0 2px 7px #0004;cursor:pointer}
+.kraka-anchor[data-anchor="Б"]{background:#bd4d30}
+.kraka-anchor[hidden]{display:none}
+.kraka-track-toggle{display:flex;align-items:center;gap:8px;margin:16px 0;font-size:13px;line-height:1.5}

@@ -28,7 +28,7 @@ export function createRegionalStyle(data,forestURL){
  style.sources['route-stops']={type:'geojson',data:EMPTY};
  for(const id of ['winter-catalog','hiking-routes','hiking-stops','nature-surfaces'])style.sources[id]={type:'geojson',data:EMPTY};
  for(const name of ['trails','lifts','stations','boundary','piste-areas'])style.sources['abzakovo-'+name]={type:'geojson',data:EMPTY};
- // No city labels, POIs or building layers. The same street geometry continues across the region.
+ // Real building footprints only; detailed volume is enabled by the global effects control.
  const baseLayers=[
  {id:'region-surfaces',type:'fill',source:'basemap','source-layer':'landcover',filter:['!=',['get','class'],'wood'],paint:{'fill-color':['match',['get','class'],'grass','#d2d6bc','farmland','#d8d4b9','wetland','#a9beb2','ice','#e4ecea','rock','#b5b4a7','sand','#dcd2b7','#d9dfd1'],'fill-opacity':.48}},
  {id:'region-landuse',type:'fill',source:'basemap','source-layer':'landuse',paint:{'fill-color':'#ced4cd','fill-opacity':.24}},
@@ -64,7 +64,9 @@ export function createRegionalStyle(data,forestURL){
  {id:'touring-route-line',type:'line',source:'touring-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#b66542','line-width':3.2}},
  {id:'touring-route-stops',type:'circle',source:'route-stops',paint:{'circle-color':'#b66542','circle-radius':5,'circle-stroke-color':'#fff','circle-stroke-width':2}}
  );
- // Owner restriction: imported city points are markers/cards, never arbitrary 3D buildings.
+ // Existing points stay markers. Volumes use actual OpenMapTiles building polygons,
+ // render heights when present, otherwise a modest illustrative 6 m height.
+ style.layers.push({id:'region-buildings-3d',type:'fill-extrusion',source:'basemap','source-layer':'building',minzoom:13,layout:{visibility:'none'},paint:{'fill-extrusion-color':'#c8c2ad','fill-extrusion-height':['max',1,['to-number',['coalesce',['get','render_height'],['get','height'],6],6]],'fill-extrusion-base':['max',0,['to-number',['coalesce',['get','render_min_height'],['get','min_height'],0],0]],'fill-extrusion-opacity':.92,'fill-extrusion-vertical-gradient':true}});
  style.layers.push({id:'stamp-geographic-anchors',type:'circle',source:'region-places',minzoom:14,filter:['==',['get','kind'],'stamp-point'],paint:{'circle-radius':3,'circle-color':'#b16b3e','circle-stroke-color':'#fff','circle-stroke-width':1}});
  // Surface colours receive the existing geographic hillshade instead of covering its shadows.
  const naturalSurface=style.layers.splice(style.layers.findIndex(l=>l.id==='nature-open'),1)[0];style.layers.splice(style.layers.findIndex(l=>l.id==='hillshade'),0,naturalSurface);

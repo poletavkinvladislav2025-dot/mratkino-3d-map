@@ -8,7 +8,7 @@ export function cameraPayload(p){
  if(!record(p)||!Object.keys(p).length||Object.keys(p).some(k=>!['center','zoom','pitch','bearing'].includes(k)))return null;
  const out={};
  if(p.center!==undefined){if(!record(p.center)||Object.keys(p.center).length!==2||!finite(p.center.lat,-85,85)||!finite(p.center.lng,-180,180))return null;out.center=[p.center.lng,p.center.lat];}
- for(const [key,min,max] of [['zoom',5,20.2],['pitch',0,72],['bearing',-180,180]])if(p[key]!==undefined){if(!finite(p[key],min,max))return null;out[key]=p[key];}
+ for(const [key,min,max] of [['zoom',5,20.2],['pitch',0,85],['bearing',-180,180]])if(p[key]!==undefined){if(!finite(p[key],min,max))return null;out[key]=p[key];}
  return out;
 }
 export function validateCommand(d){

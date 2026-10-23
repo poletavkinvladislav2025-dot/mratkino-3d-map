@@ -7,7 +7,7 @@ import {visibleAreas} from '../src/region/viewport.js';
 const command=(command,payload)=>({type:'vb3d.command',version:1,id:'test-1',command,payload});
 test('integration accepts explicit coordinates, stable IDs and only bounded schemas',()=>{
  assert.deepEqual(cameraPayload({center:{lat:53.8,lng:58.6},zoom:14}),{center:[58.6,53.8],zoom:14});
- for(const payload of [{},{center:[58,54]},{center:{lat:100,lng:58}},{zoom:NaN},{pitch:73},{zoom:'14'},{zoom:14,unexpected:1}])assert.equal(cameraPayload(payload),null);
+ for(const payload of [{},{center:[58,54]},{center:{lat:100,lng:58}},{zoom:NaN},{pitch:86},{zoom:'14'},{zoom:14,unexpected:1}])assert.equal(cameraPayload(payload),null);
  for(const id of ROUTE_IDS)assert.ok(validateCommand(command('openRoute',{routeId:id})));
  for(const payload of [{routeId:'abzakovo/trail/6'},{placeId:'arbitrary'},{placeId:'mratkino',url:'https://invalid.test'}])assert.equal(validateCommand(command('openPlace',payload)),null);
  assert.equal(validateCommand({...command('resize',{}),version:2}),null);

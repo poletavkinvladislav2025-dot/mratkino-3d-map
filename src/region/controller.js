@@ -14,6 +14,7 @@ import {renderPassportContent} from './passport-cards.js';
 import {applyFilters,filterSnapshot} from './filters.js';
 import {PlaceGallery} from './gallery.js';
 import {visibleLegendKinds} from './legend.js';
+import {KrakaController} from './kraka.js';
 
 /** Viewport data, explicit selection and optional heavy illustration are separate states. */
 export class RegionController{
@@ -22,7 +23,7 @@ export class RegionController{
   try{this.effectsWanted=localStorage.getItem('vb3d-effects')==='1';this.motionExplicit=this.effectsWanted;}catch{this.effectsWanted=false;}
   if(this.initial.effects!==undefined)this.effectsWanted=this.initial.effects;
   this.filters={ski:true,nordic:true,hiking:true,interesting:true,stamps:true,passport:false};this.motionExplicit=!!this.motionExplicit;this.season='winter';this.landscape=new LandscapeController(this);this.catalog=new CatalogController(this);
-  this.hiking=new HikingController(host);this.ski=new SkiAreaController(host);this.bridge=new IntegrationBridge(this);
+  this.kraka=new KrakaController(this);this.hiking=new HikingController(host);this.ski=new SkiAreaController(host);this.bridge=new IntegrationBridge(this);
  }
  get sceneVisible(){return !this.parentSuspended&&!document.hidden&&this.viewportVisible;}
  get effectsAllowed(){return this.effectsWanted&&(!matchMedia('(prefers-reduced-motion: reduce)').matches||this.motionExplicit)&&!this.parentSuspended&&!document.hidden&&this.viewportVisible;}
@@ -67,7 +68,7 @@ export class RegionController{
  cameraButton(){const m=this.host.map,top=m?m.getPitch()<5:this.host.mode2D,b=this.host.$('[data-action=mode]');this.host.mode2D=top;b.textContent=top?'Наклонный вид':'Вид сверху';b.title=b.textContent;b.setAttribute('aria-label',b.textContent);b.setAttribute('aria-pressed',String(top));}
  cameraPadding(){const h=this.host,s=h.$('.sidebar');if(!this.cardOpen)return {top:0,bottom:0,left:0,right:0};return matchMedia('(max-width:760px)').matches?{top:12,left:12,right:12,bottom:Math.min(s.offsetHeight+20,h.$('.map-wrap').clientHeight*.48)}:{top:20,left:24,right:Math.min(s.offsetWidth+100,h.$('.map-wrap').clientWidth*.48),bottom:30};}
  refreshLegend(){
-  const h=this.host,m=h.map;if(!m?.isStyleLoaded())return;const kinds=visibleLegendKinds(m),key=kinds.join(',');if(this.legendKey===key)return;this.legendKey=key;
+  const h=this.host,m=h.map;if(!m?.getLayer('snow'))return;const kinds=visibleLegendKinds(m),key=kinds.join(',');if(this.legendKey===key)return;this.legendKey=key;
   const legend=h.$('.legend');legend.replaceChildren();legend.hidden=!kinds.length;
   if(kinds.includes('ski')){const heading=document.createElement('span');heading.className='legend-heading';heading.textContent='Сложность трасс';legend.append(heading);for(const [k,t] of [['novice','Лёгкая'],['easy','Средняя'],['intermediate','Сложная'],['expert','Экспертная']]){const item=document.createElement('span'),dot=document.createElement('i');dot.style.background=CATEGORIES[k].color;item.append(dot,document.createTextNode(t));legend.append(item);}}
   for(const [k,t,color] of [['hiking','Пеший маршрут','#42765c'],['nordic','Беговые лыжи','#9c5f26']])if(kinds.includes(k)){const item=document.createElement('span'),dot=document.createElement('i');dot.style.background=color;item.append(dot,document.createTextNode(t));legend.append(item);}
@@ -80,7 +81,7 @@ export class RegionController{
   <p>Абзаково: категории по <a href="https://abzakovo.com/scheme/" target="_blank" rel="noopener">официальной схеме</a>, проверенной 23.10.2026; дата выпуска не указана. №1, 7, 12 — синие; №2–4 — чёрные; №5, 8, 11, 13 — красные; №9, 10 — зелёные. Предварительный список задания с ней расходится. Официальный сайт описывает 10 трасс и 13 км, схема содержит другую нумерацию; причина различий не установлена. Спуск №6 на схеме отсутствует; оранжевая цифра 6 относится к подъёмнику.</p>
   <p>Мраткино: цвета по таблице схемы из задания владельца, официальная классификация не подтверждена. Фотография схемы не приложена. У Ю3 конфликт name=Ю3 и ref=Ю2. Ю5 и спорная линия фрирайда не отображаются. С1 показана без катающихся и с молодыми елями по прежнему описанию владельца; актуальный режим работы неизвестен. Кресла трёхместные по описанию владельца, в OSM указано четыре места — требуется сверка.</p>
   <p>Пешие треки Малиновой и Ялангаса построены по сети OSM и требуют проверки на местности. Они не подтверждают разрешение прохода. Для Ямантау и Малого Ямантау действуют ограничения заповедника. Собственные файлы GPX / GeoJSON открываются локально и не отправляются на сервер.</p>
-  <h3>Управление</h3><p>Перетаскивание — перемещение; правая кнопка мыши — поворот и наклон; колесо — масштаб. На телефоне используйте два пальца. Кнопка 2D / 3D меняет наклон, компас сбрасывает поворот. Статичный лес, сооружения и трассы появляются автоматически. «Оживить карту» управляет только движением; выбор сохраняется между местами. При уменьшении движения в системе запуск требует явного нажатия. Общий лес основан на полигонах wood OpenFreeMap; неизвестный тип показан условной смесью, около Мраткино/Абзаково сосны — художественная настройка. Позиции отдельных деревьев условны. Городские объекты и киоски представлены маркерами и карточками; общая объёмная застройка отключена. Штампы перенесены из исходного состава проекта и не показывают текущие остатки.</p>
+  <h3>Управление</h3><p>Перетаскивание — перемещение; правая кнопка мыши — поворот и наклон; колесо — масштаб. На телефоне используйте два пальца. Кнопка 2D / 3D меняет наклон, компас сбрасывает поворот. Статичный лес, сооружения и трассы появляются автоматически. «Оживить карту» включает движение и объём зданий; выбор сохраняется между местами. При уменьшении движения в системе запуск требует явного нажатия. Общий лес основан на полигонах wood OpenFreeMap; неизвестный тип показан условной смесью, около Мраткино/Абзаково сосны — художественная настройка. Позиции отдельных деревьев условны. Городские объекты и киоски представлены маркерами и карточками. «Карта оживает» включает также объёмную застройку по контурам OpenMapTiles; при отсутствии высоты используется условная высота 6 м. Наклон камеры доступен до 85°. Большой Крака: А и Б перенесены из кода владельца; отдельный трек БЮТ ведёт к прежней точке, путь к новой Б не построен. Штампы перенесены из исходного состава проекта и не показывают текущие остатки.</p>
   <p>Этнопарк: чум, ограда и 20 оленей — условная 3D-композиция по описанию владельца, а не точная схема участка.</p><h3>Источники</h3><p>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>, ODbL 1.0 · <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> / OpenMapTiles · <a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">Mapterhorn, источники рельефа</a>. Преувеличение высот 1. Автономный рельеф: Copernicus DEM GLO-30 (около 30 м), © DLR e.V. 2010–2014 / Airbus Defence and Space GmbH 2014–2018, предоставлен ЕС и ESA. MapLibre GL JS — BSD-3-Clause.</p>`;}
  preset(){return presetFor(this.id);}
  async bootstrap(){
@@ -99,6 +100,7 @@ export class RegionController{
   h.highlight();if(this.ski.data){this.ski.selectedIds([]);this.ski.card?.replaceChildren();}this.hiking.selected=null;this.hiking.card.replaceChildren();
   if(meta.navigate!==false){h.map.stop();if(id==='all')this.overview(animate);else{const p=this.preset();h.mode2D=p.pitch<10;h.map.easeTo({center:p.center,zoom:p.zoom,pitch:p.pitch,bearing:p.bearing,padding:this.cameraPadding(),duration:animate?h.duration():0});this.cameraButton();}}
   if(!meta.silent)this.bridge.event('placeSelected',{placeId:id});
+  if(id==='bolshoy-kraka'&&meta.navigate!==false)this.kraka.fit(false,animate);
   this.bridge.updateURL();
   try{if(id==='mratkino')await this.ensureResort();else if(id==='abzakovo')await this.ski.ensure();else if(hikingArea(id))await this.hiking.enter(id);else if(byId(id)?.geometryUrl)await this.catalog.ensure(id);}catch(e){this.dataError(e,'Данные места временно недоступны.');}
   this.sync();
@@ -116,6 +118,8 @@ export class RegionController{
   const page=p.sourceUrl||(['malinovaya','malinovaya-3'].includes(this.id)?'https://visitbeloretsk.ru/malinovaya':this.id==='yalangas'?'https://www.visitbeloretsk.ru/yalangas':null);
   if(page){const a=document.createElement('a');a.href=page;a.target='_blank';a.rel='noopener';a.textContent='О месте ↗';card.append(a);}
   renderPassportContent(card,p,this);
+  if(p.id==='bolshoy-kraka')this.kraka.card(card);
+  if(p.id==='kraka')card.append(this.button('Точки А и Б Большого Крака','Показать точки из новой карты',()=>this.choose('bolshoy-kraka')));
   const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Координаты и источник';details.append(summary);h.text(details,`${p.coordinates[1]}, ${p.coordinates[0]}`,'place-coordinates');
   if(p.sourceRecord)h.text(details,'Данные исходной карты проекта Visit Beloretsk.');card.append(details);
  }
@@ -167,12 +171,15 @@ export class RegionController{
   const contexts=this.visible.filter(id=>id==='mratkino'?h.resortLoaded:id==='abzakovo'?!!this.ski.data:this.hiking.datasets.has(id));contexts.sort((a,b)=>distanceKm(map.getCenter().toArray(),byId(a).coordinates)-distanceKm(map.getCenter().toArray(),byId(b).coordinates));
   const context=contexts[0]||null;if(this.context!==context){this.context=context;this.disposeScenes();}this.hiking.contextArea=['malinovaya','yalangas'].includes(context)?context:null;
   h.updateLayers();this.refreshLegend();h.$('.legend').title='Обозначения видимых маршрутов';
-  this.catalog.sync();this.renderCard();this.landscape.sync();this.syncScene();this.layoutLabels();
+  this.kraka.sync();this.catalog.sync();this.renderCard();this.landscape.sync();this.syncScene();this.layoutLabels();
  }
- async toggleEffects(){this.effectsWanted=!this.effectsWanted;this.motionExplicit=true;try{localStorage.setItem('vb3d-effects',this.effectsWanted?'1':'0');}catch{}this.bridge.updateURL();this.landscape.sync();await this.syncScene();}
+ async toggleEffects(){this.effectsWanted=!this.effectsWanted;const map=this.host.map;
+  if(this.effectsWanted&&map){const camera={};if(map.getPitch()<35){this.host.mode2D=false;camera.pitch=58;}if(map.getZoom()<13&&distanceKm(map.getCenter().toArray(),CITY.coordinates)<3)camera.zoom=14.2;if(Object.keys(camera).length)map.easeTo({...camera,duration:this.host.duration()});}
+  this.motionExplicit=true;try{localStorage.setItem('vb3d-effects',this.effectsWanted?'1':'0');}catch{}this.bridge.updateURL();this.landscape.sync();await this.syncScene();}
  disposeScenes(){this.host.disposeLife();this.ski.disposeScene();this.hiking.disposeNature();}
  async syncScene(){
   const h=this.host;this.landscape.syncAnimation();
+  if(h.map?.getLayer('region-buildings-3d')){const visibility=this.effectsWanted&&this.sceneVisible?'visible':'none';if(h.map.getLayoutProperty('region-buildings-3d','visibility')!==visibility)h.map.setLayoutProperty('region-buildings-3d','visibility',visibility);}
   if(!this.sceneVisible){this.disposeScenes();this.reflectLife();return;}
   if(this.scenePending||h.getAttribute('data-map-state')!=='ready')return;
   const context=h.map.getZoom()>=LINE_LOD.models&&this.filters.ski?this.context:null;
@@ -186,7 +193,7 @@ export class RegionController{
  resetMap(){
   const h=this.host,c=this.bridge.snapshot();this.initial={place:this.id,route:this.routeId,card:this.cardOpen,effects:this.effectsWanted,camera:c?{...c,center:[c.center.lng,c.center.lat]}:this.initial.camera};
   this.bootstrapped=false;this.legendKey=null;this.bridge.reset();this.landscape.disposeScene();this.disposeScenes();this.ski.dispose();this.ski.data=null;this.ski.promise=null;this.hiking.dispose();this.hiking.datasets.clear();this.hiking.boundMap=null;
-  this.markers.forEach(m=>m.marker.remove());this.markers=[];h.markers.forEach(m=>m.marker.remove());h.markers=[];h.resortLoaded=false;this.resortPromise=null;this.context=null;this.pending.clear();this.retryAfter.clear();
+  this.kraka.reset();this.markers.forEach(m=>m.marker.remove());this.markers=[];h.markers.forEach(m=>m.marker.remove());h.markers=[];h.resortLoaded=false;this.resortPromise=null;this.context=null;this.pending.clear();this.retryAfter.clear();
  }
  dataError(error,message='Часть карты временно недоступна.') {if(error?.name==='AbortError')return;const h=this.host,note=h.$('.error-note');note.hidden=false;note.textContent=message;const retry=this.button('Повторить','Повторить загрузку объектов',()=>{note.hidden=true;this.retryAfter.clear();this.landscape.retry.clear();this.landscape.stats.error=null;this.sync();const area=hikingArea(this.id);if(area)this.request(area,()=>this.hiking.enter(this.id));else if(this.id==='abzakovo')this.request(this.id,()=>this.ski.ensure());else if(this.id==='mratkino')this.request(this.id,()=>this.ensureResort());});note.append(retry);this.bridge.event('error',{code:'DATA_UNAVAILABLE',message,recoverable:true});}
  addLabels(){
@@ -208,7 +215,7 @@ export class RegionController{
    const offset=stamp&&zoom>=16?(p.id==='stampStation'?[-28,-16]:p.id==='kiosk3'?[28,16]:[0,0]):[0,0];
    if(stamp&&element.dataset.offset!==offset.join(',')){element.dataset.offset=offset.join(',');marker.setOffset(offset);element.style.setProperty('--leader-length',Math.hypot(...offset)+'px');element.style.setProperty('--leader-angle',Math.atan2(-offset[1],-offset[0])+'rad');}
    const width=element.offsetWidth||(stamp?44:110),x=point.x+offset[0],y=point.y+offset[1],r=stamp?[x-22,y-22,x+22,y+22]:[x-width/2-5,y-30,x+width/2+5,y+5];
-   const visible=enabled&&placeVisible(p,this.filters)&&!(h.resortActive&&p.id==='mratkino')&&!(this.ski.active&&p.id==='abzakovo')&&(zoom>=(stamp?12.4:10.6)||p.major||p.id===this.id)&&r[0]>=8&&r[2]<=w-48&&r[1]>=55&&r[3]<=hh-65&&!occupied.some(a=>r[0]<a[2]&&r[2]>a[0]&&r[1]<a[3]&&r[3]>a[1]);
+   const visible=!(p.id==='bolshoy-kraka'&&zoom>=10)&&enabled&&placeVisible(p,this.filters)&&!(h.resortActive&&p.id==='mratkino')&&!(this.ski.active&&p.id==='abzakovo')&&(zoom>=(stamp?12.4:10.6)||p.major||p.id===this.id)&&r[0]>=8&&r[2]<=w-48&&r[1]>=55&&r[3]<=hh-65&&!occupied.some(a=>r[0]<a[2]&&r[2]>a[0]&&r[1]<a[3]&&r[3]>a[1]);
    element.style.visibility=visible?'visible':'hidden';element.tabIndex=visible?0:-1;if(visible)occupied.push(r);
   }
   if(map.getLayer('stamp-geographic-anchors')){
@@ -216,7 +223,7 @@ export class RegionController{
    if(this.stampAnchorFilter!==key){this.stampAnchorFilter=key;map.setFilter('stamp-geographic-anchors',['in',['get','id'],['literal',ids]]);}
   }
  }
- layers(){const h=this.host;if(!h.map?.getLayer('snow'))return;h.map.setLayoutProperty('region-paths','visibility',h.$('[data-layer=paths]').checked?'visible':'none');this.ski.layers();this.catalog.layers();this.landscape.scene?.setForest(h.$('[data-layer=forest]').checked);this.landscape.syncAnimation();this.layoutLabels();}
+ layers(){const h=this.host;if(!h.map?.getLayer('snow'))return;this.kraka.sync();h.map.setLayoutProperty('region-paths','visibility',h.$('[data-layer=paths]').checked?'visible':'none');this.ski.layers();this.catalog.layers();this.landscape.scene?.setForest(h.$('[data-layer=forest]').checked);this.landscape.syncAnimation();this.layoutLabels();}
  async importRoute(file){
   if(!file)return;const h=this.host,card=h.$('.route-card');card.replaceChildren();
   try{if(file.size>5*1024*1024)throw Error('Максимальный размер — 5 МБ');const {parseGPX,normalizeRoutes,routeMetrics,routeEndpoints}=await import('./routes.js');const text=await file.text(),data=/\.gpx$/i.test(file.name)?parseGPX(text):normalizeRoutes(JSON.parse(text)),metrics=routeMetrics(data);this.routeData=data;this.importActive=true;
@@ -224,5 +231,5 @@ export class RegionController{
    const show=this.button('Показать трек','Показать трек',()=>h.flyToFeatures(data.features,h.map.getBearing()));card.append(show);const remove=this.button('Убрать трек','Убрать трек',()=>{h.map.getSource('touring-routes').setData(EMPTY);h.map.getSource('route-stops').setData(EMPTY);this.routeData=null;this.importActive=false;this.showCard(false);card.replaceChildren();});card.append(remove);h.$('dialog').close();this.showCard(true);show.click();
   }catch(e){h.text(card,'Трек не открыт: '+e.message);this.importActive=true;this.showCard(true);}
  }
- dispose(){this.gallery?.dispose();this.landscape.dispose();this.catalog.dispose();this.bridge.dispose();this.observer?.disconnect();this.hiking.dispose();this.ski.dispose();this.host.disposeLife();this.markers.forEach(m=>m.marker.remove());}
+ dispose(){this.kraka.reset();this.gallery?.dispose();this.landscape.dispose();this.catalog.dispose();this.bridge.dispose();this.observer?.disconnect();this.hiking.dispose();this.ski.dispose();this.host.disposeLife();this.markers.forEach(m=>m.marker.remove());}
 }

@@ -452,5 +452,21 @@
     "note": "Центр зоны у основного здания ГЛЦ; детализация ограничена радиусом 2 км. Линии трасс и подъёмников OSM сопоставлены с официальной схемой.",
     "osmId": "way/96913566",
     "checkedOn": "2026-10-23"
+  },
+  {
+    "id": "bolshoy-kraka",
+    "name": "Большой Крака · А и Б",
+    "kind": "ridge",
+    "category": "hiking",
+    "coordinates": [
+      58.141468,
+      53.818296
+    ],
+    "zoneRadiusKm": 6,
+    "major": true,
+    "coordinateStatus": "owner-source-map",
+    "description": "Точки старта А и вершины Б из карты владельца. Хребет показан по цифровому рельефу. Путь от А к новой Б требует проверки.",
+    "sourceUrl": "https://www.greaturaltrail.ru/pohodnahrebetbolshojkraka",
+    "checkedOn": "2026-10-23"
   }
 ]

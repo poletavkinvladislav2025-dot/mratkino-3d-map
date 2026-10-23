@@ -2,11 +2,13 @@
 
 Ветка `feature/unified-map-controls` создана от проверенного `b56e7a9`. Перед работой сверены GitHub refs и HTTP build-info: предыдущая публикация `134eb65`; разница до `b56e7a9` — только два файла итогового отчёта. Прежняя ветка не принята за актуальную без проверки.
 
-Новый отдельный предпросмотр: https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/unified/?place=all
+Постоянный адрес общей карты (обновлять этот же путь): https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/unified/?place=all
 
 Демонстрация родителя: https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/unified/integration/unified-demo.html
 
 Демонстрация содержит настоящий iframe 3D и **тестовый адаптер обычной карты без API Яндекса**. Это не живая Tilda/Яндекс.Карта. При новом запросе https://visitbeloretsk.ru/map получен HTTP 403; для точечных вставок использован ранее прочитанный в этой сессии исходник страницы.
+
+Обновление Краки, зданий и камеры: [KRAKA-UPDATE.md](KRAKA-UPDATE.md). Тот же адрес и загрузчик сохраняются.
 
 ## Что устанавливать в Tilda
 
