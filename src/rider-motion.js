@@ -12,8 +12,8 @@ export function riderProfile(routeIndex,index,name){
  const lane=.035+((index*.61803398875+routeIndex*.37)%1)*.93;
  return {board,speed:3.6+(seed%97)*.038,wavelength:board?96+seed%101:72+seed%79,lane,weave:board?(name==='Ю4'?.45:.33):.16+(seed%11)*.012,phase:(seed%53)/53*Math.PI*2,color:seed%6};
 }
-export function localRiderAreas(features){
- const walk=points=>typeof points[0]==='number'?toLocal(points):points.map(walk);
+export function localRiderAreas(features,project=toLocal){
+ const walk=points=>typeof points[0]==='number'?project(points):points.map(walk);
  return features.filter(f=>['Polygon','MultiPolygon'].includes(f.geometry.type)).map(f=>{
   const geometry={type:f.geometry.type,coordinates:walk(f.geometry.coordinates)};
   const points=geometry.coordinates.flat(geometry.type==='Polygon'?1:2);
@@ -31,7 +31,7 @@ function rayWidth(point,normal,areas){
  for(const t of cuts.sort((a,b)=>a-b))if(!insideRiderArea([point[0]+normal[0]*(t+.05),point[1]+normal[1]*(t+.05)],areas))return Math.max(0,t-2.5);
  return 0;
 }
-export function buildRiderCorridor(line,areas,{spacing=4}={}){
+export function buildRiderCorridor(line,areas,{spacing=4,centerlineOnly=false}={}){
  const length=pathLength(line),frames=[];
  const frameAt=d=>{
   const {point,angle}=samplePath(line,d),normal=[-Math.sin(angle),Math.cos(angle)];
@@ -44,11 +44,11 @@ export function buildRiderCorridor(line,areas,{spacing=4}={}){
  for(let d=0;d<length;d+=spacing)frames.push(frameAt(d));frames.push(frameAt(length));
  // Conservative widths over neighbouring samples keep turns away from corners and holes.
  const safe=frames.map((f,i)=>({...f,left:Math.min(...frames.slice(Math.max(0,i-1),i+2).map(p=>p.left)),right:Math.min(...frames.slice(Math.max(0,i-1),i+2).map(p=>p.right))}));
- return {frames:safe,length,spacing,areas};
+ return {frames:safe,length,spacing,areas,centerlineOnly,sourceLine:line};
 }
 function curvePoint(corridor,d,profile){
  d=clamp(d,0,corridor.length);const i=Math.min(Math.floor(d/corridor.spacing),corridor.frames.length-2),a=corridor.frames[i],b=corridor.frames[i+1],t=clamp((d-a.d)/(b.d-a.d||1),0,1);
- const point=a.point.map((v,j)=>v+(b.point[j]-v)*t),nx=a.normal[0]+(b.normal[0]-a.normal[0])*smooth(t),ny=a.normal[1]+(b.normal[1]-a.normal[1])*smooth(t),norm=Math.hypot(nx,ny)||1;
+ const point=corridor.centerlineOnly?samplePath(corridor.sourceLine,d).point:a.point.map((v,j)=>v+(b.point[j]-v)*t),nx=a.normal[0]+(b.normal[0]-a.normal[0])*smooth(t),ny=a.normal[1]+(b.normal[1]-a.normal[1])*smooth(t),norm=Math.hypot(nx,ny)||1;
  const left=Math.min(a.left,b.left),right=Math.min(a.right,b.right),envelope=smooth(Math.min(d,corridor.length-d)/20),base=profile.lane===undefined?0:-right+(left+right)*profile.lane;
  const amplitude=Math.max(0,Math.min(profile.amplitude??(left+right)*profile.weave,left-base,right+base))*envelope,wave=d/profile.wavelength*Math.PI*2+profile.phase,offset=base*envelope+amplitude*Math.sin(wave);
  return {point:[point[0]+nx/norm*offset,point[1]+ny/norm*offset],offset,amplitude,wave};
@@ -59,7 +59,7 @@ export function riderState(corridor,profile,distance){
  const heading=Math.atan2(after.point[1]-before.point[1],after.point[0]-before.point[0]);
  const curvature=-current.amplitude*(2*Math.PI/profile.wavelength)**2*Math.sin(current.wave);
  // Local +X is the rider's right side; signed path curvature uses the left normal.
- return {...current,distance:d,heading,lean:clamp(-Math.atan(profile.speed**2*curvature/9.81),-.48,.48),fade:smooth(Math.min(d,corridor.length-d)/12),inside:insideRiderArea(current.point,corridor.areas)};
+ return {...current,distance:d,heading,lean:clamp(-Math.atan(profile.speed**2*curvature/9.81),-.48,.48),fade:smooth(Math.min(d,corridor.length-d)/12),inside:corridor.centerlineOnly||insideRiderArea(current.point,corridor.areas)};
 }
 
 const separation=2.8,cellSize=4;

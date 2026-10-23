@@ -2,10 +2,11 @@ import {PLACES,CITY,presetFor,byId,activeZones,distanceKm} from './presets.js';
 import {EMPTY} from '../map-data.js';
 import {resortFacilities} from './style.js';
 import {HikingController} from './hiking.js';
+import {SkiAreaController} from './ski-area.js';
 
 /** Camera, local data and UI attached to the existing MapLibre instance. */
 export class RegionController{
- constructor(host){this.host=host;this.id=new URLSearchParams(location.search).get('place')||host.getAttribute('place')||'mratkino';this.id=presetFor(this.id).id;this.zones=new Map();this.hiking=new HikingController(host);}
+ constructor(host){this.host=host;this.id=new URLSearchParams(location.search).get('place')||host.getAttribute('place')||'mratkino';this.id=presetFor(this.id).id;this.zones=new Map();this.hiking=new HikingController(host);this.ski=new SkiAreaController(host);}
  setup(){
   const h=this.host;
   const navigation=document.createElement('div');navigation.className='region-navigation';
@@ -27,7 +28,7 @@ export class RegionController{
   for(const [key,title,checked] of [['labels','Названия природных объектов',true],['paths','Тропы OSM · не проверены',false]]){
    const label=document.createElement('label'),span=document.createElement('span'),box=document.createElement('input');span.textContent=title;box.type='checkbox';box.dataset.layer=key;box.checked=checked;box.setAttribute('role','switch');box.addEventListener('change',()=>this.layers());label.append(span,box);layers.append(label);
   }
-  this.hiking.setup();h.$('.mobile-panel-toggle > span').textContent='Локации, маршруты и слои';
+  this.hiking.setup();this.ski.setup();h.$('.mobile-panel-toggle > span').textContent='Локации, маршруты и слои';
   h.$('.loading p').textContent='Загружаем рельеф Южного Урала…';
   h.$('.title-line p').textContent='Горы. Лес. Дорога к новым местам.';
   h.$('.map').setAttribute('aria-label','Трёхмерная карта Белорецкого района');
@@ -40,6 +41,7 @@ export class RegionController{
   if(!h.map?.getLayer('snow'))return;
   const preset=this.preset();for(const [key,value] of Object.entries(preset.layers)){const box=h.$(`[data-layer=${key}]`);if(box)box.checked=value;}this.layers();
   const hiking=this.hiking.enter(this.id,animate);
+  const ski=this.ski.enter(this.id,animate);
   h.mode2D=preset.pitch<10;h.$('[data-action=mode]').setAttribute('aria-label',h.mode2D?'Вернуть объёмный вид':'Включить плоский вид');h.$('[data-action=mode]').textContent=h.mode2D?'3D':'2D';h.$('[data-action=mode]').setAttribute('aria-pressed',String(h.mode2D));
   h.map.stop();
   if(this.id==='mratkino'){
@@ -49,6 +51,7 @@ export class RegionController{
    const camera=h.map.cameraForBounds(preset.bounds,{padding:{top:60,bottom:70,left:40,right:50},maxZoom:9.4,bearing:preset.bearing});h.map.easeTo({...camera,pitch:preset.pitch,bearing:preset.bearing,duration:animate?h.duration():0});
   }else h.map.easeTo({...preset,pitch:preset.pitch,duration:animate?h.duration():0});
   await hiking;
+  await ski;
   this.sync();
  }
  renderPlace(){
@@ -80,34 +83,37 @@ export class RegionController{
   h.setAttribute('data-active-zones',zones.map(p=>p.id).join(','));
   // Zone metadata is tiny and cached; terrain, vector paths and roads remain viewport-tiled.
   const keep=new Set(zones.map(p=>p.id));for(const id of this.zones.keys())if(!keep.has(id))this.zones.delete(id);
-  for(const zone of zones)if(!this.zones.has(zone.id))this.zones.set(zone.id,{radiusKm:10,terrain:'viewport-tiles',paths:'OSM vector tiles, optional, unverified',routes:[]});
+  for(const zone of zones)if(!this.zones.has(zone.id))this.zones.set(zone.id,{radiusKm:zone.zoneRadiusKm,terrain:'viewport-tiles',paths:'OSM vector tiles, optional, unverified',routes:[]});
   const near=distanceKm(center,byId('mratkino').coordinates)<2.2&&map.getZoom()>=12.7;
   if(near&&!h.resortLoaded&&performance.now()>(this.retryAfter||0)){try{await this.ensureResort();if(h.map===map)this.sync();return;}catch(error){this.retryAfter=performance.now()+30000;this.dataError(error);}}
   h.resortActive=near&&h.resortLoaded;h.$('.resort-content').hidden=!h.resortActive;h.$('.views').hidden=!h.resortActive;
-  h.$('.life-tools').hidden=!(h.resortActive||this.hiking.active);h.$('.life-note').hidden=h.resortActive?!h.lifeScene?.enabled:!this.hiking.enabled;
-  h.$('h1').textContent=h.resortActive?'Мраткино':this.id==='beloretsk'?'Белорецк':this.hiking.area==='malinovaya'?'Малиновая':this.hiking.area==='yalangas'?'Ялангас':'Белорецкий район';
+  this.ski.sync();
+  h.$('.life-tools').hidden=!(h.resortActive||this.hiking.active||this.ski.active);h.$('.life-note').hidden=this.ski.active?!this.ski.scene:h.resortActive?!h.lifeScene?.enabled:!this.hiking.enabled;
+  h.$('h1').textContent=h.resortActive?'Мраткино':this.ski.active?'Абзаково':this.id==='beloretsk'?'Белорецк':this.hiking.area==='malinovaya'?'Малиновая':this.hiking.area==='yalangas'?'Ялангас':'Белорецкий район';
   if(!near&&h.lifeScene){h.disposeLife();h.reflectLife();}
-  for(const name of ['lifts','contours','facilities']){const label=h.$(`[data-layer=${name}]`)?.closest('label');if(label)label.hidden=!h.resortActive;}
+  for(const name of ['lifts','contours','facilities']){const label=h.$(`[data-layer=${name}]`)?.closest('label');if(label)label.hidden=!(h.resortActive||name==='lifts'&&this.ski.active);}
+  if(this.ski.active)h.$('.lift-count').textContent='· '+this.ski.data.manifest.liftCount;else if(h.resortActive)h.$('.lift-count').textContent='· '+h.data.lifts.features.length;
   for(const item of h.markers)item.regionalHidden=!h.resortActive;
   h.updateLayers();h.reflectLife();h.layoutLabels();this.layoutLabels();
-  h.$('.data-summary').textContent=h.resortActive?'7 названных трасс OSM · 4 подъёмника · сведения требуют сверки':'22 локации · рельеф Mapterhorn · география OSM';
+  h.$('.data-summary').textContent=this.ski.active?'Абзаково · радиус 2 км · 12 номеров трасс · 8 подъёмников':h.resortActive?'7 названных трасс OSM · 4 подъёмника · сведения требуют сверки':'22 локации · рельеф Mapterhorn · география OSM';
  }
  addLabels(){
   const h=this.host;this.markers=[];
   for(const p of PLACES){const element=document.createElement('button');element.type='button';element.className='place-label';element.textContent=(p.kind==='peak'?'▲ ':'')+p.name;element.setAttribute('aria-label','Приблизить: '+p.name);element.addEventListener('click',()=>this.choose(p.id));const marker=new h.ml.Marker({element,anchor:'bottom',occludedOpacity:.15}).setLngLat(p.coordinates).addTo(h.map);this.markers.push({p,element,marker});}
  }
  layoutLabels(){
+  this.ski.layoutLabels();
   const h=this.host,map=h.map;if(!map||!this.markers)return;
   const enabled=h.$('[data-layer=labels]').checked,zoom=map.getZoom(),w=map.getContainer().clientWidth,hh=map.getContainer().clientHeight,occupied=[];
   const selected=this.id;
   for(const item of [...this.markers].sort((a,b)=>(b.p.id===selected?3:b.p.major?1:0)-(a.p.id===selected?3:a.p.major?1:0))){
    const {element,p}=item,point=map.project(p.coordinates),width=Math.max(110,element.offsetWidth),rect=[point.x-width/2-5,point.y-30,point.x+width/2+5,point.y+5];
    const hikingStop=this.hiking.active&&(['malinovaya','malinovaya-3'].includes(p.id)&&this.hiking.area==='malinovaya'||p.id==='yalangas'&&this.hiking.area==='yalangas');
-   const visible=enabled&&!hikingStop&&!(h.resortActive&&p.id==='mratkino')&&(zoom>=10.6||p.major||p.id===selected)&&rect[0]>=8&&rect[2]<=w-48&&rect[1]>=60&&rect[3]<=hh-80&&!occupied.some(r=>rect[0]<r[2]&&rect[2]>r[0]&&rect[1]<r[3]&&rect[3]>r[1]);
+   const visible=enabled&&!hikingStop&&!(this.ski.active&&p.id==='abzakovo')&&!(h.resortActive&&p.id==='mratkino')&&(zoom>=10.6||p.major||p.id===selected)&&rect[0]>=8&&rect[2]<=w-48&&rect[1]>=60&&rect[3]<=hh-80&&!occupied.some(r=>rect[0]<r[2]&&rect[2]>r[0]&&rect[1]<r[3]&&rect[3]>r[1]);
    element.style.visibility=visible?'visible':'hidden';element.tabIndex=visible?0:-1;element.setAttribute('aria-hidden',String(!visible));if(visible)occupied.push(rect);
   }
  }
- layers(){const h=this.host;if(!h.map?.getLayer('snow'))return;if(h.map.getLayer('region-paths'))h.map.setLayoutProperty('region-paths','visibility',h.$('[data-layer=paths]').checked?'visible':'none');this.layoutLabels();}
+ layers(){const h=this.host;if(!h.map?.getLayer('snow'))return;if(h.map.getLayer('region-paths'))h.map.setLayoutProperty('region-paths','visibility',h.$('[data-layer=paths]').checked?'visible':'none');this.ski.layers();this.layoutLabels();}
  async importRoute(file){
   if(!file)return;const h=this.host,card=h.$('.route-card');card.replaceChildren();
   try{

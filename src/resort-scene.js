@@ -6,13 +6,14 @@ import { saplingPlacements, forestLOD, treeAppearance, liftVehicle, toLocal, toL
 
 /** Opt-in, procedural 3D illustration. No external models, textures or live-status claims. */
 export class ResortScene {
- constructor(map,ml,data,{mobile=false,forestInstances,onStats=()=>{}}={}){
-  this.id='resort-life';this.type='custom';this.renderingMode='3d';
+ constructor(map,ml,data,{mobile=false,forestInstances,onStats=()=>{},profile={}}={}){
+  this.profile=profile;this.project=profile.toLocal||toLocal;this.unproject=profile.toLngLat||toLngLat;
+  this.id=profile.id||'resort-life';this.type='custom';this.renderingMode='3d';
   this.map=map;this.ml=ml;this.data=data;this.mobile=mobile;this.onStats=onStats;
   this.enabled=true;this.paused=matchMedia('(prefers-reduced-motion: reduce)').matches;
   this.forestVisible=true;this.liftsVisible=true;this.elapsed=0;this.lastTime=null;this.disposed=false;
-  this.origin=ml.MercatorCoordinate.fromLngLat(SUMMIT,0);this.units=this.origin.meterInMercatorCoordinateUnits();
-  this.resources=new Set();this.forestInstances=forestInstances;this.saplings=saplingPlacements(data);
+  this.origin=ml.MercatorCoordinate.fromLngLat(profile.center||SUMMIT,0);this.units=this.origin.meterInMercatorCoordinateUnits();
+  this.resources=new Set();this.forestInstances=forestInstances;this.saplings=profile.forest===false?[]:saplingPlacements(data);
   this.stats={trees:0,saplings:0,lifts:0,vehicles:0,frames:0,elapsed:0};
  }
  onAdd(map,gl){
@@ -40,6 +41,7 @@ export class ResortScene {
  local(lngLat){const p=this.ml.MercatorCoordinate.fromLngLat(lngLat);return [(p.x-this.origin.x)/this.units,(this.origin.y-p.y)/this.units];}
  height(lngLat){const value=this.map.queryTerrainElevation(lngLat);return Number.isFinite(value)?value:null;}
  makeTrees(){
+  if(this.profile.forest===false)return;
   // Layered, tapered conifer profile: pointed tiers instead of round broadleaf crowns.
   const profile=[new THREE.Vector2(0,-.5),new THREE.Vector2(.92,-.44),new THREE.Vector2(.57,-.29),new THREE.Vector2(1,-.27),new THREE.Vector2(.52,-.08),new THREE.Vector2(.8,-.06),new THREE.Vector2(.36,.14),new THREE.Vector2(.55,.16),new THREE.Vector2(.2,.34),new THREE.Vector2(.3,.35),new THREE.Vector2(0,.5)];
   const silhouettes=[[-.32,.1,1],[.32,-.12,.9]].map(([x,y,h])=>new THREE.ConeGeometry(.56,h,5).rotateX(Math.PI/2).translate(x,y,(h-1)/2));
@@ -58,6 +60,7 @@ export class ResortScene {
   this.saplingTiers=[0,1,2].map((_,i)=>this.batch(cone,this.material([0x315b4c,0x3e6b56,0x507e65][i]),this.saplings.length,this.forest));
  }
  refreshForest(){
+  if(this.profile.forest===false)return;
   const pool=this.forestInstances,lod=forestLOD(pool,this.map.getCenter().toArray(),{mobile:this.mobile,zoom:this.map.getZoom(),bounds:this.map.getBounds().toArray()});
   const near=lod.near.slice(0,this.nearCapacity),far=lod.far.slice(0,this.farCapacity);
   const put=(mesh,i,x,y,z,rotation,sx,sy,sz)=>{this.dummy.position.set(x,y,z);this.dummy.rotation.set(0,0,rotation);this.dummy.scale.set(sx,sy,sz);this.dummy.updateMatrix();mesh.setMatrixAt(i,this.dummy.matrix);};
@@ -94,7 +97,7 @@ export class ResortScene {
   for(const feature of this.data.lifts.features){
    if(feature.geometry.type!=='LineString')continue;
    const chair=feature.properties.tags?.aerialway==='chair_lift';
-   this.routes.push({feature,chair,count:this.mobile?(chair?12:6):(chair?24:10),points:[],length:0});
+   this.routes.push({feature,chair,seats:this.profile.seatsFromSource?feature.properties.seats||1:3,animate:feature.properties.animate!==false,count:this.mobile?(chair?12:6):(chair?24:10),points:[],length:0});
   }
   this.stats.lifts=this.routes.length;
   this.parts=[];const box=this.geometry(new THREE.BoxGeometry(1,1,1)),sphere=this.geometry(new THREE.SphereGeometry(1,6,4));
@@ -103,26 +106,28 @@ export class ResortScene {
    const count=this.routes.filter(r=>r.chair===(kind==='chair')).reduce((n,r)=>n+r.count,0);
    this.parts.push({kind,position,scale,filter,anchor,mesh:this.batch(geometry,material,count,this.vehicles)});
   };
-  // Open bench, back, hangers and safety rail; three illustrative passengers.
+  // Open bench, back, hangers and safety rail; capacity follows the resort profile.
   add('chair',box,steel,[0,0,-1.3],[.07,.07,2.6]);
-  add('chair',box,seat,[0,0,-2.65],[2.15,.6,.16]);
-  add('chair',box,seat,[0,-.27,-2.28],[2.15,.1,.65]);
-  for(const x of [-1.02,1.02])add('chair',box,steel,[x,0,-2.25],[.06,.65,.8]);
-  add('chair',box,steel,[0,.32,-2.1],[2.15,.06,.06]);
-  for(const [index,x] of [-.7,0,.7].entries()){
-   const occupied=vehicle=>vehicle.ascending&&vehicle.index%3!==1; // Leave some chairs empty.
-   add('chair',box,index===1?red:clothes,[x,0,-2.22],[.38,.32,.55],occupied);
-   add('chair',sphere,skin,[x,0,-1.78],[.19,.19,.2],occupied);
+  add('chair',box,seat,[0,0,-2.65],v=>[v.seats*.7+.05,.6,.16]);
+  add('chair',box,seat,[0,-.27,-2.28],v=>[v.seats*.7+.05,.1,.65]);
+  for(const sign of [-1,1])add('chair',box,steel,v=>[sign*((v.seats*.7+.05)/2-.055),0,-2.25],[.06,.65,.8]);
+  add('chair',box,steel,[0,.32,-2.1],v=>[v.seats*.7+.05,.06,.06]);
+  const maxSeats=Math.max(1,...this.routes.filter(r=>r.chair).map(r=>r.seats));
+  for(let index=0;index<maxSeats;index++){
+   const occupied=vehicle=>vehicle.ascending&&vehicle.active&&vehicle.index%3!==1&&index<vehicle.seats;
+   const x=v=>(index-(v.seats-1)/2)*.7;
+   add('chair',box,index===1?red:clothes,v=>[x(v),0,-2.22],[.38,.32,.55],occupied);
+   add('chair',sphere,skin,v=>[x(v),0,-1.78],[.19,.19,.2],occupied);
    for(const dx of [-.11,.11]){
-    add('chair',box,skis,[x+dx,.18,-2.98],[.1,.14,.65],occupied);
-    add('chair',box,skis,[x+dx,.4,-3.32],[.08,1.5,.045],occupied);
+    add('chair',box,skis,v=>[x(v)+dx,.18,-2.98],[.1,.14,.65],occupied);
+    add('chair',box,skis,v=>[x(v)+dx,.4,-3.32],[.08,1.5,.045],occupied);
    }
   }
   // Single-person platter: stem + disc, with skis on the snow on the uphill branch.
   const disc=this.geometry(new THREE.CylinderGeometry(.21,.21,.06,10).rotateX(Math.PI/2));
   add('drag',box,steel,[0,0,-1.15],[.045,.045,2.3]);
   add('drag',disc,steel,[0,0,-2.3],[1,1,1]);
-  const riding=v=>v.ascending&&v.index%3!==1;
+  const riding=v=>v.ascending&&v.active&&v.index%3!==1;
   add('drag',box,red,[0,-.12,-1.05],[.36,.28,.62],riding,'ground');
   add('drag',sphere,skin,[0,-.12,-.56],[.17,.17,.19],riding,'ground');
   for(const dx of [-.1,.1]){
@@ -141,8 +146,8 @@ export class ResortScene {
    const first=this.height(coordinates[0]),last=this.height(coordinates.at(-1));
    if(first===null||last===null){route.points=[];route.length=0;if(route.cable)route.cable.visible=false;continue;}
    if(first>last)coordinates=[...coordinates].reverse();
-   const flat=coordinates.map(toLocal),length=pathLength(flat),line=[];
-   for(let d=0;d<length;d+=18){const ll=toLngLat(samplePath(flat,d).point),z=this.height(ll);if(z===null)continue;const [x,y]=this.local(ll);line.push([x,y,z+(route.chair?7:3.1)]);}
+   const flat=coordinates.map(this.project),length=pathLength(flat),line=[];
+   for(let d=0;d<length;d+=18){const ll=this.unproject(samplePath(flat,d).point),z=this.height(ll);if(z===null)continue;const [x,y]=this.local(ll);line.push([x,y,z+(route.chair?7:3.1)]);}
    const end=coordinates.at(-1),[x,y]=this.local(end);line.push([x,y,this.height(end)+(route.chair?7:3.1)]);
    if(line.length<2)continue;
    route.ascentLength=pathLength(line);route.points=liftLoop(line,route.chair?2.2:1);route.length=pathLength(route.points);
@@ -154,7 +159,7 @@ export class ResortScene {
  updateVehicles(){
   const groups={chair:[],drag:[]};
   for(const route of this.routes)for(let index=0;index<route.count;index++){
-   const vehicle=liftVehicle(route,index,this.elapsed);
+   const vehicle=liftVehicle(route,index,route.animate?this.elapsed:0);vehicle.seats=route.seats;vehicle.active=route.animate;vehicle.routeId=route.feature.properties.id;
    if(vehicle.sample){
     const [x,y]=vehicle.sample.point,ll=new this.ml.MercatorCoordinate(this.origin.x+x*this.units,this.origin.y-y*this.units).toLngLat();
     vehicle.ground=(this.height(ll)??vehicle.sample.point[2]-(route.chair?7:3.1))+2;
@@ -165,23 +170,23 @@ export class ResortScene {
    groups[part.kind].forEach((vehicle,i)=>{
     const {sample}=vehicle,visible=!!sample&&part.filter(vehicle);
     if(sample){
-     const angle=sample.angle-Math.PI/2,c=Math.cos(angle),s=Math.sin(angle),[x,y,z]=part.position;
+     const angle=sample.angle-Math.PI/2,c=Math.cos(angle),s=Math.sin(angle),[x,y,z]=typeof part.position==='function'?part.position(vehicle):part.position;
      this.dummy.position.set(sample.point[0]+x*c-y*s,sample.point[1]+x*s+y*c,(part.anchor==='ground'?vehicle.ground:sample.point[2])+z);this.dummy.rotation.set(0,0,angle);
     }
-    this.dummy.scale.set(...part.scale.map(v=>visible?v:0));this.dummy.updateMatrix();part.mesh.setMatrixAt(i,this.dummy.matrix);
+    const scale=typeof part.scale==='function'?part.scale(vehicle):part.scale;this.dummy.scale.set(...scale.map(v=>visible?v:0));this.dummy.updateMatrix();part.mesh.setMatrixAt(i,this.dummy.matrix);
    });part.mesh.instanceMatrix.needsUpdate=true;
   }
  }
  makeRiders(){
-  this.riderAreas=localRiderAreas(this.data.trails.features);
+  this.riderAreas=localRiderAreas(this.data.trails.features,this.project);
   this.riderBoardPose=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,0,1),Math.PI/2);this.riderQuaternion=new THREE.Quaternion();this.riderBodyQuaternion=new THREE.Quaternion();this.riderOffset=new THREE.Vector3();this.riderEuler=new THREE.Euler();
-  this.riderRoutes=this.data.trails.features.filter(f=>f.geometry.type==='LineString'&&ACTIVE_RIDER_TRAILS.has(f.properties.name)).map(feature=>({feature,areas:riderAreasForTrail(this.riderAreas,feature.properties.name),points:[],length:0,count:ridersPerTrail(this.mobile)}));
+  this.riderRoutes=this.data.trails.features.filter(f=>f.geometry.type==='LineString'&&(this.profile.centerlineOnly||ACTIVE_RIDER_TRAILS.has(f.properties.name))).map(feature=>({feature,areas:riderAreasForTrail(this.riderAreas,feature.properties.name),points:[],length:0,count:this.profile.ridersPerSegment?.[this.mobile?'mobile':'desktop']??ridersPerTrail(this.mobile)}));
   this.riderProfiles=this.riderRoutes.flatMap((r,ri)=>Array.from({length:r.count},(_,i)=>riderProfile(ri,i,r.feature.properties.name)));
   let pi=0;this.riderAgents=this.riderRoutes.flatMap(route=>Array.from({length:route.count},(_,index)=>({route,index,profile:this.riderProfiles[pi++],distance:0,active:false})));
-  const buildings=this.data.facilities.features.filter(f=>f.properties.tags?.building||f.properties.kind==='building');this.riderBuildings=localRiderAreas(buildings);
-  this.riderStations=this.data.stations.features.filter(f=>f.geometry.type==='Point').map(f=>toLocal(f.geometry.coordinates));
+  const buildings=this.data.facilities.features.filter(f=>f.properties.tags?.building||f.properties.kind==='building');this.riderBuildings=localRiderAreas(buildings,this.project);
+  this.riderStations=this.data.stations.features.filter(f=>f.geometry.type==='Point').map(f=>this.project(f.geometry.coordinates));
   this.riderClosedAreas=this.riderAreas.filter(a=>a.id==='relation/12615529');
-  this.riderBlocked=point=>insideRiderArea(point,this.riderBuildings)||insideRiderArea(point,this.riderClosedAreas)||this.riderStations.some(p=>Math.hypot(point[0]-p[0],point[1]-p[1])<6);
+  this.riderBlocked=point=>insideRiderArea(point,this.riderBuildings)||insideRiderArea(point,this.riderClosedAreas)||this.riderStations.some(p=>Math.hypot(point[0]-p[0],point[1]-p[1])<6)||(this.profile.radiusM&&Math.hypot(...point)>this.profile.radiusM-2);
   this.riderCount=this.riderRoutes.reduce((n,r)=>n+r.count,0);this.riderParts=[];
   const box=new THREE.BoxGeometry(1,1,1),head=new THREE.SphereGeometry(1,6,4);
   const jacket=this.material(0xffffff),warm=this.material(0xb86849),dark=this.material(0x33434b),helmet=this.material(0xe7dfcb);
@@ -198,9 +203,9 @@ export class ResortScene {
    let coords=route.feature.geometry.coordinates;const a=this.height(coords[0]),b=this.height(coords.at(-1));
    if(a===null||b===null){route.length=0;route.points=[];continue;}
    if(a<b)coords=[...coords].reverse();
-   const flat=coords.map(toLocal),length=pathLength(flat),points=[];
-   const reversed=a<b;if(!route.corridor||route.reversed!==reversed){route.corridor=buildRiderCorridor(flat,route.areas);route.reversed=reversed;}
-   for(let d=0;d<length;d+=12){const ll=toLngLat(samplePath(flat,d).point),z=this.height(ll);if(z===null)continue;const [x,y]=this.local(ll);points.push([x,y,z+.05]);}
+   const flat=coords.map(this.project),length=pathLength(flat),points=[];
+   const reversed=a<b;if(!route.corridor||route.reversed!==reversed){route.corridor=buildRiderCorridor(flat,route.areas,{centerlineOnly:!!this.profile.centerlineOnly});route.reversed=reversed;}
+   for(let d=0;d<length;d+=12){const ll=this.unproject(samplePath(flat,d).point),z=this.height(ll);if(z===null)continue;const [x,y]=this.local(ll);points.push([x,y,z+.05]);}
    const last=coords.at(-1),z=this.height(last),[x,y]=this.local(last);if(z!==null)points.push([x,y,z+.05]);
    route.points=points;route.length=points.length>1?route.corridor.length:0;
   }
@@ -214,7 +219,7 @@ export class ResortScene {
   for(const [personIndex,agent] of this.riderAgents.entries()){
    const profile=agent.profile,state=states[personIndex];
    if(state){
-    const ll=toLngLat(state.point),onScreen=ll[0]>=west&&ll[0]<=east&&ll[1]>=south&&ll[1]<=north;
+    const ll=this.unproject(state.point),onScreen=ll[0]>=west&&ll[0]<=east&&ll[1]>=south&&ll[1]<=north;
     const z=onScreen&&state.inside&&state.clear?this.height(ll):null;
     state.visible=z!==null&&state.fade>0;
     if(state.visible){const [x,y]=this.local(ll);state.position=[x,y,z+.04];}

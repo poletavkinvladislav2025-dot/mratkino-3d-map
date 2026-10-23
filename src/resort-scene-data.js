@@ -3,6 +3,7 @@ import { SUMMIT } from './map-data.js';
 const R=6371008.8, RAD=Math.PI/180, C=Math.cos(SUMMIT[1]*RAD);
 export const toLocal=([lng,lat])=>[(lng-SUMMIT[0])*RAD*R*C,(lat-SUMMIT[1])*RAD*R];
 export const toLngLat=([x,y])=>[SUMMIT[0]+x/(RAD*R*C),SUMMIT[1]+y/(RAD*R)];
+export function localFrame(origin){const c=Math.cos(origin[1]*RAD);return {toLocal:([lng,lat])=>[(lng-origin[0])*RAD*R*c,(lat-origin[1])*RAD*R],toLngLat:([x,y])=>[origin[0]+x/(RAD*R*c),origin[1]+y/(RAD*R)]};}
 export function insideRing(p,ring){
  let inside=false;
  for(let i=0,j=ring.length-1;i<ring.length;j=i++){

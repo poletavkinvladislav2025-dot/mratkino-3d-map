@@ -19,6 +19,7 @@ export function createRegionalStyle(data,forestURL){
  style.sources['touring-routes']={type:'geojson',data:EMPTY};
  style.sources['route-stops']={type:'geojson',data:EMPTY};
  for(const id of ['hiking-routes','hiking-stops','nature-surfaces'])style.sources[id]={type:'geojson',data:EMPTY};
+ for(const name of ['trails','lifts','stations','boundary'])style.sources['abzakovo-'+name]={type:'geojson',data:EMPTY};
  // No city labels, POIs or building layers. The same street geometry continues across the region.
  const baseLayers=[
  {id:'region-landuse',type:'fill',source:'basemap','source-layer':'landuse',paint:{'fill-color':'#ced4cd','fill-opacity':.24}},
@@ -36,6 +37,11 @@ export function createRegionalStyle(data,forestURL){
  // Forest source already provides the continuous regional surface. Raster mask refines the resort only.
  style.layers.find(l=>l.id==='road').layout={visibility:'none'};
  style.layers.push(
+ {id:'abzakovo-boundary',type:'line',source:'abzakovo-boundary',layout:{visibility:'none'},paint:{'line-color':'#748b7c','line-width':1,'line-dasharray':[4,5],'line-opacity':.65}},
+ {id:'abzakovo-trail-casing',type:'line',source:'abzakovo-trails',layout:{visibility:'none','line-cap':'round','line-join':'round'},paint:{'line-color':'#fffdf7','line-width':6}},
+ {id:'abzakovo-trail-line',type:'line',source:'abzakovo-trails',layout:{visibility:'none','line-cap':'round','line-join':'round'},paint:{'line-color':['match',['get','difficultyOsm'],'novice','#58946c','easy','#4f87b8','intermediate','#bd6555','advanced','#404750','#91836c'],'line-width':3,'line-opacity':.95}},
+ {id:'abzakovo-lift-line',type:'line',source:'abzakovo-lifts',layout:{visibility:'none','line-cap':'round'},paint:{'line-color':'#806b9e','line-width':2.4,'line-dasharray':[3,2],'line-opacity':.95}},
+ {id:'abzakovo-stations',type:'circle',source:'abzakovo-stations',layout:{visibility:'none'},paint:{'circle-radius':['match',['get','kind'],'pylon',2,3.5],'circle-color':'#806b9e','circle-stroke-color':'#fff','circle-stroke-width':1}},
  {id:'nature-open',type:'fill',source:'nature-surfaces',filter:['all',['==',['geometry-type'],'Polygon'],['in',['get','kind'],['literal',['bare_rock','scree','grassland','heath','scrub','clearing']]]],paint:{'fill-color':['match',['get','kind'],'bare_rock','#a79e89','scree','#b5ab97','grassland','#b5bd8f','heath','#abb38b','scrub','#829776','#c8c9a5'],'fill-opacity':.75}},
  {id:'nature-rock-edge',type:'line',source:'nature-surfaces',filter:['in',['get','kind'],['literal',['bare_rock','scree','cliff']]],paint:{'line-color':'#736e61','line-width':['interpolate',['linear'],['zoom'],14,.6,18,1.6],'line-opacity':.6}},
  {id:'hiking-route-casing',type:'line',source:'hiking-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#fffdf4','line-width':7,'line-opacity':.95}},

@@ -33,3 +33,6 @@ data/hiking/*.html
 data/hiking/*.xml
 data/hiking/*.pbf
 data/hiking/peaks.json
+data/abzakovo/*.html
+data/abzakovo/*.xml
+data/abzakovo/*.jpg

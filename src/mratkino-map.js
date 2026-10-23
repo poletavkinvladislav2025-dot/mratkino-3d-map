@@ -29,17 +29,17 @@ class MratkinoMap extends HTMLElement {
   this.bindUI();this.renderList();
   this.observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){this.observer.disconnect();this.init(this.token);}}, {rootMargin:'250px'});this.observer.observe(this);
  }
- disconnectedCallback(){this.started=false;this.token++;this.controller?.abort();this.observer?.disconnect();this.resizeObserver?.disconnect();clearTimeout(this.readyTimer);clearTimeout(this.hintTimer);this.region?.hiking.dispose();this.disposeLife();this.map?.remove();this.map=null;this.lifeScene=null;offlinePools.delete(this.uid);}
+ disconnectedCallback(){this.started=false;this.token++;this.controller?.abort();this.observer?.disconnect();this.resizeObserver?.disconnect();clearTimeout(this.readyTimer);clearTimeout(this.hintTimer);this.region?.hiking.dispose();this.region?.ski.dispose();this.disposeLife();this.map?.remove();this.map=null;this.lifeScene=null;offlinePools.delete(this.uid);}
  url(path){return new URL(path,this.assetBase).href;}
  bindUI(){
   this.$$('[data-view]').forEach(b=>b.addEventListener('click',()=>this.chooseView(b.dataset.view)));
   this.$$('[data-action=sources]').forEach(b=>b.addEventListener('click',()=>this.$('dialog').showModal()));
   this.$('[data-action=close-dialog]').addEventListener('click',()=>this.$('dialog').close());
   this.$('dialog').addEventListener('click',e=>{const r=this.$('dialog').getBoundingClientRect();if(e.target===this.$('dialog')&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom))this.$('dialog').close();});
-  this.$('[data-action=retry]').addEventListener('click',()=>{this.region?.hiking.dispose();this.disposeLife();this.map?.remove();this.map=null;this.lifeScene=null;this.lifeLoading=false;this.reflectLife();this.$('.fallback').hidden=true;this.$('.loading').hidden=false;this.init(this.token);});
+  this.$('[data-action=retry]').addEventListener('click',()=>{this.region?.hiking.dispose();this.region?.ski.dispose();this.disposeLife();this.map?.remove();this.map=null;this.lifeScene=null;this.lifeLoading=false;this.reflectLife();this.$('.fallback').hidden=true;this.$('.loading').hidden=false;this.init(this.token);});
   this.$('.mobile-panel-toggle').addEventListener('click',()=>this.openPanel(!this.$('.sidebar').classList.contains('open')));
   this.$('[data-action=life]').addEventListener('click',()=>this.toggleLife());
-  this.$('[data-action=life-pause]').addEventListener('click',()=>{this.lifeScene?.setPaused(!this.lifeScene.paused);this.reflectLife();});
+  this.$('[data-action=life-pause]').addEventListener('click',()=>{const scene=this.region?.ski.active?this.region.ski.scene:this.lifeScene;scene?.setPaused(!scene.paused);this.reflectLife();});
   this.$$('[data-layer]').forEach(input=>input.addEventListener('change',()=>this.updateLayers()));
   this.$('[data-action=mode]').addEventListener('click',()=>{
    if(!this.map)return;this.mode2D=!this.mode2D;this.$('[data-action=mode]').textContent=this.mode2D?'3D':'2D';this.$('[data-action=mode]').setAttribute('aria-pressed',String(this.mode2D));this.$('[data-action=mode]').setAttribute('aria-label',this.mode2D?'Вернуть объёмный вид':'Включить плоский вид');this.map.stop();this.map.easeTo({pitch:this.mode2D?0:61,duration:this.duration()});
@@ -185,6 +185,7 @@ class MratkinoMap extends HTMLElement {
   const response=await fetch(this.url('live/forest-instances.bin'),{signal:this.abort});if(!response.ok)throw Error('Forest instances HTTP '+response.status);return response.arrayBuffer();
  }
  async toggleLife(force){
+  if(this.region?.ski.active)return this.region.ski.toggleLife(force);
   if(this.region?.hiking.active&&!this.resortActive)return this.region.hiking.toggleLife(force);
   if(!this.map||this.getAttribute('data-map-state')!=='ready'||this.lifeLoading||(this.region&&!this.resortActive))return;
   if(this.lifeScene){this.lifeScene.setEnabled(force===true||!this.lifeScene.enabled);this.reflectLife();return;}
@@ -198,6 +199,7 @@ class MratkinoMap extends HTMLElement {
   finally{if(this.map===map&&this.token===token){this.lifeLoading=false;this.reflectLife();}}
  }
  reflectLife(){
+  if(this.region?.ski.active){this.region.ski.reflectLife();return;}
   if(this.region?.hiking.active&&!this.resortActive){this.region.hiking.reflectLife();return;}
   const enabled=!!this.lifeScene?.enabled,paused=!!this.lifeScene?.paused;
   this.$('[data-action=life]').disabled=this.lifeLoading||this.getAttribute('data-map-state')!=='ready'||!!this.region&&!this.resortActive;

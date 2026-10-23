@@ -1,0 +1,56 @@
+{
+  "checkedOn": "2026-10-23",
+  "notes": [
+    "Official scheme used for numbering/type comparison only, not georeferencing. Resort images/HTML are not redistributed.",
+    "Official site uses its ordinary begetok cookie check; no authentication or access restriction bypass.",
+    "OSM geometry is not field-surveyed or verified by the resort.",
+    "Piste polygons absent: preserve source centrelines; do not invent widths.",
+    "Official text says 13 pistes, scheme and OSM have 12 distinct numbers 1–5,7–13.",
+    "Small lift numbers 3/4/6 are provisional; parallel 1A/1B order unconfirmed.",
+    "Lift 5 stop announcement dated 2025-08-07 is superseded by the July 3–13 2026 timetable listing lift 5 as operating; present status unknown, animation illustrative."
+  ],
+  "copies": [
+    {
+      "localCache": "osm-map.xml",
+      "url": "https://api.openstreetmap.org/api/0.6/map?bbox=58.591,53.777,58.654,53.815",
+      "bytes": 3949918,
+      "sha256": "fa11ecd1ddeb9f076b4e536ac62418e51cf3c0d173245b73924f223a94460c8f"
+    },
+    {
+      "localCache": "official-center.html",
+      "url": "https://abzakovo.com/attraction/gornolyzhnyy-tsentr-abzakovo/",
+      "bytes": 322134,
+      "sha256": "0731a19bca29fe821a262a6fa47b5b5b8a0d01769557ac567ce0997e35a71259"
+    },
+    {
+      "localCache": "official-scheme.html",
+      "url": "https://abzakovo.com/scheme/",
+      "bytes": 310452,
+      "sha256": "489a40e8e6e3be0533114d63ca8d3d597172f2493946088000f1dd127e96322f"
+    },
+    {
+      "localCache": "official-trail-map.jpg",
+      "url": "https://abzakovo.com/upload/iblock/2e1/xypa2suhzehswhgt92k7o01nakfvthj8.jpg",
+      "bytes": 950574,
+      "sha256": "601083af9fb69c8099878f193033118e0c191c034512cf55157799b98aee6d9c"
+    },
+    {
+      "localCache": "official-lift5.html",
+      "url": "https://abzakovo.com/about/news/s-07-08-2025-kanatnaya-doroga-ppkd-n-5-ostanovlena/",
+      "bytes": 309082,
+      "sha256": "41a4a2c92baa1adfb63e5a7d5aac14e4b674b235a85ea76b1bf48d18d5d142ad"
+    },
+    {
+      "localCache": "skiresort-lifts.html",
+      "url": "https://www.skiresort.com/en/ski-resort/abzakovo/ski-lifts/",
+      "bytes": 144179,
+      "sha256": "dc4505788b9d7a495b618afddc261e6dd4fd5b7c2e0eb51b6581167321e9cade"
+    },
+    {
+      "localCache": "official-2026-lifts.html",
+      "url": "https://abzakovo.com/about/news/grafik-kanatnykh-dorog-s-03-07-2026/",
+      "bytes": 308941,
+      "sha256": "b083c3cf3b19e9083408a0094336b018b4f6bbbbca8cc5b6261c3adffff9c771"
+    }
+  ]
+}
