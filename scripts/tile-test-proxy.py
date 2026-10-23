@@ -4,7 +4,7 @@ from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
 from urllib.parse import urlparse,parse_qs
 import requests
 CACHE=pathlib.Path('/tmp/beloretsk-real-tile-cache');CACHE.mkdir(exist_ok=True)
-ALLOWED={'tiles.mapterhorn.com','tiles.openfreemap.org'}
+ALLOWED={'tiles.mapterhorn.com','tiles.openfreemap.org','static.tildacdn.com'}
 SLOTS={host:threading.BoundedSemaphore(4) for host in ALLOWED}
 LOCKS={};LOCK_GUARD=threading.Lock()
 class Handler(BaseHTTPRequestHandler):

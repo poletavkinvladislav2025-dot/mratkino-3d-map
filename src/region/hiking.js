@@ -62,7 +62,7 @@ export class HikingController{
   for(const stop of stops){const b=document.createElement('button');b.type='button';b.className='hiking-stop';b.textContent=`${stop.properties.sequence} · ${stop.properties.role==='start-finish'?'Старт / финиш':stop.properties.name}`;b.addEventListener('click',()=>this.focus(stop.geometry.coordinates));this.markers.push(new this.host.ml.Marker({element:b,anchor:'bottom',occludedOpacity:.25}).setLngLat(stop.geometry.coordinates).addTo(map));}
  }
  bindMap(){const map=this.host.map;if(this.boundMap===map)return;this.boundMap=map;map.on('click','hiking-route-line',e=>{const id=e.features?.[0]?.properties.canonicalId;if(id)this.open(id);});}
- volume(){const h=this.host;h.mode2D=false;const b=h.$('[data-action=mode]');b.textContent='2D';b.setAttribute('aria-pressed','false');b.setAttribute('aria-label','Вид сверху');}
+ volume(){const h=this.host;h.mode2D=false;const b=h.$('[data-action=mode]');b.textContent='Вид сверху';b.title='Вид сверху';b.setAttribute('aria-pressed','false');b.setAttribute('aria-label','Вид сверху');}
  fit(route,animate){const h=this.host,bounds=boundsFor([route]);if(!bounds)return;this.volume();h.map.stop();const camera=h.map.cameraForBounds(bounds,{padding:60,maxZoom:14,bearing:-25});h.map.easeTo({...camera,pitch:48,duration:animate?h.duration():0});}
  focus(center){this.volume();this.host.map.easeTo({center,zoom:15.8,pitch:58,bearing:-25,duration:this.host.duration()});}
  clearStops(){this.markers.forEach(m=>m.remove());this.markers=[];this.host.map?.getSource('hiking-stops')?.setData(EMPTY);}

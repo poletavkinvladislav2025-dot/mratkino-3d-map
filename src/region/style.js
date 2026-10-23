@@ -12,6 +12,7 @@ export function resortFacilities(data){
 }
 export function createRegionalStyle(data,forestURL){
  const style=createStyle(data,REGION_DEM,forestURL);
+ style.glyphs='https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf';
  style.layers.find(l=>l.id==='snow').paint['background-color']='#edf2ec';
  Object.assign(style.layers.find(l=>l.id==='hillshade').paint,{'hillshade-shadow-color':'#607773','hillshade-accent-color':'#899a90','hillshade-exaggeration':.58});
  for(const id of ['trail-line','trail-area','trail-area-edge'])style.layers.find(l=>l.id===id).paint[id==='trail-area'?'fill-color':'line-color']=['coalesce',['get','displayColor'],'#758079'];
@@ -67,5 +68,14 @@ export function createRegionalStyle(data,forestURL){
  style.layers.push({id:'stamp-geographic-anchors',type:'circle',source:'region-places',minzoom:14,filter:['==',['get','kind'],'stamp-point'],paint:{'circle-radius':3,'circle-color':'#b16b3e','circle-stroke-color':'#fff','circle-stroke-width':1}});
  // Surface colours receive the existing geographic hillshade instead of covering its shadows.
  const naturalSurface=style.layers.splice(style.layers.findIndex(l=>l.id==='nature-open'),1)[0];style.layers.splice(style.layers.findIndex(l=>l.id==='hillshade'),0,naturalSurface);
+ Object.assign(style.layers.find(l=>l.id==='region-forest').paint,{'fill-color':'#456a54','fill-opacity':['interpolate',['linear'],['zoom'],8,.76,14,.67]});
+ style.layers.find(l=>l.id==='region-surfaces').paint['fill-opacity']=.60;
+ Object.assign(style.layers.find(l=>l.id==='region-water').paint,{'fill-color':'#286d73','fill-opacity':.94});
+ Object.assign(style.layers.find(l=>l.id==='region-roads').paint,{'line-color':['match',['get','class'],'motorway','#9b846a','trunk','#9b846a','primary','#a18c70','secondary','#ad9b7f','tertiary','#b8aa92','#bdc7bb'],'line-width':['interpolate',['linear'],['zoom'],8,.6,12,1.8,16,['match',['get','class'],'primary',6,'secondary',5,'tertiary',4,2.6]]});
+ style.layers.push(
+  {id:'region-shore',type:'line',source:'basemap','source-layer':'water',paint:{'line-color':'#407a78','line-width':.8,'line-opacity':.65}},
+  {id:'region-town-names',type:'symbol',source:'basemap','source-layer':'place',minzoom:8,filter:['in',['get','class'],['literal',['city','town','village','hamlet']]],layout:{'text-field':['coalesce',['get','name:ru'],['get','name']],'text-font':['Noto Sans Regular'],'text-size':['interpolate',['linear'],['zoom'],8,11,14,15],'text-padding':18,'symbol-sort-key':['coalesce',['get','rank'],20]},paint:{'text-color':'#294f3c','text-halo-color':'#f9fbf2','text-halo-width':1.8}},
+  {id:'region-street-names',type:'symbol',source:'basemap','source-layer':'transportation_name',minzoom:14,filter:['any',['in',['get','class'],['literal',['primary','secondary','tertiary','minor','service']]],['==',['get','subclass'],'pedestrian']],layout:{'symbol-placement':'line','symbol-spacing':260,'text-field':['coalesce',['get','name:ru'],['get','name']],'text-font':['Noto Sans Regular'],'text-size':11,'text-padding':6,'text-max-angle':35},paint:{'text-color':'#53654f','text-halo-color':'#fafbf5','text-halo-width':1.6}}
+ );
  return style;
 }

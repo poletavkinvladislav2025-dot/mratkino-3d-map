@@ -5,17 +5,12 @@ function heading(parent,text){const h=document.createElement('h3');h.textContent
 export function renderPassportContent(card,p,region){
  if(!p)return;
  const h=region.host;
- h.text(card,`${p.coordinates[1]}, ${p.coordinates[0]}`,'place-coordinates');
- if(p.historical)h.text(card,'Историческая точка. Объект утрачен; современная модель не создаётся.','historical-note');
- for(const photo of p.photos||[]){
-  const image=document.createElement('img');image.className='place-photo';image.alt=photo.alt||p.name;image.loading='eager';image.decoding='async';image.width=480;image.height=300;image.hidden=true;image.addEventListener('load',()=>{image.hidden=false;},{once:true});image.addEventListener('error',()=>image.remove(),{once:true});image.src=photo.url;card.append(image);
- }
  const list=document.createElement('ul');list.className='passport-links';
  if(p.kind==='stamp-point'){
   h.text(card,p.address);
-  h.text(card,p.sellsPassport?'Где купить паспорт: можно купить в этом киоске.':'Паспорт здесь не продаётся.');
-  h.text(card,p.conditions);
-  heading(card,'Где поставить штамп');h.text(card,INVENTORY_NOTICE,'inventory-note');
+  h.text(card,p.sellsPassport?'Паспорт туриста продаётся':'Паспорт здесь не продаётся.','passport-availability');
+  h.text(card,p.sellsPassport?p.conditions:p.conditions.replace(' Паспорта здесь не продаются.',''));
+  const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Штампы в этой точке · '+p.stamps.length;details.open=true;details.append(summary);card.append(details);card=details;h.text(card,INVENTORY_NOTICE,'inventory-note');
   for(const stamp of p.stamps){
    const item=document.createElement('li'),name=document.createElement('span');name.textContent=stamp.name;item.append(name);
    if(stamp.placeId){const place=byId(stamp.placeId);item.append(region.button('Открыть место: '+place.name,'Открыть место: '+place.name,()=>region.choose(place.id)));}

@@ -14,7 +14,7 @@ test('original locations preserved plus verified winter catalog, every preset, c
 test('regional style hides only disputed freeride, preserves named trails and avoids city POIs',()=>{
  const manifest=JSON.parse(readFileSync('public/live/manifest.json'));const style=createRegionalStyle({manifest},null);
  assert.equal(style.terrain.exaggeration,1);assert.equal(style.sources.dem.maxzoom,12);assert.equal(style.sources.dem.tileSize,512);
- assert.ok(!style.layers.some(l=>l.type==='symbol'));assert.ok(style.layers.some(l=>l.id==='region-roads'));
+ assert.deepEqual(style.layers.filter(l=>l.type==='symbol').map(l=>l.id),['region-town-names','region-street-names']);assert.ok(!style.layers.some(l=>l.type==='fill-extrusion'));assert.ok(style.layers.some(l=>l.id==='region-roads'));
  assert.ok(JSON.stringify(style.layers.find(l=>l.id==='trail-line').filter).includes('way/933862767'));
  const trails=JSON.parse(readFileSync('public/live/trails.geojson'));assert.ok(trails.features.some(f=>f.properties.id==='way/933862767'));assert.equal(trails.features.filter(f=>f.geometry.type==='LineString'&&/^[ЮС][1-4]$/.test(f.properties.name)).length,7);
 });

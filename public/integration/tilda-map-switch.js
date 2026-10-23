@@ -1,0 +1,63 @@
+/* Visit Beloretsk unified engine/filter switch. Origin-bound vb3d v1. */
+(function(){
+ 'use strict';
+ const script=document.currentScript,config=script?.dataset||{},mapURL=new URL(config.mapUrl||'https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/unified/',document.baseURI).href;
+ const note=document.createElement('div');note.id='vb-map-link-note';note.setAttribute('role','status');note.textContent='Подключаем карты…';script.before(note);const sourceRecord=script.closest('.t-rec');
+ let attempts=0;
+ function init(){
+  const host=document.querySelector('.vb-t1__map');if(!host){if(++attempts<40)return setTimeout(init,250);note.textContent='Не найден существующий блок Яндекс.Карты.';return;}
+  if(document.getElementById('vb-map-modes')){note.textContent='Замените прежний переключатель в T123 и обновите опубликованную страницу.';return;}
+  const root=host.closest('.vb-t1');root?.classList.add('vb-unified-root');
+  const style=document.createElement('style');style.textContent=`
+#vb-map-modes{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:0 0 10px;font:13px TildaSans,Arial,sans-serif;color:#234b38}#vb-map-modes .vb-mode-group,#vb-map-modes .vb-filter-group{display:flex;gap:4px;align-items:center}#vb-map-modes .vb-mode-group{border-right:1px solid #d9e4d8;padding-right:10px}#vb-map-modes button{min-height:40px;padding:8px 12px;border:1px solid #d9e4d8;border-radius:9px;color:#29543b;background:#f6f9f2;font:inherit;cursor:pointer}#vb-map-modes button[aria-pressed=true]{background:#21593d;color:#fff;border-color:#21593d}#vb-map-modes button:focus-visible,#vb-map-modes select:focus-visible{outline:3px solid #bd854b;outline-offset:2px}#vb-map-modes select{display:none;min-width:0;height:40px;padding:7px;border:1px solid #d4dfd0;border-radius:8px;color:#28503a;background:#fff;font:inherit}#vb-map-modes .vb-short{display:none}.vb-unified-root .vb-t1__tabs{display:none!important}#vb-map-link-note{font:13px/1.5 TildaSans,Arial,sans-serif;color:#3d604b}#vb-map-link-note:empty{display:none}.vb-map-unified-frame{position:absolute;inset:0;width:100%;height:100%;display:block;border:0;z-index:100;background:#f4f7f2}.vb-map-unified-frame[hidden]{display:none!important}.vb-map-unified-3d>:not(.vb-map-unified-frame){visibility:hidden!important;pointer-events:none!important}@media(max-width:640px){#vb-map-modes{flex-wrap:nowrap;gap:6px;font-size:12px}#vb-map-modes .vb-filter-group,#vb-map-modes .vb-full{display:none}#vb-map-modes .vb-short{display:inline}#vb-map-modes .vb-mode-group{padding-right:6px;flex:none}#vb-map-modes button{padding:8px 10px}#vb-map-modes select{display:block;flex:1;width:100%}}`;
+  document.head.append(style);
+  const origin=new URL(mapURL).origin,url=new URL(mapURL);url.searchParams.set('place','all');url.searchParams.set('embed','1');url.searchParams.set('parentOrigin',location.origin);
+  const bar=document.createElement('div');bar.id='vb-map-modes';bar.setAttribute('aria-label','Режим и объекты карты');
+  const modes=document.createElement('div'),filters=document.createElement('div'),select=document.createElement('select');modes.className='vb-mode-group';modes.setAttribute('role','group');modes.setAttribute('aria-label','Способ отображения');filters.className='vb-filter-group';filters.setAttribute('role','group');filters.setAttribute('aria-label','Показать на карте');select.setAttribute('aria-label','Показать на карте');
+  const button=(label,fn)=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.setAttribute('aria-label',label);b.addEventListener('click',fn);return b;};
+  const ordinary=button('Обычная карта',()=>show('yandex')),three=button('3D-карта',()=>show('3d'));
+  ordinary.innerHTML='<span class="vb-full">Обычная карта</span><span class="vb-short">Карта</span>';three.innerHTML='<span class="vb-full">3D-карта</span><span class="vb-short">3D</span>';modes.append(ordinary,three);
+  const views={places:'Места',stamps:'Где поставить штамп',passport:'Где купить паспорт'},viewButtons={};
+  for(const [view,label] of Object.entries(views)){const b=button(label,()=>setView(view));b.dataset.filter=view;filters.append(b);viewButtons[view]=b;const option=document.createElement('option');option.value=view;option.textContent=label;select.append(option);}
+  select.addEventListener('change',()=>setView(select.value));bar.append(modes,filters,select);host.before(bar);bar.after(note);
+  const children=Array.from(host.children).map(el=>({el,inert:el.inert,aria:el.getAttribute('aria-hidden')}));
+  const frame=document.createElement('iframe');frame.className='vb-map-unified-frame';frame.title='3D-карта Visit Beloretsk';frame.allow='fullscreen';frame.allowFullscreen=true;frame.hidden=true;host.append(frame);
+  const toSource={malinovaya:'malinovaya1','malinovaya-3':'malinovaya',iremel:'bigIremel','inzerskie-zubchatki':'inzerskieZubchatki','maly-yamantau':'smallYamantau','arvyak-ryaz':'arvyakRyaz','arskiy-kamen':'arskiyKamen','sinie-skaly':'blueSky','kamennaya-rechka':'stoneyRiver'};
+  let mode=config.defaultMode==='3d'?'3d':'yandex',view=location.hash==='#map-stamps'?'stamps':'places',selected=null,ready=false,loaded=false,sequence=0,internal=false,slowTimer;
+  const adapter=()=>window.VisitBeloretskYandex?.version===1?window.VisitBeloretskYandex:null;
+  function send(command,payload={}){if(ready)frame.contentWindow.postMessage({type:'vb3d.command',version:1,id:'tilda-'+(++sequence),command,payload},origin);}
+  function eligible(id){const stamp=/^(stampStation|kiosk\d+)$/.test(id);return view==='places'?!stamp:view==='passport'?stamp&&id!=='stampStation':stamp;}
+  function draw(){ordinary.setAttribute('aria-pressed',String(mode==='yandex'));three.setAttribute('aria-pressed',String(mode==='3d'));for(const [v,b] of Object.entries(viewButtons))b.setAttribute('aria-pressed',String(view===v));select.value=view;bar.dataset.mode=mode;bar.dataset.filter=view;for(const tab of root?.querySelectorAll('.vb-t1__tab')||[]){const active=tab.dataset.tab===(view==='places'?'places':'stamps');tab.setAttribute('aria-selected',String(active));tab.classList.toggle('vb-t1__tab--active',active);}}
+  function applyYandex(){
+   const a=adapter();internal=true;try{
+    if(a){a.setFilter(view);if(selected&&eligible(selected)&&a.hasPlace(selected))a.openPlace(selected);}
+    else if(view!=='passport'){const tab=root?.querySelector('[data-tab="'+(view==='places'?'places':'stamps')+'"]');tab?.click();}
+    else note.textContent='Для фильтра покупки паспорта на обычной карте установите небольшой адаптер Яндекса из инструкции.';
+   }finally{internal=false;}
+  }
+  function apply3D(){send('setFilters',{view});if(selected&&eligible(selected))send('openPlace',{placeId:'yandex:'+selected});}
+  function lifecycle(){send(mode==='3d'&&!document.hidden?'resume':'suspend');if(mode==='3d'&&!document.hidden)send('resize');}
+  function setView(next){if(!Object.hasOwn(views,next))return;view=next;draw();if(mode==='3d')send('setFilters',{view});else applyYandex();}
+  function show(next){
+   if(mode==='yandex'&&next==='3d'){const state=adapter()?.getState();if(state)selected=state.sourceId||null;}
+   if(next!=='3d')send('suspend');mode=next;host.classList.toggle('vb-map-unified-3d',mode==='3d');frame.hidden=mode!=='3d';
+   for(const item of children){item.el.inert=mode==='3d'||item.inert;if(mode==='3d')item.el.setAttribute('aria-hidden','true');else if(item.aria===null)item.el.removeAttribute('aria-hidden');else item.el.setAttribute('aria-hidden',item.aria);}
+   if(mode==='3d'&&!loaded){loaded=true;note.textContent='Загружаем 3D-карту…';slowTimer=setTimeout(()=>{if(!ready)note.textContent='Загрузка занимает больше времени. Можно вернуться к обычной карте.';},25000);frame.src=url.href;}
+   draw();if(mode==='yandex')applyYandex();else if(ready)apply3D();requestAnimationFrame(()=>{lifecycle();if(mode==='yandex')window.dispatchEvent(new Event('resize'));});
+  }
+  window.addEventListener('message',e=>{
+   if(e.origin!==origin||e.source!==frame.contentWindow)return;const m=e.data;if(!m||m.type!=='vb3d.event'||m.version!==1)return;
+   if(m.event==='ready'){ready=true;clearTimeout(slowTimer);note.textContent='';apply3D();lifecycle();}
+   if(m.event==='filtersChanged'&&Object.hasOwn(views,m.payload?.filters?.view)){view=m.payload.filters.view;draw();}
+   if(m.event==='placeSelected'&&typeof m.payload?.placeId==='string'){const id=m.payload.placeId;selected=id.startsWith('yandex:')?id.slice(7):toSource[id]||id;}
+   if(m.event==='error'&&m.payload?.code==='WEBGL_UNAVAILABLE'){clearTimeout(slowTimer);show('yandex');ordinary.focus();note.textContent='3D недоступна в этом браузере. Открыта обычная карта.';}
+  });
+  for(const tab of root?.querySelectorAll('.vb-t1__tab')||[])tab.addEventListener('click',e=>{if(internal)return;if(mode==='3d'){e.preventDefault();e.stopImmediatePropagation();}view=tab.dataset.tab==='places'?'places':'stamps';draw();if(mode==='3d')send('setFilters',{view});},true);
+  window.addEventListener('hashchange',()=>{if(location.hash==='#map-stamps')setView('stamps');if(location.hash==='#map')setView('places');});
+  window.addEventListener('vb-yandex-change',e=>{if(internal||mode!=='yandex')return;const state=e.detail;if(Object.hasOwn(views,state?.view))view=state.view;selected=typeof state?.sourceId==='string'?state.sourceId:null;draw();});
+  window.addEventListener('vb-yandex-ready',()=>{if(mode==='yandex')applyYandex();});
+  document.addEventListener('visibilitychange',lifecycle);if(window.ResizeObserver)new ResizeObserver(()=>{if(mode==='3d')send('resize');}).observe(host);
+  note.textContent='';show(mode);if(sourceRecord&&!sourceRecord.contains(host))sourceRecord.style.display='none';
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();

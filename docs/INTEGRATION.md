@@ -46,6 +46,7 @@ window.addEventListener('message', e => {
 | `openPlace` | `{placeId:'abzakovo'}` | Выбрать место, открыть карточку, приблизить камеру |
 | `openRoute` | `{routeId:'abzakovo/trail/1'}` | Выбрать весь маршрут, включая все его сегменты, и показать его |
 | `setCamera` | `{center:{lat:53.8,lng:58.6},zoom:14,pitch:48,bearing:0}` | Изменить только камеру; поля необязательны, хотя бы одно обязательно |
+| `setFilters` | `{view:'places'|'stamps'|'passport'|'all'}` и/или дополнительные boolean `ski/nordic/hiking` | Изменить объекты, сохраняя движок, камеру и режим движения |
 | `resize` | `{}` | Пересчитать размер после показа или изменения iframe |
 | `suspend` | `{}` | Остановить движение камеры, освободить тяжёлую сцену, сохранить предпочтения |
 | `resume` | `{}` | Пересчитать размер и восстановить допустимую сцену в текущей области |
@@ -70,6 +71,7 @@ window.addEventListener('message', e => {
 | `placeSelected` | `{placeId}` — явный выбор посетителя |
 | `routeSelected` | `{placeId,routeId}` — явный выбор посетителя |
 | `cameraChanged` | `{center:{lat,lng},zoom,pitch,bearing}` — не чаще одного раза в 250 мс |
+| `filtersChanged` | `{filters:{view,ski,nordic,hiking,interesting,stamps,passport}}` — только пользовательское изменение; команды родителя подтверждаются без эха |
 | `commandResult` | `{command,ok:true,placeId,routeId,camera}` + `requestId` |
 | `error` | `{code,message,recoverable}` + `requestId`, если применимо |
 
@@ -98,6 +100,8 @@ window.addEventListener('message', e => {
 URL хранит `place`, `route`, `card=0|1`, `effects=0|1`, `lat`, `lng`, `z`, `pitch`, `bearing`. Пример: `?place=abzakovo&route=abzakovo/trail/1&effects=0`. ID маршрута приоритетнее места; сохранённая камера приоритетнее начального приближения к маршруту. Эффекты также сохраняются в localStorage, явный параметр URL имеет приоритет. `parentOrigin` при обновлении URL сохраняется.
 
 ## Следующий этап в Tilda
+
+Для новой версии выполнены приложение и готовый переключатель с адаптером: [UNIFIED-CONTROLS.md](UNIFIED-CONTROLS.md). Отдельный адрес `/preview/unified/`; прежний Landscape сохранён. `ready` и `commandResult` дополнены `filters`. Подробная схема setFilters, очередь готовности и точечные вставки в существующее замыкание Яндекса приведены в этом документе. Установка в кабинет Tilda не выполнялась.
 
 1. Получить фактический исходник существующего T123 с Яндекс.Картой и точный origin сайта.
 2. Добавить iframe 3D и переключатель режимов; не дублировать инициализацию Яндекса.

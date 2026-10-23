@@ -1,0 +1,104 @@
+name: Publish Unified Controls (preserve all existing maps)
+on:
+  workflow_dispatch:
+    inputs:
+      preview_ref:
+        description: Reviewed unified controls branch or commit
+        required: true
+        default: feature/unified-map-controls
+        type: string
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}preview/unified/?place=all
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.preview_ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run test:unit
+      - run: npm run build
+      - name: Retain Unified lazy chunks
+        run: python3 scripts/retain-pages-assets.py dist "$(git rev-parse HEAD)" unified
+      - name: Preserve the current Landscape with all passport places
+        uses: actions/checkout@v4
+        with:
+          ref: 134eb65ba5b2207166ff742d59cac72d529e38ed
+          path: .landscapestable
+      - run: npm ci
+        working-directory: .landscapestable
+      - run: npm run build
+        working-directory: .landscapestable
+      - name: Retain current Landscape lazy chunks
+        run: python3 scripts/retain-pages-assets.py .landscapestable/dist 134eb65ba5b2207166ff742d59cac72d529e38ed landscape
+      - name: Preserve the previous Explorer
+        uses: actions/checkout@v4
+        with:
+          ref: fc1ac28b5fb3fd50781d8d91733ab8ad9e43da7c
+          path: .explorerstable
+      - run: npm ci
+        working-directory: .explorerstable
+      - run: npm run build
+        working-directory: .explorerstable
+      - name: Retain previous Explorer lazy chunks
+        run: python3 scripts/retain-pages-assets.py .explorerstable/dist fc1ac28b5fb3fd50781d8d91733ab8ad9e43da7c explorer
+      - name: Preserve the previous regional preview
+        uses: actions/checkout@v4
+        with:
+          ref: 479b349eef16218a6d7d96bda7612270a11a416a
+          path: .regionstable
+      - run: npm ci
+        working-directory: .regionstable
+      - run: npm run build
+        working-directory: .regionstable
+      - name: Retain previous regional lazy chunks
+        run: python3 scripts/retain-pages-assets.py .regionstable/dist 479b349eef16218a6d7d96bda7612270a11a416a region
+      - name: Preserve the published Tilda map
+        uses: actions/checkout@v4
+        with:
+          ref: af1a5941e31093837c1e39e4f75e37af9a6cb5d2
+          path: .stable
+      - run: npm ci
+        working-directory: .stable
+      - run: npm run build
+        working-directory: .stable
+      - name: Compose five separate paths and verify the live map
+        run: |
+          mkdir -p .site/preview/region .site/preview/explorer .site/preview/landscape .site/preview/unified
+          cp -a .stable/dist/. .site/
+          cp -a .regionstable/dist/. .site/preview/region/
+          cp -a .explorerstable/dist/. .site/preview/explorer/
+          cp -a .landscapestable/dist/. .site/preview/landscape/
+          cp -a dist/. .site/preview/unified/
+          touch .site/.nojekyll
+          python3 - <<'PYTHON'
+          import hashlib,pathlib
+          expected={
+            'index.html':'d6ee091305882e470637764442e022f97e3a540921403b1ba00026c54d9780bb',
+            'assets/index-PP_qyEw1.js':'ed1a5de49ceb53afda554f911957e6f3c6a252ace1eae402f6cd65087f9b8da0',
+          }
+          for name,digest in expected.items():
+            assert hashlib.sha256((pathlib.Path('.site')/name).read_bytes()).hexdigest()==digest,name
+          assert (pathlib.Path('.site/preview/region/assets/index-CqYOAn4i.js')).is_file()
+          assert (pathlib.Path('.site/preview/explorer/assets/index-BJhTCuV1.js')).is_file()
+          print('Published root unchanged; previous regional preview preserved')
+          PYTHON
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .site
+      - uses: actions/deploy-pages@v4
+        id: deployment

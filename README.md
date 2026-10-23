@@ -1,5 +1,7 @@
 # Visit Beloretsk — единая 3D-карта
 
+**[Новый предпросмотр единого управления](https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/unified/?place=all)** · [Код T123 и точечный адаптер Яндекса](docs/UNIFIED-CONTROLS.md). Фильтры не переключают движок; галерея и карточки обновлены. Прежний Landscape ниже сохранён.
+
 **[Новый предпросмотр ландшафта и зимних мест](https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/landscape/?place=all)** · **[Этнопарк с оленями](https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/landscape/?place=ethnopark)**.
 
 Статичный объёмный лес загружается по видимой территории вне каталога мест, линии маршрутов появляются автоматически. Одна кнопка управляет движением людей, подъёмников, оленей и крон. Новые курорты, отдельная категория беговых лыж, поиск, фильтры и сворачиваемая карточка.

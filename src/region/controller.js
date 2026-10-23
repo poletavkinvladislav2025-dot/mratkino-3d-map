@@ -11,6 +11,9 @@ import {LINE_LOD} from '../landscape/config.js';
 import {CatalogController} from './catalog-controller.js';
 import {placeVisible} from './passport.js';
 import {renderPassportContent} from './passport-cards.js';
+import {applyFilters,filterSnapshot} from './filters.js';
+import {PlaceGallery} from './gallery.js';
+import {visibleLegendKinds} from './legend.js';
 
 /** Viewport data, explicit selection and optional heavy illustration are separate states. */
 export class RegionController{
@@ -24,7 +27,7 @@ export class RegionController{
  get sceneVisible(){return !this.parentSuspended&&!document.hidden&&this.viewportVisible;}
  get effectsAllowed(){return this.effectsWanted&&(!matchMedia('(prefers-reduced-motion: reduce)').matches||this.motionExplicit)&&!this.parentSuspended&&!document.hidden&&this.viewportVisible;}
  setup(){
-  const h=this.host;h.$('.shell').classList.add('explorer');
+  const h=this.host;h.$('.shell').classList.add('explorer');this.embedded=new URLSearchParams(location.search).get('embed')==='1';h.$('.shell').classList.toggle('embedded',this.embedded);this.gallery=new PlaceGallery(this);
   const nav=document.createElement('nav');nav.className='region-navigation';nav.setAttribute('aria-label','Управление картой');
   const brand=document.createElement('span');brand.className='explorer-brand';brand.textContent='visitbeloretsk';nav.append(brand);
   const label=document.createElement('label'),title=document.createElement('span');title.className='sr-only';title.textContent='Место на карте';label.append(title);
@@ -34,19 +37,19 @@ export class RegionController{
   const home=this.button('⌂','Общий вид района',()=>this.overview());home.className='map-home';nav.append(home);
   const layerButton=this.button('☷','Слои карты',()=>{const open=this.layerPanel.hidden;this.layerPanel.hidden=!open;layerButton.setAttribute('aria-expanded',String(open));});layerButton.dataset.action='layers';layerButton.setAttribute('aria-expanded','false');nav.append(layerButton);
   nav.append(h.$('[data-action=life]'));
-  const about=h.$('.data-button');about.textContent='i';about.setAttribute('aria-label','О карте');nav.append(about);h.$('.toolbar').before(nav);
+  const about=h.$('.data-button');about.textContent='i';about.setAttribute('aria-label','О карте');about.title='О карте';nav.append(about);h.$('.toolbar').before(nav);
   const body=h.$('.panel-body'),local=document.createElement('div');local.className='resort-content';const layers=h.$('.layers');for(const c of [...body.children])if(c!==layers)local.append(c);body.prepend(local);
   const panel=document.createElement('section');panel.className='region-panel';panel.setAttribute('aria-live','polite');body.prepend(panel);
-  const close=this.button('×','Закрыть карточку',()=>this.showCard(false));close.className='card-close';h.$('.sidebar').prepend(close);const collapse=this.button('−','Свернуть карточку',()=>{const collapsed=h.$('.sidebar').classList.toggle('collapsed');collapse.textContent=collapsed?'+':'−';collapse.setAttribute('aria-label',collapsed?'Развернуть карточку':'Свернуть карточку');});collapse.className='card-collapse';close.after(collapse);
+  const close=this.button('×','Закрыть карточку',()=>this.showCard(false));close.className='card-close';h.$('.sidebar').prepend(close);const collapse=this.button('−','Свернуть карточку',()=>{const collapsed=h.$('.sidebar').classList.toggle('collapsed');collapse.textContent=collapsed?'+':'−';collapse.setAttribute('aria-label',collapsed?'Развернуть карточку':'Свернуть карточку');collapse.title=collapse.getAttribute('aria-label');});collapse.className='card-collapse';close.after(collapse);
   const layerPanel=document.createElement('section');layerPanel.className='layer-popover';layerPanel.hidden=true;layerPanel.setAttribute('aria-label','Слои карты');layerPanel.append(layers);h.$('.map-wrap').append(layerPanel);this.layerPanel=layerPanel;this.setupSearch();
-  const categories=document.createElement('fieldset');categories.className='category-filters';const caption=document.createElement('legend');caption.textContent='Показать на карте';categories.append(caption);for(const [id,text] of [['ski','Горнолыжные центры'],['nordic','Беговые лыжи'],['hiking','Туристические маршруты'],['interesting','Места'],['stamps','Где поставить штамп'],['passport','Где купить паспорт']]){const l=document.createElement('label'),b=document.createElement('input');b.type='checkbox';b.checked=this.filters[id];b.dataset.category=id;b.addEventListener('change',()=>{this.filters[id]=b.checked;if(id==='passport'&&b.checked)this.filters.stamps=true;if(id==='stamps'&&!b.checked)this.filters.passport=false;for(const input of categories.querySelectorAll('[data-category]'))input.checked=this.filters[input.dataset.category];this.renderSearch?.();this.sync();});l.append(document.createTextNode(text),b);categories.append(l);}layerPanel.prepend(categories);const seasonLabel=document.createElement('label');seasonLabel.className='season-control';seasonLabel.textContent='Оформление';const season=document.createElement('select');season.setAttribute('aria-label','Сезон карты');for(const [id,text] of [['winter','Зима'],['summer','Лето']]){const o=document.createElement('option');o.value=id;o.textContent=text;season.append(o);}season.addEventListener('change',()=>{this.season=season.value;this.applySeason();});seasonLabel.append(season);layerPanel.append(seasonLabel);
+  const categories=document.createElement('fieldset');categories.className='category-filters';const caption=document.createElement('legend');caption.textContent='Показать на карте';categories.append(caption);for(const [id,text] of [['ski','Горнолыжные центры'],['nordic','Беговые лыжи'],['hiking','Туристические маршруты'],['interesting','Места'],['stamps','Где поставить штамп'],['passport','Где купить паспорт']]){const l=document.createElement('label'),b=document.createElement('input');b.type='checkbox';b.checked=this.filters[id];b.dataset.category=id;b.addEventListener('change',()=>{this.setFilters({[id]:b.checked});});l.dataset.filterId=id;l.append(document.createTextNode(text),b);categories.append(l);}layerPanel.prepend(categories);const seasonLabel=document.createElement('label');seasonLabel.className='season-control';seasonLabel.textContent='Оформление';const season=document.createElement('select');season.setAttribute('aria-label','Сезон карты');for(const [id,text] of [['winter','Зима'],['summer','Лето']]){const o=document.createElement('option');o.value=id;o.textContent=text;season.append(o);}season.addEventListener('change',()=>{this.season=season.value;this.applySeason();});seasonLabel.append(season);layerPanel.append(seasonLabel);
   for(const [key,title,checked] of [['labels','Подписи',true],['paths','Тропы',false]]){const l=document.createElement('label'),s=document.createElement('span'),b=document.createElement('input');s.textContent=title;b.type='checkbox';b.dataset.layer=key;b.checked=checked;b.setAttribute('role','switch');b.addEventListener('change',()=>this.layers());l.append(s,b);layers.append(l);}
   h.$('[data-layer=forest]').closest('label').querySelector('span').textContent='Лес';
   h.$('[data-layer=contours]').closest('label').querySelector('span').textContent='Горизонтали';
-  const legend=h.$('.legend');legend.replaceChildren();const heading=document.createElement('span');heading.className='legend-heading';heading.textContent='Сложность';legend.append(heading);
+  const legend=h.$('.legend');legend.hidden=true;legend.replaceChildren();const heading=document.createElement('span');heading.className='legend-heading';heading.textContent='Сложность';legend.append(heading);
   for(const [key,text] of [['novice','Лёгкая'],['easy','Средняя'],['intermediate','Сложная'],['expert','Экспертная']]){const item=document.createElement('span'),dot=document.createElement('i');dot.style.background=CATEGORIES[key].color;item.append(dot,document.createTextNode(text));legend.append(item);}h.$('.map-wrap').append(legend);
   const routes=document.createElement('section');routes.className='routes-panel';const card=document.createElement('div');card.className='route-card';routes.append(card);body.append(routes);this.routesPanel=routes;
-  this.about();
+  this.about();this.cameraButton();
   const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Открыть свой GPX / GeoJSON';details.append(summary);const input=document.createElement('input');input.type='file';input.accept='.gpx,.geojson,.json';input.setAttribute('aria-label','Открыть GPX или GeoJSON');input.addEventListener('change',()=>this.importRoute(input.files?.[0]));details.append(input);h.$('dialog').append(details);
   this.hiking.setup();this.ski.setup();this.catalog.setup();this.renderPlace();this.renderCard();
   h.$('.loading p').textContent='Открываем карту…';h.$('.map').setAttribute('aria-label','Трёхмерная карта Белорецкого района');
@@ -55,7 +58,20 @@ export class RegionController{
   document.addEventListener('visibilitychange',()=>{this.landscape.sync();this.syncScene();},{signal:h.abort});
   this.observer=new IntersectionObserver(entries=>{this.viewportVisible=!!entries[0]?.isIntersecting;if(this.viewportVisible)h.map?.resize();this.landscape.sync();this.syncScene();});this.observer.observe(h);
  }
- button(text,label,handler){const b=document.createElement('button');b.type='button';b.textContent=text;b.setAttribute('aria-label',label);b.addEventListener('click',handler);return b;}
+ button(text,label,handler){const b=document.createElement('button');b.type='button';b.textContent=text;b.setAttribute('aria-label',label);b.title=label;b.addEventListener('click',handler);return b;}
+ setFilters(patch,{silent=false}={}){
+  const next=applyFilters(this.filters,patch),changed=JSON.stringify(next)!==JSON.stringify(this.filters);this.filters=next;
+  for(const input of this.host.shadowRoot.querySelectorAll('[data-category]'))input.checked=next[input.dataset.category];
+  this.renderSearch?.();const selected=byId(this.id);if(selected&&!placeVisible(selected,next))this.cardOpen=false;this.sync();if(changed&&!silent)this.bridge.event('filtersChanged',{filters:filterSnapshot(next)});
+ }
+ cameraButton(){const m=this.host.map,top=m?m.getPitch()<5:this.host.mode2D,b=this.host.$('[data-action=mode]');this.host.mode2D=top;b.textContent=top?'Наклонный вид':'Вид сверху';b.title=b.textContent;b.setAttribute('aria-label',b.textContent);b.setAttribute('aria-pressed',String(top));}
+ cameraPadding(){const h=this.host,s=h.$('.sidebar');if(!this.cardOpen)return {top:0,bottom:0,left:0,right:0};return matchMedia('(max-width:760px)').matches?{top:12,left:12,right:12,bottom:Math.min(s.offsetHeight+20,h.$('.map-wrap').clientHeight*.48)}:{top:20,left:24,right:Math.min(s.offsetWidth+100,h.$('.map-wrap').clientWidth*.48),bottom:30};}
+ refreshLegend(){
+  const h=this.host,m=h.map;if(!m?.isStyleLoaded())return;const kinds=visibleLegendKinds(m),key=kinds.join(',');if(this.legendKey===key)return;this.legendKey=key;
+  const legend=h.$('.legend');legend.replaceChildren();legend.hidden=!kinds.length;
+  if(kinds.includes('ski')){const heading=document.createElement('span');heading.className='legend-heading';heading.textContent='Сложность трасс';legend.append(heading);for(const [k,t] of [['novice','Лёгкая'],['easy','Средняя'],['intermediate','Сложная'],['expert','Экспертная']]){const item=document.createElement('span'),dot=document.createElement('i');dot.style.background=CATEGORIES[k].color;item.append(dot,document.createTextNode(t));legend.append(item);}}
+  for(const [k,t,color] of [['hiking','Пеший маршрут','#42765c'],['nordic','Беговые лыжи','#9c5f26']])if(kinds.includes(k)){const item=document.createElement('span'),dot=document.createElement('i');dot.style.background=color;item.append(dot,document.createTextNode(t));legend.append(item);}
+ }
  applySeason(){const m=this.host.map;if(!m?.getLayer('snow'))return;m.setPaintProperty('snow','background-color',this.season==='summer'?'#d3d8bd':'#edf2ec');if(m.getLayer('region-surfaces'))m.setPaintProperty('region-surfaces','fill-opacity',this.season==='summer'?.72:.48);this.landscape.scene?.setSeason(this.season);}
  setupSearch(){const h=this.host,p=document.createElement('section');p.className='place-search';p.hidden=true;const input=document.createElement('input');input.type='search';input.placeholder='Название места';input.setAttribute('aria-label','Поиск по названию');const list=document.createElement('div');list.className='search-results';const render=()=>{list.replaceChildren();for(const place of [CITY,...PLACES].filter(p=>p.coordinates&&placeVisible(p,this.filters)&&(p.name+' '+(p.address||'')).toLocaleLowerCase('ru').includes(input.value.toLocaleLowerCase('ru')))){const b=this.button(place.name,place.name,()=>{p.hidden=true;this.choose(place.id);});list.append(b);}};input.addEventListener('input',render);p.append(input,list);h.$('.shell').append(p);this.searchPanel=p;this.searchInput=input;this.renderSearch=render;render();}
  about(){this.host.$('dialog').innerHTML=`<header><h2>О карте</h2><button type="button" data-action="close-dialog" aria-label="Закрыть">×</button></header>
@@ -65,23 +81,23 @@ export class RegionController{
   <p>Мраткино: цвета по таблице схемы из задания владельца, официальная классификация не подтверждена. Фотография схемы не приложена. У Ю3 конфликт name=Ю3 и ref=Ю2. Ю5 и спорная линия фрирайда не отображаются. С1 показана без катающихся и с молодыми елями по прежнему описанию владельца; актуальный режим работы неизвестен. Кресла трёхместные по описанию владельца, в OSM указано четыре места — требуется сверка.</p>
   <p>Пешие треки Малиновой и Ялангаса построены по сети OSM и требуют проверки на местности. Они не подтверждают разрешение прохода. Для Ямантау и Малого Ямантау действуют ограничения заповедника. Собственные файлы GPX / GeoJSON открываются локально и не отправляются на сервер.</p>
   <h3>Управление</h3><p>Перетаскивание — перемещение; правая кнопка мыши — поворот и наклон; колесо — масштаб. На телефоне используйте два пальца. Кнопка 2D / 3D меняет наклон, компас сбрасывает поворот. Статичный лес, сооружения и трассы появляются автоматически. «Оживить карту» управляет только движением; выбор сохраняется между местами. При уменьшении движения в системе запуск требует явного нажатия. Общий лес основан на полигонах wood OpenFreeMap; неизвестный тип показан условной смесью, около Мраткино/Абзаково сосны — художественная настройка. Позиции отдельных деревьев условны. Городские объекты и киоски представлены маркерами и карточками; общая объёмная застройка отключена. Штампы перенесены из исходного состава проекта и не показывают текущие остатки.</p>
-  <h3>Источники</h3><p>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>, ODbL 1.0 · <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> / OpenMapTiles · <a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">Mapterhorn, источники рельефа</a>. Преувеличение высот 1. Автономный рельеф: Copernicus DEM GLO-30 (около 30 м), © DLR e.V. 2010–2014 / Airbus Defence and Space GmbH 2014–2018, предоставлен ЕС и ESA. MapLibre GL JS — BSD-3-Clause.</p>`;}
+  <p>Этнопарк: чум, ограда и 20 оленей — условная 3D-композиция по описанию владельца, а не точная схема участка.</p><h3>Источники</h3><p>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>, ODbL 1.0 · <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> / OpenMapTiles · <a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">Mapterhorn, источники рельефа</a>. Преувеличение высот 1. Автономный рельеф: Copernicus DEM GLO-30 (около 30 м), © DLR e.V. 2010–2014 / Airbus Defence and Space GmbH 2014–2018, предоставлен ЕС и ESA. MapLibre GL JS — BSD-3-Clause.</p>`;}
  preset(){return presetFor(this.id);}
  async bootstrap(){
   const h=this.host;await this.choose(this.id,false,{silent:true,initial:true});
   if(this.initial.route)await this.openRoute(this.initial.route,{silent:true,focus:!this.initial.camera});
   this.cardOpen=this.initial.card!==false&&this.id!=='all';this.renderCard();
   if(this.initial.camera)h.map.jumpTo(this.initial.camera);
-  this.applySeason();this.sync();this.bootstrapped=true;this.bridge.tryReady();
+  if(this.legendBound!==h.map){this.legendBound=h.map;h.map.on('idle',()=>this.refreshLegend());h.map.on('moveend',()=>this.cameraButton());}this.applySeason();this.sync();this.bootstrapped=true;this.bridge.tryReady();
  }
  async choose(id,animate=true,meta={}){
   id=byId(id)?.id||id;
-  if(byId(id)?.kind==='stamp-point'){this.filters.stamps=true;if(!byId(id).sellsPassport)this.filters.passport=false;for(const input of this.host.shadowRoot.querySelectorAll('[data-category]'))input.checked=this.filters[input.dataset.category];this.renderSearch?.();}
+  if(byId(id)?.kind==='stamp-point'&&(!this.filters.stamps||this.filters.passport&&!byId(id).sellsPassport))this.setFilters({view:'stamps'},meta);else if(byId(id)&&byId(id).kind!=='stamp-point'&&!this.filters.interesting)this.setFilters({view:'places'},meta);
   if(id!=='all'&&!byId(id))throw Error('UNKNOWN_PLACE');
   const h=this.host;this.id=id;this.routeId=null;this.importActive=false;h.selected=null;h.setAttribute('data-place',id);h.removeAttribute('data-route');h.$('.place-select').value=id;this.cardOpen=id!=='all'&&(meta.initial?this.initial.card!==false:true);this.renderPlace();this.renderCard();
   if(!h.map?.getLayer('snow'))return;
   h.highlight();if(this.ski.data){this.ski.selectedIds([]);this.ski.card?.replaceChildren();}this.hiking.selected=null;this.hiking.card.replaceChildren();
-  if(meta.navigate!==false){h.map.stop();if(id==='all')this.overview(animate);else{const p=this.preset();h.mode2D=p.pitch<10;h.map.easeTo({center:p.center,zoom:p.zoom,pitch:p.pitch,bearing:p.bearing,duration:animate?h.duration():0});}}
+  if(meta.navigate!==false){h.map.stop();if(id==='all')this.overview(animate);else{const p=this.preset();h.mode2D=p.pitch<10;h.map.easeTo({center:p.center,zoom:p.zoom,pitch:p.pitch,bearing:p.bearing,padding:this.cameraPadding(),duration:animate?h.duration():0});this.cameraButton();}}
   if(!meta.silent)this.bridge.event('placeSelected',{placeId:id});
   this.bridge.updateURL();
   try{if(id==='mratkino')await this.ensureResort();else if(id==='abzakovo')await this.ski.ensure();else if(hikingArea(id))await this.hiking.enter(id);else if(byId(id)?.geometryUrl)await this.catalog.ensure(id);}catch(e){this.dataError(e,'Данные места временно недоступны.');}
@@ -89,27 +105,27 @@ export class RegionController{
  }
  overview(animate=true){const h=this.host;if(!h.map)return;const p=presetFor('all'),camera=h.map.cameraForBounds(p.bounds,{padding:45,bearing:p.bearing});h.map.stop();h.map.easeTo({...camera,pitch:p.pitch,bearing:p.bearing,duration:animate?h.duration():0});}
  renderPlace(){
-  const h=this.host,p=byId(this.id),card=h.$('.region-panel');if(!card)return;card.replaceChildren();h.$('h1').textContent=p?.name||'Белорецкий район';
-  h.cardTitle(card,p?.kind==='resort'?'Горнолыжный комплекс':p?.kind==='stamp-point'?'Где поставить штамп':p?.kind==='city'?'Южный Урал':'Белорецкий район',p?.name||'Ваш маршрут');
-  if(p?.description)h.text(card,p.description);else if(p?.kind==='resort')h.text(card,'Трассы, подъёмники и горный лес.');
-  if(p?.coordinateStatus==='unverified')h.text(card,'Привязка требует уточнения.');
-  if(p?.distanceKm)h.text(card,`≈ ${p.distanceKm} км по прямой от Белорецка.`);
-  if(p?.accessNote)h.text(card,p.accessNote);
-  if(p?.id==='ethnopark'){h.text(card,'Чум, ограда и 20 условных животных — иллюстрация, а не точная схема участка.');if(p.photo){const img=document.createElement('img');img.src=h.url(p.photo);img.alt='Этнопарк с северными оленями';card.append(img);if(p.photoCredit)h.text(card,p.photoCredit);}}
-  else if(p?.kind==='city')h.text(card,'Город у подножия уральских гор.');
-  else if(p&&!p.description)h.text(card,p.kind==='peak'?'Горная вершина Южного Урала.':'Локация Белорецкого района.');
-  if(p?.elevation)h.text(card,`Высота по OSM: ${p.elevation.toLocaleString('ru-RU')} м.`);
-  if(p?.access)h.text(card,p.access,'access-note');
-  renderPassportContent(card,p,this);
-  const page=p?.sourceUrl||(['malinovaya','malinovaya-3'].includes(this.id)?'https://visitbeloretsk.ru/malinovaya':this.id==='yalangas'?'https://www.visitbeloretsk.ru/yalangas':null);
+  const h=this.host,p=byId(this.id),card=h.$('.region-panel');if(!card)return;const key=this.id+':'+this.routeId;if(this.placeCardKey===key)return;this.placeCardKey=key;
+  card.replaceChildren();h.$('h1').textContent=p?.name||'Белорецкий район';h.$('.sidebar').scrollTop=0;h.$('.panel-body').scrollTop=0;
+  h.cardTitle(card,p?.kind==='resort'?'Горнолыжный комплекс':p?.kind==='stamp-point'?'Точка штампов':p?.kind==='city'?'Южный Урал':'Белорецкий район',p?.name||'Ваш маршрут');
+  if(!p)return;this.gallery.mount(card,p);
+  const description=p.id==='ethnopark'?'Чум и северные олени возле Белорецка.':p.id==='kraka'?'Хребет Южного Урала.':p.historical?'Объект утрачен. Историческая точка Белорецка, 1936–2020.':p.description?.replace(/ Точка перенесена.*$/,'');
+  if(description)h.text(card,description,p.historical?'historical-note':'place-description');
+  if(p.accessNote)h.text(card,p.accessNote);if(p.access)h.text(card,p.access,'access-note');
+  if(p.elevation)h.text(card,`Высота вершины по OSM: ${p.elevation.toLocaleString('ru-RU')} м.`);
+  const page=p.sourceUrl||(['malinovaya','malinovaya-3'].includes(this.id)?'https://visitbeloretsk.ru/malinovaya':this.id==='yalangas'?'https://www.visitbeloretsk.ru/yalangas':null);
   if(page){const a=document.createElement('a');a.href=page;a.target='_blank';a.rel='noopener';a.textContent='О месте ↗';card.append(a);}
+  renderPassportContent(card,p,this);
+  const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Координаты и источник';details.append(summary);h.text(details,`${p.coordinates[1]}, ${p.coordinates[0]}`,'place-coordinates');
+  if(p.sourceRecord)h.text(details,'Данные исходной карты проекта Visit Beloretsk.');card.append(details);
  }
+
  renderCard(){
   const h=this.host;if(!h.$('.sidebar'))return;h.$('.sidebar').hidden=!this.cardOpen;h.setAttribute('data-card-open',String(this.cardOpen));
   h.$('.region-panel').hidden=this.importActive;h.$('.resort-content').hidden=this.importActive||this.id!=='mratkino'||!h.resortLoaded;
   this.ski.panel.hidden=this.importActive||this.id!=='abzakovo';this.hiking.section.hidden=this.importActive||!hikingArea(this.id);this.routesPanel.hidden=!this.importActive;this.catalog.renderCard();
  }
- showCard(open){this.cardOpen=open;this.renderCard();this.bridge.updateURL();}
+ showCard(open){this.cardOpen=open;this.renderCard();if(!open)this.host.map?.setPadding({top:0,bottom:0,left:0,right:0});this.bridge.updateURL();}
  selectFeature(place,routeId,meta={}){
   const h=this.host;const placeChanged=this.id!==place;this.id=place;this.routeId=routeId;this.importActive=false;this.cardOpen=true;h.setAttribute('data-place',place);h.$('.place-select').value=place;
   if(routeId)h.setAttribute('data-route',routeId);else h.removeAttribute('data-route');
@@ -150,7 +166,7 @@ export class RegionController{
   for(const m of h.markers)m.regionalHidden=!h.resortActive;
   const contexts=this.visible.filter(id=>id==='mratkino'?h.resortLoaded:id==='abzakovo'?!!this.ski.data:this.hiking.datasets.has(id));contexts.sort((a,b)=>distanceKm(map.getCenter().toArray(),byId(a).coordinates)-distanceKm(map.getCenter().toArray(),byId(b).coordinates));
   const context=contexts[0]||null;if(this.context!==context){this.context=context;this.disposeScenes();}this.hiking.contextArea=['malinovaya','yalangas'].includes(context)?context:null;
-  h.updateLayers();h.$('.legend').hidden=!this.visible.some(id=>['abzakovo','mratkino'].includes(id));h.$('.legend').title=this.visible.includes('mratkino')?'Мраткино: цвета по таблице владельца, требуют сверки':'Абзаково: категории по официальной схеме';
+  h.updateLayers();this.refreshLegend();h.$('.legend').title='Обозначения видимых маршрутов';
   this.catalog.sync();this.renderCard();this.landscape.sync();this.syncScene();this.layoutLabels();
  }
  async toggleEffects(){this.effectsWanted=!this.effectsWanted;this.motionExplicit=true;try{localStorage.setItem('vb3d-effects',this.effectsWanted?'1':'0');}catch{}this.bridge.updateURL();this.landscape.sync();await this.syncScene();}
@@ -165,11 +181,11 @@ export class RegionController{
   try{if(context==='mratkino'&&!h.lifeScene)await h.toggleLife(true,true);else if(context==='abzakovo'&&!this.ski.scene)await this.ski.toggleLife(true);}
   finally{this.scenePending=false;const scene=h.lifeScene||this.ski.scene;if(scene)scene.setPaused(!this.effectsAllowed);this.reflectLife();if((this.context!==context||h.map.getZoom()<LINE_LOD.models)&&this.sceneVisible)this.syncScene();}
  }
- reflectLife(){const h=this.host,b=h.$('[data-action=life]');if(!b)return;b.disabled=false;b.innerHTML=this.effectsWanted?'<svg width=14 height=14 viewBox="0 0 16 16" aria-hidden=true><path fill=currentColor d="M3 2h3v12H3zM10 2h3v12h-3z"/></svg><span>Карта оживает</span>':'<svg width=14 height=14 viewBox="0 0 16 16" aria-hidden=true><path fill=currentColor d="M8 0l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg><span>Оживить карту</span>';b.removeAttribute('role');b.removeAttribute('aria-checked');b.setAttribute('aria-pressed',String(this.effectsWanted));b.setAttribute('aria-label',this.effectsWanted?'Приостановить анимацию':'Оживить карту');b.dataset.loading=String(!!this.scenePending||this.landscape.active&&!this.landscape.scene);b.title=this.effectsWanted&&!this.effectsAllowed?'Движение приостановлено настройкой устройства или скрытием карты':'Условная анимация людей, подъёмников, оленей и леса';h.$('[data-action=life-pause]').hidden=true;h.$('.life-note').hidden=true;const scene=h.lifeScene||this.ski.scene;h.setAttribute('data-scene-state',scene?(scene.paused?'paused':'playing'):this.landscape.scene?(this.landscape.scene.animating?'playing':'paused'):'off');}
+ reflectLife(){const h=this.host,b=h.$('[data-action=life]');if(!b)return;b.disabled=false;b.innerHTML=this.effectsWanted?'<svg width=14 height=14 viewBox="0 0 16 16" aria-hidden=true><path fill=currentColor d="M3 2h3v12H3zM10 2h3v12h-3z"/></svg><span>Карта оживает</span>':'<svg width=14 height=14 viewBox="0 0 16 16" aria-hidden=true><path fill=currentColor d="M4 2l10 6-10 6z"/></svg><span>Оживить карту</span>';b.removeAttribute('role');b.removeAttribute('aria-checked');b.setAttribute('aria-pressed',String(this.effectsWanted));b.setAttribute('aria-label',this.effectsWanted?'Приостановить анимацию':'Оживить карту');b.dataset.loading=String(!!this.scenePending||this.landscape.active&&!this.landscape.scene);b.title=this.effectsWanted&&!this.effectsAllowed?'Движение приостановлено настройкой устройства или скрытием карты':'Условная анимация людей, подъёмников, оленей и леса';h.$('[data-action=life-pause]').hidden=true;h.$('.life-note').hidden=true;const scene=h.lifeScene||this.ski.scene;h.setAttribute('data-scene-state',scene?(scene.paused?'paused':'playing'):this.landscape.scene?(this.landscape.scene.animating?'playing':'paused'):'off');}
  suspend(value){this.parentSuspended=value;if(value)this.host.map?.stop();else{this.host.map?.resize();this.sync();}this.landscape.sync();this.syncScene();}
  resetMap(){
   const h=this.host,c=this.bridge.snapshot();this.initial={place:this.id,route:this.routeId,card:this.cardOpen,effects:this.effectsWanted,camera:c?{...c,center:[c.center.lng,c.center.lat]}:this.initial.camera};
-  this.bootstrapped=false;this.bridge.reset();this.landscape.disposeScene();this.disposeScenes();this.ski.dispose();this.ski.data=null;this.ski.promise=null;this.hiking.dispose();this.hiking.datasets.clear();this.hiking.boundMap=null;
+  this.bootstrapped=false;this.legendKey=null;this.bridge.reset();this.landscape.disposeScene();this.disposeScenes();this.ski.dispose();this.ski.data=null;this.ski.promise=null;this.hiking.dispose();this.hiking.datasets.clear();this.hiking.boundMap=null;
   this.markers.forEach(m=>m.marker.remove());this.markers=[];h.markers.forEach(m=>m.marker.remove());h.markers=[];h.resortLoaded=false;this.resortPromise=null;this.context=null;this.pending.clear();this.retryAfter.clear();
  }
  dataError(error,message='Часть карты временно недоступна.') {if(error?.name==='AbortError')return;const h=this.host,note=h.$('.error-note');note.hidden=false;note.textContent=message;const retry=this.button('Повторить','Повторить загрузку объектов',()=>{note.hidden=true;this.retryAfter.clear();this.landscape.retry.clear();this.landscape.stats.error=null;this.sync();const area=hikingArea(this.id);if(area)this.request(area,()=>this.hiking.enter(this.id));else if(this.id==='abzakovo')this.request(this.id,()=>this.ski.ensure());else if(this.id==='mratkino')this.request(this.id,()=>this.ensureResort());});note.append(retry);this.bridge.event('error',{code:'DATA_UNAVAILABLE',message,recoverable:true});}
@@ -177,20 +193,20 @@ export class RegionController{
   const h=this.host;this.markers.forEach(m=>m.marker.remove());this.markers=[];this.stampAnchorFilter=null;
   for(const p of PLACES.filter(p=>p.coordinates)){
    const stamp=p.kind==='stamp-point';
-   const element=this.button(stamp?(p.sellsPassport?'П':'★'):(p.kind==='peak'?'▲ ':'')+p.name,'Приблизить: '+p.name,()=>this.choose(p.id));
-   element.className=stamp?'stamp-pin':'place-label';element.dataset.placeId=p.id;element.title=p.name;
-   const marker=new h.ml.Marker({element,anchor:stamp?'center':'bottom',occludedOpacity:.15}).setLngLat(p.coordinates).addTo(h.map);
+   const element=this.button(stamp?'':(p.kind==='peak'?'▲ ':'')+p.name,'Приблизить: '+p.name,()=>this.choose(p.id));
+   element.className=stamp?'stamp-pin':'place-label';if(stamp)element.innerHTML='<svg width=22 height=22 viewBox="0 0 24 24" aria-hidden=true><path d="M9 4a3 3 0 016 0c0 2-2 3-2 5v2h4l3 5H4l3-5h4V9c0-2-2-3-2-5zM4 20h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>';if(stamp&&p.sellsPassport){const badge=document.createElement('span');badge.className='passport-badge';badge.textContent='+';badge.title='Продаётся паспорт';element.append(badge);}element.dataset.placeId=p.id;element.title=p.name;
+   const marker=new h.ml.Marker({element,anchor:stamp?'center':'bottom',occludedOpacity:.8}).setLngLat(p.coordinates).addTo(h.map);
    this.markers.push({p,element,marker});
   }
  }
  layoutLabels(){
   const h=this.host,map=h.map;if(!map)return;this.ski.layoutLabels();
   const enabled=h.$('[data-layer=labels]').checked,zoom=map.getZoom(),w=map.getContainer().clientWidth,hh=map.getContainer().clientHeight,occupied=[];
-  const sorted=[...this.markers].sort((a,b)=>Number(b.p.id===this.id)-Number(a.p.id===this.id)||Number(b.p.kind==='stamp-point')-Number(a.p.kind==='stamp-point'));
+  const sorted=[...this.markers].sort((a,b)=>Number(b.p.id===this.id)-Number(a.p.id===this.id)||Number(b.p.kind==='stamp-point')-Number(a.p.kind==='stamp-point')||Number(!!b.p.major)-Number(!!a.p.major));
   for(const {p,element,marker} of sorted){
-   const stamp=p.kind==='stamp-point',point=map.project(p.coordinates);
+   const stamp=p.kind==='stamp-point',point=map.project(p.coordinates);element.classList.toggle('selected',p.id===this.id);element.setAttribute('aria-pressed',String(p.id===this.id));
    const offset=stamp&&zoom>=16?(p.id==='stampStation'?[-28,-16]:p.id==='kiosk3'?[28,16]:[0,0]):[0,0];
-   if(stamp){marker.setOffset(offset);element.style.setProperty('--leader-length',Math.hypot(...offset)+'px');element.style.setProperty('--leader-angle',Math.atan2(-offset[1],-offset[0])+'rad');}
+   if(stamp&&element.dataset.offset!==offset.join(',')){element.dataset.offset=offset.join(',');marker.setOffset(offset);element.style.setProperty('--leader-length',Math.hypot(...offset)+'px');element.style.setProperty('--leader-angle',Math.atan2(-offset[1],-offset[0])+'rad');}
    const width=element.offsetWidth||(stamp?44:110),x=point.x+offset[0],y=point.y+offset[1],r=stamp?[x-22,y-22,x+22,y+22]:[x-width/2-5,y-30,x+width/2+5,y+5];
    const visible=enabled&&placeVisible(p,this.filters)&&!(h.resortActive&&p.id==='mratkino')&&!(this.ski.active&&p.id==='abzakovo')&&(zoom>=(stamp?12.4:10.6)||p.major||p.id===this.id)&&r[0]>=8&&r[2]<=w-48&&r[1]>=55&&r[3]<=hh-65&&!occupied.some(a=>r[0]<a[2]&&r[2]>a[0]&&r[1]<a[3]&&r[3]>a[1]);
    element.style.visibility=visible?'visible':'hidden';element.tabIndex=visible?0:-1;if(visible)occupied.push(r);
@@ -208,5 +224,5 @@ export class RegionController{
    const show=this.button('Показать трек','Показать трек',()=>h.flyToFeatures(data.features,h.map.getBearing()));card.append(show);const remove=this.button('Убрать трек','Убрать трек',()=>{h.map.getSource('touring-routes').setData(EMPTY);h.map.getSource('route-stops').setData(EMPTY);this.routeData=null;this.importActive=false;this.showCard(false);card.replaceChildren();});card.append(remove);h.$('dialog').close();this.showCard(true);show.click();
   }catch(e){h.text(card,'Трек не открыт: '+e.message);this.importActive=true;this.showCard(true);}
  }
- dispose(){this.landscape.dispose();this.catalog.dispose();this.bridge.dispose();this.observer?.disconnect();this.hiking.dispose();this.ski.dispose();this.host.disposeLife();this.markers.forEach(m=>m.marker.remove());}
+ dispose(){this.gallery?.dispose();this.landscape.dispose();this.catalog.dispose();this.bridge.dispose();this.observer?.disconnect();this.hiking.dispose();this.ski.dispose();this.host.disposeLife();this.markers.forEach(m=>m.marker.remove());}
 }

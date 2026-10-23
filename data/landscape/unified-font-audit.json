@@ -1,0 +1,15 @@
+{
+  "tile": [
+    14,
+    10850,
+    5263
+  ],
+  "tileBytes": 66725,
+  "glyphStatus": 200,
+  "glyphBytes": 76580,
+  "font": "Noto Sans Regular",
+  "browserVerifiedGlyphs": [
+    "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/0-255.pbf",
+    "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/1024-1279.pbf"
+  ]
+}

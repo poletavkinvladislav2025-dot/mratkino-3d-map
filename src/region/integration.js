@@ -1,4 +1,5 @@
 import {PLACES,CITY,PLACE_ALIASES,canonicalPlaceId} from './presets.js';
+import {validateFilters,filterSnapshot} from './filters.js';
 const places=new Set(['all',CITY.id,...PLACES.map(p=>p.id),...Object.keys(PLACE_ALIASES)]);
 export const ROUTE_IDS=[...['1','2','3','4','5','7','8','9','10','11','12','13'].map(n=>'abzakovo/trail/'+n),...[1,2,3,4].map(n=>'mratkino/trail/south-'+n),...[1,2,3].map(n=>'mratkino/trail/north-'+n),'malinovaya/first-return','malinovaya/third','malinovaya/three-peaks','yalangas/a1','yalangas/a2'];
 const routes=new Set(ROUTE_IDS),record=x=>!!x&&typeof x==='object'&&!Array.isArray(x),finite=(v,min,max)=>typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=max;
@@ -16,6 +17,7 @@ export function validateCommand(d){
  if(d.command==='openPlace'&&Object.keys(p).length===1&&places.has(p.placeId))return {...d,payload:p};
  if(d.command==='openRoute'&&Object.keys(p).length===1&&knownRoute(p.routeId))return {...d,payload:p};
  if(d.command==='setCamera'&&cameraPayload(p))return {...d,payload:p};
+ if(d.command==='setFilters'&&validateFilters(p))return {...d,payload:p};
  if(['resize','suspend','resume'].includes(d.command)&&Object.keys(p).length===0)return {...d,payload:p};
  return null;
 }
@@ -63,19 +65,20 @@ export class IntegrationBridge{
  }
  tryReady(){
   if(this.ready||!this.region.bootstrapped||this.host.getAttribute('data-map-state')!=='ready')return;
-  this.ready=true;this.bindMap();this.lastSnapshot=this.snapshot();this.event('ready',{placeId:this.region.id,routeId:this.region.routeId,camera:this.snapshot(),commands:['openPlace','openRoute','setCamera','resize','suspend','resume']});this.drain();
+ this.ready=true;this.bindMap();this.lastSnapshot=this.snapshot();this.event('ready',{placeId:this.region.id,routeId:this.region.routeId,camera:this.snapshot(),filters:filterSnapshot(this.region.filters),commands:['openPlace','openRoute','setCamera','setFilters','resize','suspend','resume']});this.drain();
  }
  async drain(){if(!this.ready||this.processing||this.disposed)return;this.processing=true;try{while(this.queue.length&&!this.disposed)await this.execute(this.queue.shift());}finally{this.processing=false;}}
  async execute(c){
   const r=this.region,h=this.host;clearTimeout(this.cameraTimer);this.cameraTimer=null;this.suppressCamera=true;
   try{
    if(c.command==='openPlace')await r.choose(c.payload.placeId,false,{silent:true});
+   if(c.command==='setFilters')r.setFilters(c.payload,{silent:true});
    if(c.command==='openRoute')await r.openRoute(c.payload.routeId,{silent:true,focus:true});
    if(c.command==='setCamera'){h.map.stop();h.map.jumpTo(cameraPayload(c.payload));r.sync();}
    if(c.command==='resize'){h.map.resize();r.sync();}
    if(c.command==='suspend')r.suspend(true);
    if(c.command==='resume')r.suspend(false);
-   if(this.disposed)return;const result={command:c.command,ok:true,placeId:r.id,routeId:r.routeId,camera:this.snapshot()};this.results.set(c.id,result);if(this.results.size>128)this.results.delete(this.results.keys().next().value);this.event('commandResult',result,c.id);this.updateURL();
+   if(this.disposed)return;const result={command:c.command,ok:true,placeId:r.id,routeId:r.routeId,camera:this.snapshot(),filters:filterSnapshot(r.filters)};this.results.set(c.id,result);if(this.results.size>128)this.results.delete(this.results.keys().next().value);this.event('commandResult',result,c.id);this.updateURL();
   }catch(e){if(!this.disposed)this.event('error',{code:e.message==='UNKNOWN_ROUTE'?'UNKNOWN_ROUTE':'COMMAND_FAILED',message:'Команда не выполнена.',recoverable:true},c.id);}
   finally{this.pending.delete(c.id);this.lastSnapshot=this.snapshot();this.suppressCamera=false;}
  }

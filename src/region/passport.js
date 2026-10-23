@@ -11,7 +11,8 @@ export function mergeSourcePlaces(existing){
   const old=places.get(r.canonicalId),coordinates=r.ownerCoordinates||sourceCoordinates(r);
   const kind=r.recordType==='stamp-point'?'stamp-point':old?.kind||(['masim'].includes(r.sourceId)?'peak':'heritage');
   const changed=old&&old.coordinates.some((v,i)=>v!==coordinates[i]);
-  places.set(r.canonicalId,{...old,id:r.canonicalId,name:r.displayName||r.name,kind,
+  const displayName=r.sourceId==='kraka'?'Хребет Крака':r.displayName||r.name;
+  places.set(r.canonicalId,{...old,id:r.canonicalId,name:displayName,displayName,kind,
    coordinates,zoneRadiusKm:old?.zoneRadiusKm||0,major:old?.major||false,
    coordinateStatus:r.sourceId==='kraka'?'project-reference':'owner-source-map',
    sourceRecord:r,sourceCoordinates:sourceCoordinates(r),previousCoordinates:changed?old.coordinates:undefined,
