@@ -1,0 +1,261 @@
+{
+  "checkedAt": "2026-10-23T06:20:45.137391+00:00",
+  "previewRef": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+  "previewUrl": "https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/region/",
+  "assets": [
+    {
+      "path": "assets/index-C4NwicCl.css",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 263,
+      "sha256Verified": true,
+      "mime": "text/css; charset=utf-8"
+    },
+    {
+      "path": "assets/index-DRLImaiS.js",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 190916,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-Y_FXurWg.js",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 1094988,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-worker-BrB25tGK.mjs",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 518806,
+      "sha256Verified": true,
+      "mime": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/nature-scene-DyN4wYGC.js",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 5709,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-CyZOI_qv.js",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 25939,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-data-D-ZbFFaf.js",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 4116,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/routes-GUvelYn5.js",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 3651,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/three.module-C7-2b9wl.js",
+      "generation": "ceaf707c8b11086d07a627b74fb8c273d84cface",
+      "bytes": 481720,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/index-C1H0Gt4d.js",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 174132,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/index-C4NwicCl.css",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 263,
+      "sha256Verified": true,
+      "mime": "text/css; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-Y_FXurWg.js",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 1094988,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-worker-BrB25tGK.mjs",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 518806,
+      "sha256Verified": true,
+      "mime": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/nature-scene-Bwaw-48p.js",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 5709,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-data-yQYy5qRu.js",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 3958,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-pLwjdvn8.js",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 24864,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/routes-CDZvHPp2.js",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 3651,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/three.module-C7-2b9wl.js",
+      "generation": "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+      "bytes": 481720,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/index-C4NwicCl.css",
+      "generation": "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0",
+      "bytes": 263,
+      "sha256Verified": true,
+      "mime": "text/css; charset=utf-8"
+    },
+    {
+      "path": "assets/index-CCN6eJmj.js",
+      "generation": "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0",
+      "bytes": 161733,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-Y_FXurWg.js",
+      "generation": "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0",
+      "bytes": 1094988,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/maplibre-gl-worker-BrB25tGK.mjs",
+      "generation": "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0",
+      "bytes": 518806,
+      "sha256Verified": true,
+      "mime": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-DMC9YFrw.js",
+      "generation": "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0",
+      "bytes": 503536,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/resort-scene-data-Gl1BI7H8.js",
+      "generation": "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0",
+      "bytes": 3958,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    },
+    {
+      "path": "assets/routes-Cbuk-Rnl.js",
+      "generation": "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0",
+      "bytes": 3651,
+      "sha256Verified": true,
+      "mime": "application/javascript; charset=utf-8"
+    }
+  ],
+  "data": [
+    {
+      "path": "region/abzakovo/manifest.json",
+      "status": 200,
+      "bytes": 1030,
+      "sha256": "226b5f212eb75cb77d0196c0c3e036b27ae32826416045dd62a73d11085415b4",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/trails.geojson",
+      "status": 200,
+      "bytes": 17347,
+      "sha256": "e2f4c635eec5509a4606d630f0de924279ab0daf44e6bd94371a314ee5fa7208",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/lifts.geojson",
+      "status": 200,
+      "bytes": 5695,
+      "sha256": "800bb61260f91a1a78cc2e1ee97f648006d4b2bba59a5e8a7d2feca9fd20362d",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/stations.geojson",
+      "status": 200,
+      "bytes": 7632,
+      "sha256": "ec289179753cfaf4ab388d5742258936151aca6cbbfd2f78158086a3770f0e23",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/facilities.geojson",
+      "status": 200,
+      "bytes": 98381,
+      "sha256": "f6d535dd03ac919533e72f636d9798820e096650ae6be74031076effb64fd063",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/boundary.geojson",
+      "status": 200,
+      "bytes": 7093,
+      "sha256": "e3ac657b8e7c0b00cf318fad88a714ec18b8c20f7f7216e944a7a555a2aec26d",
+      "identicalToLocal": true
+    },
+    {
+      "path": "region/abzakovo/source-audit.json",
+      "status": 200,
+      "bytes": 17736,
+      "sha256": "749d650430ab88af8396cf099b6ef0332fc62e14a98c44bcbebdf85b49282282",
+      "identicalToLocal": true
+    }
+  ],
+  "modes": [
+    {
+      "place": "abzakovo",
+      "status": 200,
+      "htmlMatchesLocalBuild": true
+    },
+    {
+      "place": "malinovaya",
+      "status": 200,
+      "htmlMatchesLocalBuild": true
+    },
+    {
+      "place": "yalangas",
+      "status": 200,
+      "htmlMatchesLocalBuild": true
+    },
+    {
+      "place": "mratkino",
+      "status": 200,
+      "htmlMatchesLocalBuild": true
+    }
+  ],
+  "frameBlockingHeaders": {},
+  "stableRootAndEntryUnchanged": true,
+  "retainedPreviousGenerations": [
+    "d02a958590c1cb7b6a2833db1e4527c0f06b3d05",
+    "f72ffaeeed6faec811a30f9cdaf12d1d0b2ef5a0"
+  ]
+}
