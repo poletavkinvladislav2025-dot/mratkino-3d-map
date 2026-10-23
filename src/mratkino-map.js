@@ -27,7 +27,7 @@ class MratkinoMap extends HTMLElement {
   this.$=selector=>shadow.querySelector(selector);this.$$=selector=>[...shadow.querySelectorAll(selector)];
   const pageBase=/^(https?:|file:)/.test(document.baseURI)?document.baseURI:'https://mratkino.invalid/';
   this.assetBase=new URL(this.getAttribute('asset-base')||'./',pageBase);
-  this.region=new RegionController(this);if(!this.querySelector('script[type="application/json"]'))this.region.setup();else this.region=null;
+  this.region=this.querySelector('script[type="application/json"]')?null:new RegionController(this);this.region?.setup();
   this.bindUI();this.renderList();
   this.observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){this.observer.disconnect();this.init(this.token);}}, {rootMargin:'250px'});this.observer.observe(this);
  }

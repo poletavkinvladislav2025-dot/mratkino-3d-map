@@ -59,6 +59,7 @@ export class RegionController{
  async bootstrap(){
   const h=this.host;await this.choose(this.id,false,{silent:true,initial:true});
   if(this.initial.route)await this.openRoute(this.initial.route,{silent:true,focus:!this.initial.camera});
+  this.cardOpen=this.initial.card!==false&&this.id!=='all';this.renderCard();
   if(this.initial.camera)h.map.jumpTo(this.initial.camera);
   this.sync();this.bootstrapped=true;this.bridge.tryReady();
  }

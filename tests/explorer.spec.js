@@ -61,6 +61,7 @@ test('mobile card, direct route URL, layers and fullscreen keep a usable layout'
  await page.getByRole('button',{name:'Закрыть карточку',exact:true}).click();await page.getByRole('button',{name:'Слои карты',exact:true}).click();await page.locator('[data-layer=lifts]').uncheck();expect(await read(page,el=>el.map.getLayoutProperty('abzakovo-lift-line','visibility'))).toBe('none');
  await page.getByRole('button',{name:'Слои карты',exact:true}).click();await page.locator('[data-action=mode]').click();await expect.poll(()=>read(page,el=>el.map.getPitch())).toBe(0);
  await page.locator('.maplibregl-ctrl-fullscreen').click();await expect.poll(()=>read(page,el=>!!(document.fullscreenElement||el.shadowRoot.fullscreenElement))).toBe(true);await page.evaluate(()=>document.exitFullscreen());
+ await expect.poll(()=>page.url().includes('card=0')).toBe(true);await page.reload();await expect(root(page)).toHaveAttribute('data-map-state','ready',{timeout:90000});await expect(root(page)).toHaveAttribute('data-route','abzakovo/trail/9');await expect(page.locator('.sidebar')).toBeHidden();
 });
 
 
