@@ -54,11 +54,11 @@ export class HikingController{
   const map=this.host.map;if(!map?.getSource('hiking-routes'))return;
   const selected=this.host.region.routeId;
   const features=[...this.visible].flatMap(area=>(this.datasets.get(area)?.features||[]).filter(f=>f.geometry.type==='LineString').map(f=>{const canonicalId=area+'/'+f.properties.id;return {...f,properties:{...f.properties,area,canonicalId,selected:canonicalId===selected},geometry:canonicalId===selected&&this.returning?{...f.geometry,coordinates:[...f.geometry.coordinates].reverse()}:f.geometry};}));
-  map.getSource('hiking-routes').setData({type:'FeatureCollection',features});this.clearStops();
+  map.getSource('hiking-routes').setData({type:'FeatureCollection',features});this.clearStops();const automaticStops=[...this.visible].flatMap(area=>(this.datasets.get(area)?.features||[]).filter(f=>f.geometry.type==='Point'&&['start','finish','start-finish'].includes(f.properties.role)));map.getSource('hiking-stops').setData({type:'FeatureCollection',features:automaticStops});
   if(!this.selected||selected!==this.area+'/'+this.selected||!this.visible.has(this.area))return;
   const original=this.data.features.filter(f=>f.geometry.type==='Point'&&f.properties.routeId===this.selected);
   const stops=(this.returning?[...original].reverse():original).map((f,i)=>({...f,properties:{...f.properties,sequence:i+1,role:this.returning?(f.properties.role==='start'?'finish':f.properties.role==='finish'?'start':f.properties.role):f.properties.role}}));
-  map.getSource('hiking-stops').setData({type:'FeatureCollection',features:stops});
+  map.getSource('hiking-stops').setData({type:'FeatureCollection',features:[...automaticStops.filter(f=>f.properties.routeId!==this.selected),...stops]});
   for(const stop of stops){const b=document.createElement('button');b.type='button';b.className='hiking-stop';b.textContent=`${stop.properties.sequence} · ${stop.properties.role==='start-finish'?'Старт / финиш':stop.properties.name}`;b.addEventListener('click',()=>this.focus(stop.geometry.coordinates));this.markers.push(new this.host.ml.Marker({element:b,anchor:'bottom',occludedOpacity:.25}).setLngLat(stop.geometry.coordinates).addTo(map));}
  }
  bindMap(){const map=this.host.map;if(this.boundMap===map)return;this.boundMap=map;map.on('click','hiking-route-line',e=>{const id=e.features?.[0]?.properties.canonicalId;if(id)this.open(id);});}

@@ -1,0 +1,40 @@
+{
+  "bodyClearanceMinM": 1.172030262440785,
+  "bodyClearanceMaxM": 1.4736938697197957,
+  "trees": 9852,
+  "worldCells": 14,
+  "modelGeometryCount": 23,
+  "modelDrawCalls": 23,
+  "jsHeapBytes": 97084071,
+  "source": "Chromium SwiftShader, whole page heap includes MapLibre",
+  "debug": [
+    {
+      "x": -2.0645999999999987,
+      "y": -19.1458,
+      "localHeight": 528.5158907620935,
+      "matrixZ": 529.6903686523438,
+      "origin": {
+        "lng": 58.627999999999986,
+        "lat": 53.80199999999999
+      },
+      "scale": 1.003439953948382,
+      "originUnits": 4.229948017922071e-8
+    },
+    {
+      "x": -31.678990075181773,
+      "y": 7.535231788571413,
+      "localHeight": 529.7100222628214,
+      "matrixZ": 530.9588012695312,
+      "origin": {
+        "lng": 58.627999999999986,
+        "lat": 53.80199999999999
+      },
+      "scale": 1.003439953948382,
+      "originUnits": 4.229948017922071e-8
+    }
+  ],
+  "center": [
+    58.289544,
+    53.945615
+  ]
+}

@@ -30,16 +30,74 @@
     ]
   },
   "mratkino": {
-    "schemeUrl": null,
+    "schemeUrl": "https://www.urec.ru/index.php?id=249",
     "schemeDate": null,
-    "status": "osm-unverified",
-    "categories": {},
-    "dateNote": "Подтверждённая курортом схема классификации не получена. Цвета основаны на исходных piste:difficulty OSM, а не на расчёте уклона.",
+    "status": "owner-scheme-transcription",
+    "categories": {
+      "Ю1": "intermediate",
+      "Ю2": "easy",
+      "Ю3": "easy",
+      "Ю4": "easy",
+      "С1": "easy",
+      "С2": "intermediate",
+      "С3": "intermediate"
+    },
+    "dateNote": "Таблица и цвета переданы владельцем в задании 23.10.2026; фотография схемы отсутствует. Доступная страница УРЭК не позволила независимо сверить таблицу. Это не официальная классификация.",
     "missing": [
       "Подтверждённое сопоставление официальных номеров и линий Ю1–Ю4, С1–С3",
       "Официальные категории сложности, паспортные длины и перепады",
       "У Ю3 исходные name=Ю3 и ref=Ю2 противоречат друг другу",
       "Оперативные сведения о работе трасс и подъёмников"
-    ]
+    ],
+    "reportedMetrics": {
+      "Ю1": {
+        "lengthM": 900,
+        "dropM": 195,
+        "status": "owner-transcription-unverified"
+      },
+      "Ю2": {
+        "lengthM": 1000,
+        "dropM": 196,
+        "status": "owner-transcription-unverified"
+      },
+      "Ю3": {
+        "lengthM": 1000,
+        "dropM": 196,
+        "status": "owner-transcription-unverified"
+      },
+      "Ю4": {
+        "lengthM": 1013,
+        "dropM": 200,
+        "status": "owner-transcription-unverified"
+      },
+      "С1": {
+        "lengthM": 1090,
+        "dropM": 280,
+        "status": "owner-transcription-unverified"
+      },
+      "С2": {
+        "lengthM": 1009,
+        "dropM": 280,
+        "status": "owner-transcription-unverified"
+      },
+      "С3": {
+        "lengthM": 1485,
+        "dropM": 300,
+        "status": "owner-transcription-unverified"
+      }
+    }
+  },
+  "bannoye": {
+    "status": "owner-scheme-transcription",
+    "schemeUrl": "https://bannoye.com/glc/",
+    "schemeDate": null,
+    "categories": {
+      "1": "intermediate",
+      "2": "expert",
+      "3": "intermediate",
+      "4": "expert"
+    },
+    "dateNote": "Цвета из таблицы владельца; изображение не приложено. Официальный сайт подтверждает четыре основные трассы и общий диапазон длин 2000–2450 м / перепад 450 м, не независимую сверку каждого номера.",
+    "conflict": "В статье Sport-Marafon №1 синяя, в таблице задания красная. Используется таблица задания с пометкой о сверке."
   }
 }

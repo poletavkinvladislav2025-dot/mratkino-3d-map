@@ -4,9 +4,9 @@ import {normalizeRoutes,routeMetrics,routeEndpoints} from '../src/region/routes.
 import {createRegionalStyle,resortFacilities} from '../src/region/style.js';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-test('22 distinct locations, every preset, city overhead, and bounded lazy zones',()=>{
- assert.equal(PLACES.length,22);assert.equal(new Set(PLACES.map(p=>p.id)).size,22);
- for(const p of PLACES){const preset=presetFor(p.id);assert.equal(preset.id,p.id);assert.ok(preset.center[0]>57&&preset.center[0]<60);assert.ok(preset.center[1]>53&&preset.center[1]<55);assert.ok(preset.zoom>10);}
+test('original locations preserved plus verified winter catalog, every preset, city overhead, and bounded lazy zones',()=>{
+ assert.ok(PLACES.length>=32);assert.equal(new Set(PLACES.map(p=>p.id)).size,PLACES.length);
+ for(const p of PLACES){const preset=presetFor(p.id);assert.equal(preset.id,p.id);assert.ok(preset.center[0]>55&&preset.center[0]<61);assert.ok(preset.center[1]>53&&preset.center[1]<56);assert.ok(preset.zoom>10);}
  assert.equal(presetFor('beloretsk').pitch,4);assert.equal(presetFor('unknown').id,'mratkino');
  assert.equal(activeZones([58.43,54],9).length,0);assert.ok(activeZones([58.43,54],14).some(p=>p.id==='mratkino'));assert.equal(activeZones([0,0],15).length,0);
  assert.equal(PLACES.find(p=>p.id==='maly-yamantau').elevation,974);assert.ok(PLACES.find(p=>p.id==='yamantau').access);assert.equal(PLACES.find(p=>p.id==='kraka').coordinateStatus,'project-reference');
@@ -14,7 +14,7 @@ test('22 distinct locations, every preset, city overhead, and bounded lazy zones
 test('regional style hides only disputed freeride, preserves named trails and avoids city POIs',()=>{
  const manifest=JSON.parse(readFileSync('public/live/manifest.json'));const style=createRegionalStyle({manifest},null);
  assert.equal(style.terrain.exaggeration,1);assert.equal(style.sources.dem.maxzoom,12);assert.equal(style.sources.dem.tileSize,512);
- assert.ok(!style.layers.some(l=>l.type==='symbol'||l.type==='fill-extrusion'));assert.ok(style.layers.some(l=>l.id==='region-roads'));
+ assert.ok(!style.layers.some(l=>l.type==='symbol'));assert.ok(style.layers.some(l=>l.id==='region-roads'));
  assert.ok(JSON.stringify(style.layers.find(l=>l.id==='trail-line').filter).includes('way/933862767'));
  const trails=JSON.parse(readFileSync('public/live/trails.geojson'));assert.ok(trails.features.some(f=>f.properties.id==='way/933862767'));assert.equal(trails.features.filter(f=>f.geometry.type==='LineString'&&/^[ЮС][1-4]$/.test(f.properties.name)).length,7);
 });

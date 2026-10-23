@@ -38,3 +38,11 @@ data/abzakovo/*.xml
 data/abzakovo/*.jpg
 data/abzakovo/*.pbf
 data/abzakovo/*.webp
+# One-time research responses, reproducible public-source extracts.
+data/landscape/*.html
+data/landscape/*.txt
+data/landscape/*-osm.json
+data/landscape/*.xml
+data/landscape/*.pbf
+.explorerstable/
+.regionstable/

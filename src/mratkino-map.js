@@ -6,7 +6,7 @@ import { SUMMIT, EXPECTED, boundsFor, coordinates, slopeCamera, createStyle, EMP
 
 import {RegionController} from './region/controller.js';
 import {createRegionalStyle} from './region/style.js';
-import {classification,pisteId} from './region/piste-catalog.js';
+import {classification,pisteId,catalog} from './region/piste-catalog.js';
 
 const offlinePools=new Map();let sequence=0,protocolRegistered=false,offlineWorkerURL=null;
 const template=`
@@ -88,7 +88,7 @@ class MratkinoMap extends HTMLElement {
    this.map=new ml.Map({container:this.$('.map'),style:this.region?createRegionalStyle(this.data,this.resortLoaded?this.url('live/forest-winter.png'):null):createStyle(this.data,tileURL,this.embedded?.forest||this.url('live/forest-winter.png')),center:this.region?.preset().center||SUMMIT,zoom:this.region?.preset().zoom||14,pitch:this.region?.preset().pitch??61,bearing:this.region?.id==='mratkino'?(camera?.bearing||0):(this.region?.preset().bearing??camera?.bearing??0),minZoom:this.region?5:12.8,maxZoom:20.2,maxPitch:72,...(this.region?{}:{maxBounds:[[58.405,53.975],[58.47,54.02]]}),cooperativeGestures:matchMedia('(pointer: coarse)').matches,attributionControl:false,pixelRatio:Math.min(devicePixelRatio||1,1.5),canvasContextAttributes:{antialias:false},fadeDuration:150,locale:{'CooperativeGesturesHandler.WindowsHelpText':'Удерживайте Ctrl для масштабирования карты','CooperativeGesturesHandler.MacHelpText':'Удерживайте ⌘ для масштабирования карты','CooperativeGesturesHandler.MobileHelpText':'Используйте два пальца для управления картой'}});
    const map=this.map;this.setAttribute('data-map-state','loading');
    map.addControl(new ml.NavigationControl({visualizePitch:true}),this.region?'top-left':'top-right');
-   map.addControl(new ml.FullscreenControl({container:this.$('.map-wrap')}),'top-right');
+   map.addControl(new ml.FullscreenControl({container:this.region?this.$('.shell'):this.$('.map-wrap')}),'top-right');
    map.addControl(new ml.ScaleControl({maxWidth:90,unit:'metric'}),'bottom-left');
    map.addControl(new ml.AttributionControl({compact:true}),'bottom-right');
    this.resizeObserver?.disconnect();this.resizeObserver=new ResizeObserver(()=>map.resize());this.resizeObserver.observe(this.$('.map-wrap'));
@@ -157,7 +157,8 @@ class MratkinoMap extends HTMLElement {
  selectTrail(f,fly=false,meta={}){
   this.selected=f.properties.id;this.view=f.properties.slope;this.updateViewButtons();this.renderList();
   const card=this.$('.card');card.replaceChildren();const p=f.properties,c=classification('mratkino',p);this.cardTitle(card,'Трасса',p.name);this.text(card,c.label,'difficulty-value');
-  if(!c.verified)this.text(card,'Категория по OSM; подтверждение курортом не получено.');
+  if(!c.verified)this.text(card,c.source==='owner-scheme-transcription'?'Цвет по таблице владельца; независимая сверка не выполнена.':'Категория по OSM; подтверждение курортом не получено.');
+  const metric=catalog.mratkino.reportedMetrics?.[p.name];if(metric)this.text(card,`Справочно по заданию: ${metric.lengthM} м · перепад ${metric.dropM} м. Требует сверки.`);
   if(p.name==='Ю3')this.text(card,'Номер требует сверки: в источнике также указан Ю2.');
   if(p.name==='С1')this.text(card,'По прежним сведениям владельца склон не использовался. Текущее состояние не подтверждено.','owner-note');
   const button=document.createElement('button');button.type='button';button.className='show-trail';button.textContent='Показать трассу';button.addEventListener('click',()=>this.flyToFeatures(this.data.trails.features.filter(x=>x.properties.name===p.name),this.cameras[p.slope]?.bearing||0));card.append(button);
@@ -184,11 +185,11 @@ class MratkinoMap extends HTMLElement {
   if(this.region&&!internal)return this.region.toggleEffects();
   if(!this.map||this.getAttribute('data-map-state')!=='ready'||this.lifeLoading||(this.region&&!this.resortActive))return;
   if(this.lifeScene){this.lifeScene.setEnabled(force===true||!this.lifeScene.enabled);this.reflectLife();return;}
-  const map=this.map,token=this.token;let pendingScene;this.lifeLoading=true;this.$('[data-action=life]').disabled=true;this.$('[data-action=life]').textContent='Готовим 3D-сцену…';
+  const map=this.map,token=this.token;let pendingScene;this.lifeLoading=true;if(this.region)this.region.reflectLife();else{this.$('[data-action=life]').disabled=true;this.$('[data-action=life]').textContent='Готовим 3D-сцену…';}
   try{
-   const [{ResortScene},{decodeForestInstances},forestBuffer]=await Promise.all([import('./resort-scene.js'),import('./resort-scene-data.js'),this.forestBuffer()]);
-   if(this.map!==map||this.token!==token||(this.region&&(!this.resortActive||!this.region.effectsAllowed||this.region.context!=='mratkino')))return;
-   const scene=pendingScene=new ResortScene(map,this.ml,this.data,{mobile:matchMedia('(max-width:760px)').matches,forestInstances:decodeForestInstances(forestBuffer),onStats:stats=>{if(this.map!==map)return;this.setAttribute('data-scene-trees',String(stats.trees));this.setAttribute('data-scene-saplings',String(stats.saplings));this.reflectLife();}});
+   const [{ResortScene},{decodeForestInstances},forestBuffer]=await Promise.all([import('./resort-scene.js'),import('./resort-scene-data.js'),this.region?Promise.resolve(null):this.forestBuffer()]);
+   if(this.map!==map||this.token!==token||(this.region&&(!this.resortActive||(!this.region.sceneVisible||map.getZoom()<13.4)||this.region.context!=='mratkino')))return;
+   const scene=pendingScene=new ResortScene(map,this.ml,this.data,{mobile:matchMedia('(max-width:760px)').matches,forestInstances:this.region?null:decodeForestInstances(forestBuffer),profile:this.region?{forest:false}:{},onStats:stats=>{if(this.map!==map)return;this.setAttribute('data-scene-trees',String(stats.trees));this.setAttribute('data-scene-saplings',String(stats.saplings));this.reflectLife();}});
    this.lifeScene=scene;map.addLayer(scene);this.updateLayers();this.hideHint();
   }catch(error){if(this.map===map){if(map.getLayer('resort-life'))map.removeLayer('resort-life');if(pendingScene&&!pendingScene.disposed)pendingScene.onRemove();this.lifeScene=null;this.$('.error-note').hidden=false;this.$('.error-note').textContent='Объёмная сцена не загрузилась. Карта доступна. '+error.message;}}
   finally{if(this.map===map&&this.token===token){this.lifeLoading=false;this.reflectLife();}}

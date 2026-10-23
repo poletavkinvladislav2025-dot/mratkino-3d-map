@@ -1,0 +1,345 @@
+[
+  {
+    "query": "ГЛЦ Банное",
+    "results": [
+      {
+        "place_id": 200633383,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "way",
+        "osm_id": 29030997,
+        "lat": "53.5918929",
+        "lon": "58.5714068",
+        "category": "landuse",
+        "type": "winter_sports",
+        "place_rank": 24,
+        "importance": 0.080038857862211,
+        "addresstype": "winter_sports",
+        "name": "ГЛЦ Металлург-Магнитогорск",
+        "display_name": "ГЛЦ Металлург-Магнитогорск, Ташбулатовский сельсовет, Абзелиловский район, Башкортостан, Приволжский федеральный округ, Россия",
+        "boundingbox": [
+          "53.5836623",
+          "53.5987803",
+          "58.5532381",
+          "58.5902216"
+        ]
+      },
+      {
+        "place_id": 200428011,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "node",
+        "osm_id": 319262614,
+        "lat": "53.5902790",
+        "lon": "58.5822702",
+        "category": "leisure",
+        "type": "sports_centre",
+        "place_rank": 30,
+        "importance": 3.897077897302232e-05,
+        "addresstype": "leisure",
+        "name": "ГЛЦ Металлург-Магнитогорск (оз.Банное)",
+        "display_name": "ГЛЦ Металлург-Магнитогорск (оз.Банное), улица Зелёная Поляна, Ташбулатовский сельсовет, Абзелиловский район, Башкортостан, Приволжский федеральный округ, 453629, Россия",
+        "boundingbox": [
+          "53.5902290",
+          "53.5903290",
+          "58.5822202",
+          "58.5823202"
+        ]
+      }
+    ]
+  },
+  {
+    "query": "Родео парк Учалы",
+    "results": [
+      {
+        "place_id": 200555763,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "node",
+        "osm_id": 4644081390,
+        "lat": "54.3148438",
+        "lon": "59.3676826",
+        "category": "amenity",
+        "type": "community_centre",
+        "place_rank": 30,
+        "importance": 5.828564888986065e-05,
+        "addresstype": "amenity",
+        "name": "горнолыжный парк \"Родео\"",
+        "display_name": "горнолыжный парк \"Родео\", Тропа, № 2А, Южный, Учалы, городское поселение Учалы, Учалинский район, Башкортостан, Приволжский федеральный округ, 453701, Россия",
+        "boundingbox": [
+          "54.3147938",
+          "54.3148938",
+          "59.3676326",
+          "59.3677326"
+        ]
+      }
+    ]
+  },
+  {
+    "query": "Завьялиха горнолыжный",
+    "results": [
+      {
+        "place_id": 199126334,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "way",
+        "osm_id": 1464343961,
+        "lat": "54.7862775",
+        "lon": "58.5342616",
+        "category": "landuse",
+        "type": "recreation_ground",
+        "place_rank": 24,
+        "importance": 1e-10,
+        "addresstype": "recreation_ground",
+        "name": "Горнолыжный курорт «Завьялиха»",
+        "display_name": "Горнолыжный курорт «Завьялиха», Трёхгорный городской округ, Челябинская область, Уральский федеральный округ, Россия",
+        "boundingbox": [
+          "54.7659936",
+          "54.7949359",
+          "58.4863600",
+          "58.5466540"
+        ]
+      }
+    ]
+  },
+  {
+    "query": "Евразия Куса",
+    "results": [
+      {
+        "place_id": 200760947,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "way",
+        "osm_id": 144503102,
+        "lat": "55.3874880",
+        "lon": "59.3994787",
+        "category": "aerialway",
+        "type": "chair_lift",
+        "place_rank": 30,
+        "importance": 5.8923476005142554e-05,
+        "addresstype": "aerialway",
+        "name": "ЦАО Евразия",
+        "display_name": "ЦАО Евразия, улица Мира, Станция, Куса, Кусинский муниципальный округ, Челябинская область, Уральский федеральный округ, 456942, Россия",
+        "boundingbox": [
+          "55.3834705",
+          "55.3914870",
+          "59.3958808",
+          "59.4030975"
+        ]
+      },
+      {
+        "place_id": 200745040,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "node",
+        "osm_id": 10675805280,
+        "lat": "55.3818488",
+        "lon": "59.4047713",
+        "category": "tourism",
+        "type": "hotel",
+        "place_rank": 30,
+        "importance": 5.8923476005142554e-05,
+        "addresstype": "tourism",
+        "name": "Гостиница \"Евразия\" корпус \"Горный\"",
+        "display_name": "Гостиница \"Евразия\" корпус \"Горный\", улица Мира, Станция, Куса, Кусинский муниципальный округ, Челябинская область, Уральский федеральный округ, 456942, Россия",
+        "boundingbox": [
+          "55.3817988",
+          "55.3818988",
+          "59.4047213",
+          "59.4048213"
+        ]
+      }
+    ]
+  },
+  {
+    "query": "Солнечная долина Миасс",
+    "results": [
+      {
+        "place_id": 200682433,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "relation",
+        "osm_id": 4264802,
+        "lat": "55.0505816",
+        "lon": "59.9688620",
+        "category": "landuse",
+        "type": "recreation_ground",
+        "place_rank": 24,
+        "importance": 0.08006104295414661,
+        "addresstype": "recreation_ground",
+        "name": "Солнечная долина",
+        "display_name": "Солнечная долина, Сыростан, Миасский городской округ, Челябинская область, Уральский федеральный округ, 456382, Россия",
+        "boundingbox": [
+          "55.0409835",
+          "55.0592249",
+          "59.9544096",
+          "59.9877750"
+        ]
+      }
+    ]
+  },
+  {
+    "query": "Миньяр горнолыжный",
+    "results": [
+      {
+        "place_id": 201549618,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "node",
+        "osm_id": 1211686724,
+        "lat": "55.0792839",
+        "lon": "57.5560832",
+        "category": "leisure",
+        "type": "sports_centre",
+        "place_rank": 30,
+        "importance": 5.8802929732158656e-05,
+        "addresstype": "leisure",
+        "name": "Горнолыжный центр «Миньяр»",
+        "display_name": "Горнолыжный центр «Миньяр», 17, Набережная улица, Миньяр, Ашинский муниципальный округ, Челябинская область, Уральский федеральный округ, 456007, Россия",
+        "boundingbox": [
+          "55.0792339",
+          "55.0793339",
+          "57.5560332",
+          "57.5561332"
+        ]
+      }
+    ]
+  },
+  {
+    "query": "Аджигардак",
+    "results": [
+      {
+        "place_id": 201583739,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "way",
+        "osm_id": 1422426939,
+        "lat": "55.0094273",
+        "lon": "57.4431324",
+        "category": "natural",
+        "type": "ridge",
+        "place_rank": 22,
+        "importance": 0.10540294855860563,
+        "addresstype": "ridge",
+        "name": "Аджигардак",
+        "display_name": "Аджигардак, Ашинский муниципальный округ, Челябинская область, Уральский федеральный округ, Россия",
+        "boundingbox": [
+          "54.9862083",
+          "55.0326463",
+          "57.3584175",
+          "57.5278472"
+        ]
+      },
+      {
+        "place_id": 201404972,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "node",
+        "osm_id": 620098773,
+        "lat": "54.9771721",
+        "lon": "57.3323446",
+        "category": "place",
+        "type": "locality",
+        "place_rank": 25,
+        "importance": 0.06672586938277256,
+        "addresstype": "locality",
+        "name": "Аджигардак",
+        "display_name": "Аджигардак, Аша, Ашинский муниципальный округ, Челябинская область, Уральский федеральный округ, 456001, Россия",
+        "boundingbox": [
+          "54.9671721",
+          "54.9871721",
+          "57.3223446",
+          "57.3423446"
+        ]
+      }
+    ]
+  },
+  {
+    "query": "Куш Тау горнолыжный",
+    "results": []
+  },
+  {
+    "query": "Ассы Тау",
+    "results": []
+  },
+  {
+    "query": "Ак Йорт",
+    "results": [
+      {
+        "place_id": 201372713,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "node",
+        "osm_id": 12298845284,
+        "lat": "54.7294837",
+        "lon": "55.9418196",
+        "category": "office",
+        "type": "translator",
+        "place_rank": 30,
+        "importance": 6.549401083386003e-05,
+        "addresstype": "office",
+        "name": "Ак Йорт",
+        "display_name": "Ак Йорт, улица Чернышевского, Ленинский район, Уфа, городской округ Уфа, Башкортостан, Приволжский федеральный округ, 450000, Россия",
+        "boundingbox": [
+          "54.7294337",
+          "54.7295337",
+          "55.9417696",
+          "55.9418696"
+        ]
+      }
+    ]
+  },
+  {
+    "query": "Биатлон Абзаково",
+    "results": []
+  },
+  {
+    "query": "лыжная база Белорецк",
+    "results": [
+      {
+        "place_id": 201140927,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "node",
+        "osm_id": 9948793586,
+        "lat": "54.2409064",
+        "lon": "57.9775120",
+        "category": "club",
+        "type": "sport",
+        "place_rank": 30,
+        "importance": 5.203402761878412e-05,
+        "addresstype": "club",
+        "name": "Лыжная база",
+        "display_name": "Лыжная база, 60, улица 40 лет Победы, Межгорье, Башкортостан, Приволжский федеральный округ, Россия",
+        "boundingbox": [
+          "54.2408564",
+          "54.2409564",
+          "57.9774620",
+          "57.9775620"
+        ]
+      }
+    ]
+  },
+  {
+    "query": "лыжероллерная трасса Учалы",
+    "results": []
+  },
+  {
+    "query": "Экологический парк Магнитогорск",
+    "results": []
+  },
+  {
+    "query": "Биатлон Уфа",
+    "results": [
+      {
+        "place_id": 201114151,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "way",
+        "osm_id": 109500758,
+        "lat": "54.8051230",
+        "lon": "56.0358523",
+        "category": "tourism",
+        "type": "hotel",
+        "place_rank": 30,
+        "importance": 6.549401083386003e-05,
+        "addresstype": "tourism",
+        "name": "Спорткомплекс Биатлон",
+        "display_name": "Спорткомплекс Биатлон, 1/2, улица Дарвина, Орджоникидзевский район, Уфа, городской округ Уфа, Башкортостан, Приволжский федеральный округ, 450000, Россия",
+        "boundingbox": [
+          "54.8047402",
+          "54.8060023",
+          "56.0354009",
+          "56.0367934"
+        ]
+      }
+    ]
+  }
+]

@@ -12,7 +12,7 @@ def valid_assets(generation):
 def main():
  global ORIGIN
  if len(sys.argv)>3:
-  if sys.argv[3] not in {'region','explorer'}:raise ValueError('Unknown preview path')
+  if sys.argv[3] not in {'region','explorer','landscape'}:raise ValueError('Unknown preview path')
   ORIGIN='https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/'+sys.argv[3]+'/'
  output=pathlib.Path(sys.argv[1]);ref=sys.argv[2];assets=[]
  for path in sorted((output/'assets').iterdir()):

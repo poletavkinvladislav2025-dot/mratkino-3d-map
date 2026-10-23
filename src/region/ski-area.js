@@ -21,7 +21,7 @@ export class SkiAreaController{
  sync(visible){this.active=visible;if(!visible)this.disposeScene();this.layers();this.layoutLabels();}
  renderPanel(){
   const h=this.host;this.panel.replaceChildren();
-  h.text(this.panel,'12 номеров трасс · 8 подъёмников','ski-area-intro');
+  h.text(this.panel,'Номера по схеме · данные OSM','ski-area-intro');
   const list=document.createElement('div');list.className='abz-trails';list.setAttribute('role','group');list.setAttribute('aria-label','Трассы Абзаково');
   for(let n=1;n<=13;n++){
    const number=String(n),b=document.createElement('button');b.type='button';b.dataset.abzTrail=number;b.textContent='№'+number;
@@ -79,8 +79,8 @@ export class SkiAreaController{
  async toggleLife(force){
   const h=this.host;if(!this.active||this.loading||h.getAttribute('data-map-state')!=='ready')return;if(this.scene){if(force!==true)this.disposeScene();h.reflectLife();return;}
   const serial=this.serial,map=h.map;this.loading=true;h.reflectLife();
-  try{const [{ResortScene},{localFrame,decodeForestInstances},buffer]=await Promise.all([import('../resort-scene.js'),import('../resort-scene-data.js'),this.forestBuffer()]);if(serial!==this.serial||map!==h.map||!this.active||!h.region.effectsAllowed||h.abort.aborted)return;
-   const frame=localFrame(this.data.manifest.center),profile={id:'abzakovo-life',center:this.data.manifest.center,forest:true,forestMinZoom:11.5,saplings:false,seatsFromSource:true,riderAreasById:true,radiusM:2000,ridersPerSegment:this.data.manifest.ridersPerSegment,...frame};this.scene=new ResortScene(map,h.ml,this.data,{mobile:matchMedia('(max-width:760px)').matches,profile,forestInstances:decodeForestInstances(buffer,this.data.manifest.center)});map.addLayer(this.scene);this.layers();h.hideHint();
+  try{const [{ResortScene},{localFrame,decodeForestInstances},buffer]=await Promise.all([import('../resort-scene.js'),import('../resort-scene-data.js'),Promise.resolve(null)]);if(serial!==this.serial||map!==h.map||!this.active||(!h.region.sceneVisible||map.getZoom()<13.4)||h.abort.aborted)return;
+   const frame=localFrame(this.data.manifest.center),profile={id:'abzakovo-life',center:this.data.manifest.center,forest:false,forestMinZoom:11.5,saplings:false,seatsFromSource:true,riderAreasById:true,radiusM:2000,ridersPerSegment:this.data.manifest.ridersPerSegment,...frame};this.scene=new ResortScene(map,h.ml,this.data,{mobile:matchMedia('(max-width:760px)').matches,profile,forestInstances:null});map.addLayer(this.scene);this.layers();h.hideHint();
   }catch(error){this.disposeScene();if(error.name!=='AbortError')h.region.dataError(error,'Детализация временно недоступна. Трассы доступны.');}
   finally{this.loading=false;if(map===h.map)h.reflectLife();}
  }

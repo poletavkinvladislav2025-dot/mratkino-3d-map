@@ -1,0 +1,282 @@
+[
+  {
+    "id": "bannoye",
+    "name": "ГЛЦ Банное",
+    "kind": "resort",
+    "category": "ski",
+    "coordinates": [
+      58.5714068,
+      53.5918929
+    ],
+    "coordinateSource": "https://www.openstreetmap.org/way/29030997",
+    "coordinateStatus": "osm-reference-matched",
+    "sourceUrl": "https://bannoye.com/glc/",
+    "description": "Горнолыжный центр над озером Банное. Основной комплекс обслуживает гондольная канатная дорога; предусмотрена отдельная учебная зона.",
+    "distanceKm": 43.2,
+    "major": true,
+    "zoneRadiusKm": 4,
+    "geometryUrl": "region/catalog/bannoye.geojson",
+    "bounds": [
+      58.556801,
+      53.582871,
+      58.5887262,
+      53.5959072
+    ],
+    "checkedOn": "2026-10-23"
+  },
+  {
+    "id": "rodeo",
+    "name": "Родео-парк, Учалы",
+    "kind": "training-park",
+    "category": "ski",
+    "coordinates": [
+      59.3676826,
+      54.3148438
+    ],
+    "coordinateSource": "https://www.openstreetmap.org/node/4644081390",
+    "coordinateStatus": "osm-reference-matched",
+    "sourceUrl": "https://vk.com/rodeopark",
+    "description": "Парк катания и тренировок в Учалах. Зимние спуски и тренировочные объекты требуют сверки назначения.",
+    "distanceKm": 73.3,
+    "major": true,
+    "zoneRadiusKm": 4,
+    "geometryUrl": "region/catalog/rodeo.geojson",
+    "bounds": [
+      59.336311,
+      54.311886,
+      59.368029,
+      54.340506
+    ],
+    "checkedOn": "2026-10-23"
+  },
+  {
+    "id": "zavyaliha",
+    "name": "Завьялиха",
+    "kind": "resort",
+    "category": "ski",
+    "coordinates": [
+      58.5342616,
+      54.7862775
+    ],
+    "coordinateSource": "https://www.openstreetmap.org/way/1464343961",
+    "coordinateStatus": "osm-reference-matched",
+    "sourceUrl": "https://zavyaliha.su/",
+    "description": "Горнолыжный курорт возле Трёхгорного.",
+    "distanceKm": 91.3,
+    "major": true,
+    "zoneRadiusKm": 4,
+    "geometryUrl": "region/catalog/zavyaliha.geojson",
+    "bounds": [
+      58.48636,
+      54.7659936,
+      58.546654,
+      54.7949359
+    ],
+    "checkedOn": "2026-10-23"
+  },
+  {
+    "id": "euroasia",
+    "name": "Евразия, Куса",
+    "kind": "resort",
+    "category": "ski",
+    "coordinates": [
+      59.3994787,
+      55.387488
+    ],
+    "coordinateSource": "https://www.openstreetmap.org/way/144503102",
+    "coordinateStatus": "osm-reference-matched",
+    "sourceUrl": "https://euroasia.su/sky-slopes/",
+    "description": "Горнолыжный курорт в Кусе с учебными и спортивными спусками.",
+    "distanceKm": 170.2,
+    "major": true,
+    "zoneRadiusKm": 4,
+    "geometryUrl": "region/catalog/euroasia.geojson",
+    "bounds": [
+      59.3892352,
+      55.3831635,
+      59.4070032,
+      55.391487
+    ],
+    "checkedOn": "2026-10-23"
+  },
+  {
+    "id": "sunny-valley",
+    "name": "Солнечная долина",
+    "kind": "resort",
+    "category": "ski",
+    "coordinates": [
+      59.968862,
+      55.0505816
+    ],
+    "coordinateSource": "https://www.openstreetmap.org/relation/4264802",
+    "coordinateStatus": "osm-reference-matched",
+    "sourceUrl": "https://dolina.su/",
+    "description": "Горнолыжный курорт возле Миасса и Сыростана.",
+    "distanceKm": 156.9,
+    "major": true,
+    "zoneRadiusKm": 4,
+    "geometryUrl": "region/catalog/sunny-valley.geojson",
+    "bounds": [
+      59.9559048,
+      55.0426614,
+      59.9748589,
+      55.0581991
+    ],
+    "checkedOn": "2026-10-23"
+  },
+  {
+    "id": "minyar",
+    "name": "ГЛЦ Миньяр",
+    "kind": "resort",
+    "category": "ski",
+    "coordinates": [
+      57.5560832,
+      55.0792839
+    ],
+    "coordinateSource": "https://www.openstreetmap.org/node/1211686724",
+    "coordinateStatus": "osm-reference-matched",
+    "sourceUrl": "https://www.gsminyar.ru/",
+    "description": "Горнолыжный центр возле Миньяра. Актуальные условия работы требуют проверки.",
+    "distanceKm": 135.3,
+    "major": true,
+    "zoneRadiusKm": 4,
+    "geometryUrl": "region/catalog/minyar.geojson",
+    "bounds": [
+      57.5509572,
+      55.0772156,
+      57.5629434,
+      55.090477
+    ],
+    "checkedOn": "2026-10-23"
+  },
+  {
+    "id": "adzhigardak",
+    "name": "Аджигардак",
+    "kind": "resort",
+    "category": "ski",
+    "coordinates": [
+      57.3323446,
+      54.9771721
+    ],
+    "coordinateSource": "https://www.openstreetmap.org/node/620098773",
+    "coordinateStatus": "osm-reference-matched",
+    "sourceUrl": "https://adzhigardak.ru/",
+    "description": "Горнолыжный центр возле Аши. Сведения о реконструкции и текущем режиме требуют подтверждения.",
+    "distanceKm": 132.1,
+    "major": true,
+    "zoneRadiusKm": 4,
+    "geometryUrl": "region/catalog/adzhigardak.geojson",
+    "bounds": [
+      57.3264455,
+      54.9730559,
+      57.3704482,
+      54.9948306
+    ],
+    "checkedOn": "2026-10-23"
+  },
+  {
+    "id": "ak-yort",
+    "name": "Ак Йорт",
+    "kind": "resort",
+    "category": "ski",
+    "coordinates": [
+      56.0249222,
+      54.7316898
+    ],
+    "coordinateSource": "https://www.openstreetmap.org/node/949698185",
+    "coordinateStatus": "osm-reference-matched",
+    "sourceUrl": "https://akiort.ru/",
+    "description": "Городской горнолыжный комплекс в Уфе. Геометрия спусков здесь пока не подтверждена.",
+    "distanceKm": 176.3,
+    "major": true,
+    "geometryUrl": null,
+    "accessNote": "Наличие объекта не подтверждает свободный доступ или работу сегодня."
+  },
+  {
+    "id": "ufa-biathlon",
+    "name": "СОК «Биатлон», Уфа",
+    "kind": "nordic",
+    "category": "nordic",
+    "coordinates": [
+      56.0358523,
+      54.805123
+    ],
+    "coordinateSource": "https://www.openstreetmap.org/way/109500758",
+    "coordinateStatus": "osm-reference-matched",
+    "sourceUrl": "https://biathlonufa.ru/trassy/",
+    "description": "Биатлонный комплекс с опубликованными зимними кругами. Доступ к тренировочной территории необходимо уточнять.",
+    "distanceKm": 179.7,
+    "major": true,
+    "geometryUrl": "region/catalog/ufa-biathlon.geojson",
+    "accessNote": "Наличие объекта не подтверждает свободный доступ или работу сегодня.",
+    "bounds": [
+      56.0327812,
+      54.8013672,
+      56.0509902,
+      54.8123948
+    ]
+  },
+  {
+    "id": "ethnopark",
+    "name": "Этнопарк «Северные олени»",
+    "kind": "ethnopark",
+    "category": "interesting",
+    "coordinates": [
+      58.289544,
+      53.945615
+    ],
+    "coordinateSource": "https://yandex.ru/maps/-/CXRhnAy2",
+    "coordinateStatus": "owner-provided",
+    "sourceUrl": "https://yandex.ru/maps/-/CXRhnAy2",
+    "description": "Чум и северные олени возле Белорецка. На карте показана условная композиция по описанию владельца.",
+    "major": true,
+    "photo": null
+  },
+  {
+    "id": "abzakovo-biathlon",
+    "name": "Лыжная / роллерная трасса Абзаково",
+    "kind": "nordic",
+    "category": "nordic",
+    "coordinates": [
+      58.6255681,
+      53.8167422
+    ],
+    "coordinateStatus": "osm-reference-matched",
+    "coordinateSource": "https://www.openstreetmap.org/way/96952527",
+    "description": "Асфальтированная лыжная / роллерная трасса по OSM. Привязка к биатлонному центру, вход и зимний режим требуют сверки.",
+    "sourceUrl": "https://abzakovo.com/glc/",
+    "geometryUrl": "region/catalog/abzakovo-biathlon.geojson",
+    "bounds": [
+      58.6226124,
+      53.814614,
+      58.6299562,
+      53.8192472
+    ],
+    "distanceKm": 22.0,
+    "major": false,
+    "accessNote": "Точка обозначает начало геометрии OSM, не подтверждённый вход. Зимний доступ неизвестен."
+  },
+  {
+    "id": "kushtau",
+    "name": "Куш-Тау",
+    "kind": "resort",
+    "category": "ski",
+    "coordinates": [
+      56.0961646,
+      53.6966017
+    ],
+    "coordinateStatus": "osm-reference-matched",
+    "coordinateSource": "https://www.openstreetmap.org/node/10679929141",
+    "sourceUrl": "https://www.openstreetmap.org/node/10679929141",
+    "description": "Горнолыжный центр возле Стерлитамака, отмеченный в OSM отдельно от одноимённой горы. Текущая работа не подтверждена.",
+    "distanceKm": 154.8,
+    "major": true,
+    "geometryUrl": "region/catalog/kushtau.geojson",
+    "bounds": [
+      56.087383,
+      53.6938527,
+      56.0961431,
+      53.6980293
+    ]
+  }
+]

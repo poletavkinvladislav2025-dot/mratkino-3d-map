@@ -1,8 +1,8 @@
 # Связь родительской страницы с 3D-картой, версия 1
 
-Предпросмотр: https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/explorer/?place=all
+Предпросмотр: https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/landscape/?place=all
 
-Тестовый родитель: https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/explorer/integration-demo.html
+Тестовый родитель: https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/landscape/integration-demo.html
 
 В этом этапе изменено только 3D-приложение. Исходника действующей Яндекс.Карты и доступа к Tilda нет; код управления Яндекс.Картой не добавлялся.
 
@@ -13,7 +13,7 @@
 ```js
 const mapOrigin = 'https://poletavkinvladislav2025-dot.github.io';
 const frame = document.querySelector('#visit-3d');
-const url = new URL('/mratkino-3d-map/preview/explorer/', mapOrigin);
+const url = new URL('/mratkino-3d-map/preview/landscape/', mapOrigin);
 url.searchParams.set('place', 'all');
 url.searchParams.set('parentOrigin', location.origin);
 frame.src = url.href;
@@ -77,11 +77,11 @@ window.addEventListener('message', e => {
 
 Команды родителя не порождают обратные `placeSelected`/`routeSelected`/`cameraChanged`: результат возвращается через `commandResult`. Обычное перемещение камеры не выбирает место и не открывает карточки. События сами по себе не перемещают камеру. Проверяются и `event.origin`, и `event.source === window.parent`; сообщения соседних iframe и самой карты не принимаются.
 
-При скрытии вкладки или выходе iframe из области просмотра тяжёлая сцена освобождается. Для переключателя двух карт родитель дополнительно отправляет `suspend` перед скрытием, затем `resume` и `resize` после показа. Это работает и для случаев, когда iframe скрыт родительским интерфейсом, недоступным из дочернего документа.
+Статичные объёмные объекты не зависят от effects. При скрытии вкладки или выходе iframe из области просмотра тяжёлая сцена освобождается. Для переключателя двух карт родитель дополнительно отправляет `suspend` перед скрытием, затем `resume` и `resize` после показа. Это работает и для случаев, когда iframe скрыт родительским интерфейсом, недоступным из дочернего документа.
 
 ## Стабильные идентификаторы и URL
 
-Места: `all`, `beloretsk`, `mratkino`, `abzakovo`, `yalangas`, `malinovaya`, `malinovaya-3` и остальные ID из [`places.json`](../src/region/places.json). Точный реестр мест также доступен в [`presets.js`](../src/region/presets.js).
+Места: `all`, `beloretsk`, `mratkino`, `abzakovo`, `yalangas`, `malinovaya`, `malinovaya-3` и новые `ethnopark`, `bannoye`, `rodeo`, `zavyaliha`, `euroasia`, `sunny-valley`, `minyar`, `adzhigardak`, `kushtau`, `ak-yort`, `ufa-biathlon`, `abzakovo-biathlon`. Реестры: [`places.json`](../src/region/places.json) и [`winter-places.json`](../src/region/winter-places.json). Точный реестр мест также доступен в [`presets.js`](../src/region/presets.js).
 
 Маршруты:
 
@@ -89,6 +89,7 @@ window.addEventListener('message', e => {
 - `mratkino/trail/south-{1,2,3,4}` и `mratkino/trail/north-{1,2,3}`.
 - `malinovaya/first-return`, `malinovaya/third`, `malinovaya/three-peaks`.
 - `yalangas/a1`, `yalangas/a2`.
+- Новая геометрия: `{placeId}/way/{osmWayId}`, например `bannoye/way/29031015`. Проверяется формат и известное место; существование конкретного way сверяется после ленивой загрузки данных. Неизвестный объект возвращает UNKNOWN_ROUTE.
 
 URL хранит `place`, `route`, `card=0|1`, `effects=0|1`, `lat`, `lng`, `z`, `pitch`, `bearing`. Пример: `?place=abzakovo&route=abzakovo/trail/1&effects=0`. ID маршрута приоритетнее места; сохранённая камера приоритетнее начального приближения к маршруту. Эффекты также сохраняются в localStorage, явный параметр URL имеет приоритет. `parentOrigin` при обновлении URL сохраняется.
 
@@ -99,4 +100,4 @@ URL хранит `place`, `route`, `card=0|1`, `effects=0|1`, `lat`, `lng`, `z`,
 3. Сопоставить ID мест/маршрутов с объектами существующей карты.
 4. Хранить общий выбранный объект в родительской странице; передавать команды только при действиях посетителя или смене режима.
 5. Подключить suspend/resume/resize, обработку WEBGL_UNAVAILABLE и проверить высоту/полный экран на опубликованной странице телефона.
-6. После проверки выбрать постоянный URL релиза вместо тестового `/preview/explorer/`.
+6. После проверки выбрать постоянный URL релиза вместо тестового `/preview/landscape/`.

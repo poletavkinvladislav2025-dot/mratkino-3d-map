@@ -1,0 +1,16 @@
+from pathlib import Path
+import json,xml.etree.ElementTree as E
+root=Path(__file__).resolve().parents[1];places=[p for p in json.load(open(root/'src/region/winter-places.json')) if p['id']!='abzakovo-biathlon'];routeids=json.load(open(root/'src/region/catalog-routes.json'))
+def extract(file,id,selected=None):
+ r=E.parse(root/file).getroot();nodes={n.get('id'):[float(n.get('lon')),float(n.get('lat'))] for n in r.findall('node')};features=[]
+ for w in r.findall('way'):
+  t={x.get('k'):x.get('v') for x in w.findall('tag')};refs=[n.get('ref') for n in w.findall('nd')]
+  if not (w.get('id') in selected if selected else t.get('piste:type')=='nordic'):continue
+  if not all(n in nodes for n in refs):continue
+  rid=id+'/way/'+w.get('id');routeids.append(rid);features.append({'type':'Feature','properties':{'id':'way/'+w.get('id'),'routeId':rid,'placeId':id,'name':t.get('name','Лыжный / лыжероллерный участок OSM'),'category':'nordic','subtype':'roller-ski' if t.get('surface')=='asphalt' else 'nordic','tags':t,'sourceUrl':'https://www.openstreetmap.org/way/'+w.get('id'),'geometryVerifiedByResort':False,'operationalStatus':None,'accessNote':'Зимний доступ, круг, ход и освещение не подтверждены.'},'geometry':{'type':'LineString','coordinates':[nodes[n] for n in refs]}})
+ points=[p for f in features for p in f['geometry']['coordinates']];bounds=[min(p[0] for p in points),min(p[1] for p in points),max(p[0] for p in points),max(p[1] for p in points)]
+ (root/f'public/region/catalog/{id}.geojson').write_text(json.dumps({'type':'FeatureCollection','features':features},ensure_ascii=False,separators=(',',':')));return bounds,features
+bounds,features=extract('data/landscape/ufa-biathlon.xml','ufa-biathlon');p=next(p for p in places if p['id']=='ufa-biathlon');p.update(geometryUrl='region/catalog/ufa-biathlon.geojson',bounds=bounds)
+bounds,features=extract('data/abzakovo/osm-map.xml','abzakovo-biathlon',['96952527']);places.append({'id':'abzakovo-biathlon','name':'Лыжная / роллерная трасса Абзаково','kind':'nordic','category':'nordic','coordinates':features[0]['geometry']['coordinates'][0],'coordinateStatus':'osm-reference-matched','coordinateSource':'https://www.openstreetmap.org/way/96952527','description':'Асфальтированная лыжная / роллерная трасса по OSM. Привязка к биатлонному центру, вход и зимний режим требуют сверки.','sourceUrl':'https://abzakovo.com/glc/','geometryUrl':'region/catalog/abzakovo-biathlon.geojson','bounds':bounds,'distanceKm':24.0,'major':False,'accessNote':'Точка обозначает начало геометрии OSM, не подтверждённый вход. Зимний доступ неизвестен.'})
+(root/'src/region/winter-places.json').write_text(json.dumps(places,ensure_ascii=False,indent=2)+'\n');(root/'src/region/catalog-routes.json').write_text(json.dumps(sorted(set(routeids)))+'\n')
+audit=json.load(open(root/'public/region/catalog/audit.json'));audit['unresolved']=[x for x in audit['unresolved'] if x['id']!='abzakovo-biathlon'];audit['additionalGeometry']={'ufa-biathlon':7,'abzakovo-biathlon':1,'note':'OSM sections, not certified complete loops; no joined or invented connecting segments.'};(root/'public/region/catalog/audit.json').write_text(json.dumps(audit,ensure_ascii=False,indent=2)+'\n')

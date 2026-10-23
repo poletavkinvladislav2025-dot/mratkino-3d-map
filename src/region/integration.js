@@ -2,6 +2,7 @@ import {PLACES,CITY} from './presets.js';
 const places=new Set(['all',CITY.id,...PLACES.map(p=>p.id)]);
 export const ROUTE_IDS=[...['1','2','3','4','5','7','8','9','10','11','12','13'].map(n=>'abzakovo/trail/'+n),...[1,2,3,4].map(n=>'mratkino/trail/south-'+n),...[1,2,3].map(n=>'mratkino/trail/north-'+n),'malinovaya/first-return','malinovaya/third','malinovaya/three-peaks','yalangas/a1','yalangas/a2'];
 const routes=new Set(ROUTE_IDS),record=x=>!!x&&typeof x==='object'&&!Array.isArray(x),finite=(v,min,max)=>typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=max;
+const knownRoute=id=>routes.has(id)||typeof id==='string'&&/^[a-z-]+\/way\/\d{1,14}$/.test(id)&&PLACES.some(p=>p.id===id.split('/')[0]&&p.geometryUrl);
 export function cameraPayload(p){
  if(!record(p)||!Object.keys(p).length||Object.keys(p).some(k=>!['center','zoom','pitch','bearing'].includes(k)))return null;
  const out={};
@@ -13,14 +14,14 @@ export function validateCommand(d){
  if(!record(d)||d.type!=='vb3d.command'||d.version!==1||typeof d.id!=='string'||!/^[A-Za-z0-9_.:-]{1,80}$/.test(d.id)||Object.keys(d).some(k=>!['type','version','id','command','payload'].includes(k)))return null;
  const p=d.payload??{};if(!record(p))return null;
  if(d.command==='openPlace'&&Object.keys(p).length===1&&places.has(p.placeId))return {...d,payload:p};
- if(d.command==='openRoute'&&Object.keys(p).length===1&&routes.has(p.routeId))return {...d,payload:p};
+ if(d.command==='openRoute'&&Object.keys(p).length===1&&knownRoute(p.routeId))return {...d,payload:p};
  if(d.command==='setCamera'&&cameraPayload(p))return {...d,payload:p};
  if(['resize','suspend','resume'].includes(d.command)&&Object.keys(p).length===0)return {...d,payload:p};
  return null;
 }
 export function readURLState(search=''){
  const p=new URLSearchParams(search),place=p.get('place'),out={place:places.has(place)?place:'all',card:p.get('card')!=='0'};
- if(routes.has(p.get('route')))out.route=p.get('route');
+ if(knownRoute(p.get('route')))out.route=p.get('route');
  if(['0','1'].includes(p.get('effects')))out.effects=p.get('effects')==='1';
  const numeric=key=>p.get(key)?.trim()?Number(p.get(key)):NaN;
  const camera={};if(p.has('lat')&&p.has('lng'))camera.center={lat:numeric('lat'),lng:numeric('lng')};
@@ -62,7 +63,7 @@ export class IntegrationBridge{
  }
  tryReady(){
   if(this.ready||!this.region.bootstrapped||this.host.getAttribute('data-map-state')!=='ready')return;
-  this.ready=true;this.bindMap();this.event('ready',{placeId:this.region.id,routeId:this.region.routeId,camera:this.snapshot(),commands:['openPlace','openRoute','setCamera','resize','suspend','resume']});this.drain();
+  this.ready=true;this.bindMap();this.lastSnapshot=this.snapshot();this.event('ready',{placeId:this.region.id,routeId:this.region.routeId,camera:this.snapshot(),commands:['openPlace','openRoute','setCamera','resize','suspend','resume']});this.drain();
  }
  async drain(){if(!this.ready||this.processing||this.disposed)return;this.processing=true;try{while(this.queue.length&&!this.disposed)await this.execute(this.queue.shift());}finally{this.processing=false;}}
  async execute(c){
@@ -76,13 +77,13 @@ export class IntegrationBridge{
    if(c.command==='resume')r.suspend(false);
    if(this.disposed)return;const result={command:c.command,ok:true,placeId:r.id,routeId:r.routeId,camera:this.snapshot()};this.results.set(c.id,result);if(this.results.size>128)this.results.delete(this.results.keys().next().value);this.event('commandResult',result,c.id);this.updateURL();
   }catch(e){if(!this.disposed)this.event('error',{code:e.message==='UNKNOWN_ROUTE'?'UNKNOWN_ROUTE':'COMMAND_FAILED',message:'Команда не выполнена.',recoverable:true},c.id);}
-  finally{this.pending.delete(c.id);this.suppressCamera=false;}
+  finally{this.pending.delete(c.id);this.lastSnapshot=this.snapshot();this.suppressCamera=false;}
  }
  cameraChanged(){
-  if(!this.ready||this.suppressCamera||this.disposed)return;
+  if(!this.ready||this.suppressCamera||this.disposed)return;const current=this.snapshot(),last=this.lastSnapshot;if(last&&current&&Math.abs(current.center.lat-last.center.lat)<1e-7&&Math.abs(current.center.lng-last.center.lng)<1e-7&&Math.abs(current.zoom-last.zoom)<1e-6&&Math.abs(current.pitch-last.pitch)<1e-5&&Math.abs(current.bearing-last.bearing)<1e-5)return;
   const remaining=250-(performance.now()-this.lastCamera);
   if(remaining>0){if(!this.cameraTimer)this.cameraTimer=setTimeout(()=>{this.cameraTimer=null;this.cameraChanged();},remaining);return;}
-  this.lastCamera=performance.now();this.event('cameraChanged',this.snapshot());
+  this.lastCamera=performance.now();this.lastSnapshot=current;this.event('cameraChanged',current);
  }
  updateURL(){
   if(this.disposed||!this.region.bootstrapped)return;clearTimeout(this.urlTimer);this.urlTimer=setTimeout(()=>{

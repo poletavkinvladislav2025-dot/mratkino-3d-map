@@ -1,0 +1,23 @@
+[
+  {
+    "place_id": 200999513,
+    "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "node",
+    "osm_id": 949698185,
+    "lat": "54.7316898",
+    "lon": "56.0249222",
+    "category": "highway",
+    "type": "bus_stop",
+    "place_rank": 30,
+    "importance": 6.549401083386003e-05,
+    "addresstype": "highway",
+    "name": "СК Ак йорт",
+    "display_name": "СК Ак йорт, улица Менделеева, Советский район, Уфа, городской округ Уфа, Башкортостан, Приволжский федеральный округ, 450000, Россия",
+    "boundingbox": [
+      "54.7316398",
+      "54.7317398",
+      "56.0248722",
+      "56.0249722"
+    ]
+  }
+]

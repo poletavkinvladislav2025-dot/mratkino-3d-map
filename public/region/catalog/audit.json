@@ -1,0 +1,155 @@
+{
+  "checkedOn": "2026-10-23",
+  "places": [
+    {
+      "id": "bannoye",
+      "sourceSha256": "e13a78254156c60f8f37f1cd626cee9b6884f9a7cb0f2a25d1e3e6f8998052f6",
+      "features": 20,
+      "downhill": 11,
+      "note": "OSM route types retained, not an official resort count"
+    },
+    {
+      "id": "rodeo",
+      "sourceSha256": "e0132502a15229fa5d7e8ab92e898d4a2be8db4a3e42f8a108ebab32e71d4816",
+      "features": 8,
+      "downhill": 0,
+      "note": "OSM route types retained, not an official resort count"
+    },
+    {
+      "id": "zavyaliha",
+      "sourceSha256": "5e9e5bfbd2c746d371a90ca72d2f2e8d19fcd036f27a59fdf103284a8683f058",
+      "features": 11,
+      "downhill": 8,
+      "note": "OSM route types retained, not an official resort count"
+    },
+    {
+      "id": "euroasia",
+      "sourceSha256": "4300f8113a65fffcf43a9045c454db0f0c56525e021580d1414188a29057192d",
+      "features": 9,
+      "downhill": 7,
+      "note": "OSM route types retained, not an official resort count"
+    },
+    {
+      "id": "sunny-valley",
+      "sourceSha256": "b0cff4f5abf207b8c08e6a7e3b2c4798f83ac25bb0bd102186be99d2ab730f44",
+      "features": 32,
+      "downhill": 22,
+      "note": "OSM route types retained, not an official resort count"
+    },
+    {
+      "id": "minyar",
+      "sourceSha256": "a3b995a2c56fec7c2d8af418e808ee5187d451d0b18211c08b9ade0f7d5ac6ee",
+      "features": 11,
+      "downhill": 7,
+      "note": "OSM route types retained, not an official resort count"
+    },
+    {
+      "id": "adzhigardak",
+      "sourceSha256": "75fcbaa8148df981064bbff6f09fcf56f965e3de176f38a71f5d2b3c9c3611b7",
+      "features": 24,
+      "downhill": 16,
+      "note": "OSM route types retained, not an official resort count"
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "assy-tau",
+      "name": "Ассы-Тау",
+      "category": "ski",
+      "coordinates": null,
+      "status": "coordinate-unconfirmed",
+      "note": "Противоречивые сведения о расположении и работе."
+    },
+    {
+      "id": "beloretsk-ski",
+      "name": "Лыжная база и биатлон Белорецка",
+      "category": "nordic",
+      "coordinates": null,
+      "status": "coordinate-unconfirmed",
+      "note": "Геокодер вернул Межгорье; эта точка отвергнута."
+    },
+    {
+      "id": "uchaly-rollers",
+      "name": "Лыжероллерная трасса Учалов",
+      "category": "nordic",
+      "coordinates": null,
+      "status": "coordinate-unconfirmed",
+      "note": "Вход, геометрия и зимний доступ не подтверждены."
+    },
+    {
+      "id": "magnitogorsk-eco",
+      "name": "Экологический парк Магнитогорска",
+      "category": "nordic",
+      "coordinates": null,
+      "status": "coordinate-unconfirmed",
+      "note": "Точный вход лыжни и зимняя геометрия не подтверждены."
+    }
+  ],
+  "excluded": [
+    "Зирган-Тау: возобновление работы не подтверждено"
+  ],
+  "radiusKm": 200,
+  "distanceKind": "geodesic straight-line approximation",
+  "additionalGeometry": {
+    "ufa-biathlon": 7,
+    "abzakovo-biathlon": 1,
+    "note": "OSM sections, not certified complete loops; no joined or invented connecting segments.",
+    "kushtau": 8
+  },
+  "rawInputs": {
+    "bannoye": {
+      "sha256": "e13a78254156c60f8f37f1cd626cee9b6884f9a7cb0f2a25d1e3e6f8998052f6",
+      "bytes": 6633374,
+      "source": "https://api.openstreetmap.org/api/0.6/map",
+      "checkedOn": "2026-10-23"
+    },
+    "rodeo": {
+      "sha256": "e0132502a15229fa5d7e8ab92e898d4a2be8db4a3e42f8a108ebab32e71d4816",
+      "bytes": 10636474,
+      "source": "https://api.openstreetmap.org/api/0.6/map",
+      "checkedOn": "2026-10-23"
+    },
+    "zavyaliha": {
+      "sha256": "5e9e5bfbd2c746d371a90ca72d2f2e8d19fcd036f27a59fdf103284a8683f058",
+      "bytes": 1386036,
+      "source": "https://api.openstreetmap.org/api/0.6/map",
+      "checkedOn": "2026-10-23"
+    },
+    "euroasia": {
+      "sha256": "4300f8113a65fffcf43a9045c454db0f0c56525e021580d1414188a29057192d",
+      "bytes": 6026736,
+      "source": "https://api.openstreetmap.org/api/0.6/map",
+      "checkedOn": "2026-10-23"
+    },
+    "sunny-valley": {
+      "sha256": "b0cff4f5abf207b8c08e6a7e3b2c4798f83ac25bb0bd102186be99d2ab730f44",
+      "bytes": 8291346,
+      "source": "https://api.openstreetmap.org/api/0.6/map",
+      "checkedOn": "2026-10-23"
+    },
+    "minyar": {
+      "sha256": "a3b995a2c56fec7c2d8af418e808ee5187d451d0b18211c08b9ade0f7d5ac6ee",
+      "bytes": 9378990,
+      "source": "https://api.openstreetmap.org/api/0.6/map",
+      "checkedOn": "2026-10-23"
+    },
+    "adzhigardak": {
+      "sha256": "75fcbaa8148df981064bbff6f09fcf56f965e3de176f38a71f5d2b3c9c3611b7",
+      "bytes": 8392626,
+      "source": "https://api.openstreetmap.org/api/0.6/map",
+      "checkedOn": "2026-10-23"
+    },
+    "kushtau": {
+      "sha256": "ba5391e4bdd96345ee1e60f74810581fa3b22546b8656f65ad5c6c44f9a36405",
+      "bytes": 995488,
+      "source": "https://api.openstreetmap.org/api/0.6/map",
+      "checkedOn": "2026-10-23"
+    },
+    "ufa-biathlon": {
+      "sha256": "86b8b70a135a3a7dad26524f69c5027eea8a75122a0a57a101c5e2ae999a4865",
+      "bytes": 5172892,
+      "source": "https://api.openstreetmap.org/api/0.6/map",
+      "checkedOn": "2026-10-23"
+    }
+  }
+}

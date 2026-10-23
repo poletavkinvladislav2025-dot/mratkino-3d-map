@@ -12,14 +12,17 @@
     "prepare:web": "python scripts/prepare_web_data.py && python scripts/prepare_winter_forest.py && python scripts/prepare_forest_instances.py",
     "test:unit": "node --test tests/*.test.js",
     "prepare:region": "node scripts/prepare-region-data.mjs",
-    "test:explorer": "playwright test tests/explorer.spec.js"
+    "test:explorer": "playwright test tests/explorer.spec.js",
+    "test:landscape": "playwright test tests/landscape.spec.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
     "vite": "^7.0.0"
   },
   "dependencies": {
+    "@mapbox/vector-tile": "^2.0.4",
     "maplibre-gl": "6.15.0",
+    "pbf": "^4.0.1",
     "three": "0.180.0"
   }
 }

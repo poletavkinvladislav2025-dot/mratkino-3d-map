@@ -1,13 +1,14 @@
-# Visit Beloretsk — единая интерактивная 3D-карта
+# Visit Beloretsk — единая 3D-карта
 
-Текущая разработка: **[новая региональная карта Explorer](https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/explorer/?place=all)**.
-22 локации, Белорецк, Мраткино и Абзаково используют один MapLibre. Объекты загружаются при перемещении, выбранное место и карточка независимы от области просмотра.
+**[Новый предпросмотр ландшафта и зимних мест](https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/landscape/?place=all)** · **[Этнопарк с оленями](https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/landscape/?place=ethnopark)**.
 
-[Изменения, источники, ограничения и проверка](docs/REGION-EXPLORER.md) · [Протокол интеграции с Tilda](docs/INTEGRATION.md) · [Тестовый родитель iframe](https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/explorer/integration-demo.html).
+Статичный объёмный лес загружается по видимой территории вне каталога мест, линии маршрутов появляются автоматически. Одна кнопка управляет движением людей, подъёмников, оленей и крон. Новые курорты, отдельная категория беговых лыж, поиск, фильтры и сворачиваемая карточка.
 
-Сохранены сосны, анимация подъёмников и катающиеся по ширине расчётных просек лыжники и сноубордисты. Цвета трасс Абзаково соответствуют категориям официальной схемы; для Мраткино классификация OSM пока не подтверждена курортом.
+[Данные, настройка и проверка](docs/LANDSCAPE.md) · [Источники и расхождения](docs/WINTER-SOURCES.md) · [Протокол Tilda](docs/INTEGRATION.md) · [Тестовый родитель](https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/landscape/integration-demo.html).
 
-[Прежняя региональная версия](https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/region/?place=all) остаётся на `479b349`, корневая опубликованная карта Мраткино — на `af1a594`. Для публикации с сохранением всех трёх путей используйте ручной workflow `explorer.yml`.
+Фото этнопарка, названные в задании, не приложены: модели пока стилизованы по описанию. Непроверенные координаты и оперативные статусы не выдумывались.
+
+Предыдущие адреса сохранены: [Explorer](https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/explorer/?place=all), [региональная карта](https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/region/?place=all), [основная карта Мраткино](https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/). Публикация с сохранением всех четырёх путей — ручной workflow `landscape.yml`.
 
 ## Мраткино — исходная подробная сцена
 

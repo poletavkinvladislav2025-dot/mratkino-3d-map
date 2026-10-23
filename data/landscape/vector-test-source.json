@@ -1,0 +1,16 @@
+{
+  "url": "https://tiles.openfreemap.org/planet/20261018_080001_pt/14/10854/5254.pbf",
+  "sha256": "eefdfb7f2d2d0e7c050b7f50f13589c5cc04e354dafa67970f367552e22b7fe5",
+  "bytes": 1836,
+  "cell": {
+    "id": "14/10854/5254",
+    "x": 10854,
+    "y": 5254,
+    "z": 14
+  },
+  "testCenter": [
+    58.5,
+    54.08
+  ],
+  "license": "\u00a9 OpenStreetMap contributors / OpenFreeMap, ODbL 1.0"
+}

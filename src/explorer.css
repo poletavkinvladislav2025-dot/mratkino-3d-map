@@ -74,3 +74,23 @@
  :host([data-card-open=true]) .explorer .legend{display:none!important}.explorer .maplibregl-ctrl-attrib{max-width:80%;font-size:8px!important}.explorer .maplibregl-ctrl-scale{font-size:9px!important}
  .explorer .error-note{left:8px;bottom:46px;max-width:calc(100% - 70px)}
 }
+/* Landscape stage: search, categories and one visible global motion control. */
+.explorer .place-search{position:absolute;top:62px;left:145px;width:min(360px,calc(100% - 24px));z-index:12;padding:14px;background:#fff;border:1px solid #dbe4da;border-radius:12px;box-shadow:0 6px 24px #173b2920}
+.explorer .place-search input{width:100%;height:42px;border:1px solid #b7c9ba;border-radius:8px;padding:10px;font:inherit}
+.explorer .search-results{max-height:48dvh;overflow:auto;margin-top:8px;display:grid}.explorer .search-results button{text-align:left;background:white;padding:12px;border-bottom:1px solid #edf1e9;font-size:13px}
+.explorer .region-navigation .search-toggle{width:240px;justify-content:start;padding:0 14px;display:flex;font-size:13px;background:#f4f7f1}
+.explorer .category-filters{border:0;border-bottom:1px solid #e1e8dc;padding:0 0 12px;margin:0 0 10px}.explorer .category-filters legend{font-size:13px;font-weight:600;margin-bottom:9px}.explorer .category-filters label{display:flex;justify-content:space-between;align-items:center;font-size:12px;min-height:40px;gap:10px}
+.explorer .region-navigation [data-action=life]{width:auto;min-width:156px;background:#24533e;color:#fff;border-radius:22px;box-shadow:0 3px 12px #234f3c20;font-size:12px;letter-spacing:0;white-space:nowrap;height:44px}
+.explorer .region-navigation [data-action=life][aria-pressed=true]{background:#e9f0e5;color:#244f3c;border-color:#8aa383;box-shadow:inset 0 0 0 1px #8aa383}.explorer .region-navigation [data-action=life]:hover{background:#173c2c;color:#fff}.explorer .region-navigation [data-action=life]::before{content:none}
+.explorer .region-navigation [data-action=life][data-loading=true]::after{content:'';width:10px;height:10px;margin-left:5px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite}
+.explorer .catalog-panel{padding:14px 20px}.explorer .catalog-routes{display:grid;gap:5px;max-height:200px;overflow:auto}.explorer .catalog-routes button{padding:10px;font-size:11px;background:#f7f9f4;border:1px solid #dbe4d8;border-left-width:4px;border-radius:7px;text-align:left}.explorer .catalog-panel h3{font-size:17px}.explorer .catalog-panel p{font-size:12px;line-height:1.5}.explorer .region-panel img{width:100%;border-radius:10px}
+.explorer .place-label{border:1px solid #d9e3d7;border-radius:8px;background:#fffffff2;padding:7px 10px;box-shadow:0 2px 8px #173b2915;font-size:11px;color:#23483a}
+@media(max-width:760px){.explorer-brand{display:none}.explorer .region-navigation .search-toggle{width:auto;flex:1;min-width:45px;font-size:12px;padding:0 9px}.explorer .region-navigation [data-action=life]{width:auto;min-width:132px;font-size:11px;padding:0 9px}.explorer .region-navigation .map-home{display:none}.explorer .place-search{left:8px;top:58px}.explorer .catalog-panel{padding:10px 16px}}
+@media(prefers-reduced-motion:reduce){.explorer [data-action=life]::after{animation:none!important}.explorer *{scroll-behavior:auto}}
+
+.explorer .region-navigation [data-action=life]{display:flex;align-items:center;justify-content:center;gap:5px}
+.explorer .season-control{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;padding-top:12px;border-top:1px solid #e1e8dc}.explorer .season-control select{border:1px solid #cbd9c9;border-radius:7px;padding:7px;background:#f7f9f4;color:#254a38}
+.explorer .card-collapse{display:none}@media(max-width:760px){.explorer .card-collapse{display:block;float:right;position:sticky;top:6px;margin:6px 46px 0 -36px;z-index:3;width:34px;height:34px;border:1px solid #e0e7dc;border-radius:50%;background:white;font-size:20px}.explorer .sidebar.collapsed{max-height:61px;overflow:hidden}.explorer .sidebar.collapsed .region-panel h3{font-size:16px;padding-right:66px}.explorer .sidebar.collapsed .resort-content,.explorer .sidebar.collapsed .ski-area-panel,.explorer .sidebar.collapsed .hiking-panel,.explorer .sidebar.collapsed .catalog-panel{display:none}}
+.explorer:fullscreen{height:100dvh;width:100vw;max-width:none;border-radius:0}
+
+@media(max-width:760px){.explorer .card-collapse{margin:6px 6px 0 0;right:auto}.explorer .sidebar .card-close{margin:6px 6px 0 0;right:6px}}

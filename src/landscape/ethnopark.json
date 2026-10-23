@@ -1,0 +1,44 @@
+{
+  "id": "ethnopark",
+  "name": "Этнопарк «Северные олени»",
+  "center": [
+    58.289544,
+    53.945615
+  ],
+  "coordinateSource": "owner-provided",
+  "sourceUrl": "https://yandex.ru/maps/-/CXRhnAy2",
+  "description": "Чум и северные олени возле Белорецка. На карте показана условная композиция по описанию владельца.",
+  "photo": null,
+  "photoCredit": null,
+  "referenceStatus": "Три названные фотографии не приложены к доступному заданию; соответствие им не проверено.",
+  "bearing": 15,
+  "pen": {
+    "width": 82,
+    "depth": 66,
+    "postSpacing": 4,
+    "height": 1.65,
+    "gateWidth": 4
+  },
+  "chum": {
+    "x": -20,
+    "y": 8,
+    "radius": 5.4,
+    "height": 9.2,
+    "entranceBearing": 180,
+    "chimneyHeight": 2.5
+  },
+  "deer": {
+    "count": 20,
+    "bodyRadius": 2.1,
+    "separation": 4.3,
+    "maxSpeed": 0.85
+  },
+  "lod": {
+    "enter": 14.5,
+    "exit": 14.1,
+    "detail": 16.2,
+    "animate": 15.4
+  },
+  "surveyedBoundary": false,
+  "season": "winter"
+}

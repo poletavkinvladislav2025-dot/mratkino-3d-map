@@ -1,0 +1,44 @@
+[
+  {
+    "place_id": 201357490,
+    "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "way",
+    "osm_id": 705666448,
+    "lat": "53.9790652",
+    "lon": "58.4227072",
+    "category": "leisure",
+    "type": "pitch",
+    "place_rank": 30,
+    "importance": 5.9782558937926566e-05,
+    "addresstype": "leisure",
+    "name": "Стадион \"Металлург\"",
+    "display_name": "Стадион \"Металлург\", улица Ленина, Белорецк, городское поселение Белорецк, Белорецкий район, Башкортостан, Приволжский федеральный округ, 453500, Россия",
+    "boundingbox": [
+      "53.9783215",
+      "53.9798686",
+      "58.4219813",
+      "58.4234533"
+    ]
+  },
+  {
+    "place_id": 201428268,
+    "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "way",
+    "osm_id": 155236559,
+    "lat": "53.9681760",
+    "lon": "58.4090368",
+    "category": "amenity",
+    "type": "cinema",
+    "place_rank": 30,
+    "importance": 5.9782558937926566e-05,
+    "addresstype": "amenity",
+    "name": "Кинотеатр Металлург",
+    "display_name": "Кинотеатр Металлург, 70А, улица Карла Маркса, Белорецк, городское поселение Белорецк, Белорецкий район, Башкортостан, Приволжский федеральный округ, 453511, Россия",
+    "boundingbox": [
+      "53.9679695",
+      "53.9683825",
+      "58.4086904",
+      "58.4093832"
+    ]
+  }
+]

@@ -1,0 +1,65 @@
+[
+  {
+    "place_id": 200536760,
+    "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "node",
+    "osm_id": 2041826536,
+    "lat": "53.6933938",
+    "lon": "56.0860127",
+    "category": "natural",
+    "type": "peak",
+    "place_rank": 18,
+    "importance": 0.3501849283177136,
+    "addresstype": "peak",
+    "name": "Куштау",
+    "display_name": "Куштау, Ишеевский сельсовет, Ишимбайский район, Башкортостан, Приволжский федеральный округ, 453119, Россия",
+    "boundingbox": [
+      "53.6933438",
+      "53.6934438",
+      "56.0859627",
+      "56.0860627"
+    ]
+  },
+  {
+    "place_id": 194076664,
+    "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "node",
+    "osm_id": 7909277202,
+    "lat": "52.7608111",
+    "lon": "47.6204243",
+    "category": "natural",
+    "type": "peak",
+    "place_rank": 18,
+    "importance": 0.16005000152590218,
+    "addresstype": "peak",
+    "name": "Куштау",
+    "display_name": "Куштау, Старая Кулатка, Старокулаткинское городское поселение, Старокулаткинский район, Ульяновская область, Приволжский федеральный округ, 433940, Россия",
+    "boundingbox": [
+      "52.7607611",
+      "52.7608611",
+      "47.6203743",
+      "47.6204743"
+    ]
+  },
+  {
+    "place_id": 424492971,
+    "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "way",
+    "osm_id": 1546584088,
+    "lat": "51.8681320",
+    "lon": "56.7938146",
+    "category": "waterway",
+    "type": "stream",
+    "place_rank": 22,
+    "importance": 0.10670884184023802,
+    "addresstype": "stream",
+    "name": "Куштау",
+    "display_name": "Куштау, Абзановский сельсовет, Зианчуринский район, Башкортостан, Приволжский федеральный округ, Россия",
+    "boundingbox": [
+      "51.8594984",
+      "51.8791138",
+      "56.7913770",
+      "56.8011403"
+    ]
+  }
+]
