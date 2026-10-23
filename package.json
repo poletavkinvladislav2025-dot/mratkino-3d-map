@@ -11,7 +11,8 @@
     "build:standalone": "vite build --config vite.embed.config.js && node scripts/export_standalone.mjs",
     "prepare:web": "python scripts/prepare_web_data.py && python scripts/prepare_winter_forest.py && python scripts/prepare_forest_instances.py",
     "test:unit": "node --test tests/*.test.js",
-    "prepare:region": "node scripts/prepare-region-data.mjs"
+    "prepare:region": "node scripts/prepare-region-data.mjs",
+    "test:explorer": "playwright test tests/explorer.spec.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",

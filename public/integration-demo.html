@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Visit Beloretsk · проверка связи с 3D-картой</title>
+<style>body{margin:0;font:14px system-ui;color:#234338;background:#f5f7f3}header{padding:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}button,select{padding:10px;border:1px solid #cbd7cb;border-radius:8px;background:white;color:inherit}iframe{display:block;border:0;width:100%;height:75vh;min-height:460px}pre{margin:12px;padding:12px;background:white;max-height:180px;overflow:auto;white-space:pre-wrap;font-size:11px}h1{font-size:15px;margin:0 12px 0 0}</style>
+<header><h1>Проверка 3D-карты</h1><select id="place" aria-label="Место"><option value="abzakovo">Абзаково</option><option value="mratkino">Мраткино</option><option value="yalangas">Ялангас</option><option value="malinovaya">Малиновая</option></select><button id="open">Открыть место</button><button id="route">Трасса №1 Абзаково</button><button id="camera">Центр Белорецка</button><button id="visibility">Скрыть карту</button></header>
+<iframe title="3D-карта" allow="fullscreen" allowfullscreen></iframe><pre id="events" aria-label="События протокола"></pre>
+<script type="module">
+const frame=document.querySelector('iframe'),log=document.querySelector('#events'),origin=location.origin;
+const url=new URL('./',location.href);url.searchParams.set('parentOrigin',origin);url.searchParams.set('place','all');frame.src=url.href;
+let seq=0;const lines=[];
+function command(command,payload={}){frame.contentWindow.postMessage({type:'vb3d.command',version:1,id:'demo-'+(++seq),command,payload},origin);}
+window.addEventListener('message',e=>{if(e.source!==frame.contentWindow||e.origin!==origin||e.data?.type!=='vb3d.event'||e.data.version!==1)return;lines.unshift(JSON.stringify(e.data));log.textContent=lines.slice(0,20).join('\n');});
+document.querySelector('#open').onclick=()=>command('openPlace',{placeId:document.querySelector('#place').value});
+document.querySelector('#route').onclick=()=>command('openRoute',{routeId:'abzakovo/trail/1'});
+document.querySelector('#camera').onclick=()=>command('setCamera',{center:{lat:53.969,lng:58.41},zoom:13,pitch:0,bearing:0});
+document.querySelector('#visibility').onclick=e=>{const show=frame.hidden;command(show?'resume':'suspend');frame.hidden=!show;frame.style.display=show?'block':'none';e.target.textContent=show?'Скрыть карту':'Показать карту';if(show)requestAnimationFrame(()=>command('resize'));};
+// Deliberately sent before terrain readiness: the child queues valid commands.
+frame.addEventListener('load',()=>command('resize'));
+</script></html>

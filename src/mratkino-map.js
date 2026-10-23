@@ -1,10 +1,12 @@
 import workerURL from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
 import mapCSS from 'maplibre-gl/dist/maplibre-gl.css?inline';
 import componentCSS from './component.css?inline';
+import explorerCSS from './explorer.css?inline';
 import { SUMMIT, EXPECTED, boundsFor, coordinates, slopeCamera, createStyle, EMPTY } from './map-data.js';
 
 import {RegionController} from './region/controller.js';
 import {createRegionalStyle} from './region/style.js';
+import {classification,pisteId} from './region/piste-catalog.js';
 
 const offlinePools=new Map();let sequence=0,protocolRegistered=false,offlineWorkerURL=null;
 const template=`
@@ -21,7 +23,7 @@ class MratkinoMap extends HTMLElement {
  connectedCallback(){
   if(this.started)return;this.started=true;this.token=(this.token||0)+1;this.uid=String(++sequence);this.view='south';this.selected=null;this.mode2D=false;this.markers=[];this.lifeScene=null;this.lifeLoading=false;this.resortLoaded=false;this.resortActive=false;this.setAttribute('data-map-state','loading');
   this.controller=new AbortController();this.abort=this.controller.signal;
-  const shadow=this.shadowRoot||this.attachShadow({mode:'open'});shadow.innerHTML=`<style>${mapCSS}\n${componentCSS}</style>${template}`;
+  const shadow=this.shadowRoot||this.attachShadow({mode:'open'});shadow.innerHTML=`<style>${mapCSS}\n${componentCSS}\n${explorerCSS}</style>${template}`;
   this.$=selector=>shadow.querySelector(selector);this.$$=selector=>[...shadow.querySelectorAll(selector)];
   const pageBase=/^(https?:|file:)/.test(document.baseURI)?document.baseURI:'https://mratkino.invalid/';
   this.assetBase=new URL(this.getAttribute('asset-base')||'./',pageBase);
@@ -29,16 +31,16 @@ class MratkinoMap extends HTMLElement {
   this.bindUI();this.renderList();
   this.observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){this.observer.disconnect();this.init(this.token);}}, {rootMargin:'250px'});this.observer.observe(this);
  }
- disconnectedCallback(){this.started=false;this.token++;this.controller?.abort();this.observer?.disconnect();this.resizeObserver?.disconnect();clearTimeout(this.readyTimer);clearTimeout(this.hintTimer);this.region?.hiking.dispose();this.region?.ski.dispose();this.disposeLife();this.map?.remove();this.map=null;this.lifeScene=null;offlinePools.delete(this.uid);}
+ disconnectedCallback(){this.started=false;this.token++;this.controller?.abort();this.observer?.disconnect();this.resizeObserver?.disconnect();clearTimeout(this.readyTimer);clearTimeout(this.hintTimer);this.region?.dispose();this.disposeLife();this.map?.remove();this.map=null;this.lifeScene=null;offlinePools.delete(this.uid);}
  url(path){return new URL(path,this.assetBase).href;}
  bindUI(){
   this.$$('[data-view]').forEach(b=>b.addEventListener('click',()=>this.chooseView(b.dataset.view)));
   this.$$('[data-action=sources]').forEach(b=>b.addEventListener('click',()=>this.$('dialog').showModal()));
   this.$('[data-action=close-dialog]').addEventListener('click',()=>this.$('dialog').close());
   this.$('dialog').addEventListener('click',e=>{const r=this.$('dialog').getBoundingClientRect();if(e.target===this.$('dialog')&&(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom))this.$('dialog').close();});
-  this.$('[data-action=retry]').addEventListener('click',()=>{this.region?.hiking.dispose();this.region?.ski.dispose();this.disposeLife();this.map?.remove();this.map=null;this.lifeScene=null;this.lifeLoading=false;this.reflectLife();this.$('.fallback').hidden=true;this.$('.loading').hidden=false;this.init(this.token);});
+  this.$('[data-action=retry]').addEventListener('click',()=>{this.region?.resetMap();this.disposeLife();this.map?.remove();this.map=null;this.lifeScene=null;this.lifeLoading=false;this.reflectLife();this.$('.fallback').hidden=true;this.$('.loading').hidden=false;this.init(this.token);});
   this.$('.mobile-panel-toggle').addEventListener('click',()=>this.openPanel(!this.$('.sidebar').classList.contains('open')));
-  this.$('[data-action=life]').addEventListener('click',()=>this.toggleLife());
+  this.$('[data-action=life]').addEventListener('click',()=>this.region?this.region.toggleEffects():this.toggleLife());
   this.$('[data-action=life-pause]').addEventListener('click',()=>{const scene=this.region?.ski.active?this.region.ski.scene:this.lifeScene;scene?.setPaused(!scene.paused);this.reflectLife();});
   this.$$('[data-layer]').forEach(input=>input.addEventListener('change',()=>this.updateLayers()));
   this.$('[data-action=mode]').addEventListener('click',()=>{
@@ -46,7 +48,7 @@ class MratkinoMap extends HTMLElement {
   });
  }
  duration(){return matchMedia('(prefers-reduced-motion: reduce)').matches?0:1350;}
- openPanel(open){this.$('.sidebar').classList.toggle('open',open);this.$('.mobile-panel-toggle').setAttribute('aria-expanded',String(open));this.$('.panel-summary').textContent=open?'Закрыть ↓':'Открыть ↑';}
+ openPanel(open){if(this.region){this.region.showCard(open);return;}this.$('.sidebar').classList.toggle('open',open);this.$('.mobile-panel-toggle').setAttribute('aria-expanded',String(open));this.$('.panel-summary').textContent=open?'Закрыть ↓':'Открыть ↑';}
  async json(path){const r=await fetch(this.url(path),{signal:this.abort});if(!r.ok)throw Error(`${path}: HTTP ${r.status}`);return r.json();}
  async init(token){
   const attempt=this.initSerial=(this.initSerial||0)+1;
@@ -57,7 +59,7 @@ class MratkinoMap extends HTMLElement {
    else {
     this.resortLoaded=false;this.region.resortPromise=null;
     this.data={manifest:await this.json('live/manifest.json'),...Object.fromEntries(['trails','lifts','stations','forest','roads','facilities','contours'].map(n=>[n,EMPTY]))};
-    if(this.region.id==='mratkino')try{await this.region.ensureResort();}catch(error){this.region.retryAfter=performance.now()+30000;this.region.dataError(error);}
+    if(this.region.id==='mratkino')try{await this.region.ensureResort();}catch(error){this.region.retryAfter.set('mratkino',Date.now()+30000);this.region.dataError(error);}
    }
    if(this.token!==token||this.abort.aborted||attempt!==this.initSerial)return;
    this.$('.data-summary').textContent=`${this.data.manifest.named_trails.length} названных трасс OSM · ${this.data.lifts.features.length} подъёмника · сведения требуют сверки`;
@@ -85,7 +87,7 @@ class MratkinoMap extends HTMLElement {
    this.$('.map').replaceChildren();
    this.map=new ml.Map({container:this.$('.map'),style:this.region?createRegionalStyle(this.data,this.resortLoaded?this.url('live/forest-winter.png'):null):createStyle(this.data,tileURL,this.embedded?.forest||this.url('live/forest-winter.png')),center:this.region?.preset().center||SUMMIT,zoom:this.region?.preset().zoom||14,pitch:this.region?.preset().pitch??61,bearing:this.region?.id==='mratkino'?(camera?.bearing||0):(this.region?.preset().bearing??camera?.bearing??0),minZoom:this.region?5:12.8,maxZoom:20.2,maxPitch:72,...(this.region?{}:{maxBounds:[[58.405,53.975],[58.47,54.02]]}),cooperativeGestures:matchMedia('(pointer: coarse)').matches,attributionControl:false,pixelRatio:Math.min(devicePixelRatio||1,1.5),canvasContextAttributes:{antialias:false},fadeDuration:150,locale:{'CooperativeGesturesHandler.WindowsHelpText':'Удерживайте Ctrl для масштабирования карты','CooperativeGesturesHandler.MacHelpText':'Удерживайте ⌘ для масштабирования карты','CooperativeGesturesHandler.MobileHelpText':'Используйте два пальца для управления картой'}});
    const map=this.map;this.setAttribute('data-map-state','loading');
-   map.addControl(new ml.NavigationControl({visualizePitch:true}),'top-right');
+   map.addControl(new ml.NavigationControl({visualizePitch:true}),this.region?'top-left':'top-right');
    map.addControl(new ml.FullscreenControl({container:this.$('.map-wrap')}),'top-right');
    map.addControl(new ml.ScaleControl({maxWidth:90,unit:'metric'}),'bottom-left');
    map.addControl(new ml.AttributionControl({compact:true}),'bottom-right');
@@ -93,7 +95,7 @@ class MratkinoMap extends HTMLElement {
    this.readyTimer=setTimeout(()=>{if(this.getAttribute('data-map-state')!=='ready')this.fallback('Рельеф ещё загружается. Пока показан резервный вид; 3D-карта появится после загрузки.',false);},25000);
    map.on(this.region?'style.load':'load',()=>{
     if(this.map!==map)return;
-    this.addMarkers();this.updateLayers();if(this.region){this.region.addLabels();this.region.choose(this.region.id,false);this.region.sync();}else this.chooseView(this.view,false);this.finishLoading();
+    this.addMarkers();this.updateLayers();if(this.region){this.region.addLabels();this.region.bootstrap().catch(error=>this.region.dataError(error));this.region.sync();}else this.chooseView(this.view,false);this.finishLoading();
    });
    map.on('idle',()=>this.finishLoading());
    map.on('sourcedata',e=>{if(e.sourceId==='dem')this.finishLoading();});
@@ -102,7 +104,7 @@ class MratkinoMap extends HTMLElement {
     const message=e.error?.message||'Ошибка карты';
     if(/Abort|abort/i.test(message))return;
     if(e.sourceId==='dem'||e.sourceId==='shade')this.fallback('3D-карта недоступна: '+message);
-    else {this.$('.error-note').hidden=false;this.$('.error-note').textContent='Часть данных не загрузилась. '+message;}
+    else if(this.region)this.region.dataError(e.error);else {this.$('.error-note').hidden=false;this.$('.error-note').textContent='Часть данных не загрузилась. '+message;}
    });
    map.on('webglcontextlost',()=>this.fallback('Браузер потерял WebGL-контекст. Показан резервный вид; можно повторить загрузку.'));
    // Stop a camera animation as soon as the user starts an actual gesture.
@@ -128,51 +130,45 @@ class MratkinoMap extends HTMLElement {
  }
  finishLoading(){
   if(this.failed||!this.map||!this.map.getLayer('snow')||!Number.isFinite(this.map.queryTerrainElevation(this.map.getCenter())))return;
-  clearTimeout(this.readyTimer);this.$('.loading').hidden=true;this.$('.fallback').hidden=true;this.setAttribute('data-map-state','ready');this.reflectLife();this.reflectCamera();
+  const first=this.getAttribute('data-map-state')!=='ready';clearTimeout(this.readyTimer);this.$('.loading').hidden=true;this.$('.fallback').hidden=true;this.setAttribute('data-map-state','ready');this.reflectLife();this.reflectCamera();this.region?.bridge.tryReady();if(first)this.region?.syncScene();
   if(!this.hintTimer)this.hintTimer=setTimeout(()=>this.hideHint(),14000);
  }
  reflectCamera(){if(!this.map)return;this.setAttribute('data-bearing',this.map.getBearing().toFixed(2));this.setAttribute('data-pitch',this.map.getPitch().toFixed(2));this.setAttribute('data-zoom',this.map.getZoom().toFixed(2));}
  hideHint(){this.$('.hint').hidden=true;}
  fallback(message,fatal=true){
+  this.region?.bridge.reset();this.region?.bridge.event('error',{code:'WEBGL_UNAVAILABLE',message:'3D-карта недоступна. Повторите загрузку или откройте обычную карту.',recoverable:true});this.region?.disposeScenes();
   this.failed=fatal;clearTimeout(this.readyTimer);this.setAttribute('data-map-state','fallback');this.$('.loading').hidden=true;const panel=this.$('.fallback');panel.hidden=false;panel.querySelector('p').textContent=message;
   const img=panel.querySelector('img');img.onerror=()=>{img.hidden=true;};img.hidden=!!this.region&&this.region.id!=='mratkino';if(!img.hidden)img.src=this.embedded?.fallback||this.url('live/fallback.webp');
  }
  findTrail(id){return this.data?.trails.features.find(f=>f.properties.id===id);}
  renderList(){
-  const view=this.view==='overview'?'south':this.view;const names=this.view==='overview'?[...EXPECTED.south,...EXPECTED.north]:EXPECTED[view];const list=this.$('.trail-list');list.replaceChildren();
+  const view=this.view==='overview'?'south':this.view;const names=this.region||this.view==='overview'?[...EXPECTED.south,...EXPECTED.north]:EXPECTED[view];const list=this.$('.trail-list');list.replaceChildren();
   this.$('.trail-count').textContent=String(names.length).padStart(2,'0');this.$('.panel-sub').textContent=(this.view==='overview'?'Все склоны':view==='south'?'Южный склон':'Северный склон')+' · сведения требуют сверки';
   for(const name of names){
    const f=this.data?.trails.features.find(f=>f.properties.name===name&&f.geometry.type==='LineString');const b=document.createElement('button');b.type='button';b.className='trail-row'+(f?'':' missing');b.dataset.name=name;b.dataset.id=f?.properties.id||name;b.setAttribute('aria-pressed',String(this.selected===(f?.properties.id||name)));
    const dot=document.createElement('span');dot.className='trail-marker'+(f?'':' missing');dot.textContent=f?'•':'—';
-   const title=document.createElement('strong');title.textContent=name;const state=document.createElement('span');state.className='trail-state';state.textContent=!f?'Нет геометрии':name==='С1'?'Не работает':'Трасса';if(name==='С1')b.classList.add('closed-trail');b.append(dot,title,state);
+   const title=document.createElement('strong');title.textContent=name;const state=document.createElement('span');state.className='trail-state';state.textContent=!f?'Нет данных':classification('mratkino',f.properties).label;dot.style.color=f?classification('mratkino',f.properties).color:'';if(name==='С1')b.classList.add('closed-trail');b.append(dot,title,state);
    b.addEventListener('click',()=>f?this.selectTrail(f,false):this.missingCard(name));b.addEventListener('mouseenter',()=>f&&this.highlight(f.properties.id));b.addEventListener('mouseleave',()=>this.highlight());list.append(b);
   }
  }
  missingCard(name){this.selected=name;this.renderList();const card=this.$('.card');card.replaceChildren();this.cardTitle(card,'ГЕОМЕТРИЯ НЕ ПОЛУЧЕНА','Трасса '+name);this.text(card,'Название есть в задании, но соответствующая линия в открытой выгрузке не найдена. Длина, перепад и сложность требуют уточнения.');this.highlight();this.openPanel(true);}
  cardTitle(card,label,title){const tiny=document.createElement('span');tiny.className='tiny';tiny.textContent=label;const h=document.createElement('h3');h.textContent=title;card.append(tiny,h);}
  text(parent,value,className=''){const p=document.createElement('p');p.textContent=value;p.className=className;parent.append(p);return p;}
- selectTrail(f,fly=false){
-  this.selected=f.properties.id;this.view=f.properties.slope;this.updateViewButtons();this.renderList();this.openPanel(true);
-  const card=this.$('.card');card.replaceChildren();const p=f.properties;this.cardTitle(card,'OSM · НЕ СВЕРЕНО КУРОРТОМ',p.name);
-  const dl=document.createElement('dl');const values=[['Склон',p.slope==='north'?'Северный':'Южный'],['Длина','Требует уточнения'],['Перепад','Требует уточнения'],['Сложность','Требует уточнения']];
-  for(const [key,value] of values){const dt=document.createElement('dt');dt.textContent=key;const dd=document.createElement('dd');dd.textContent=value;dl.append(dt,dd);}card.append(dl);
-  if(p.mapped_length_m)this.text(card,`По линии OSM ≈ ${p.mapped_length_m.toLocaleString('ru-RU')} м. Это вычисление по геометрии, не паспортная длина.`);
-  if(p.name==='С1')this.text(card,'Не работает, зарастает молодыми елями — по сведениям владельца. Границы зарастания показаны условно.','owner-note');
-  const link=document.createElement('a');link.href='https://www.openstreetmap.org/'+p.id;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Исходный объект OSM ↗';card.append(link);
-  const button=document.createElement('button');button.type='button';button.className='show-trail';button.textContent='Показать трассу';button.addEventListener('click',()=>this.flyToFeatures([f],this.cameras[p.slope]?.bearing||0));card.append(button);
-  if(['Ю1','Ю2','Ю3','Ю4','С2','С3'].includes(p.name)){
-   const inspect=document.createElement('button');inspect.type='button';inspect.className='show-trail';inspect.textContent='Рассмотреть катающихся';
-   inspect.addEventListener('click',async()=>{await this.toggleLife(true);if(!this.lifeScene?.enabled)return;const points=f.geometry.coordinates;this.map.easeTo({center:points[Math.floor(points.length*.45)],zoom:18,pitch:58,bearing:this.cameras[p.slope]?.bearing||0,duration:this.duration()});});card.append(inspect);
-  }
-  this.highlight();if(fly)this.flyToFeatures([f],this.cameras[p.slope]?.bearing||0);
+ selectTrail(f,fly=false,meta={}){
+  this.selected=f.properties.id;this.view=f.properties.slope;this.updateViewButtons();this.renderList();
+  const card=this.$('.card');card.replaceChildren();const p=f.properties,c=classification('mratkino',p);this.cardTitle(card,'Трасса',p.name);this.text(card,c.label,'difficulty-value');
+  if(!c.verified)this.text(card,'Категория по OSM; подтверждение курортом не получено.');
+  if(p.name==='Ю3')this.text(card,'Номер требует сверки: в источнике также указан Ю2.');
+  if(p.name==='С1')this.text(card,'По прежним сведениям владельца склон не использовался. Текущее состояние не подтверждено.','owner-note');
+  const button=document.createElement('button');button.type='button';button.className='show-trail';button.textContent='Показать трассу';button.addEventListener('click',()=>this.flyToFeatures(this.data.trails.features.filter(x=>x.properties.name===p.name),this.cameras[p.slope]?.bearing||0));card.append(button);
+  this.highlight();if(this.region)this.region.selectFeature('mratkino',pisteId('mratkino',p),meta);else this.openPanel(true);if(fly)this.flyToFeatures([f],this.cameras[p.slope]?.bearing||0);
  }
  highlight(hovered){
-  if(!this.map?.getLayer('trail-line'))return;const id=hovered||(this.findTrail(this.selected)?this.selected:null);
-  const match=['==',['get','id'],id||''];
-  for(const layer of ['trail-line','trail-casing','trail-area-edge'])this.map.setPaintProperty(layer,'line-opacity',id?['case',match,1,0.18]:layer==='trail-area-edge'?0:0.95);
-  this.map.setPaintProperty('trail-line','line-width',id?['case',match,5.5,2.5]:3);
-  this.map.setPaintProperty('trail-area','fill-opacity',id?['case',match,0.30,0.12]:0.22);
-  this.markers.forEach(({element,id:fid})=>element.setAttribute('aria-pressed',String(fid===id)));
+  if(!this.map?.getLayer('trail-line'))return;const id=hovered||(this.findTrail(this.selected)?this.selected:null),name=this.findTrail(id)?.properties.name;
+  const match=['==',['get','name'],name||''];
+  for(const layer of ['trail-line','trail-casing','trail-area-edge'])this.map.setPaintProperty(layer,'line-opacity',layer==='trail-area-edge'?0:.95);
+  this.map.setPaintProperty('trail-line','line-width',['interpolate',['linear'],['zoom'],11,['case',match,4.5,2.4],17,['case',match,7,4.5]]);this.map.setPaintProperty('trail-casing','line-width',['interpolate',['linear'],['zoom'],11,['case',match,7.5,5.4],17,['case',match,10,7.5]]);
+  this.map.setPaintProperty('trail-area','fill-opacity',id?['case',match,.20,.08]:.12);this.markers.forEach(({element,id:fid})=>element.setAttribute('aria-pressed',String(fid===id)));
  }
  disposeLife(){
   const scene=this.lifeScene;if(!scene)return;
@@ -184,21 +180,21 @@ class MratkinoMap extends HTMLElement {
   if(this.embedded?.forest_instances){const bytes=Uint8Array.from(atob(this.embedded.forest_instances),c=>c.charCodeAt(0));return bytes.buffer;}
   const response=await fetch(this.url('live/forest-instances.bin'),{signal:this.abort});if(!response.ok)throw Error('Forest instances HTTP '+response.status);return response.arrayBuffer();
  }
- async toggleLife(force){
-  if(this.region?.ski.active)return this.region.ski.toggleLife(force);
-  if(this.region?.hiking.active&&!this.resortActive)return this.region.hiking.toggleLife(force);
+ async toggleLife(force,internal=false){
+  if(this.region&&!internal)return this.region.toggleEffects();
   if(!this.map||this.getAttribute('data-map-state')!=='ready'||this.lifeLoading||(this.region&&!this.resortActive))return;
   if(this.lifeScene){this.lifeScene.setEnabled(force===true||!this.lifeScene.enabled);this.reflectLife();return;}
   const map=this.map,token=this.token;let pendingScene;this.lifeLoading=true;this.$('[data-action=life]').disabled=true;this.$('[data-action=life]').textContent='Готовим 3D-сцену…';
   try{
    const [{ResortScene},{decodeForestInstances},forestBuffer]=await Promise.all([import('./resort-scene.js'),import('./resort-scene-data.js'),this.forestBuffer()]);
-   if(this.map!==map||this.token!==token||(this.region&&!this.resortActive))return;
+   if(this.map!==map||this.token!==token||(this.region&&(!this.resortActive||!this.region.effectsAllowed||this.region.context!=='mratkino')))return;
    const scene=pendingScene=new ResortScene(map,this.ml,this.data,{mobile:matchMedia('(max-width:760px)').matches,forestInstances:decodeForestInstances(forestBuffer),onStats:stats=>{if(this.map!==map)return;this.setAttribute('data-scene-trees',String(stats.trees));this.setAttribute('data-scene-saplings',String(stats.saplings));this.reflectLife();}});
    this.lifeScene=scene;map.addLayer(scene);this.updateLayers();this.hideHint();
   }catch(error){if(this.map===map){if(map.getLayer('resort-life'))map.removeLayer('resort-life');if(pendingScene&&!pendingScene.disposed)pendingScene.onRemove();this.lifeScene=null;this.$('.error-note').hidden=false;this.$('.error-note').textContent='Объёмная сцена не загрузилась. Карта доступна. '+error.message;}}
   finally{if(this.map===map&&this.token===token){this.lifeLoading=false;this.reflectLife();}}
  }
  reflectLife(){
+  if(this.region){this.region.reflectLife();return;}
   if(this.region?.ski.active){this.region.ski.reflectLife();return;}
   if(this.region?.hiking.active&&!this.resortActive){this.region.hiking.reflectLife();return;}
   const enabled=!!this.lifeScene?.enabled,paused=!!this.lifeScene?.paused;
@@ -213,13 +209,10 @@ class MratkinoMap extends HTMLElement {
   for(const f of this.data.lifts.features){const button=document.createElement('button');button.type='button';button.className='lift-row';button.textContent='↗ '+(f.properties.name||'Подъёмник')+' · '+(f.properties.tags?.aerialway==='chair_lift'?'кресельный':'тарелочный');button.addEventListener('click',()=>this.selectLift(f));list.append(button);}
  }
  selectLift(f){
-  this.selected=null;this.view=f.properties.slope||this.view;this.updateViewButtons();this.renderList();this.highlight();this.openPanel(true);
-  const card=this.$('.card');card.replaceChildren();this.cardTitle(card,'ПОДЪЁМНИК · ДАННЫЕ OSM',f.properties.name||'Подъёмник');
-  this.text(card,f.properties.tags?.aerialway==='chair_lift'?'Кресельный подъёмник':'Тарелочный бугельный подъёмник');this.text(card,'Расписание, работа сейчас и характеристики требуют подтверждения курортом.');
-  if(f.properties.tags?.aerialway==='chair_lift')this.text(card,'В иллюстрации: открытые трёхместные кресла по вашему описанию.');
-  const inspect=document.createElement('button');inspect.type='button';inspect.className='show-trail';inspect.textContent='Рассмотреть в 3D';inspect.addEventListener('click',async()=>{await this.toggleLife(true);if(!this.lifeScene?.enabled)return;const points=coordinates(f.geometry);this.map.easeTo({center:points[Math.floor(points.length/2)],zoom:f.properties.tags?.aerialway==='chair_lift'?19:20,pitch:65,bearing:this.cameras[f.properties.slope]?.bearing||this.map.getBearing(),duration:this.duration()});});card.append(inspect);
-  const link=document.createElement('a');link.textContent='Исходный объект OSM ↗';link.href='https://www.openstreetmap.org/'+f.properties.id;link.target='_blank';link.rel='noopener noreferrer';card.append(link);
-  this.flyToFeatures([f],this.cameras[f.properties.slope]?.bearing||this.map.getBearing());
+  this.selected=null;this.renderList();this.highlight();const card=this.$('.card');card.replaceChildren();this.cardTitle(card,'Подъёмник',f.properties.name||'Подъёмник');
+  this.text(card,f.properties.tags?.aerialway==='chair_lift'?'Кресельный подъёмник':'Тарельчатый бугельный подъёмник');this.text(card,'Текущий режим работы не подтверждён.');
+  const b=document.createElement('button');b.type='button';b.className='show-trail';b.textContent='Показать подъёмник';b.addEventListener('click',()=>this.flyToFeatures([f],this.cameras[f.properties.slope]?.bearing||0));card.append(b);
+  if(this.region)this.region.selectFeature('mratkino',null);else this.openPanel(true);
  }
  layoutLabels(){
   if(!this.map||!this.markers.length)return;
@@ -238,7 +231,7 @@ class MratkinoMap extends HTMLElement {
   if(!this.map?.getLayer('snow'))return;
   const local=!this.region||this.resortActive;
   for(const layer of ['trail-area','trail-area-edge','trail-line','trail-casing'])this.map.setLayoutProperty(layer,'visibility',local?'visible':'none');
-  const legend=this.$('.legend');if(legend)legend.hidden=!local;
+  const legend=this.$('.legend');if(legend)legend.hidden=this.region?!this.region.visible.some(id=>id==='mratkino'||id==='abzakovo'):!local;
   const groups={lifts:['lift-line','lift-casing','lift-stations'],contours:['contours'],facilities:['facility-buildings','facility-points'],forest:['forest','forest-soft','region-forest']};
   for(const [name,layers] of Object.entries(groups)){const input=this.$(`[data-layer=${name}]`);for(const layer of layers)if(this.map.getLayer(layer))this.map.setLayoutProperty(layer,'visibility',input.checked&&(name==='forest'||local)?'visible':'none');}
   this.region?.layers();
@@ -263,7 +256,7 @@ class MratkinoMap extends HTMLElement {
   this.markers.forEach(({marker})=>marker.remove());this.markers=[];
   for(const f of this.data.trails.features){
    if(!/^[ЮС][1-5]$/.test(f.properties.name)||f.geometry.type!=='LineString')continue;
-   const element=document.createElement('button');element.type='button';element.className='route-label';element.textContent=f.properties.name;if(f.properties.name==='С1'){element.classList.add('closed-trail');element.title='Не работает — по сведениям владельца';}element.setAttribute('aria-label','Трасса '+f.properties.name+', данные OSM, требуют сверки');element.setAttribute('aria-pressed','false');element.addEventListener('click',e=>{e.stopPropagation();this.selectTrail(f);});
+   const element=document.createElement('button');element.type='button';element.className='route-label';element.textContent=f.properties.name;if(f.properties.name==='С1'){element.classList.add('closed-trail');element.title='Исторические сведения владельца; текущий статус не подтверждён';}element.setAttribute('aria-label','Трасса '+f.properties.name+', данные OSM, требуют сверки');element.setAttribute('aria-pressed','false');element.addEventListener('click',e=>{e.stopPropagation();this.selectTrail(f);});
    const points=coordinates(f.geometry);const marker=new this.ml.Marker({element,anchor:'center',occludedOpacity:0.25}).setLngLat(points[Math.floor(points.length/2)]).addTo(this.map);this.markers.push({marker,element,id:f.properties.id});
   }
   const element=document.createElement('span');element.className='summit-label';element.textContent='▲ Мраткино · OSM 795,1 м';const marker=new this.ml.Marker({element,anchor:'bottom',offset:[0,-8]}).setLngLat(SUMMIT).addTo(this.map);this.markers.push({marker,element,id:'summit'});

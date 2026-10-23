@@ -3,6 +3,14 @@ from unittest.mock import patch
 spec=importlib.util.spec_from_file_location('retention',pathlib.Path(__file__).resolve().parents[1]/'scripts/retain-pages-assets.py')
 retention=importlib.util.module_from_spec(spec);spec.loader.exec_module(retention)
 class AssetRetentionTest(unittest.TestCase):
+ def test_republishing_same_ref_keeps_two_distinct_older_generations(self):
+  previous={'generations':[{'ref':'current','assets':[]},{'ref':'old1','assets':[]},{'ref':'old2','assets':[]}]}
+  with tempfile.TemporaryDirectory() as directory:
+   output=pathlib.Path(directory);(output/'assets').mkdir()
+   refs=[]
+   def checked(generation):refs.append(generation['ref']);return []
+   with patch('sys.argv',['retain',str(output),'current']),patch.object(retention.urllib.request,'urlopen',return_value=io.BytesIO(json.dumps(previous).encode())),patch.object(retention,'valid_assets',side_effect=checked):retention.main()
+   self.assertEqual(refs,['old1','old2'])
  def test_previous_lazy_chunk_is_kept_and_untrusted_paths_are_rejected(self):
   old=b'export const previousScene = 1;';digest=hashlib.sha256(old).hexdigest()
   previous={'generations':[{'ref':'previous','assets':[{'path':'assets/scene-old.js','sha256':digest},{'path':'../../outside.js','sha256':digest},{'path':'https://other.invalid/chunk.js','sha256':digest}]}]}

@@ -10,6 +10,10 @@ def valid_assets(generation):
  if not isinstance(assets,list) or len(assets)>80:return []
  return [a for a in assets if isinstance(a,dict) and isinstance(a.get('path'),str) and PATTERN.fullmatch(a['path']) and isinstance(a.get('sha256'),str) and re.fullmatch('[0-9a-f]{64}',a['sha256'])]
 def main():
+ global ORIGIN
+ if len(sys.argv)>3:
+  if sys.argv[3] not in {'region','explorer'}:raise ValueError('Unknown preview path')
+  ORIGIN='https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/'+sys.argv[3]+'/'
  output=pathlib.Path(sys.argv[1]);ref=sys.argv[2];assets=[]
  for path in sorted((output/'assets').iterdir()):
   relative=path.relative_to(output).as_posix()
@@ -19,7 +23,7 @@ def main():
   with urllib.request.urlopen(ORIGIN+'build-info.json',timeout=20) as response:
    manifest=response.read(128*1024+1)
    if len(manifest)>128*1024:raise ValueError('manifest size limit')
-   previous=json.loads(manifest).get('generations',[])[:2]
+   previous=[g for g in json.loads(manifest).get('generations',[]) if isinstance(g,dict) and g.get('ref')!=ref][:2]
  except Exception as error:print('Previous preview manifest unavailable:',type(error).__name__)
  retained=[];total=0
  for generation in previous:
