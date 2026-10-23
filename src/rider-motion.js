@@ -17,7 +17,7 @@ export function localRiderAreas(features,project=toLocal){
  return features.filter(f=>['Polygon','MultiPolygon'].includes(f.geometry.type)).map(f=>{
   const geometry={type:f.geometry.type,coordinates:walk(f.geometry.coordinates)};
   const points=geometry.coordinates.flat(geometry.type==='Polygon'?1:2);
-  return {id:f.properties?.id,geometry,bounds:[Math.min(...points.map(p=>p[0])),Math.min(...points.map(p=>p[1])),Math.max(...points.map(p=>p[0])),Math.max(...points.map(p=>p[1]))]};
+  return {id:f.properties?.id,trailId:f.properties?.trailId,maxHalfWidthM:f.properties?.maxSearchHalfWidthM,geometry,bounds:[Math.min(...points.map(p=>p[0])),Math.min(...points.map(p=>p[1])),Math.max(...points.map(p=>p[0])),Math.max(...points.map(p=>p[1]))]};
  });
 }
 export function insideRiderArea(point,areas){return areas.some(({geometry,bounds:[w,s,e,n]})=>point[0]>=w&&point[0]<=e&&point[1]>=s&&point[1]<=n&&insideGeometry(point,geometry));}
@@ -31,13 +31,13 @@ function rayWidth(point,normal,areas){
  for(const t of cuts.sort((a,b)=>a-b))if(!insideRiderArea([point[0]+normal[0]*(t+.05),point[1]+normal[1]*(t+.05)],areas))return Math.max(0,t-2.5);
  return 0;
 }
-export function buildRiderCorridor(line,areas,{spacing=4,centerlineOnly=false}={}){
+export function buildRiderCorridor(line,areas,{spacing=4,centerlineOnly=false,maxHalfWidth=Infinity}={}){
  const length=pathLength(line),frames=[];
  const frameAt=d=>{
   const {point,angle}=samplePath(line,d),normal=[-Math.sin(angle),Math.cos(angle)];
   const widths=[1,-1].map(sign=>{
    if(!insideRiderArea(point,areas))return 0;
-   return rayWidth(point,normal.map(v=>v*sign),areas);
+   return Math.min(maxHalfWidth,rayWidth(point,normal.map(v=>v*sign),areas));
   });
   return {d,point,normal,left:widths[0],right:widths[1]};
  };

@@ -1,7 +1,7 @@
 """Prepare the Abzakovo ski-area snapshot within a geodesic 2 km radius.
-OSM geometry is retained; missing piste widths are never fabricated.
+OSM geometry is retained; estimated decorative widths are prepared separately.
 """
-import argparse,datetime,hashlib,json,pathlib,re,xml.etree.ElementTree as ET
+import argparse,datetime,hashlib,json,pathlib,re,subprocess,sys,xml.etree.ElementTree as ET
 import requests
 from pyproj import CRS,Transformer,Geod
 from shapely.geometry import Point,Polygon,LineString,mapping
@@ -66,4 +66,5 @@ def main():
  manifest={'id':'abzakovo','name':'ГЛЦ Абзаково','center':center,'centerSource':'https://www.openstreetmap.org/way/96913566','radiusM':2000,'trailNumbers':numbers,'trailSegments':len(trails),'unnumberedSegments':sum(f['properties']['number'] is None for f in trails),'liftCount':len(lifts),'chairlifts':sum(f['properties']['tags']['aerialway']=='chair_lift' for f in lifts),'surfaceLifts':sum(f['properties']['tags']['aerialway']=='platter' for f in lifts),'ridersPerSegment':{'desktop':18,'mobile':8},'widthStatus':'No downhill piste polygons in the bounded OSM export; riders follow mapped centrelines only.','sources':{'osm':SOURCE,'officialScheme':OFFICIAL,'officialCenter':'https://abzakovo.com/attraction/gornolyzhnyy-tsentr-abzakovo/','catalog':'https://www.skiresort.com/en/ski-resort/abzakovo/ski-lifts/'},'sourceSha256':hashlib.sha256(source.read_bytes()).hexdigest(),'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'license':'ODbL-1.0, © OpenStreetMap contributors','bounds':list(Polygon(ring).bounds)}
  for name,value in [('trails',fc(trails)),('lifts',fc(lifts)),('stations',fc(stations)),('facilities',fc(facilities)),('boundary',boundary),('manifest',manifest),('source-audit',{'manifest':manifest,'objects':audit})]:dump(OUT/(name+'.geojson' if name in ['trails','lifts','stations','facilities','boundary'] else name+'.json'),value)
  print(json.dumps({'center':center,'trailNumbers':numbers,'segments':len(trails),'lifts':len(lifts),'stationAndPylonPoints':len(stations),'bytes':sum(p.stat().st_size for p in OUT.iterdir())}))
+ subprocess.run([sys.executable,str(ROOT/'scripts/prepare-abzakovo-detail.py')],check=True)
 if __name__=='__main__':main()

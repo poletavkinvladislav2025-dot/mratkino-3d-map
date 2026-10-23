@@ -16,12 +16,17 @@ test('Abzakovo source lines, chair capacity and animated people share the region
  await page.getByRole('button',{name:'Рассмотреть катающихся',exact:true}).click();await expect(root(page)).toHaveAttribute('data-scene-state','paused',{timeout:60000});
  await expect.poll(()=>read(page,el=>el.region.ski.scene?.stats.frames||0),{timeout:90000}).toBeGreaterThan(0);
  const scene=await read(page,el=>{const s=el.region.ski.scene;return {riders:s.stats.riders,boards:s.stats.snowboarders,visible:s.stats.visibleRiders,routes:s.routes.map(r=>({id:r.feature.properties.id,seats:r.seats,animate:r.animate})),trees:s.stats.trees};});
- expect(scene.riders).toBe(342);expect(scene.boards).toBe(114);expect(scene.visible).toBeGreaterThan(0);expect(scene.trees).toBe(0);expect(scene.routes).toHaveLength(8);
+ expect(scene.riders).toBe(342);expect(scene.boards).toBe(114);expect(scene.visible).toBeGreaterThan(0);expect(scene.trees).toBeGreaterThan(0);expect(scene.routes).toHaveLength(8);
+ expect(await read(page,el=>el.region.ski.scene.stats.forestCandidates)).toBeGreaterThan(40000);
+ const carving=await read(page,el=>{const s=el.region.ski.scene,states=s.riderStates.filter(r=>r.state?.visible);return {offset:Math.max(...states.map(r=>Math.abs(r.state.offset))),lean:Math.max(...states.map(r=>Math.abs(r.state.lean))),inside:states.every(r=>r.state.inside),wide:s.riderRoutes.some(r=>r.corridor.frames.some(f=>f.left+f.right>35))};});
+ expect(carving.inside).toBe(true);expect(carving.offset).toBeGreaterThan(2);expect(carving.wide).toBe(true);
+ expect(await read(page,el=>({opacity:el.map.getPaintProperty('abzakovo-trail-line','line-opacity'),casing:el.map.getPaintProperty('abzakovo-trail-casing','line-color'),areas:el.region.ski.data.riderAreas.features.length}))).toEqual({opacity:1,casing:'#ffffff',areas:19});
  expect(scene.routes.find(r=>r.id==='way/30100563')).toEqual({id:'way/30100563',seats:2,animate:true});expect(scene.routes.find(r=>r.id==='way/894506057').seats).toBe(4);
  const before=await read(page,el=>({elapsed:el.region.ski.scene.elapsed,matrices:Array.from(el.region.ski.scene.riderParts[0].mesh.instanceMatrix.array)}));
  await page.locator('[data-action=life-pause]').click();await expect.poll(()=>read(page,el=>el.region.ski.scene.elapsed),{timeout:30000}).toBeGreaterThan(before.elapsed);await page.locator('[data-action=life-pause]').click();
  expect(await read(page,el=>Array.from(el.region.ski.scene.riderParts[0].mesh.instanceMatrix.array))).not.toEqual(before.matrices);
  await page.screenshot({path:'renders/abzakovo-riders.png',fullPage:true,timeout:60000});
+ await page.locator('[data-layer=forest]').uncheck();expect(await read(page,el=>el.region.ski.scene.forestVisible)).toBe(false);await page.locator('[data-layer=forest]').check();
  await page.locator('[data-abz-lift="way/30100563"]').click();await expect(page.locator('.abz-card')).toContainText('07.08.2025');
  await page.locator('[data-layer=lifts]').uncheck();expect(await read(page,el=>el.map.getLayoutProperty('abzakovo-lift-line','visibility'))).toBe('none');await page.locator('[data-layer=lifts]').check();
  await read(page,el=>{window.oldAbzakovo=el.region.ski.scene;});await page.locator('.place-select').selectOption('mratkino');await expect(root(page)).toHaveAttribute('data-place','mratkino');
@@ -38,6 +43,7 @@ test.describe('touch iframe',()=>{
   await frame.locator('.mobile-panel-toggle').click();await expect(frame.locator('[data-abz-trail]')).toHaveCount(12);await expect(frame.locator('[data-abz-lift]')).toHaveCount(8);await frame.locator('.mobile-panel-toggle').click();
   await frame.locator('[data-action=life]').click();await expect(map).toHaveAttribute('data-scene-state','paused',{timeout:60000});
   expect(await map.evaluate(el=>({mobile:el.region.ski.scene.mobile,riders:el.region.ski.scene.stats.riders,overflow:document.documentElement.scrollWidth>innerWidth}))).toEqual({mobile:true,riders:152,overflow:false});
+  expect(await map.evaluate(el=>el.region.ski.scene.stats.forestCandidates)).toBeGreaterThan(40000);
   await page.screenshot({path:'renders/abzakovo-mobile.png',fullPage:true,timeout:60000});
   await map.evaluate(el=>{window.oldAbzakovo=el.region.ski.scene;el.region.choose('beloretsk',false);});expect(await map.evaluate(()=>window.oldAbzakovo.disposed)).toBe(true);
  });

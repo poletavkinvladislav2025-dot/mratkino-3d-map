@@ -36,3 +36,5 @@ data/hiking/peaks.json
 data/abzakovo/*.html
 data/abzakovo/*.xml
 data/abzakovo/*.jpg
+data/abzakovo/*.pbf
+data/abzakovo/*.webp

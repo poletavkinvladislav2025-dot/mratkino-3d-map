@@ -4,7 +4,7 @@
     "Official scheme used for numbering/type comparison only, not georeferencing. Resort images/HTML are not redistributed.",
     "Official site uses its ordinary begetok cookie check; no authentication or access restriction bypass.",
     "OSM geometry is not field-surveyed or verified by the resort.",
-    "Piste polygons absent: preserve source centrelines; do not invent widths.",
+    "Piste polygons absent: preserve source centrelines. Decorative riding areas are estimated separately from mapped woodland clearings, not surveyed boundaries.",
     "Official text says 13 pistes, scheme and OSM have 12 distinct numbers 1–5,7–13.",
     "Small lift numbers 3/4/6 are provisional; parallel 1A/1B order unconfirmed.",
     "Lift 5 stop announcement dated 2025-08-07 is superseded by the July 3–13 2026 timetable listing lift 5 as operating; present status unknown, animation illustrative."
@@ -52,5 +52,6 @@
       "bytes": 308941,
       "sha256": "b083c3cf3b19e9083408a0094336b018b4f6bbbbca8cc5b6261c3adffff9c771"
     }
-  ]
+  ],
+  "detailAudit": "../../public/region/abzakovo/forest-instances.json"
 }

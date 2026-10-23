@@ -65,19 +65,19 @@ export function liftLoop(line,halfWidth=3){
  loop.push([...loop[0]]);return loop;
 }
 
-export function decodeForestInstances(buffer){
+export function decodeForestInstances(buffer,origin=SUMMIT){
  const view=new DataView(buffer);
  if(buffer.byteLength<32||String.fromCharCode(...new Uint8Array(buffer,0,4))!=='MRFP'||view.getUint16(4,true)!==1||view.getUint16(6,true)!==8)throw Error('Invalid forest instance format');
  const count=view.getUint32(8,true),spacing=view.getUint32(12,true);
- if(buffer.byteLength!==32+count*8||Math.abs(view.getFloat64(16,true)-SUMMIT[0])>1e-8||Math.abs(view.getFloat64(24,true)-SUMMIT[1])>1e-8)throw Error('Forest instance origin or size mismatch');
+ if(buffer.byteLength!==32+count*8||Math.abs(view.getFloat64(16,true)-origin[0])>1e-8||Math.abs(view.getFloat64(24,true)-origin[1])>1e-8)throw Error('Forest instance origin or size mismatch');
  const positions=new Float32Array(count*3),seeds=new Uint16Array(count);
  for(let i=0;i<count;i++){const offset=32+i*8;positions[i*3]=view.getInt16(offset,true)/10;positions[i*3+1]=view.getInt16(offset+2,true)/10;positions[i*3+2]=view.getInt16(offset+4,true)/10;seeds[i]=view.getUint16(offset+6,true);}
  return {count,spacing,positions,seeds};
 }
-export function forestLOD(pool,center,{mobile=false,zoom=14,bounds}={}){
- const [cx,cy]=toLocal(center),radius=zoom>=15.1?(mobile?240:330):0;
+export function forestLOD(pool,center,{mobile=false,zoom=14,bounds,project=toLocal}={}){
+ const [cx,cy]=project(center),radius=zoom>=15.1?(mobile?240:330):0;
  const near=[],far=[],mask=mobile?7:3;
- const box=bounds?bounds.map(toLocal):null;
+ const box=bounds?bounds.map(project):null;
  const margin=150;
  for(let i=0;i<pool.count;i++){
   const x=pool.positions[i*3],y=pool.positions[i*3+1];

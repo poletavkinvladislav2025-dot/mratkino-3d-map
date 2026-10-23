@@ -13,7 +13,7 @@ export class ResortScene {
   this.enabled=true;this.paused=matchMedia('(prefers-reduced-motion: reduce)').matches;
   this.forestVisible=true;this.liftsVisible=true;this.elapsed=0;this.lastTime=null;this.disposed=false;
   this.origin=ml.MercatorCoordinate.fromLngLat(profile.center||SUMMIT,0);this.units=this.origin.meterInMercatorCoordinateUnits();
-  this.resources=new Set();this.forestInstances=forestInstances;this.saplings=profile.forest===false?[]:saplingPlacements(data);
+  this.resources=new Set();this.forestInstances=forestInstances;this.saplings=profile.forest===false||profile.saplings===false?[]:saplingPlacements(data);
   this.stats={trees:0,saplings:0,lifts:0,vehicles:0,frames:0,elapsed:0};
  }
  onAdd(map,gl){
@@ -61,18 +61,18 @@ export class ResortScene {
  }
  refreshForest(){
   if(this.profile.forest===false)return;
-  const pool=this.forestInstances,lod=forestLOD(pool,this.map.getCenter().toArray(),{mobile:this.mobile,zoom:this.map.getZoom(),bounds:this.map.getBounds().toArray()});
+  const pool=this.forestInstances,lod=forestLOD(pool,this.map.getCenter().toArray(),{mobile:this.mobile,zoom:this.map.getZoom(),bounds:this.map.getBounds().toArray(),project:this.project});
   const near=lod.near.slice(0,this.nearCapacity),far=lod.far.slice(0,this.farCapacity);
   const put=(mesh,i,x,y,z,rotation,sx,sy,sz)=>{this.dummy.position.set(x,y,z);this.dummy.rotation.set(0,0,rotation);this.dummy.scale.set(sx,sy,sz);this.dummy.updateMatrix();mesh.setMatrixAt(i,this.dummy.matrix);};
   near.forEach((id,i)=>{
-   const [x,y,base]=pool.positions.subarray(id*3,id*3+3),ll=toLngLat([x,y]),[mx,my]=this.local(ll);
+   const [x,y,base]=pool.positions.subarray(id*3,id*3+3),ll=this.unproject([x,y]),[mx,my]=this.local(ll);
    const z=this.height(ll)??base,{height:h,radius:r,rotation}=treeAppearance(pool.seeds[id]);
    put(this.trunks,i,mx,my,z+h*.28,rotation,.27+h*.004,.27+h*.004,h*.56);
    put(this.nearCrowns[0],i,mx,my,z+h*.72,rotation,r,r*.84,h*.56);
    for(const mesh of this.nearCrowns)mesh.setColorAt(i,this.palette[(pool.seeds[id]>>>3)%this.palette.length]);
   });
   far.forEach((id,i)=>{
-   const [x,y,z]=pool.positions.subarray(id*3,id*3+3),[mx,my]=this.local(toLngLat([x,y]));
+   const [x,y,z]=pool.positions.subarray(id*3,id*3+3),[mx,my]=this.local(this.unproject([x,y]));
    const {height:h,radius:r,rotation}=treeAppearance(pool.seeds[id]),cluster=.92;
    // Sparse pointed silhouettes above the continuous forest surface; full tiered pines nearby.
    put(this.farTrunks,i,mx,my,z+h*.24,rotation,.4,.4,h*.48);
@@ -178,9 +178,9 @@ export class ResortScene {
   }
  }
  makeRiders(){
-  this.riderAreas=localRiderAreas(this.data.trails.features,this.project);
+  this.riderAreas=localRiderAreas(this.data.riderAreas?.features||this.data.trails.features,this.project);
   this.riderBoardPose=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,0,1),Math.PI/2);this.riderQuaternion=new THREE.Quaternion();this.riderBodyQuaternion=new THREE.Quaternion();this.riderOffset=new THREE.Vector3();this.riderEuler=new THREE.Euler();
-  this.riderRoutes=this.data.trails.features.filter(f=>f.geometry.type==='LineString'&&(this.profile.centerlineOnly||ACTIVE_RIDER_TRAILS.has(f.properties.name))).map(feature=>({feature,areas:riderAreasForTrail(this.riderAreas,feature.properties.name),points:[],length:0,count:this.profile.ridersPerSegment?.[this.mobile?'mobile':'desktop']??ridersPerTrail(this.mobile)}));
+  this.riderRoutes=this.data.trails.features.filter(f=>f.geometry.type==='LineString'&&(this.profile.riderAreasById||this.profile.centerlineOnly||ACTIVE_RIDER_TRAILS.has(f.properties.name))).map(feature=>({feature,areas:this.profile.riderAreasById?this.riderAreas.filter(a=>a.trailId===feature.properties.id):riderAreasForTrail(this.riderAreas,feature.properties.name),points:[],length:0,count:this.profile.ridersPerSegment?.[this.mobile?'mobile':'desktop']??ridersPerTrail(this.mobile)}));
   this.riderProfiles=this.riderRoutes.flatMap((r,ri)=>Array.from({length:r.count},(_,i)=>riderProfile(ri,i,r.feature.properties.name)));
   let pi=0;this.riderAgents=this.riderRoutes.flatMap(route=>Array.from({length:route.count},(_,index)=>({route,index,profile:this.riderProfiles[pi++],distance:0,active:false})));
   const buildings=this.data.facilities.features.filter(f=>f.properties.tags?.building||f.properties.kind==='building');this.riderBuildings=localRiderAreas(buildings,this.project);
@@ -204,7 +204,7 @@ export class ResortScene {
    if(a===null||b===null){route.length=0;route.points=[];continue;}
    if(a<b)coords=[...coords].reverse();
    const flat=coords.map(this.project),length=pathLength(flat),points=[];
-   const reversed=a<b;if(!route.corridor||route.reversed!==reversed){route.corridor=buildRiderCorridor(flat,route.areas,{centerlineOnly:!!this.profile.centerlineOnly});route.reversed=reversed;}
+   const reversed=a<b;if(!route.corridor||route.reversed!==reversed){route.corridor=buildRiderCorridor(flat,route.areas,{centerlineOnly:!!this.profile.centerlineOnly,maxHalfWidth:Math.min(...route.areas.map(a=>a.maxHalfWidthM??Infinity))});route.reversed=reversed;}
    for(let d=0;d<length;d+=12){const ll=this.unproject(samplePath(flat,d).point),z=this.height(ll);if(z===null)continue;const [x,y]=this.local(ll);points.push([x,y,z+.05]);}
    const last=coords.at(-1),z=this.height(last),[x,y]=this.local(last);if(z!==null)points.push([x,y,z+.05]);
    route.points=points;route.length=points.length>1?route.corridor.length:0;
@@ -256,7 +256,7 @@ export class ResortScene {
   const now=performance.now();
   if(!this.paused&&!document.hidden){if(this.lastTime!==null)this.elapsed+=Math.min((now-this.lastTime)/1000,.15);this.lastTime=now;this.updateVehicles();if(this.map.getZoom()>=14.3)this.updateRiders();else this.stats.visibleRiders=0;}
   else this.lastTime=null;
-  this.forest.visible=this.forestVisible&&this.map.getZoom()>=13.5;
+  this.forest.visible=this.forestVisible&&this.map.getZoom()>=(this.profile.forestMinZoom??13.5);
   this.vehicles.visible=this.liftsVisible;this.riders.visible=this.map.getZoom()>=14.3;
   this.camera.projectionMatrix.copy(this.matrix.fromArray(args.defaultProjectionData.mainMatrix)).multiply(this.transform);
   this.renderer.resetState();this.renderer.setViewport(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight);this.renderer.render(this.scene,this.camera);this.renderer.resetState();
