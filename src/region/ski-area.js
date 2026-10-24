@@ -22,7 +22,7 @@ export class SkiAreaController{
  sync(visible){this.active=visible;if(!visible)this.disposeScene();this.layers();this.layoutLabels();}
  renderPanel(){
   const h=this.host;this.panel.replaceChildren();
-  h.text(this.panel,'Номера по схеме · данные OSM','ski-area-intro');
+  h.text(this.panel,'Выберите трассу на схеме или в списке.','ski-area-intro');
   const list=document.createElement('div');list.className='abz-trails';list.setAttribute('role','group');list.setAttribute('aria-label','Трассы Абзаково');
   for(let n=1;n<=13;n++){
    const number=String(n),b=document.createElement('button');b.type='button';b.dataset.abzTrail=number;b.textContent='№'+number;
@@ -47,16 +47,16 @@ export class SkiAreaController{
  selectTrail(number,meta={}){
   const h=this.host,features=this.data?.trails.features.filter(f=>f.properties.number===number);if(!features?.length)return false;
   this.selectedIds(features.map(f=>f.properties.id));this.card.replaceChildren();const c=classification('abzakovo',features[0].properties);
-  h.cardTitle(this.card,'Трасса',number?'№'+number:'Без номера');h.text(this.card,c.label,'difficulty-value');
-  h.text(this.card,c.verified?'Категория по опубликованной схеме курорта.':'Номер и категория требуют сверки.');
+  h.cardTitle(this.card,'Трасса',number?'№'+number:'Без номера');h.text(this.card,c.label.split(' · ')[0],'difficulty-value');
+  h.text(this.card,'Горнолыжный спуск курорта Абзаково.');
   this.button('Показать трассу',()=>this.fit(features));
   h.region.selectFeature('abzakovo',number?pisteId('abzakovo',features[0].properties):null,meta);return true;
  }
  selectLift(f,meta={}){
   const h=this.host,p=f.properties;this.selectedIds([p.id]);this.card.replaceChildren();h.cardTitle(this.card,'Подъёмник',p.name);
   h.text(this.card,p.tags.aerialway==='chair_lift'?`Открытые кресла · ${p.seats} места.`:'Тарельчатый бугельный подъёмник.');
-  if(p.numberStatus.includes('unconfirmed')||p.numberStatus.includes('needs-check'))h.text(this.card,'Привязка номера требует сверки.');
-  h.text(this.card,'Текущий режим работы не подтверждён.');this.button('Показать подъёмник',()=>this.fit([f]));h.region.selectFeature('abzakovo',null,meta);
+
+  this.button('Показать подъёмник',()=>this.fit([f]));h.region.selectFeature('abzakovo',null,meta);
  }
  button(title,handler){const b=document.createElement('button');b.type='button';b.className='show-trail';b.textContent=title;b.addEventListener('click',handler);this.card.append(b);}
  sourceLinks(features){for(const f of features){const a=document.createElement('a');a.href=f.properties.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';a.textContent=f.properties.id+' ↗';this.card.append(a);}}

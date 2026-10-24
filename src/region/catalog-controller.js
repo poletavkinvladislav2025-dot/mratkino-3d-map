@@ -1,3 +1,4 @@
+import {routeName,routeKind,routeDescription} from './card-content.js';
 import {sameInputs} from '../map-interaction.js';
 import {PLACES} from './presets.js';
 import {classification} from './piste-catalog.js';
@@ -14,7 +15,22 @@ export class CatalogController{
  layers(){const h=this.host,m=h.map;if(!m?.getSource('winter-catalog'))return;const inputs=[m,this.region.filters.nordic,this.region.filters.ski,h.$('[data-layer=lifts]').checked,this.region.routeId,...this.active.flatMap(id=>[id,this.datasets[id]])];if(sameInputs(this.layerInputs,inputs))return;this.layerInputs=inputs;const selected=Object.values(this.datasets).flatMap(d=>d.features).find(x=>x.properties.routeId===this.region.routeId);const features=this.active.flatMap(id=>this.datasets[id]?.features||[]).filter(f=>f.properties.category==='nordic'?this.region.filters.nordic:this.region.filters.ski).filter(f=>f.properties.category!=='lift'||h.$('[data-layer=lifts]').checked).map(f=>({...f,properties:{...f.properties,selected:f.properties.routeId===this.region.routeId||this.samePiste(f,selected)}}));m.getSource('winter-catalog').setData({type:'FeatureCollection',features});}
  samePiste(f,selected){return !!(selected&&selected.properties.number&&selected.properties.placeId===f.properties.placeId&&selected.properties.category===f.properties.category&&selected.properties.number===f.properties.number);}
  bind(){const m=this.host.map;if(this.bound===m)return;this.bound=m;m.on('click','winter-catalog-line',e=>{const id=e.features?.[0]?.properties.routeId;if(id)this.openRoute(id);});}
- renderCard(){const id=this.region.id,p=PLACES.find(p=>p.id===id);this.panel.hidden=!p?.geometryUrl||this.region.importActive;if(this.panel.hidden)return;const data=this.datasets[id];if(!data)return;this.bind();const key=id+':'+this.region.routeId;if(this.renderKey===key)return;this.renderKey=key;this.panel.replaceChildren();const list=document.createElement('div');list.className='catalog-routes';for(const f of data.features){const b=this.region.button((f.properties.number?'№'+f.properties.number+' · ':'')+f.properties.name,f.properties.name,()=>this.openRoute(f.properties.routeId));b.style.borderLeftColor=f.properties.displayColor;list.append(b);}this.panel.append(list);const selected=data.features.find(f=>f.properties.routeId===this.region.routeId);if(selected){const h=this.host,p=selected.properties;h.cardTitle(this.panel,p.category==='lift'?'Подъёмник':p.category==='nordic'?'Беговые лыжи':p.category==='tubing'?'Тюбинг':p.category==='training'?'Тренировочный объект':'Трасса',p.name);h.text(this.panel,p.category==='ski'?classification(id,p).label:'Назначение по OSM; требует сверки.');h.text(this.panel,'Геометрия OSM; текущая доступность не подтверждена.');if(p.category==='nordic')h.text(this.panel,'Цвет обозначает маршрут, а не категорию горнолыжной сложности.');}}
+ renderCard(){
+  const id=this.region.id,place=PLACES.find(p=>p.id===id);this.panel.hidden=!place?.geometryUrl||this.region.importActive;if(this.panel.hidden)return;
+  const data=this.datasets[id];if(!data)return;this.bind();const key=id+':'+this.region.routeId;if(this.renderKey===key)return;this.renderKey=key;this.panel.replaceChildren();const h=this.host,selected=data.features.find(f=>f.properties.routeId===this.region.routeId);
+  if(selected){
+   const p=selected.properties,card=document.createElement('section');card.className='catalog-selection';h.cardTitle(card,routeKind(p.category),routeName(p));h.text(card,routeDescription(id,p),'route-description');
+   if(p.category==='ski'){const c=classification(id,p);if(c.category!=='unknown')h.text(card,c.label.split(' · ')[0],'difficulty-value');}
+   card.append(this.region.button('Показать участок','Показать выбранный участок',()=>h.flyToFeatures([selected],0)));
+   const details=document.createElement('details'),summary=document.createElement('summary'),a=document.createElement('a');summary.textContent='Источник';a.href=p.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';a.textContent='OpenStreetMap ↗';details.append(summary,a);card.append(details);this.panel.append(card);
+  }
+  for(const [category,title] of [['ski','Горнолыжные трассы'],['nordic','Беговые лыжи'],['lift','Подъёмники'],['tubing','Тюбинг'],['training','Спортивные участки']]){
+   const features=data.features.filter(f=>f.properties.category===category);if(!features.length)continue;const group=document.createElement('details'),summary=document.createElement('summary'),list=document.createElement('div');group.className='catalog-group';group.open=!selected||selected.properties.category===category;summary.textContent=title;list.className='catalog-routes';
+   for(const [i,f] of features.entries()){const title=routeName(f.properties),label=title+(features.filter(x=>routeName(x.properties)===title).length>1?' · участок '+(i+1):'');const b=this.region.button(label,label,()=>this.openRoute(f.properties.routeId));b.dataset.catalogRoute=f.properties.routeId;b.style.borderLeftColor=f.properties.displayColor;b.setAttribute('aria-pressed',String(f.properties.routeId===this.region.routeId));list.append(b);}
+   group.append(summary,list);this.panel.append(group);
+  }
+ }
+
  isRoute(id){return /^([a-z-]+)\/way\/\d+$/.test(id)&&PLACES.some(p=>p.id===id.split('/')[0]&&p.geometryUrl);}
  async openRoute(id,meta={}){const place=id.split('/')[0],data=await this.ensure(place),f=data?.features.find(f=>f.properties.routeId===id);if(!f)throw Error('UNKNOWN_ROUTE');this.region.selectFeature(place,id,meta);this.renderKey=null;this.renderCard();this.layers();if(meta.focus)this.host.flyToFeatures([f],0);}
  dispose(){this.pending.clear();this.datasets={};}

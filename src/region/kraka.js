@@ -34,7 +34,7 @@ export class KrakaController{
   const h=this.host;for(const [name,p] of [['А · Старт',KRAKA_A],['Б · Вершина Краки',KRAKA_B]]){const row=document.createElement('p');row.textContent=`${name}: ${p[1]}, ${p[0]}`;container.append(row);const a=document.createElement('a');a.href='https://yandex.ru/maps/?pt='+p.join(',')+'&z=15';a.target='_blank';a.rel='noopener noreferrer';a.textContent=name+' ↗';container.append(a);}
   container.append(this.region.button('Показать А и Б','Показать обе точки',()=>this.fit()));
   const label=document.createElement('label'),input=document.createElement('input');input.type='checkbox';input.checked=this.trackWanted;input.addEventListener('change',()=>this.toggleTrack(input.checked));label.className='kraka-track-toggle';label.append(input,document.createTextNode(' Показать протяжённый трек БЮТ'));container.append(label);this.checkbox=input;
-  h.text(container,'Трек БЮТ ведёт к прежней точке Краки, а не к новой Б. Соединяющая линия А—Б не является проверенным маршрутом и не рисуется.','access-note');
+  h.text(container,'Отдельный трек БУТ показан у южной точки хребта.','kraka-track-note');
  }
  reset(){this.markers.forEach(({marker})=>marker.remove());this.markers=[];this.bound=null;}
 }

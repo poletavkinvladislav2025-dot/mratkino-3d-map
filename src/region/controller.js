@@ -1,3 +1,4 @@
+import {placeKind} from './card-content.js';
 import {PLACES,CITY,presetFor,byId,distanceKm} from './presets.js';
 import {EMPTY} from '../map-data.js';
 import {resortFacilities} from './style.js';
@@ -80,7 +81,7 @@ export class RegionController{
   <p>Абзаково: категории по <a href="https://abzakovo.com/scheme/" target="_blank" rel="noopener">официальной схеме</a>, проверенной 23.10.2026; дата выпуска не указана. №1, 7, 12 — синие; №2–4 — чёрные; №5, 8, 11, 13 — красные; №9, 10 — зелёные. Предварительный список задания с ней расходится. Официальный сайт описывает 10 трасс и 13 км, схема содержит другую нумерацию; причина различий не установлена. Спуск №6 на схеме отсутствует; оранжевая цифра 6 относится к подъёмнику.</p>
   <p>Мраткино: цвета по таблице схемы из задания владельца, официальная классификация не подтверждена. Фотография схемы не приложена. У Ю3 конфликт name=Ю3 и ref=Ю2. Ю5 и спорная линия фрирайда не отображаются. С1 показана без катающихся и с молодыми елями по прежнему описанию владельца; актуальный режим работы неизвестен. Кресла трёхместные по описанию владельца, в OSM указано четыре места — требуется сверка.</p>
   <p>Пешие треки Малиновой и Ялангаса построены по сети OSM и требуют проверки на местности. Они не подтверждают разрешение прохода. Для Ямантау и Малого Ямантау действуют ограничения заповедника. Собственные файлы GPX / GeoJSON открываются локально и не отправляются на сервер.</p>
-  <p>Большие маршруты GPX: Большая Уральская тропа показана красным, YT_v2-8 — жёлтым. Все участки перенесены из файлов владельца без соединения разрывов. БУТ содержит ветки; суммарная длина не означает длину единой прогулки. Название открывается нажатием на линию. Полный охват доступен в слоях кнопкой «Целиком».</p>
+  <p>Большие маршруты GPX: Большая Уральская тропа показана красным, Южноуральская тропа — жёлтым. Все участки перенесены из файлов владельца без соединения разрывов. БУТ содержит ветки; суммарная длина не означает длину единой прогулки. Название открывается нажатием на линию. Полный охват доступен в слоях кнопкой «Целиком».</p>
   <h3>Управление</h3><p>Перетаскивание — перемещение; правая кнопка мыши — поворот и наклон; колесо — масштаб. На телефоне используйте два пальца. Кнопка 2D / 3D меняет наклон, компас сбрасывает поворот. Статичный лес, сооружения и трассы появляются автоматически. «Оживить карту» включает движение и объём зданий; выбор сохраняется между местами. При уменьшении движения в системе запуск требует явного нажатия. Общий лес основан на полигонах wood OpenFreeMap; неизвестный тип показан условной смесью, около Мраткино/Абзаково сосны — художественная настройка. Позиции отдельных деревьев условны. Городские объекты и киоски представлены маркерами и карточками. «Карта оживает» включает также объёмную застройку по контурам OpenMapTiles; при отсутствии высоты используется условная высота 6 м. Наклон камеры доступен до 85°. Большой Крака: А и Б перенесены из кода владельца; отдельный трек БЮТ ведёт к прежней точке, путь к новой Б не построен. Штампы перенесены из исходного состава проекта и не показывают текущие остатки.</p>
   <p>Этнопарк: чум, ограда и 20 оленей — условная 3D-композиция по описанию владельца, а не точная схема участка.</p><h3>Источники</h3><p>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>, ODbL 1.0 · <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> / OpenMapTiles · <a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">Mapterhorn, источники рельефа</a>. Преувеличение высот 1. Автономный рельеф: Copernicus DEM GLO-30 (около 30 м), © DLR e.V. 2010–2014 / Airbus Defence and Space GmbH 2014–2018, предоставлен ЕС и ESA. MapLibre GL JS — BSD-3-Clause.</p>`;}
  preset(){return presetFor(this.id);}
@@ -105,22 +106,21 @@ export class RegionController{
   try{if(id==='mratkino')await this.ensureResort();else if(id==='abzakovo')await this.ski.ensure();else if(hikingArea(id))await this.hiking.enter(id);else if(byId(id)?.geometryUrl)await this.catalog.ensure(id);}catch(e){this.dataError(e,'Данные места временно недоступны.');}
   this.sync();
  }
- overview(animate=true){const h=this.host;if(!h.map)return;const p=presetFor('all'),camera=h.map.cameraForBounds(p.bounds,{padding:45,bearing:p.bearing});h.map.stop();h.map.easeTo({...camera,pitch:p.pitch,bearing:p.bearing,duration:animate?h.duration():0});}
+ overview(animate=true){const h=this.host;if(!h.map)return;this.showCard(false);this.longDistance.popup?.remove();const p=presetFor('all'),camera=h.map.cameraForBounds(p.bounds,{padding:45,bearing:p.bearing});h.map.stop();h.map.easeTo({...camera,pitch:p.pitch,bearing:p.bearing,duration:animate?h.duration():0});}
  renderPlace(){
   const h=this.host,p=byId(this.id),card=h.$('.region-panel');if(!card)return;const key=this.id+':'+this.routeId;if(this.placeCardKey===key)return;this.placeCardKey=key;
   card.replaceChildren();h.$('h1').textContent=p?.name||'Белорецкий район';h.$('.sidebar').scrollTop=0;h.$('.panel-body').scrollTop=0;
-  h.cardTitle(card,p?.kind==='resort'?'Горнолыжный комплекс':p?.kind==='stamp-point'?'Точка штампов':p?.kind==='city'?'Южный Урал':'Белорецкий район',p?.name||'Ваш маршрут');
+  h.cardTitle(card,placeKind(p?.kind),p?.name||'Ваш маршрут');
   if(!p)return;this.gallery.mount(card,p);
-  const description=p.id==='ethnopark'?'Чум и северные олени возле Белорецка.':p.id==='kraka'?'Хребет Южного Урала.':p.historical?'Объект утрачен. Историческая точка Белорецка, 1936–2020.':p.description?.replace(/ Точка перенесена.*$/,'');
-  if(description)h.text(card,description,p.historical?'historical-note':'place-description');
-  if(p.accessNote)h.text(card,p.accessNote);if(p.access)h.text(card,p.access,'access-note');
-  if(p.elevation)h.text(card,`Высота вершины по OSM: ${p.elevation.toLocaleString('ru-RU')} м.`);
+  if(p.description)h.text(card,p.description,p.historical?'historical-note':'place-description');
+  if(p.access)h.text(card,p.access,'access-note');
+  if(p.elevation)h.text(card,`Высота: ${p.elevation.toLocaleString('ru-RU')} м.`);
   const page=p.sourceUrl||(['malinovaya','malinovaya-3'].includes(this.id)?'https://visitbeloretsk.ru/malinovaya':this.id==='yalangas'?'https://www.visitbeloretsk.ru/yalangas':null);
-  if(page){const a=document.createElement('a');a.href=page;a.target='_blank';a.rel='noopener';a.textContent='О месте ↗';card.append(a);}
+  if(page&&!page.includes('openstreetmap.org')){const a=document.createElement('a');a.href=page;a.target='_blank';a.rel='noopener';a.textContent='О месте ↗';card.append(a);}
   renderPassportContent(card,p,this);
   if(p.id==='bolshoy-kraka')this.kraka.card(card);
-  if(p.id==='kraka')card.append(this.button('Точки А и Б Большого Крака','Показать точки из новой карты',()=>this.choose('bolshoy-kraka')));
-  const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Координаты и источник';details.append(summary);h.text(details,`${p.coordinates[1]}, ${p.coordinates[0]}`,'place-coordinates');
+  if(p.id==='kraka')card.append(this.button('Точки А и Б Большого Крака','Показать старт и видовую точку',()=>this.choose('bolshoy-kraka')));
+  const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Координаты и источник';details.append(summary);h.text(details,`${p.coordinates[1]}, ${p.coordinates[0]}`,'place-coordinates');if(p.elevation)h.text(details,'Высота по данным OpenStreetMap.');if(page){const a=document.createElement('a');a.href=page;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Источник ↗';details.append(a);}
   if(p.sourceRecord)h.text(details,'Данные исходной карты проекта Visit Beloretsk.');card.append(details);
  }
 

@@ -1,3 +1,4 @@
+import {content} from './card-content.js';
 import {sameInputs} from '../map-interaction.js';
 import {EMPTY,boundsFor} from '../map-data.js';
 export const hikingArea=id=>id==='malinovaya'||id==='malinovaya-3'?'malinovaya':id==='yalangas'?'yalangas':null;
@@ -43,7 +44,7 @@ export class HikingController{
   this.selected=id;this.route=route;this.returning=returning;this.renderOptions();this.card.replaceChildren();
   h.cardTitle(this.card,'Пеший маршрут',(returning?'Обратно · ':'')+route.properties.name);
   h.text(this.card,`≈ ${(route.properties.distanceM/1000).toLocaleString('ru-RU',{maximumFractionDigits:1})} км${route.properties.kind==='out-and-back'?' туда и обратно':''}.`);
-  h.text(this.card,'По тропам OSM · требует проверки на местности.');
+  h.text(this.card,content.hiking[this.area+'/'+id]||'Пеший маршрут по горным тропам Южного Урала.');const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Источник маршрута';details.append(summary);h.text(details,'Расчёт по пешеходной сети OpenStreetMap.');this.card.append(details);
   const show=document.createElement('button');show.type='button';show.textContent='Весь маршрут';show.addEventListener('click',()=>this.fit(route,true));this.card.append(show);
   if(route.properties.kind==='ascent'){
    const back=document.createElement('button');back.type='button';back.className='hiking-return';back.textContent=returning?'Показать подъём':'Показать путь обратно';back.setAttribute('aria-pressed',String(returning));back.addEventListener('click',()=>this.select(id,false,!returning));this.card.append(back);

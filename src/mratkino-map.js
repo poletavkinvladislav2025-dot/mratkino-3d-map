@@ -155,11 +155,9 @@ class MratkinoMap extends HTMLElement {
  text(parent,value,className=''){const p=document.createElement('p');p.textContent=value;p.className=className;parent.append(p);return p;}
  selectTrail(f,fly=false,meta={}){
   this.selected=f.properties.id;this.view=f.properties.slope;this.updateViewButtons();this.renderList();
-  const card=this.$('.card');card.replaceChildren();const p=f.properties,c=classification('mratkino',p);this.cardTitle(card,'Трасса',p.name);this.text(card,c.label,'difficulty-value');
-  if(!c.verified)this.text(card,c.source==='owner-scheme-transcription'?'Цвет по таблице владельца; независимая сверка не выполнена.':'Категория по OSM; подтверждение курортом не получено.');
-  const metric=catalog.mratkino.reportedMetrics?.[p.name];if(metric)this.text(card,`Справочно по заданию: ${metric.lengthM} м · перепад ${metric.dropM} м. Требует сверки.`);
-  if(p.name==='Ю3')this.text(card,'Номер требует сверки: в источнике также указан Ю2.');
-  if(p.name==='С1')this.text(card,'По прежним сведениям владельца склон не использовался. Текущее состояние не подтверждено.','owner-note');
+  const card=this.$('.card');card.replaceChildren();const p=f.properties,c=classification('mratkino',p);this.cardTitle(card,'Трасса',p.name);this.text(card,c.label.split(' · ')[0],'difficulty-value');
+  this.text(card,p.slope==='north'?'Спуск на северном склоне Мраткино.':'Спуск на южном склоне Мраткино.');
+  if(p.name==='С1')this.text(card,'Заросший участок северного склона с молодыми елями.','owner-note');
   const button=document.createElement('button');button.type='button';button.className='show-trail';button.textContent='Показать трассу';button.addEventListener('click',()=>this.flyToFeatures(this.data.trails.features.filter(x=>x.properties.name===p.name),this.cameras[p.slope]?.bearing||0));card.append(button);
   this.highlight();if(this.region)this.region.selectFeature('mratkino',pisteId('mratkino',p),meta);else this.openPanel(true);if(fly)this.flyToFeatures([f],this.cameras[p.slope]?.bearing||0);
  }
@@ -210,7 +208,7 @@ class MratkinoMap extends HTMLElement {
  }
  selectLift(f){
   this.selected=null;this.renderList();this.highlight();const card=this.$('.card');card.replaceChildren();this.cardTitle(card,'Подъёмник',f.properties.name||'Подъёмник');
-  this.text(card,f.properties.tags?.aerialway==='chair_lift'?'Кресельный подъёмник':'Тарельчатый бугельный подъёмник');this.text(card,'Текущий режим работы не подтверждён.');
+  this.text(card,f.properties.tags?.aerialway==='chair_lift'?'Кресельный подъёмник':'Тарельчатый бугельный подъёмник');
   const b=document.createElement('button');b.type='button';b.className='show-trail';b.textContent='Показать подъёмник';b.addEventListener('click',()=>this.flyToFeatures([f],this.cameras[f.properties.slope]?.bearing||0));card.append(b);
   if(this.region)this.region.selectFeature('mratkino',null);else this.openPanel(true);
  }
@@ -257,7 +255,7 @@ class MratkinoMap extends HTMLElement {
   this.markers.forEach(({marker})=>marker.remove());this.markers=[];
   for(const f of this.data.trails.features){
    if(!/^[ЮС][1-5]$/.test(f.properties.name)||f.geometry.type!=='LineString')continue;
-   const element=document.createElement('button');element.type='button';element.className='route-label';element.textContent=f.properties.name;if(f.properties.name==='С1'){element.classList.add('closed-trail');element.title='Исторические сведения владельца; текущий статус не подтверждён';}element.setAttribute('aria-label','Трасса '+f.properties.name+', данные OSM, требуют сверки');element.setAttribute('aria-pressed','false');element.addEventListener('click',e=>{e.stopPropagation();this.selectTrail(f);});
+   const element=document.createElement('button');element.type='button';element.className='route-label';element.textContent=f.properties.name;if(f.properties.name==='С1'){element.classList.add('closed-trail');element.title='Заросший участок северного склона';}element.setAttribute('aria-label','Трасса '+f.properties.name);element.setAttribute('aria-pressed','false');element.addEventListener('click',e=>{e.stopPropagation();this.selectTrail(f);});
    const points=coordinates(f.geometry);const marker=new this.ml.Marker({element,anchor:'center',occludedOpacity:0.25}).setLngLat(points[Math.floor(points.length/2)]).addTo(this.map);this.markers.push({marker,element,id:f.properties.id});
   }
   const element=document.createElement('span');element.className='summit-label';element.textContent='▲ Мраткино · OSM 795,1 м';const marker=new this.ml.Marker({element,anchor:'bottom',offset:[0,-8]}).setLngLat(SUMMIT).addTo(this.map);this.markers.push({marker,element,id:'summit'});

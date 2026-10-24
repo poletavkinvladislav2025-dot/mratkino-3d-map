@@ -45,5 +45,17 @@
 .explorer .long-route-row button{align-self:center;min-height:34px;padding:7px 9px;border:1px solid var(--vb-border);border-radius:8px;background:var(--vb-soft);font-size:11px;color:var(--vb-ink)}
 .explorer .long-route-row small{grid-column:1/-1;color:var(--vb-muted);font-size:10px;line-height:1.5}
 .explorer .route-name-popup .maplibregl-popup-content{padding:14px 28px 14px 14px;border:1px solid var(--vb-border);border-radius:var(--vb-radius);box-shadow:var(--vb-shadow);font:13px/1.5 Arial,sans-serif;color:var(--vb-ink)}
-.explorer .long-route-popup p{margin:4px 0;padding-left:9px;border-left:3px solid}
+.explorer .long-route-popup{max-height:min(400px,55vh);overflow:auto}
+.explorer .long-route-popup section+section{margin-top:16px;padding-top:12px;border-top:1px solid var(--vb-border)}
+.explorer .long-route-popup h3{font-size:14px;line-height:1.4;margin:0 0 8px;padding-left:9px;border-left:3px solid}
+.explorer .long-route-popup p{margin:6px 0 10px;font-size:12px}
+.explorer .long-route-popup a{display:inline-block;color:var(--vb-accent);padding:4px 0}
+.explorer .catalog-selection{padding-bottom:14px}
+.explorer .catalog-selection>button{padding:9px 12px;border:1px solid var(--vb-border);border-radius:8px;background:var(--vb-soft);color:var(--vb-ink)}
+.explorer .catalog-group{border-top:1px solid var(--vb-border);padding:10px 0}
+.explorer .catalog-group summary{cursor:pointer;font-size:12px;font-weight:600;padding:4px 0 8px}
+.explorer .catalog-routes{max-height:none;overflow:visible}
+.explorer .catalog-routes button[aria-pressed=true]{background:#e5f0e5;border-color:var(--vb-accent)}
 .explorer .route-name-popup .maplibregl-popup-close-button{min-width:28px;min-height:28px;color:var(--vb-ink);font-size:20px}
+
+@media(max-width:760px){.explorer .region-navigation .map-home{display:flex;align-items:center;justify-content:center;min-width:34px;width:34px}}
