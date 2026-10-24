@@ -147,7 +147,7 @@ class MratkinoMap extends HTMLElement {
    const f=this.data?.trails.features.find(f=>f.properties.name===name&&f.geometry.type==='LineString');const b=document.createElement('button');b.type='button';b.className='trail-row'+(f?'':' missing');b.dataset.name=name;b.dataset.id=f?.properties.id||name;b.setAttribute('aria-pressed',String(this.selected===(f?.properties.id||name)));
    const dot=document.createElement('span');dot.className='trail-marker'+(f?'':' missing');dot.textContent=f?'•':'—';
    const title=document.createElement('strong');title.textContent=name;const state=document.createElement('span');state.className='trail-state';state.textContent=!f?'Нет данных':classification('mratkino',f.properties).label;dot.style.color=f?classification('mratkino',f.properties).color:'';if(name==='С1')b.classList.add('closed-trail');b.append(dot,title,state);
-   b.addEventListener('click',()=>f?this.selectTrail(f,false):this.missingCard(name));b.addEventListener('mouseenter',()=>f&&this.highlight(f.properties.id));b.addEventListener('mouseleave',()=>this.highlight());list.append(b);
+   b.addEventListener('click',()=>f?this.selectTrail(f,true):this.missingCard(name));b.addEventListener('mouseenter',()=>f&&this.highlight(f.properties.id));b.addEventListener('mouseleave',()=>this.highlight());list.append(b);
   }
  }
  missingCard(name){this.selected=name;this.renderList();const card=this.$('.card');card.replaceChildren();this.cardTitle(card,'ГЕОМЕТРИЯ НЕ ПОЛУЧЕНА','Трасса '+name);this.text(card,'Название есть в задании, но соответствующая линия в открытой выгрузке не найдена. Длина, перепад и сложность требуют уточнения.');this.highlight();this.openPanel(true);}
@@ -204,13 +204,13 @@ class MratkinoMap extends HTMLElement {
  renderLifts(){
   const list=this.$('.lift-list');list.replaceChildren();
   const title=document.createElement('h3');title.textContent='Подъёмники';list.append(title);
-  for(const f of this.data.lifts.features){const button=document.createElement('button');button.type='button';button.className='lift-row';button.textContent='↗ '+(f.properties.name||'Подъёмник')+' · '+(f.properties.tags?.aerialway==='chair_lift'?'кресельный':'тарелочный');button.addEventListener('click',()=>this.selectLift(f));list.append(button);}
+  for(const f of this.data.lifts.features){const button=document.createElement('button');button.type='button';button.className='lift-row';button.textContent='↗ '+(f.properties.name||'Подъёмник')+' · '+(f.properties.tags?.aerialway==='chair_lift'?'кресельный':'тарелочный');button.addEventListener('click',()=>this.selectLift(f,true));list.append(button);}
  }
- selectLift(f){
+ selectLift(f,fly=false){
   this.selected=null;this.renderList();this.highlight();const card=this.$('.card');card.replaceChildren();this.cardTitle(card,'Подъёмник',f.properties.name||'Подъёмник');
   this.text(card,f.properties.tags?.aerialway==='chair_lift'?'Кресельный подъёмник':'Тарельчатый бугельный подъёмник');
   const b=document.createElement('button');b.type='button';b.className='show-trail';b.textContent='Показать подъёмник';b.addEventListener('click',()=>this.flyToFeatures([f],this.cameras[f.properties.slope]?.bearing||0));card.append(b);
-  if(this.region)this.region.selectFeature('mratkino',null);else this.openPanel(true);
+  if(this.region)this.region.selectFeature('mratkino',null);else this.openPanel(true);if(fly)this.flyToFeatures([f],this.cameras[f.properties.slope]?.bearing||0);
  }
  layoutLabels(){
   if(!this.map||!this.markers.length)return;
@@ -244,10 +244,11 @@ class MratkinoMap extends HTMLElement {
   if(preset)this.flyToBounds(preset.bounds,preset.bearing,preset.pitch,animate);
  }
  flyToFeatures(features,bearing){const bounds=boundsFor(features);if(bounds)this.flyToBounds(bounds,bearing,62,true);}
- flyToBounds(bounds,bearing,pitch,animate){
+ flyToBounds(bounds,bearing,pitch,animate,maxZoom=15.5){
   const map=this.map;if(!map||!bounds)return;
   const mobile=matchMedia('(max-width:760px)').matches;
-  const camera=map.cameraForBounds(bounds,{bearing,padding:mobile?{top:80,bottom:60,left:35,right:50}:{top:95,bottom:90,left:75,right:85},maxZoom:15.5});if(!camera)return;
+  const base=mobile?{top:80,bottom:60,left:35,right:50}:{top:95,bottom:90,left:75,right:85},card=this.region?.cameraPadding()||{},padding=Object.fromEntries(Object.entries(base).map(([key,value])=>[key,Math.max(value,card[key]||0)]));
+  const camera=map.cameraForBounds(bounds,{bearing,padding,absolutePadding:true,maxZoom});if(!camera)return;
   map.stop();map.easeTo({...camera,pitch:this.mode2D?0:pitch,bearing,duration:animate?this.duration():0,essential:false});
  }
  addMarkers(){

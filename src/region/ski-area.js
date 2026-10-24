@@ -28,12 +28,12 @@ export class SkiAreaController{
    const number=String(n),b=document.createElement('button');b.type='button';b.dataset.abzTrail=number;b.textContent='№'+number;
    b.style.setProperty('--trail-color',classification('abzakovo',{number}).color);
    if(number==='6'){b.className='missing';b.title='Нет геометрии и номера на опубликованной схеме';b.addEventListener('click',()=>{this.card.replaceChildren();h.cardTitle(this.card,'Нет подтверждённых данных','Трасса №6');h.text(this.card,'На доступной официальной схеме спуск №6 не обозначен. Геометрия не получена.');h.region.selectFeature('abzakovo',null);});}
-   else b.addEventListener('click',()=>this.selectTrail(number));list.append(b);
+   else b.addEventListener('click',()=>this.selectTrail(number,{focus:true}));list.append(b);
   }
   this.panel.append(list);
   const card=document.createElement('section');card.className='abz-card';card.setAttribute('aria-live','polite');this.panel.append(card);this.card=card;
   const details=document.createElement('details'),title=document.createElement('summary');title.textContent='Подъёмники';details.append(title);
-  for(const f of this.data.lifts.features){const b=document.createElement('button');b.type='button';b.className='abz-lift';b.dataset.abzLift=f.properties.id;b.textContent=f.properties.name;b.addEventListener('click',()=>this.selectLift(f));details.append(b);}this.panel.append(details);
+  for(const f of this.data.lifts.features){const b=document.createElement('button');b.type='button';b.className='abz-lift';b.dataset.abzLift=f.properties.id;b.textContent=f.properties.name;b.addEventListener('click',()=>this.selectLift(f,{focus:true}));details.append(b);}this.panel.append(details);
  }
  selectedIds(ids){
   this.selected=ids;const map=this.host.map,match=['in',['get','id'],['literal',ids]],areaMatch=['in',['get','trailId'],['literal',ids]];
@@ -50,18 +50,18 @@ export class SkiAreaController{
   h.cardTitle(this.card,'Трасса',number?'№'+number:'Без номера');h.text(this.card,c.label.split(' · ')[0],'difficulty-value');
   h.text(this.card,'Горнолыжный спуск курорта Абзаково.');
   this.button('Показать трассу',()=>this.fit(features));
-  h.region.selectFeature('abzakovo',number?pisteId('abzakovo',features[0].properties):null,meta);return true;
+  h.region.selectFeature('abzakovo',number?pisteId('abzakovo',features[0].properties):null,meta);if(meta.focus)this.fit(features);return true;
  }
  selectLift(f,meta={}){
   const h=this.host,p=f.properties;this.selectedIds([p.id]);this.card.replaceChildren();h.cardTitle(this.card,'Подъёмник',p.name);
   h.text(this.card,p.tags.aerialway==='chair_lift'?`Открытые кресла · ${p.seats} места.`:'Тарельчатый бугельный подъёмник.');
 
-  this.button('Показать подъёмник',()=>this.fit([f]));h.region.selectFeature('abzakovo',null,meta);
+  this.button('Показать подъёмник',()=>this.fit([f]));h.region.selectFeature('abzakovo',null,meta);if(meta.focus)this.fit([f]);
  }
  button(title,handler){const b=document.createElement('button');b.type='button';b.className='show-trail';b.textContent=title;b.addEventListener('click',handler);this.card.append(b);}
  sourceLinks(features){for(const f of features){const a=document.createElement('a');a.href=f.properties.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';a.textContent=f.properties.id+' ↗';this.card.append(a);}}
  volume(){const h=this.host;h.mode2D=false;const b=h.$('[data-action=mode]');b.textContent='Вид сверху';b.title='Вид сверху';b.setAttribute('aria-pressed','false');b.setAttribute('aria-label','Вид сверху');}
- fit(features,animate=true){const h=this.host,bounds=boundsFor(features);if(!bounds)return;this.volume();const camera=h.map.cameraForBounds(bounds,{padding:{top:90,bottom:120,left:65,right:65},maxZoom:16.5,bearing:-70});h.map.stop();h.map.easeTo({...camera,pitch:57,duration:animate?h.duration():0});}
+ fit(features,animate=true){const bounds=boundsFor(features);if(!bounds)return;this.volume();this.host.flyToBounds(bounds,-70,57,animate,16.5);}
  inspect(f,zoom){this.volume();const coords=f.geometry.coordinates;this.host.map.easeTo({center:coords[Math.floor(coords.length/2)],zoom,pitch:58,bearing:-70,duration:this.host.duration()});}
  bindMap(){const map=this.host.map;if(this.boundMap===map)return;this.boundMap=map;map.on('click','abzakovo-trail-line',e=>{const f=this.data?.trails.features.find(f=>f.properties.id===e.features?.[0]?.properties.id);if(f)this.selectTrail(f.properties.number);});map.on('click','abzakovo-lift-line',e=>{const f=this.data?.lifts.features.find(f=>f.properties.id===e.features?.[0]?.properties.id);if(f)this.selectLift(f);});}
  addLabels(){

@@ -21,17 +21,18 @@ export class CatalogController{
   if(selected){
    const p=selected.properties,card=document.createElement('section');card.className='catalog-selection';h.cardTitle(card,routeKind(p.category),routeName(p));h.text(card,routeDescription(id,p),'route-description');
    if(p.category==='ski'){const c=classification(id,p);if(c.category!=='unknown')h.text(card,c.label.split(' · ')[0],'difficulty-value');}
-   card.append(this.region.button('Показать участок','Показать выбранный участок',()=>h.flyToFeatures([selected],0)));
+   card.append(this.region.button('Показать участок','Показать выбранный участок',()=>this.focus(selected)));
    const details=document.createElement('details'),summary=document.createElement('summary'),a=document.createElement('a');summary.textContent='Источник';a.href=p.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';a.textContent='OpenStreetMap ↗';details.append(summary,a);card.append(details);this.panel.append(card);
   }
   for(const [category,title] of [['ski','Горнолыжные трассы'],['nordic','Беговые лыжи'],['lift','Подъёмники'],['tubing','Тюбинг'],['training','Спортивные участки']]){
    const features=data.features.filter(f=>f.properties.category===category);if(!features.length)continue;const group=document.createElement('details'),summary=document.createElement('summary'),list=document.createElement('div');group.className='catalog-group';group.open=!selected||selected.properties.category===category;summary.textContent=title;list.className='catalog-routes';
-   for(const [i,f] of features.entries()){const title=routeName(f.properties),label=title+(features.filter(x=>routeName(x.properties)===title).length>1?' · участок '+(i+1):'');const b=this.region.button(label,label,()=>this.openRoute(f.properties.routeId));b.dataset.catalogRoute=f.properties.routeId;b.style.borderLeftColor=f.properties.displayColor;b.setAttribute('aria-pressed',String(f.properties.routeId===this.region.routeId));list.append(b);}
+   for(const [i,f] of features.entries()){const title=routeName(f.properties),label=title+(features.filter(x=>routeName(x.properties)===title).length>1?' · участок '+(i+1):'');const b=this.region.button(label,label,()=>this.openRoute(f.properties.routeId,{focus:true}));b.dataset.catalogRoute=f.properties.routeId;b.style.borderLeftColor=f.properties.displayColor;b.setAttribute('aria-pressed',String(f.properties.routeId===this.region.routeId));list.append(b);}
    group.append(summary,list);this.panel.append(group);
   }
  }
 
  isRoute(id){return /^([a-z-]+)\/way\/\d+$/.test(id)&&PLACES.some(p=>p.id===id.split('/')[0]&&p.geometryUrl);}
- async openRoute(id,meta={}){const place=id.split('/')[0],data=await this.ensure(place),f=data?.features.find(f=>f.properties.routeId===id);if(!f)throw Error('UNKNOWN_ROUTE');this.region.selectFeature(place,id,meta);this.renderKey=null;this.renderCard();this.layers();if(meta.focus)this.host.flyToFeatures([f],0);}
+ async openRoute(id,meta={}){const place=id.split('/')[0],data=await this.ensure(place),f=data?.features.find(f=>f.properties.routeId===id);if(!f)throw Error('UNKNOWN_ROUTE');this.region.selectFeature(place,id,meta);this.renderKey=null;this.renderCard();this.layers();if(meta.focus)this.focus(f);}
+ focus(feature){const data=this.datasets[feature.properties.placeId];this.host.flyToFeatures(data.features.filter(f=>f===feature||this.samePiste(f,feature)),0);}
  dispose(){this.pending.clear();this.datasets={};}
 }
