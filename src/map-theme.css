@@ -1,0 +1,38 @@
+/* Shared palette and control scale for the existing regional map. */
+:host{--vb-accent:#17623f;--vb-accent-hover:#104d30;--vb-ink:#244b3b;--vb-muted:#65756b;--vb-border:#dbe5db;--vb-soft:#f3f7f1;--vb-surface:#fff;--vb-radius:10px;--vb-shadow:0 4px 20px #183f291a}
+.explorer{font-family:Arial,sans-serif;color:var(--vb-ink);background:var(--vb-surface)}
+.explorer :is(button,input,select){font-family:inherit}
+.explorer :is(button,a,summary,input,select):focus-visible,.photo-viewer :is(button,a):focus-visible{outline:3px solid #b5864b;outline-offset:3px}
+.explorer :is(.region-navigation,.sidebar,.layer-popover,.place-search){background:var(--vb-surface);border-color:var(--vb-border)}
+.explorer :is(.sidebar,.layer-popover,.place-search){border-radius:14px;box-shadow:var(--vb-shadow)}
+.explorer .region-navigation{gap:8px}
+.explorer .region-navigation>button,.explorer .mode-button{height:42px;border:1px solid var(--vb-border);border-radius:var(--vb-radius);background:var(--vb-surface);color:var(--vb-ink);box-shadow:none;transition:background-color .14s,border-color .14s}
+.explorer .region-navigation>button:hover,.explorer .mode-button:hover{background:var(--vb-soft);border-color:#b6cbb9}
+.explorer .region-navigation .search-toggle{display:flex;align-items:center;justify-content:start;gap:9px;background:var(--vb-soft);text-align:left}
+.explorer .region-navigation svg{flex:none;pointer-events:none}
+.explorer .region-navigation [data-action=sources]{border-radius:var(--vb-radius);font-family:inherit}
+.explorer .region-navigation [data-action=life]{background:var(--vb-soft);color:var(--vb-ink);border-color:#b6cbb9;border-radius:var(--vb-radius);font-weight:600}
+.explorer .region-navigation [data-action=life][aria-pressed=true]{background:var(--vb-accent);color:#fff;border-color:var(--vb-accent)}
+.explorer .region-navigation [data-action=life][aria-pressed=true]:hover{background:var(--vb-accent-hover);border-color:var(--vb-accent-hover);color:#fff}
+.explorer .region-navigation [data-action=life][aria-pressed=false]:hover{background:#e7f0e5;color:var(--vb-ink)}
+.explorer .maplibregl-ctrl-group{border-color:var(--vb-border)!important;border-radius:var(--vb-radius)!important;box-shadow:0 2px 9px #183f2915}
+.explorer .maplibregl-ctrl-group button:hover{background:var(--vb-soft)}
+.explorer .place-search input,.explorer .season-control select{color:var(--vb-ink);background:var(--vb-soft);border:1px solid var(--vb-border);border-radius:var(--vb-radius)}
+.explorer :is(.layer-popover,.region-panel,.catalog-panel,.hiking-card,.abz-card){color:var(--vb-ink)}
+.explorer :is(.region-panel,.catalog-panel,.hiking-card,.abz-card) p{color:var(--vb-muted);line-height:1.6}
+.explorer .region-panel>button,.explorer .passport-links button,.explorer .hiking-card>button,.explorer .route-card button,.explorer .show-trail{min-height:40px;padding:9px 12px;border:1px solid var(--vb-border);border-radius:var(--vb-radius);background:var(--vb-soft);color:var(--vb-ink);font-size:12px;line-height:1.4;text-align:left}
+.explorer :is(.trail-row,.abz-trails button,.hiking-options button,.catalog-routes button){border-radius:8px;background:var(--vb-soft);color:var(--vb-ink);border-color:var(--vb-border)}
+.explorer :is(.trail-row,.abz-trails button,.hiking-options button)[aria-pressed=true]{background:#e5f0e5;color:var(--vb-ink);border-color:var(--vb-accent)}
+.explorer :is(input[type=checkbox],input[type=radio]){accent-color:var(--vb-accent);width:17px;height:17px;flex:none}
+.explorer :is(.category-filters,.layers) label{cursor:pointer;gap:12px}
+.explorer :is(.card-close,.card-collapse){color:var(--vb-ink);background:var(--vb-surface);border-color:var(--vb-border);border-radius:var(--vb-radius)}
+.explorer .region-panel h3{font-weight:600;line-height:1.22;letter-spacing:-.45px}
+.explorer .gallery-open{border:1px solid var(--vb-border);border-radius:var(--vb-radius)}
+.explorer :is(.gallery-nav button,.kraka-anchor){font-family:inherit}
+.explorer .place-label.selected{background:var(--vb-accent);color:#fff}
+.explorer .kraka-anchor{font-family:inherit;border-radius:var(--vb-radius)}
+.explorer .map-status{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:3;max-width:calc(100% - 160px);margin:0;padding:8px 12px;border:1px solid var(--vb-border);border-radius:var(--vb-radius);background:#fffffff2;color:var(--vb-muted);box-shadow:0 2px 9px #183f2910;font-size:12px;line-height:1.4;pointer-events:none;text-align:center}
+.dialog,.photo-viewer{font-family:Arial,sans-serif;color:var(--vb-ink);background:var(--vb-surface);border-color:var(--vb-border);box-shadow:var(--vb-shadow)}
+.photo-viewer :is(button,.gallery-nav button){font-family:inherit;border:1px solid var(--vb-border);border-radius:var(--vb-radius);background:var(--vb-soft);color:var(--vb-ink)}
+@media(max-width:760px){.explorer .region-navigation{gap:5px}.explorer .region-navigation [data-action=sources]{width:36px;min-width:36px;height:42px}.explorer .region-navigation .search-toggle{gap:6px}.explorer .map-status{font-size:11px;top:10px;padding:6px 8px}.explorer .region-panel>button{min-height:42px}}
+@media(prefers-reduced-motion:reduce){.explorer *{transition:none!important}}

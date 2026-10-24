@@ -1,3 +1,4 @@
+import {sameInputs} from '../map-interaction.js';
 import {EMPTY,boundsFor} from '../map-data.js';
 export const hikingArea=id=>id==='malinovaya'||id==='malinovaya-3'?'malinovaya':id==='yalangas'?'yalangas':null;
 
@@ -52,10 +53,9 @@ export class HikingController{
  }
  draw(){
   const map=this.host.map;if(!map?.getSource('hiking-routes'))return;
-  const selected=this.host.region.routeId;
+  const selected=this.host.region.routeId,inputs=[map,selected,this.area,this.selected,this.data,this.returning,...[...this.visible].sort().flatMap(area=>[area,this.datasets.get(area)])];if(sameInputs(this.drawInputs,inputs))return;this.drawInputs=inputs;
   const features=[...this.visible].flatMap(area=>(this.datasets.get(area)?.features||[]).filter(f=>f.geometry.type==='LineString').map(f=>{const canonicalId=area+'/'+f.properties.id;return {...f,properties:{...f.properties,area,canonicalId,selected:canonicalId===selected},geometry:canonicalId===selected&&this.returning?{...f.geometry,coordinates:[...f.geometry.coordinates].reverse()}:f.geometry};}));
-  map.getSource('hiking-routes').setData({type:'FeatureCollection',features});this.clearStops();const automaticStops=[...this.visible].flatMap(area=>(this.datasets.get(area)?.features||[]).filter(f=>f.geometry.type==='Point'&&['start','finish','start-finish'].includes(f.properties.role)));map.getSource('hiking-stops').setData({type:'FeatureCollection',features:automaticStops});
-  if(!this.selected||selected!==this.area+'/'+this.selected||!this.visible.has(this.area))return;
+  map.getSource('hiking-routes').setData({type:'FeatureCollection',features});this.clearStops(false);const automaticStops=[...this.visible].flatMap(area=>(this.datasets.get(area)?.features||[]).filter(f=>f.geometry.type==='Point'&&['start','finish','start-finish'].includes(f.properties.role)));if(!this.selected||selected!==this.area+'/'+this.selected||!this.visible.has(this.area)){map.getSource('hiking-stops').setData({type:'FeatureCollection',features:automaticStops});return;}
   const original=this.data.features.filter(f=>f.geometry.type==='Point'&&f.properties.routeId===this.selected);
   const stops=(this.returning?[...original].reverse():original).map((f,i)=>({...f,properties:{...f.properties,sequence:i+1,role:this.returning?(f.properties.role==='start'?'finish':f.properties.role==='finish'?'start':f.properties.role):f.properties.role}}));
   map.getSource('hiking-stops').setData({type:'FeatureCollection',features:[...automaticStops.filter(f=>f.properties.routeId!==this.selected),...stops]});
@@ -65,8 +65,8 @@ export class HikingController{
  volume(){const h=this.host;h.mode2D=false;const b=h.$('[data-action=mode]');b.textContent='Вид сверху';b.title='Вид сверху';b.setAttribute('aria-pressed','false');b.setAttribute('aria-label','Вид сверху');}
  fit(route,animate){const h=this.host,bounds=boundsFor([route]);if(!bounds)return;this.volume();h.map.stop();const camera=h.map.cameraForBounds(bounds,{padding:60,maxZoom:14,bearing:-25});h.map.easeTo({...camera,pitch:48,duration:animate?h.duration():0});}
  focus(center){this.volume();this.host.map.easeTo({center,zoom:15.8,pitch:58,bearing:-25,duration:this.host.duration()});}
- clearStops(){this.markers.forEach(m=>m.remove());this.markers=[];this.host.map?.getSource('hiking-stops')?.setData(EMPTY);}
- clear(){this.clearStops();this.host.map?.getSource('hiking-routes')?.setData(EMPTY);}
+ clearStops(clearSource=true){this.markers.forEach(m=>m.remove());this.markers=[];if(clearSource)this.host.map?.getSource('hiking-stops')?.setData(EMPTY);}
+ clear(){this.drawInputs=null;this.clearStops();this.host.map?.getSource('hiking-routes')?.setData(EMPTY);}
  async toggleLife(force){
   const h=this.host;if(!this.active||h.lifeLoading||h.getAttribute('data-map-state')!=='ready')return;
   if(this.enabled&&force!==true){this.disposeNature();h.reflectLife();return;}if(this.enabled)return;

@@ -1,0 +1,20 @@
+{
+  "clientDate": "2026-10-24",
+  "platform": "Chromium, SwiftShader, production build, real tiles via HTTPS relay",
+  "unitTestFilesPassed": 12,
+  "browserScenariosPassedAcrossFocusedRuns": 9,
+  "build": "passed",
+  "mouseWheel": {
+    "deltaY": -240,
+    "defaultRatesZoomChange": 0.3340283711162346,
+    "newRatesZoomChange": 0.16276475095272147,
+    "note": "Sensitivity comparison for one native wheel event; not a whole-application speed or FPS benchmark."
+  },
+  "stationaryMap": {
+    "consecutiveSyncCalls": 20,
+    "additionalForestMatrixUploads": 0,
+    "additionalHikingAndWinterRoutePosts": 0
+  },
+  "retained": ["85 degree pitch", "20 deer", "resort animations", "place selection", "cards and photos", "iframe command queue", "hidden map suspension"],
+  "scopeLimits": ["No physical-device FPS benchmark", "No live Yandex API or direct Tilda edit", "Not the entire historical browser suite"]
+}

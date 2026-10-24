@@ -244,8 +244,8 @@ export class ResortScene {
   });part.mesh.instanceMatrix.needsUpdate=true;}
  }
  setEnabled(value){this.enabled=value;this.lastTime=null;this.schedule();this.map.triggerRepaint();}
- setPaused(value){this.paused=value;this.lastTime=null;this.schedule();this.onStats({...this.stats,paused:value});}
- setLayers({forest,lifts}){this.forestVisible=forest;this.liftsVisible=lifts;this.schedule();this.map.triggerRepaint();}
+ setPaused(value){if(this.paused===value)return;this.paused=value;this.lastTime=null;this.schedule();this.onStats({...this.stats,paused:value});}
+ setLayers({forest,lifts}){if(this.forestVisible===forest&&this.liftsVisible===lifts)return;this.forestVisible=forest;this.liftsVisible=lifts;this.schedule();this.map.triggerRepaint();}
  schedule(){
   clearTimeout(this.timer);this.timer=null;
   if(this.disposed||!this.enabled||this.paused||document.hidden||!this.inViewport)return;

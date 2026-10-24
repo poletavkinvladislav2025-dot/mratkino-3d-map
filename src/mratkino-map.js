@@ -2,8 +2,10 @@ import workerURL from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
 import mapCSS from 'maplibre-gl/dist/maplibre-gl.css?inline';
 import componentCSS from './component.css?inline';
 import explorerCSS from './explorer.css?inline';
+import themeCSS from './map-theme.css?inline';
 import { SUMMIT, EXPECTED, boundsFor, coordinates, slopeCamera, createStyle, EMPTY } from './map-data.js';
 
+import {configureCameraControl,cameraLayoutKey} from './map-interaction.js';
 import {RegionController} from './region/controller.js';
 import {createRegionalStyle} from './region/style.js';
 import {classification,pisteId,catalog} from './region/piste-catalog.js';
@@ -23,7 +25,7 @@ class MratkinoMap extends HTMLElement {
  connectedCallback(){
   if(this.started)return;this.started=true;this.token=(this.token||0)+1;this.uid=String(++sequence);this.view='south';this.selected=null;this.mode2D=false;this.markers=[];this.lifeScene=null;this.lifeLoading=false;this.resortLoaded=false;this.resortActive=false;this.setAttribute('data-map-state','loading');
   this.controller=new AbortController();this.abort=this.controller.signal;
-  const shadow=this.shadowRoot||this.attachShadow({mode:'open'});shadow.innerHTML=`<style>${mapCSS}\n${componentCSS}\n${explorerCSS}</style>${template}`;
+  const shadow=this.shadowRoot||this.attachShadow({mode:'open'});shadow.innerHTML=`<style>${mapCSS}\n${componentCSS}\n${explorerCSS}\n${themeCSS}</style>${template}`;
   this.$=selector=>shadow.querySelector(selector);this.$$=selector=>[...shadow.querySelectorAll(selector)];
   const pageBase=/^(https?:|file:)/.test(document.baseURI)?document.baseURI:'https://mratkino.invalid/';
   this.assetBase=new URL(this.getAttribute('asset-base')||'./',pageBase);
@@ -86,7 +88,7 @@ class MratkinoMap extends HTMLElement {
    const camera=this.cameras.south;
    this.$('.map').replaceChildren();
    this.map=new ml.Map({container:this.$('.map'),style:this.region?createRegionalStyle(this.data,this.resortLoaded?this.url('live/forest-winter.png'):null):createStyle(this.data,tileURL,this.embedded?.forest||this.url('live/forest-winter.png')),center:this.region?.preset().center||SUMMIT,zoom:this.region?.preset().zoom||14,pitch:this.region?.preset().pitch??61,bearing:this.region?.id==='mratkino'?(camera?.bearing||0):(this.region?.preset().bearing??camera?.bearing??0),minZoom:this.region?5:12.8,maxZoom:20.2,maxPitch:85,...(this.region?{}:{maxBounds:[[58.405,53.975],[58.47,54.02]]}),cooperativeGestures:matchMedia('(pointer: coarse)').matches,attributionControl:false,pixelRatio:Math.min(devicePixelRatio||1,1.5),canvasContextAttributes:{antialias:false},fadeDuration:150,locale:{'NavigationControl.ZoomIn':'Приблизить','NavigationControl.ZoomOut':'Отдалить','NavigationControl.ResetBearing':'Сбросить поворот','FullscreenControl.Enter':'На весь экран','FullscreenControl.Exit':'Выйти из полноэкранного режима','CooperativeGesturesHandler.WindowsHelpText':'Удерживайте Ctrl для масштабирования карты','CooperativeGesturesHandler.MacHelpText':'Удерживайте ⌘ для масштабирования карты','CooperativeGesturesHandler.MobileHelpText':'Используйте два пальца для управления картой'}});
-   const map=this.map;this.setAttribute('data-map-state','loading');
+   const map=this.map;configureCameraControl(map);this.labelCameraKey=null;this.setAttribute('data-map-state','loading');
    map.addControl(new ml.NavigationControl({visualizePitch:true}),this.region?'top-left':'top-right');
    map.addControl(new ml.FullscreenControl({container:this.region?this.$('.shell'):this.$('.map-wrap')}),'top-right');
    map.addControl(new ml.ScaleControl({maxWidth:90,unit:'metric'}),'bottom-left');
@@ -107,14 +109,10 @@ class MratkinoMap extends HTMLElement {
     else if(this.region)this.region.dataError(e.error);else {this.$('.error-note').hidden=false;this.$('.error-note').textContent='Часть данных не загрузилась. '+message;}
    });
    map.on('webglcontextlost',()=>this.fallback('Браузер потерял WebGL-контекст. Показан резервный вид; можно повторить загрузку.'));
-   // Stop a camera animation as soon as the user starts an actual gesture.
-   map.on('mousedown',e=>{if(e.originalEvent?.isTrusted)map.stop();});
-   map.on('touchstart',e=>{if(e.originalEvent?.isTrusted)map.stop();});
-   map.on('wheel',e=>{if(e.originalEvent?.isTrusted)map.stop();});
-   map.on('movestart',e=>{if(e.originalEvent)this.hideHint();});
+   map.on('movestart',e=>{if(e.originalEvent)this.hideHint();this.region?.cameraStarted();});
    map.on('rotateend',()=>{this.setAttribute('data-bearing',map.getBearing().toFixed(2));});
-   map.on('moveend',()=>{this.reflectCamera();this.region?.sync();});
-   map.on('render',()=>{if(this.getAttribute('data-map-state')!=='ready')this.finishLoading();this.layoutLabels();this.region?.layoutLabels();});
+   map.on('moveend',()=>{this.reflectCamera();this.labelCameraKey=null;this.region?.cameraSettled();});
+   map.on('render',()=>{if(this.getAttribute('data-map-state')!=='ready')this.finishLoading();const key=cameraLayoutKey(map);if(this.labelCameraKey!==key){this.labelCameraKey=key;this.layoutLabels();this.region?.layoutLabels();}});
    map.on('click','lift-line',e=>{const f=this.data.lifts.features.find(f=>f.properties.id===e.features?.[0]?.properties?.id);if(f)this.selectLift(f);});
    for(const layer of ['trail-line','trail-area','trail-area-edge']){
     map.on('click',layer,e=>{const f=this.findTrail(e.features?.[0]?.properties?.id);if(f)this.selectTrail(f,false);});
@@ -188,7 +186,7 @@ class MratkinoMap extends HTMLElement {
   const map=this.map,token=this.token;let pendingScene;this.lifeLoading=true;if(this.region)this.region.reflectLife();else{this.$('[data-action=life]').disabled=true;this.$('[data-action=life]').textContent='Готовим 3D-сцену…';}
   try{
    const [{ResortScene},{decodeForestInstances},forestBuffer]=await Promise.all([import('./resort-scene.js'),import('./resort-scene-data.js'),this.region?Promise.resolve(null):this.forestBuffer()]);
-   if(this.map!==map||this.token!==token||(this.region&&(!this.resortActive||(!this.region.sceneVisible||map.getZoom()<13.4)||this.region.context!=='mratkino')))return;
+   if(this.map!==map||this.token!==token||(this.region&&(!this.resortActive||(!this.region.sceneVisible||this.region.cameraMoving||map.isMoving()||map.getZoom()<13.4)||this.region.context!=='mratkino')))return;
    const scene=pendingScene=new ResortScene(map,this.ml,this.data,{mobile:matchMedia('(max-width:760px)').matches,forestInstances:this.region?null:decodeForestInstances(forestBuffer),profile:this.region?{forest:false}:{},onStats:stats=>{if(this.map!==map)return;this.setAttribute('data-scene-trees',String(stats.trees));this.setAttribute('data-scene-saplings',String(stats.saplings));this.reflectLife();}});
    this.lifeScene=scene;map.addLayer(scene);this.updateLayers();this.hideHint();
   }catch(error){if(this.map===map){if(map.getLayer('resort-life'))map.removeLayer('resort-life');if(pendingScene&&!pendingScene.disposed)pendingScene.onRemove();this.lifeScene=null;this.$('.error-note').hidden=false;this.$('.error-note').textContent='Объёмная сцена не загрузилась. Карта доступна. '+error.message;}}
@@ -254,6 +252,7 @@ class MratkinoMap extends HTMLElement {
   map.stop();map.easeTo({...camera,pitch:this.mode2D?0:pitch,bearing,duration:animate?this.duration():0,essential:false});
  }
  addMarkers(){
+  this.labelCameraKey=null;
   this.markers.forEach(({marker})=>marker.remove());this.markers=[];
   for(const f of this.data.trails.features){
    if(!/^[ЮС][1-5]$/.test(f.properties.name)||f.geometry.type!=='LineString')continue;

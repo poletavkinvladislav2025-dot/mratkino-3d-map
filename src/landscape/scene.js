@@ -27,7 +27,7 @@ export class LandscapeScene{
  }
  setSeason(season){if(this.season===season)return;this.season=season;this.refresh();}
  setAnimation(value){if(this.animating===value)return;this.animating=value;this.last=0;this.schedule();this.map.triggerRepaint();}
- setForest(value){this.forestVisible=value;this.trunks.visible=value;this.crowns.forEach(m=>m.visible=value);this.map.triggerRepaint();}
+ setForest(value){if(this.forestVisible===value)return;this.forestVisible=value;this.trunks.visible=value;this.crowns.forEach(m=>m.visible=value);this.map.triggerRepaint();}
  schedule(){clearTimeout(this.timer);this.timer=null;if(this.disposed||!this.animating||document.hidden)return;this.timer=setTimeout(()=>{this.timer=null;if(!this.disposed)this.map.triggerRepaint();},1000/(this.mobile?15:22));}
  render(gl,args){if(this.disposed)return;const now=performance.now(),dt=this.animating&&!document.hidden&&this.last?Math.min(.1,(now-this.last)/1000):0;this.last=this.animating?now:0;
   if(dt){this.stats.elapsed+=dt;this.wind.value=this.stats.elapsed;this.behaviorClock=(this.behaviorClock||0)+dt;if(this.park&&this.map.getZoom()>=ethno.lod.animate&&this.behaviorClock>=.09){this.park.update(Math.min(.15,this.behaviorClock));this.behaviorClock=0;}}

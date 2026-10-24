@@ -59,7 +59,7 @@ export class SkiAreaController{
  }
  button(title,handler){const b=document.createElement('button');b.type='button';b.className='show-trail';b.textContent=title;b.addEventListener('click',handler);this.card.append(b);}
  sourceLinks(features){for(const f of features){const a=document.createElement('a');a.href=f.properties.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';a.textContent=f.properties.id+' ↗';this.card.append(a);}}
- volume(){const h=this.host;h.mode2D=false;const b=h.$('[data-action=mode]');b.textContent='2D';b.setAttribute('aria-pressed','false');b.setAttribute('aria-label','Включить плоский вид');}
+ volume(){const h=this.host;h.mode2D=false;const b=h.$('[data-action=mode]');b.textContent='Вид сверху';b.title='Вид сверху';b.setAttribute('aria-pressed','false');b.setAttribute('aria-label','Вид сверху');}
  fit(features,animate=true){const h=this.host,bounds=boundsFor(features);if(!bounds)return;this.volume();const camera=h.map.cameraForBounds(bounds,{padding:{top:90,bottom:120,left:65,right:65},maxZoom:16.5,bearing:-70});h.map.stop();h.map.easeTo({...camera,pitch:57,duration:animate?h.duration():0});}
  inspect(f,zoom){this.volume();const coords=f.geometry.coordinates;this.host.map.easeTo({center:coords[Math.floor(coords.length/2)],zoom,pitch:58,bearing:-70,duration:this.host.duration()});}
  bindMap(){const map=this.host.map;if(this.boundMap===map)return;this.boundMap=map;map.on('click','abzakovo-trail-line',e=>{const f=this.data?.trails.features.find(f=>f.properties.id===e.features?.[0]?.properties.id);if(f)this.selectTrail(f.properties.number);});map.on('click','abzakovo-lift-line',e=>{const f=this.data?.lifts.features.find(f=>f.properties.id===e.features?.[0]?.properties.id);if(f)this.selectLift(f);});}
@@ -79,7 +79,7 @@ export class SkiAreaController{
  async toggleLife(force){
   const h=this.host;if(!this.active||this.loading||h.getAttribute('data-map-state')!=='ready')return;if(this.scene){if(force!==true)this.disposeScene();h.reflectLife();return;}
   const serial=this.serial,map=h.map;this.loading=true;h.reflectLife();
-  try{const [{ResortScene},{localFrame,decodeForestInstances},buffer]=await Promise.all([import('../resort-scene.js'),import('../resort-scene-data.js'),Promise.resolve(null)]);if(serial!==this.serial||map!==h.map||!this.active||(!h.region.sceneVisible||map.getZoom()<13.4)||h.abort.aborted)return;
+  try{const [{ResortScene},{localFrame,decodeForestInstances},buffer]=await Promise.all([import('../resort-scene.js'),import('../resort-scene-data.js'),Promise.resolve(null)]);if(serial!==this.serial||map!==h.map||!this.active||(!h.region.sceneVisible||h.region.cameraMoving||map.isMoving()||map.getZoom()<13.4)||h.abort.aborted)return;
    const frame=localFrame(this.data.manifest.center),profile={id:'abzakovo-life',center:this.data.manifest.center,forest:false,forestMinZoom:11.5,saplings:false,seatsFromSource:true,riderAreasById:true,radiusM:2000,ridersPerSegment:this.data.manifest.ridersPerSegment,...frame};this.scene=new ResortScene(map,h.ml,this.data,{mobile:matchMedia('(max-width:760px)').matches,profile,forestInstances:null});map.addLayer(this.scene);this.layers();h.hideHint();
   }catch(error){this.disposeScene();if(error.name!=='AbortError')h.region.dataError(error,'Детализация временно недоступна. Трассы доступны.');}
   finally{this.loading=false;if(map===h.map)h.reflectLife();}
