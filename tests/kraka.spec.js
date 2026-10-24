@@ -17,7 +17,7 @@ test('one map restores real building volume on activation, keeps it at city and 
  await app(page).evaluate(e=>{e.$('[data-layer=forest]').checked=false;e.region.layers();});expect(await app(page).evaluate(e=>e.map.getLayoutProperty('region-buildings-3d','visibility'))).toBe('none');await page.locator('[data-action=life]').click();await expect.poll(()=>app(page).evaluate(e=>e.map.getPitch()),{timeout:60000}).toBeCloseTo(58);expect(await app(page).evaluate(e=>e.map.getZoom())).toBeGreaterThanOrEqual(14);
  await app(page).evaluate(e=>{e.map.identity='same-map';e.map.jumpTo({center:[58.4099,53.968],zoom:15.7,pitch:60});});
  await expect.poll(()=>app(page).evaluate(e=>e.map.queryRenderedFeatures({layers:['region-buildings-3d']}).length),{timeout:90000}).toBeGreaterThan(10);
- await app(page).evaluate(e=>e.region.refreshLegend());await expect(page.locator('.legend')).toBeHidden();await page.screenshot({path:'renders/unified-city-buildings.png'});
+ await app(page).evaluate(e=>e.region.refreshLegend());await expect(page.locator('.legend .legend-heading')).toBeHidden();await page.screenshot({path:'renders/unified-city-buildings.png'});
  for(const place of ['mratkino','abzakovo']){await app(page).evaluate((e,p)=>e.region.choose(p,false),place);expect(await app(page).evaluate(e=>e.map.identity)).toBe('same-map');expect(await app(page).evaluate(e=>e.map.getLayoutProperty('region-buildings-3d','visibility'))).toBe('visible');}
  await page.locator('[data-action=life]').click();expect(await app(page).evaluate(e=>e.map.getLayoutProperty('region-buildings-3d','visibility'))).toBe('none');expect(errors).toEqual([]);
 });

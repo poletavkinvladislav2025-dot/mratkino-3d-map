@@ -1,0 +1,18 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import crypto from 'node:crypto';
+import {LONG_DISTANCE_ROUTES,trailLayerId} from '../src/region/long-distance.js';import {createRegionalStyle} from '../src/region/style.js';import {cameraPayload,readURLState} from '../src/region/integration.js';import {routeMetrics} from '../src/region/routes.js';import {visibleLegendKinds} from '../src/region/legend.js';
+const audit=JSON.parse(fs.readFileSync('data/long-distance/import-audit.json'));
+test('full GPX conversion is reproducible, uncut and keeps every separate segment and endpoint',()=>{
+
+ assert.deepEqual(LONG_DISTANCE_ROUTES.map(r=>[r.id,r.segmentCount,r.pointCount]),[['gut',116,32529],['yt',1,7112]]);
+ for(const route of audit.routes){const body=fs.readFileSync('public/'+route.asset),geo=JSON.parse(body),xml=fs.readFileSync('data/long-distance/'+route.filename,'utf8');const original=[...xml.matchAll(/<trkseg\b[^>]*>([\s\S]*?)<\/trkseg>/g)].map(s=>[...s[1].matchAll(/<trkpt\b([^>]*?)(?:\/>|>([\s\S]*?)<\/trkpt>)/g)].map(p=>{const attrs=Object.fromEntries([...p[1].matchAll(/(lat|lon)=["']([^"']+)["']/g)].map(m=>[m[1],Number(m[2])]));const coordinates=[attrs.lon,attrs.lat],ele=p[2]?.match(/<ele>([^<]+)<\/ele>/);if(ele)coordinates.push(Number(ele[1]));return coordinates;}));assert.deepEqual(geo.features.map(f=>f.geometry.coordinates),original);assert.equal(crypto.createHash('sha256').update(body).digest('hex'),route.geoJSONSha256);assert.equal(crypto.createHash('sha256').update(fs.readFileSync('data/long-distance/'+route.filename)).digest('hex'),route.sourceSha256);
+  assert.equal(geo.features.length,route.segmentCount);assert.equal(geo.features.reduce((n,f)=>n+f.geometry.coordinates.length,0),route.pointCount);for(const [i,f] of geo.features.entries()){assert.equal(f.geometry.type,'LineString');assert.equal(f.geometry.coordinates.length,route.segments[i].points);assert.deepEqual(f.geometry.coordinates[0],route.segments[i].first);assert.deepEqual(f.geometry.coordinates.at(-1),route.segments[i].last);}
+  assert.ok(Math.abs(routeMetrics(geo).lengthKm-route.distanceKm)<.001);const points=geo.features.flatMap(f=>f.geometry.coordinates);assert.deepEqual([[Math.min(...points.map(p=>p[0])),Math.min(...points.map(p=>p[1]))],[Math.max(...points.map(p=>p[0])),Math.max(...points.map(p=>p[1]))]],route.bounds);
+ }
+ assert.equal(audit.bridgedSegments,false);assert.equal(audit.clipped,false);assert.equal(audit.simplified,false);assert.deepEqual(audit.routes[0].bounds,[[56.573778,48.45737],[60.671207,65.213346]]);
+});
+test('red and yellow thin tracks belong to the initial style, without a zoom threshold or interaction',()=>{
+ const style=createRegionalStyle({manifest:JSON.parse(fs.readFileSync('public/live/manifest.json'))},null,path=>'https://example.test/maps/'+path);
+ for(const route of LONG_DISTANCE_ROUTES){assert.equal(style.sources['long-distance-'+route.id].data,'https://example.test/maps/'+route.asset);const layer=style.layers.find(l=>l.id===trailLayerId(route));assert.equal(layer.layout.visibility,'visible');assert.equal(layer.minzoom,undefined);assert.equal(layer.paint['line-color'],route.id==='gut'?'#d83b35':'#f2c52b');assert.ok(layer.paint['line-width'].includes(1.4));}
+ assert.deepEqual(cameraPayload({zoom:3}),{zoom:3});assert.equal(cameraPayload({zoom:2.99}),null);assert.equal(readURLState('?place=all&z=3.5').camera.zoom,3.5);
+ const map={getLayer:()=>true,getLayoutProperty:()=> 'visible',getContainer:()=>({clientWidth:800,clientHeight:600}),queryRenderedFeatures:()=>[{layer:{id:'long-distance-gut-line'}},{layer:{id:'long-distance-yt-line'}}]};assert.deepEqual(visibleLegendKinds(map),['long-distance:gut','long-distance:yt']);
+});

@@ -1,5 +1,6 @@
 import {createStyle,EMPTY,boundsFor} from '../map-data.js';
 import {PLACES} from './presets.js';
+import {addLongDistanceLayers} from './long-distance.js';
 import {skiColorExpression} from './ski-colors.js';
 export const REGION_DEM='https://tiles.mapterhorn.com/{z}/{x}/{y}.webp';
 export const BASEMAP_URL='https://tiles.openfreemap.org/planet';
@@ -10,7 +11,7 @@ export function resortFacilities(data){
  const [[w,s],[e,n]]=bounds,latMargin=.0018,lngMargin=.003;
  return {type:'FeatureCollection',features:data.facilities.features.filter(f=>{const box=boundsFor([f]);return box&&box[1][0]>=w-lngMargin&&box[0][0]<=e+lngMargin&&box[1][1]>=s-latMargin&&box[0][1]<=n+latMargin;})};
 }
-export function createRegionalStyle(data,forestURL){
+export function createRegionalStyle(data,forestURL,url=path=>path){
  const style=createStyle(data,REGION_DEM,forestURL);
  style.glyphs='https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf';
  style.layers.find(l=>l.id==='snow').paint['background-color']='#edf2ec';
@@ -79,5 +80,6 @@ export function createRegionalStyle(data,forestURL){
   {id:'region-town-names',type:'symbol',source:'basemap','source-layer':'place',minzoom:8,filter:['in',['get','class'],['literal',['city','town','village','hamlet']]],layout:{'text-field':['coalesce',['get','name:ru'],['get','name']],'text-font':['Noto Sans Regular'],'text-size':['interpolate',['linear'],['zoom'],8,11,14,15],'text-padding':18,'symbol-sort-key':['coalesce',['get','rank'],20]},paint:{'text-color':'#294f3c','text-halo-color':'#f9fbf2','text-halo-width':1.8}},
   {id:'region-street-names',type:'symbol',source:'basemap','source-layer':'transportation_name',minzoom:14,filter:['any',['in',['get','class'],['literal',['primary','secondary','tertiary','minor','service']]],['==',['get','subclass'],'pedestrian']],layout:{'symbol-placement':'line','symbol-spacing':260,'text-field':['coalesce',['get','name:ru'],['get','name']],'text-font':['Noto Sans Regular'],'text-size':11,'text-padding':6,'text-max-angle':35},paint:{'text-color':'#53654f','text-halo-color':'#fafbf5','text-halo-width':1.6}}
  );
+ addLongDistanceLayers(style,url);
  return style;
 }

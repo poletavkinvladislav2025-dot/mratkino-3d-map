@@ -36,3 +36,12 @@
 .photo-viewer :is(button,.gallery-nav button){font-family:inherit;border:1px solid var(--vb-border);border-radius:var(--vb-radius);background:var(--vb-soft);color:var(--vb-ink)}
 @media(max-width:760px){.explorer .region-navigation{gap:5px}.explorer .region-navigation [data-action=sources]{width:36px;min-width:36px;height:42px}.explorer .region-navigation .search-toggle{gap:6px}.explorer .map-status{font-size:11px;top:10px;padding:6px 8px}.explorer .region-panel>button{min-height:42px}}
 @media(prefers-reduced-motion:reduce){.explorer *{transition:none!important}}
+.explorer .long-distance-controls{border:0;border-top:1px solid var(--vb-border);margin:16px 0 0;padding:12px 0 0;min-width:0}
+.explorer .long-distance-controls legend{font-size:13px;font-weight:600;padding:0 5px 0 0}
+.explorer .long-route-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 8px;margin:10px 0 14px}
+.explorer .long-route-row label{display:flex;align-items:center;gap:6px;font-size:12px;line-height:1.4;cursor:pointer}
+.explorer .long-route-row label span{border-left:3px solid;padding-left:7px}
+.explorer .long-route-row input{margin:0}
+.explorer .long-route-row button{align-self:center;min-height:34px;padding:7px 9px;border:1px solid var(--vb-border);border-radius:8px;background:var(--vb-soft);font-size:11px;color:var(--vb-ink)}
+.explorer .long-route-row small{grid-column:1/-1;color:var(--vb-muted);font-size:10px;line-height:1.5}
+.explorer .legend i.legend-route-line{width:18px;height:3px;border-radius:2px;box-shadow:0 0 0 1px #34514566}
