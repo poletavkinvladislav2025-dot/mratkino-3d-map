@@ -3,7 +3,7 @@ import {EMPTY} from '../map-data.js';
 import {resortFacilities} from './style.js';
 import {HikingController,hikingArea} from './hiking.js';
 import {SkiAreaController} from './ski-area.js';
-import {decoratePistes,CATEGORIES} from './piste-catalog.js';
+import {decoratePistes} from './piste-catalog.js';
 import {visibleAreas} from './viewport.js';
 import {IntegrationBridge,readURLState} from './integration.js';
 import {LandscapeController} from '../landscape/controller.js';
@@ -13,8 +13,7 @@ import {placeVisible} from './passport.js';
 import {renderPassportContent} from './passport-cards.js';
 import {applyFilters,filterSnapshot} from './filters.js';
 import {PlaceGallery} from './gallery.js';
-import {visibleLegendKinds} from './legend.js';
-import {LongDistanceController,LONG_DISTANCE_ROUTES} from './long-distance.js';
+import {LongDistanceController} from './long-distance.js';
 import {MAP_ICONS} from '../map-icons.js';
 import {CAMERA_CONTROL} from '../map-interaction.js';
 import {KrakaController} from './kraka.js';
@@ -53,8 +52,7 @@ export class RegionController{
   h.$('[data-layer=forest]').closest('label').querySelector('span').textContent='Лес';
   h.$('[data-layer=contours]').closest('label').querySelector('span').textContent='Горизонтали';
   const status=document.createElement('p');status.className='map-status';status.hidden=true;status.setAttribute('role','status');status.textContent='Подгружаем детали…';h.$('.map-wrap').append(status);this.loadStatus=status;
-  const legend=h.$('.legend');legend.hidden=true;legend.replaceChildren();const heading=document.createElement('span');heading.className='legend-heading';heading.textContent='Сложность';legend.append(heading);
-  for(const [key,text] of [['novice','Лёгкая'],['easy','Средняя'],['intermediate','Сложная'],['expert','Экспертная']]){const item=document.createElement('span'),dot=document.createElement('i');dot.style.background=CATEGORIES[key].color;item.append(dot,document.createTextNode(text));legend.append(item);}h.$('.map-wrap').append(legend);
+  h.$('.legend').hidden=true;h.$('.legend').replaceChildren();
   const routes=document.createElement('section');routes.className='routes-panel';const card=document.createElement('div');card.className='route-card';routes.append(card);body.append(routes);this.routesPanel=routes;
   this.about();this.cameraButton();
   const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Открыть свой GPX / GeoJSON';details.append(summary);const input=document.createElement('input');input.type='file';input.accept='.gpx,.geojson,.json';input.setAttribute('aria-label','Открыть GPX или GeoJSON');input.addEventListener('change',()=>this.importRoute(input.files?.[0]));details.append(input);h.$('dialog').append(details);
@@ -72,13 +70,8 @@ export class RegionController{
  }
  cameraButton(){const m=this.host.map,top=m?m.getPitch()<5:this.host.mode2D,b=this.host.$('[data-action=mode]');this.host.mode2D=top;b.textContent=top?'Наклонный вид':'Вид сверху';b.title=b.textContent;b.setAttribute('aria-label',b.textContent);b.setAttribute('aria-pressed',String(top));}
  cameraPadding(){const h=this.host,s=h.$('.sidebar');if(!this.cardOpen)return {top:0,bottom:0,left:0,right:0};return matchMedia('(max-width:760px)').matches?{top:12,left:12,right:12,bottom:Math.min(s.offsetHeight+20,h.$('.map-wrap').clientHeight*.48)}:{top:20,left:24,right:Math.min(s.offsetWidth+100,h.$('.map-wrap').clientWidth*.48),bottom:30};}
- refreshLegend(){
-  const h=this.host,m=h.map;if(!m?.getLayer('snow'))return;const kinds=visibleLegendKinds(m),key=kinds.join(',');if(this.legendKey===key)return;this.legendKey=key;
-  const legend=h.$('.legend');legend.replaceChildren();legend.hidden=!kinds.length;
-  if(kinds.includes('ski')){const heading=document.createElement('span');heading.className='legend-heading';heading.textContent='Сложность трасс';legend.append(heading);for(const [k,t] of [['novice','Лёгкая'],['easy','Средняя'],['intermediate','Сложная'],['expert','Экспертная']]){const item=document.createElement('span'),dot=document.createElement('i');dot.style.background=CATEGORIES[k].color;item.append(dot,document.createTextNode(t));legend.append(item);}}
-  for(const [k,t,color] of [['hiking','Пеший маршрут','#42765c'],['nordic','Беговые лыжи','#9c5f26']])if(kinds.includes(k)){const item=document.createElement('span'),dot=document.createElement('i');dot.style.background=color;item.append(dot,document.createTextNode(t));legend.append(item);}
-  for(const route of LONG_DISTANCE_ROUTES)if(kinds.includes('long-distance:'+route.id)){const item=document.createElement('span'),line=document.createElement('i');line.className='legend-route-line';line.style.background=route.color;item.append(line,document.createTextNode(route.name));legend.append(item);}
- }
+ // Route names belong to the clicked feature; keep the former bottom strip empty.
+ refreshLegend(){const legend=this.host.$('.legend');if(legend){legend.hidden=true;legend.replaceChildren();}}
  applySeason(){const m=this.host.map;if(!m?.getLayer('snow'))return;m.setPaintProperty('snow','background-color',this.season==='summer'?'#d3d8bd':'#edf2ec');if(m.getLayer('region-surfaces'))m.setPaintProperty('region-surfaces','fill-opacity',this.season==='summer'?.72:.48);this.landscape.scene?.setSeason(this.season);}
  setupSearch(){const h=this.host,p=document.createElement('section');p.className='place-search';p.hidden=true;const input=document.createElement('input');input.type='search';input.placeholder='Название места';input.setAttribute('aria-label','Поиск по названию');const list=document.createElement('div');list.className='search-results';const render=()=>{list.replaceChildren();for(const place of [CITY,...PLACES].filter(p=>p.coordinates&&placeVisible(p,this.filters)&&(p.name+' '+(p.address||'')).toLocaleLowerCase('ru').includes(input.value.toLocaleLowerCase('ru')))){const b=this.button(place.name,place.name,()=>{p.hidden=true;this.searchToggle.setAttribute('aria-expanded','false');this.choose(place.id);});list.append(b);}};input.addEventListener('input',render);p.append(input,list);h.$('.shell').append(p);this.searchPanel=p;this.searchInput=input;this.renderSearch=render;render();}
  about(){this.host.$('dialog').innerHTML=`<header><h2>О карте</h2><button type="button" data-action="close-dialog" aria-label="Закрыть">×</button></header>
@@ -87,7 +80,7 @@ export class RegionController{
   <p>Абзаково: категории по <a href="https://abzakovo.com/scheme/" target="_blank" rel="noopener">официальной схеме</a>, проверенной 23.10.2026; дата выпуска не указана. №1, 7, 12 — синие; №2–4 — чёрные; №5, 8, 11, 13 — красные; №9, 10 — зелёные. Предварительный список задания с ней расходится. Официальный сайт описывает 10 трасс и 13 км, схема содержит другую нумерацию; причина различий не установлена. Спуск №6 на схеме отсутствует; оранжевая цифра 6 относится к подъёмнику.</p>
   <p>Мраткино: цвета по таблице схемы из задания владельца, официальная классификация не подтверждена. Фотография схемы не приложена. У Ю3 конфликт name=Ю3 и ref=Ю2. Ю5 и спорная линия фрирайда не отображаются. С1 показана без катающихся и с молодыми елями по прежнему описанию владельца; актуальный режим работы неизвестен. Кресла трёхместные по описанию владельца, в OSM указано четыре места — требуется сверка.</p>
   <p>Пешие треки Малиновой и Ялангаса построены по сети OSM и требуют проверки на местности. Они не подтверждают разрешение прохода. Для Ямантау и Малого Ямантау действуют ограничения заповедника. Собственные файлы GPX / GeoJSON открываются локально и не отправляются на сервер.</p>
-  <p>Большие маршруты GPX: Большая Уральская тропа показана красным, YT_v2-8 — жёлтым. Все участки перенесены из файлов владельца без соединения разрывов. БУТ содержит ветки; суммарная длина не означает длину единой прогулки. Полный охват доступен в слоях кнопкой «Целиком».</p>
+  <p>Большие маршруты GPX: Большая Уральская тропа показана красным, YT_v2-8 — жёлтым. Все участки перенесены из файлов владельца без соединения разрывов. БУТ содержит ветки; суммарная длина не означает длину единой прогулки. Название открывается нажатием на линию. Полный охват доступен в слоях кнопкой «Целиком».</p>
   <h3>Управление</h3><p>Перетаскивание — перемещение; правая кнопка мыши — поворот и наклон; колесо — масштаб. На телефоне используйте два пальца. Кнопка 2D / 3D меняет наклон, компас сбрасывает поворот. Статичный лес, сооружения и трассы появляются автоматически. «Оживить карту» включает движение и объём зданий; выбор сохраняется между местами. При уменьшении движения в системе запуск требует явного нажатия. Общий лес основан на полигонах wood OpenFreeMap; неизвестный тип показан условной смесью, около Мраткино/Абзаково сосны — художественная настройка. Позиции отдельных деревьев условны. Городские объекты и киоски представлены маркерами и карточками. «Карта оживает» включает также объёмную застройку по контурам OpenMapTiles; при отсутствии высоты используется условная высота 6 м. Наклон камеры доступен до 85°. Большой Крака: А и Б перенесены из кода владельца; отдельный трек БЮТ ведёт к прежней точке, путь к новой Б не построен. Штампы перенесены из исходного состава проекта и не показывают текущие остатки.</p>
   <p>Этнопарк: чум, ограда и 20 оленей — условная 3D-композиция по описанию владельца, а не точная схема участка.</p><h3>Источники</h3><p>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>, ODbL 1.0 · <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> / OpenMapTiles · <a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">Mapterhorn, источники рельефа</a>. Преувеличение высот 1. Автономный рельеф: Copernicus DEM GLO-30 (около 30 м), © DLR e.V. 2010–2014 / Airbus Defence and Space GmbH 2014–2018, предоставлен ЕС и ESA. MapLibre GL JS — BSD-3-Clause.</p>`;}
  preset(){return presetFor(this.id);}
@@ -189,7 +182,7 @@ export class RegionController{
   for(const m of h.markers)m.regionalHidden=!h.resortActive;
   const contexts=this.visible.filter(id=>id==='mratkino'?h.resortLoaded:id==='abzakovo'?!!this.ski.data:this.hiking.datasets.has(id));contexts.sort((a,b)=>distanceKm(map.getCenter().toArray(),byId(a).coordinates)-distanceKm(map.getCenter().toArray(),byId(b).coordinates));
   const context=contexts.find(id=>!['mratkino','abzakovo'].includes(id)||distanceKm(map.getCenter().toArray(),byId(id).coordinates)<2.5)||null;if(this.context!==context){this.context=context;this.disposeScenes();}this.hiking.contextArea=['malinovaya','yalangas'].includes(context)?context:null;
-  h.updateLayers();this.refreshLegend();h.$('.legend').title='Обозначения видимых маршрутов';
+  h.updateLayers();this.refreshLegend();
   this.kraka.sync();this.catalog.sync();this.renderCard();this.landscape.sync();this.syncScene();this.layoutLabels();this.updateLoadStatus();
  }
  async toggleEffects(){this.effectsWanted=!this.effectsWanted;const map=this.host.map;
@@ -213,7 +206,7 @@ export class RegionController{
  resetMap(){
   const h=this.host,c=this.bridge.snapshot();this.initial={place:this.id,route:this.routeId,card:this.cardOpen,effects:this.effectsWanted,camera:c?{...c,center:[c.center.lng,c.center.lat]}:this.initial.camera};
   clearTimeout(this.settleTimer);this.cameraMoving=false;this.bootstrapped=false;this.legendKey=null;this.bridge.reset();this.landscape.disposeScene();this.disposeScenes();this.ski.dispose();this.ski.data=null;this.ski.promise=null;this.hiking.dispose();this.hiking.datasets.clear();this.hiking.boundMap=null;
-  this.kraka.reset();this.markers.forEach(m=>m.marker.remove());this.markers=[];h.markers.forEach(m=>m.marker.remove());h.markers=[];h.resortLoaded=false;this.resortPromise=null;this.context=null;this.pending.clear();this.retryAfter.clear();
+  this.longDistance.reset();this.kraka.reset();this.markers.forEach(m=>m.marker.remove());this.markers=[];h.markers.forEach(m=>m.marker.remove());h.markers=[];h.resortLoaded=false;this.resortPromise=null;this.context=null;this.pending.clear();this.retryAfter.clear();
  }
  dataError(error,message='Часть карты временно недоступна.') {if(error?.name==='AbortError')return;const h=this.host,note=h.$('.error-note');if(!note.hidden&&note.dataset.message===message)return;note.dataset.message=message;note.hidden=false;note.textContent=message;const retry=this.button('Повторить','Повторить загрузку объектов',()=>{note.hidden=true;this.retryAfter.clear();this.landscape.retry.clear();this.landscape.stats.error=null;this.sync();const area=hikingArea(this.id);if(area)this.request(area,()=>this.hiking.enter(this.id));else if(this.id==='abzakovo')this.request(this.id,()=>this.ski.ensure());else if(this.id==='mratkino')this.request(this.id,()=>this.ensureResort());});note.append(retry);this.bridge.event('error',{code:'DATA_UNAVAILABLE',message,recoverable:true});}
  addLabels(){
@@ -244,7 +237,7 @@ export class RegionController{
    if(this.stampAnchorFilter!==key){this.stampAnchorFilter=key;map.setFilter('stamp-geographic-anchors',['in',['get','id'],['literal',ids]]);}
   }
  }
- layers(){const h=this.host;if(!h.map?.getLayer('snow'))return;this.longDistance.sync();this.kraka.sync();h.map.setLayoutProperty('region-paths','visibility',h.$('[data-layer=paths]').checked?'visible':'none');this.ski.layers();this.catalog.layers();const forest=h.$('[data-layer=forest]').checked;this.landscape.scene?.setForest(forest);if(this.forestWanted!==forest){this.forestWanted=forest;this.landscape.redraw();}this.landscape.syncAnimation();this.layoutLabels();}
+ layers(){const h=this.host;if(!h.map?.getLayer('snow'))return;this.longDistance.sync();this.kraka.sync();h.map.setLayoutProperty('region-paths','visibility',h.$('[data-layer=paths]').checked?'visible':'none');this.ski.layers();this.catalog.layers();const forest=h.$('[data-layer=forest]').checked;this.landscape.scene?.setForest(forest);if(this.forestWanted!==forest){this.forestWanted=forest;this.landscape.redraw();}this.landscape.syncAnimation();this.layoutLabels();h.layoutLabels();}
  async importRoute(file){
   if(!file)return;const h=this.host,card=h.$('.route-card');card.replaceChildren();
   try{if(file.size>5*1024*1024)throw Error('Максимальный размер — 5 МБ');const {parseGPX,normalizeRoutes,routeMetrics,routeEndpoints}=await import('./routes.js');const text=await file.text(),data=/\.gpx$/i.test(file.name)?parseGPX(text):normalizeRoutes(JSON.parse(text)),metrics=routeMetrics(data);this.routeData=data;this.importActive=true;
@@ -252,5 +245,5 @@ export class RegionController{
    const show=this.button('Показать трек','Показать трек',()=>h.flyToFeatures(data.features,h.map.getBearing()));card.append(show);const remove=this.button('Убрать трек','Убрать трек',()=>{h.map.getSource('touring-routes').setData(EMPTY);h.map.getSource('route-stops').setData(EMPTY);this.routeData=null;this.importActive=false;this.showCard(false);card.replaceChildren();});card.append(remove);h.$('dialog').close();this.showCard(true);show.click();
   }catch(e){h.text(card,'Трек не открыт: '+e.message);this.importActive=true;this.showCard(true);}
  }
- dispose(){clearTimeout(this.settleTimer);clearTimeout(this.statusTimer);this.kraka.reset();this.gallery?.dispose();this.landscape.dispose();this.catalog.dispose();this.bridge.dispose();this.observer?.disconnect();this.hiking.dispose();this.ski.dispose();this.host.disposeLife();this.markers.forEach(m=>m.marker.remove());}
+ dispose(){clearTimeout(this.settleTimer);clearTimeout(this.statusTimer);this.longDistance.reset();this.kraka.reset();this.gallery?.dispose();this.landscape.dispose();this.catalog.dispose();this.bridge.dispose();this.observer?.disconnect();this.hiking.dispose();this.ski.dispose();this.host.disposeLife();this.markers.forEach(m=>m.marker.remove());}
 }

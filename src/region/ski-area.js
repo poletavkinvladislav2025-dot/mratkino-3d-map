@@ -1,3 +1,4 @@
+import {LINE_LOD} from '../landscape/config.js';
 import {EMPTY,boundsFor} from '../map-data.js';
 import {classification,decoratePistes,pisteId,catalog} from './piste-catalog.js';
 
@@ -68,7 +69,7 @@ export class SkiAreaController{
   const trails=this.data.manifest.trailNumbers.map(n=>this.data.trails.features.filter(f=>f.properties.number===n).sort((a,b)=>b.properties.mappedLengthM-a.properties.mappedLengthM)[0]);
   for(const f of [...trails,...this.data.lifts.features]){if(f.geometry.type!=='LineString')continue;const lift=!!f.properties.tags.aerialway,points=f.geometry.coordinates,b=document.createElement('button');b.type='button';b.className='abz-label'+(lift?' abz-lift-label':'');b.textContent=lift?(f.properties.tags.aerialway==='chair_lift'?'КД ':'Б ')+f.properties.number:'№'+f.properties.number;b.setAttribute('aria-label',f.properties.name);if(!lift)b.style.setProperty('--trail-color',classification('abzakovo',f.properties).color);b.addEventListener('click',e=>{e.stopPropagation();lift?this.selectLift(f):this.selectTrail(f.properties.number);});const marker=new h.ml.Marker({element:b,anchor:'bottom',occludedOpacity:.2}).setLngLat(points[Math.floor(points.length/2)]).addTo(h.map);this.markers.push({marker,button:b,feature:f});}
  }
- layoutLabels(){const h=this.host;if(!h.map)return;const occupied=[],width=h.map.getContainer().clientWidth,height=h.map.getContainer().clientHeight,enabled=this.active&&h.$('[data-layer=labels]').checked;
+ layoutLabels(){const h=this.host;if(!h.map)return;const occupied=[],width=h.map.getContainer().clientWidth,height=h.map.getContainer().clientHeight,enabled=this.active&&h.map.getZoom()>=LINE_LOD.labels&&h.$('[data-layer=labels]').checked;
   for(const {marker,button,feature} of this.markers){const p=h.map.project(marker.getLngLat()),w=button.offsetWidth||40,r=[p.x-w/2,p.y-28,p.x+w/2,p.y+4],visible=enabled&&(!feature.properties.tags.aerialway||h.$('[data-layer=lifts]').checked)&&r[0]>8&&r[2]<width-45&&r[1]>60&&r[3]<height-85&&!occupied.some(a=>r[0]<a[2]+5&&r[2]>a[0]-5&&r[1]<a[3]+5&&r[3]>a[1]-5);button.style.visibility=visible?'visible':'hidden';button.tabIndex=visible?0:-1;if(visible)occupied.push(r);}
  }
  layers(){const h=this.host;if(!h.map)return;for(const id of ['abzakovo-piste-fill','abzakovo-trail-shadow','abzakovo-trail-casing','abzakovo-trail-line','abzakovo-boundary'])if(h.map.getLayer(id))h.map.setLayoutProperty(id,'visibility',this.active?'visible':'none');for(const id of ['abzakovo-lift-line','abzakovo-stations'])if(h.map.getLayer(id))h.map.setLayoutProperty(id,'visibility',this.active&&h.$('[data-layer=lifts]').checked?'visible':'none');this.scene?.setLayers({forest:h.$('[data-layer=forest]').checked,lifts:h.$('[data-layer=lifts]').checked});}

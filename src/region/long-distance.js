@@ -25,9 +25,27 @@ export class LongDistanceController{
   parent.append(field);
  }
  sync(){
-  const map=this.host.map;if(!map)return;
+  const map=this.host.map;if(!map)return;this.bind();
+  if(this.popup?.isOpen()&&this.popupRoutes.some(id=>!this.region.filters.hiking||!this.visible[id]))this.popup.remove();
   for(const route of registry){const show=this.region.filters.hiking&&this.visible[route.id];this.checkboxes.get(route.id).checked=show;for(const id of [trailLayerId(route),'long-distance-'+route.id+'-casing'])if(map.getLayer(id)&&map.getLayoutProperty(id,'visibility')!==(show?'visible':'none'))map.setLayoutProperty(id,'visibility',show?'visible':'none');}
  }
+ bind(){
+  const map=this.host.map;if(this.boundMap===map)return;this.boundMap=map;
+  map.on('click',event=>{
+   const box=[[event.point.x-7,event.point.y-7],[event.point.x+7,event.point.y+7]];
+   // Local pistes and lifts retain their own detailed cards at crossings.
+   const local=['trail-line','lift-line','abzakovo-trail-line','abzakovo-lift-line','winter-catalog-line','hiking-route-line','kraka-but-line'].filter(id=>map.getLayer(id)&&map.getLayoutProperty(id,'visibility')!=='none');
+   if(local.length&&map.queryRenderedFeatures(box,{layers:local}).length){this.popup?.remove();return;}
+   const layers=registry.filter(r=>this.region.filters.hiking&&this.visible[r.id]).map(trailLayerId).filter(id=>map.getLayer(id));
+   if(!layers.length)return;
+   const hits=new Set(map.queryRenderedFeatures(box,{layers}).map(f=>f.layer.id));
+   const routes=registry.filter(r=>hits.has(trailLayerId(r)));if(!routes.length)return;
+   this.popup?.remove();const content=document.createElement('div');content.className='long-route-popup';
+   for(const route of routes){const name=document.createElement('p');name.textContent=route.name;name.style.borderLeftColor=route.color;content.append(name);}
+   this.popupRoutes=routes.map(r=>r.id);this.popup=new this.host.ml.Popup({closeButton:true,closeOnClick:true,closeOnMove:true,maxWidth:'260px',className:'route-name-popup'}).setLngLat(event.lngLat).setDOMContent(content).addTo(map);
+  });
+ }
+ reset(){this.popup?.remove();this.popup=null;this.boundMap=null;}
  fit(id){
   const route=registry.find(r=>r.id===id);if(!route||!this.host.map?.getLayer(trailLayerId(route)))return;
   this.visible[id]=true;if(!this.region.filters.hiking)this.region.setFilters({hiking:true});this.sync();this.region.showCard(false);this.region.layerPanel.hidden=true;this.region.layerButton.setAttribute('aria-expanded','false');

@@ -44,4 +44,6 @@
 .explorer .long-route-row input{margin:0}
 .explorer .long-route-row button{align-self:center;min-height:34px;padding:7px 9px;border:1px solid var(--vb-border);border-radius:8px;background:var(--vb-soft);font-size:11px;color:var(--vb-ink)}
 .explorer .long-route-row small{grid-column:1/-1;color:var(--vb-muted);font-size:10px;line-height:1.5}
-.explorer .legend i.legend-route-line{width:18px;height:3px;border-radius:2px;box-shadow:0 0 0 1px #34514566}
+.explorer .route-name-popup .maplibregl-popup-content{padding:14px 28px 14px 14px;border:1px solid var(--vb-border);border-radius:var(--vb-radius);box-shadow:var(--vb-shadow);font:13px/1.5 Arial,sans-serif;color:var(--vb-ink)}
+.explorer .long-route-popup p{margin:4px 0;padding-left:9px;border-left:3px solid}
+.explorer .route-name-popup .maplibregl-popup-close-button{min-width:28px;min-height:28px;color:var(--vb-ink);font-size:20px}

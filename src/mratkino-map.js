@@ -5,6 +5,7 @@ import explorerCSS from './explorer.css?inline';
 import themeCSS from './map-theme.css?inline';
 import { SUMMIT, EXPECTED, boundsFor, coordinates, slopeCamera, createStyle, EMPTY } from './map-data.js';
 
+import {LINE_LOD} from './landscape/config.js';
 import {configureCameraControl,cameraLayoutKey} from './map-interaction.js';
 import {RegionController} from './region/controller.js';
 import {createRegionalStyle} from './region/style.js';
@@ -222,7 +223,7 @@ class MratkinoMap extends HTMLElement {
    const r={left:point.x-w/2-5,right:point.x+w/2+5,top:point.y-h-5,bottom:point.y+8};
    const outside=r.left<8||r.right>width-54||r.top<50||r.bottom>height-30;
    const overlaps=occupied.some(b=>r.left<b.right&&r.right>b.left&&r.top<b.bottom&&r.bottom>b.top);
-   const visible=(!this.region||item.id!=='summit'||this.$('[data-layer=labels]').checked)&&!item.regionalHidden&&!outside&&!overlaps;item.element.style.visibility=visible?'visible':'hidden';item.element.tabIndex=visible&&item.id!=='summit'?0:-1;
+   const visible=(!this.region||this.$('[data-layer=labels]').checked&&this.map.getZoom()>=LINE_LOD.labels)&&!item.regionalHidden&&!outside&&!overlaps;item.element.style.visibility=visible?'visible':'hidden';item.element.tabIndex=visible&&item.id!=='summit'?0:-1;
    if(visible)occupied.push(r);
   }
  }
