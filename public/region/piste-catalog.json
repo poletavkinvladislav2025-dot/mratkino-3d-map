@@ -38,7 +38,7 @@
       "Ю2": "intermediate",
       "Ю3": "intermediate",
       "Ю4": "easy",
-      "С1": "intermediate",
+      "С1": "expert",
       "С2": "expert",
       "С3": "intermediate"
     },
@@ -99,10 +99,10 @@
         "Ю1",
         "Ю2",
         "Ю3",
-        "С1",
         "С3"
       ],
       "black": [
+        "С1",
         "С2"
       ],
       "blue": [

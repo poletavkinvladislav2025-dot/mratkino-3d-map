@@ -157,7 +157,7 @@ class MratkinoMap extends HTMLElement {
   this.selected=f.properties.id;this.view=f.properties.slope;this.updateViewButtons();this.renderList();
   const card=this.$('.card');card.replaceChildren();const p=f.properties,c=classification('mratkino',p);this.cardTitle(card,'Трасса',p.name);this.text(card,c.label.split(' · ')[0],'difficulty-value');
   this.text(card,p.slope==='north'?'Спуск на северном склоне Мраткино.':'Спуск на южном склоне Мраткино.');
-  if(p.name==='С1')this.text(card,'Закрыта · не обслуживается','trail-closure');
+  if(p.name==='С1'){this.text(card,'Закрыта · не обслуживается','trail-closure');this.text(card,'Участок зарастает елями.');}
   const button=document.createElement('button');button.type='button';button.className='show-trail';button.textContent='Показать трассу';button.addEventListener('click',()=>this.flyToFeatures(this.data.trails.features.filter(x=>x.properties.name===p.name),this.cameras[p.slope]?.bearing||0));card.append(button);
   this.highlight();if(this.region)this.region.selectFeature('mratkino',pisteId('mratkino',p),meta);else this.openPanel(true);if(fly)this.flyToFeatures([f],this.cameras[p.slope]?.bearing||0);
  }
