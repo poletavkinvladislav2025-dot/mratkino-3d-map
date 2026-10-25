@@ -59,3 +59,7 @@
 .explorer .route-name-popup .maplibregl-popup-close-button{min-width:28px;min-height:28px;color:var(--vb-ink);font-size:20px}
 
 @media(max-width:760px){.explorer .region-navigation .map-home{display:flex;align-items:center;justify-content:center;min-width:34px;width:34px}}
+
+.explorer .trail-closure{padding:11px 12px;border-left:4px solid #d0343d;border-radius:8px;background:#fff0ec;color:#9a302b!important;font-weight:700}
+.explorer .route-label.closed-trail{border-color:#d0343d;color:#9a302b}
+.explorer .trail-row.closed-trail{grid-column:span 2;border-style:dashed;border-color:#d0343d;color:#9a302b}
