@@ -35,12 +35,12 @@
     "status": "owner-scheme-transcription",
     "categories": {
       "Ю1": "intermediate",
-      "Ю2": "easy",
-      "Ю3": "easy",
+      "Ю2": "intermediate",
+      "Ю3": "intermediate",
       "Ю4": "easy",
       "С1": "intermediate",
-      "С2": "intermediate",
-      "С3": "easy"
+      "С2": "expert",
+      "С3": "intermediate"
     },
     "dateNote": "Таблица и цвета переданы владельцем в задании 23.10.2026; фотография схемы отсутствует. Доступная страница УРЭК не позволила независимо сверить таблицу. Это не официальная классификация.",
     "missing": [
@@ -91,6 +91,23 @@
       "source": "Map owner correction",
       "С1": "red; closed; not maintained",
       "С3": "blue"
+    },
+    "colourCorrection": {
+      "date": "2026-10-25",
+      "source": "Map owner correction",
+      "red": [
+        "Ю1",
+        "Ю2",
+        "Ю3",
+        "С1",
+        "С3"
+      ],
+      "black": [
+        "С2"
+      ],
+      "blue": [
+        "Ю4"
+      ]
     }
   },
   "bannoye": {
