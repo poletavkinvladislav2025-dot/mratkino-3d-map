@@ -1,7 +1,7 @@
 import {rodeoMask,rodeoFrame} from '../landscape/rodeo-plan.js';
 import {placeKind} from './card-content.js';
 import {PLACES,CITY,presetFor,byId,distanceKm} from './presets.js';
-import {EMPTY} from '../map-data.js';
+import {EMPTY,boundsFor} from '../map-data.js';
 import {resortFacilities} from './style.js';
 import {HikingController,hikingArea} from './hiking.js';
 import {SkiAreaController} from './ski-area.js';
@@ -102,6 +102,7 @@ export class RegionController{
   h.highlight();if(this.ski.data){this.ski.selectedIds([]);this.ski.card?.replaceChildren();}this.hiking.selected=null;this.hiking.card.replaceChildren();
   if(meta.navigate!==false){h.map.stop();if(id==='all')this.overview(animate);else{const p=this.preset();h.mode2D=p.pitch<10;h.map.easeTo({center:p.center,zoom:p.zoom,pitch:p.pitch,bearing:p.bearing,padding:this.cameraPadding(),duration:animate?h.duration():0});this.cameraButton();}}
   if(!meta.silent)this.bridge.event('placeSelected',{placeId:id});
+  if(id==='rodeo'&&meta.navigate!==false)this.focusRodeoPark(animate);
   if(id==='bolshoy-kraka'&&meta.navigate!==false)this.kraka.fit(false,animate);
   this.bridge.updateURL();
   try{if(id==='mratkino')await this.ensureResort();else if(id==='abzakovo')await this.ski.ensure();else if(hikingArea(id))await this.hiking.enter(id);else if(byId(id)?.geometryUrl)await this.catalog.ensure(id);}catch(e){this.dataError(e,'Данные места временно недоступны.');}
@@ -119,16 +120,17 @@ export class RegionController{
   const page=p.sourceUrl||(['malinovaya','malinovaya-3'].includes(this.id)?'https://visitbeloretsk.ru/malinovaya':this.id==='yalangas'?'https://www.visitbeloretsk.ru/yalangas':null);
   if(page&&!page.includes('openstreetmap.org')){const a=document.createElement('a');a.href=page;a.target='_blank';a.rel='noopener';a.textContent='О месте ↗';card.append(a);}
   renderPassportContent(card,p,this);
-  if(p.id==='rodeo'){card.append(this.button('Рассмотреть фристайл-парк','Рассмотреть фристайл-парк',()=>h.flyToFeatures([{geometry:rodeoMask()}],0)));card.append(this.button('Рассмотреть подушку','Рассмотреть подушку',()=>this.focusRodeoBag()));}
+  if(p.id==='rodeo'){card.append(this.button('Рассмотреть фристайл-парк','Рассмотреть фристайл-парк',()=>this.focusRodeoPark()));card.append(this.button('Рассмотреть подушку','Рассмотреть подушку',()=>this.focusRodeoBag()));}
   if(p.id==='bolshoy-kraka')this.kraka.card(card);
   if(p.id==='kraka')card.append(this.button('Точки А и Б Большого Крака','Показать старт и видовую точку',()=>this.choose('bolshoy-kraka')));
   const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Координаты и источник';details.append(summary);h.text(details,`${p.coordinates[1]}, ${p.coordinates[0]}`,'place-coordinates');if(p.elevation)h.text(details,'Высота по данным OpenStreetMap.');if(page){const a=document.createElement('a');a.href=page;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Источник ↗';details.append(a);}
   if(p.sourceRecord)h.text(details,'Данные исходной карты проекта Visit Beloretsk.');card.append(details);
  }
 
+ focusRodeoPark(animate=true){const h=this.host,b=boundsFor([{geometry:rodeoMask()}]),center=[(b[0][0]+b[1][0])/2,(b[0][1]+b[1][1])/2],frame=b.map(p=>p.map((v,i)=>center[i]+(v-center[i])*.85));h.mode2D=false;h.flyToBounds(frame,-125,55,animate,18);this.cameraButton();}
  focusRodeoBag(){
   const h=this.host,plan=this.landscape.scene?.rodeo?.plan;
-  if(!plan){this.rodeoBagFocus=true;h.flyToFeatures([{geometry:rodeoMask()}],0);return;}
+  if(!plan){this.rodeoBagFocus=true;this.focusRodeoPark();return;}
   this.rodeoBagFocus=false;const b=plan.bag,points=[plan.point(b.x-22,b.d-32),plan.point(b.x+22,b.d+32)].map(rodeoFrame.toLngLat);this.showCard(false);h.flyToBounds([[Math.min(...points.map(p=>p[0])),Math.min(...points.map(p=>p[1]))],[Math.max(...points.map(p=>p[0])),Math.max(...points.map(p=>p[1]))]],20,55,true,18.5);
  }
  renderCard(){

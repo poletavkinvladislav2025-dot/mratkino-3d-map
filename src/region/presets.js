@@ -1,3 +1,4 @@
+import {rodeoPlan,rodeoFrame} from '../landscape/rodeo-plan.js';
 import {content} from './card-content.js';
 import registry from './places.json' with {type:'json'};
 import winter from './winter-places.json' with {type:'json'};
@@ -16,6 +17,7 @@ export function presetFor(id){
  if(place)id=place.id;
  if(id==='all')return {id,center:[58.485,53.91],zoom:10.3,pitch:35,bearing:0,layers:{labels:true,forest:true,paths:false},data:[],bounds:REGION_BOUNDS};
  if(!place)return presetFor('mratkino');
+ if(id==='rodeo'){const park=rodeoPlan();return {id,center:rodeoFrame.toLngLat(park.point(0,park.length/2)),zoom:16,pitch:55,bearing:-125};}
  if(id==='ethnopark')return {id,center:place.coordinates,zoom:18.1,pitch:58,bearing:ethno.bearing};
  const city=id==='beloretsk',resort=id==='mratkino',abzakovo=id==='abzakovo';
  const urban=place.kind==='stamp-point'||place.kind==='heritage';
