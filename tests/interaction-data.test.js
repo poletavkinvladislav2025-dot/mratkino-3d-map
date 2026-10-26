@@ -12,7 +12,7 @@ test('nearest forest cells match exhaustive selection without enumerating a hori
 });
 test('static forest does not re-upload matrices; moving cameras defer rebuilds and changed terrain invalidates the cache',()=>{
  const saved=globalThis.matchMedia;globalThis.matchMedia=()=>({matches:false});try{
-  let moving=false,uploads=0,lon=58.5;const scene={stats:{trees:1},elevations:new Map(),setSaplings(){},setTrees(){uploads++;},setForest(){},showRodeo(){},showWaterTower(){},showPark(){},setAnimation(){}};
+  let moving=false,uploads=0,lon=58.5;const scene={stats:{trees:1},elevations:new Map(),setSaplings(){},setTrees(){uploads++;},setForest(){},showRodeo(){},showWaterTower(){},showRocks(){},showPark(){},setAnimation(){}};
   const host={resortLoaded:false,map:{isMoving:()=>moving,getCenter:()=>({toArray:()=>[lon,54.08]}),getZoom:()=>15.2},$:()=>({checked:true}),setAttribute(){}};
   const region={host,ski:{},filters:{interesting:true},season:'winter',updateLoadStatus(){}};const c=new LandscapeController(region);c.scene=scene;c.selected=['cell'];c.cache.set('cell',{points:[[58.5,54.08,1,3]]});
   c.redraw();assert.equal(uploads,1);for(let i=0;i<20;i++)c.redraw();assert.equal(uploads,1);moving=true;lon+=.001;c.redraw();assert.equal(uploads,1);moving=false;c.redraw();assert.equal(uploads,2);c.refreshGround();assert.equal(uploads,3);
@@ -22,4 +22,13 @@ test('unchanged hiking and catalog routes avoid worker messages; data, filters a
  const posted={};const sources=new Map(['hiking-routes','hiking-stops','winter-catalog'].map(id=>[id,{setData:data=>{posted[id]=(posted[id]||0)+1;}}]));const host={map:{getSource:id=>sources.get(id)},region:{routeId:null},$:()=>({checked:true})};
  const h=new HikingController(host);h.visible=new Set(['yalangas']);h.datasets.set('yalangas',JSON.parse(fs.readFileSync('public/region/hiking/yalangas/routes.geojson')));h.draw();for(let i=0;i<20;i++)h.draw();assert.equal(posted['hiking-routes'],1);host.region.routeId='yalangas/a1';h.draw();assert.equal(posted['hiking-routes'],2);
  const region={host,filters:{ski:true,nordic:true},routeId:null},c=new CatalogController(region),place=PLACES.find(p=>p.id==='bannoye');c.active=['bannoye'];c.datasets.bannoye=JSON.parse(fs.readFileSync('public/'+place.geometryUrl));c.layers();for(let i=0;i<20;i++)c.layers();assert.equal(posted['winter-catalog'],1);region.filters.ski=false;c.layers();assert.equal(posted['winter-catalog'],2);
+});
+
+test('DEM content gets one final ground refresh after it is painted, even if the batching timer already ran',()=>{
+ const saved=globalThis.matchMedia;globalThis.matchMedia=()=>({matches:false});try{
+  const handlers={},host={map:{getLayer:id=>id==='snow',on:(name,fn)=>handlers[name]=fn,getZoom:()=>10,isMoving:()=>false},setAttribute(){}};
+  const region={host,viewportVisible:false,updateLoadStatus(){}};const c=new LandscapeController(region);c.sync();let calls=0;c.refreshGround=()=>{calls++;c.groundDirty=false;};
+  handlers.sourcedata({sourceId:'dem',sourceDataType:'content'});clearTimeout(c.terrainTimer);c.refreshGround();assert.equal(c.groundDirty,false);handlers.idle();assert.equal(calls,2);handlers.idle();assert.equal(calls,2);
+  handlers.sourcedata({sourceId:'dem',sourceDataType:'content'});clearTimeout(c.terrainTimer);region.cameraMoving=true;handlers.idle();assert.equal(calls,2);assert.equal(c.groundDirty,true);region.cameraMoving=false;handlers.idle();assert.equal(calls,3);
+ }finally{globalThis.matchMedia=saved;}
 });

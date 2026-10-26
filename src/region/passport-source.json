@@ -394,7 +394,16 @@
           "alt": "Водонапорная башня Белорецка — фото 2",
           "sourceUrl": "https://visitbeloretsk.ru/map"
         }
-      ]
+      ],
+      "ownerCoordinates": [
+        58.40492627,
+        53.97033042
+      ],
+      "coordinateCorrection": {
+        "sourceUrl": "https://www.openstreetmap.org/way/510740710",
+        "reason": "Уточнение владельца: поставить 3D-модель на круглый контур здания.",
+        "checkedOn": "2026-10-26"
+      }
     },
     {
       "sourceId": "beloretskFactory",

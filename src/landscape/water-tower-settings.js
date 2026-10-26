@@ -1,1 +1,1 @@
-export const WATER_TOWER={center:[58.404897,53.970428],height:25,enter:15.3,exit:15,radiusKm:.65};
+export const WATER_TOWER={"center":[58.40492627,53.97033042],"height":25,"enter":15.3,"exit":15,"radiusKm":0.65,"footprintCutout":{"type":"Polygon","coordinates":[[[58.4048514,53.970285600000004],[58.4050029,53.970285600000004],[58.4050029,53.970374899999996],[58.4048514,53.970374899999996],[58.4048514,53.970285600000004]]]}};

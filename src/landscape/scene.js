@@ -1,3 +1,5 @@
+import {MalinovayaRockModel} from './malinovaya-rock-model.js';
+import {MALINOVAYA_ROCKS,rockFrame} from './malinovaya-rock-plan.js';
 import {WaterTowerModel,WATER_TOWER} from './water-tower.js';
 import {RodeoModel} from './rodeo-model.js';
 import {RODEO,rodeoFrame} from './rodeo-plan.js';
@@ -34,9 +36,15 @@ export class LandscapeScene{
   if(this.rodeo&&(Math.abs(elevation-this.rodeoBase)>.4||revision!==this.rodeoRevision)){const elapsed=this.rodeo.elapsed;this.rodeo.dispose();this.rodeo=null;this.rodeoElapsed=elapsed;}
   if(!this.rodeo){this.rodeo=new RodeoModel(this.scene,(x,y)=>{const z=this.map.queryTerrainElevation(rodeoFrame.toLngLat([x,y]));return Number.isFinite(z)?z:elevation;},{mobile:this.mobile});this.rodeo.group.position.set(...this.local(RODEO.center),0);this.rodeo.group.scale.setScalar(this.ml.MercatorCoordinate.fromLngLat(RODEO.center).meterInMercatorCoordinateUnits()/this.units);this.rodeo.elapsed=this.rodeoElapsed||0;this.rodeo.update(0);this.rodeoBase=elevation;this.rodeoRevision=revision;this.stats.freestylers=this.rodeo.count;this.map.triggerRepaint();}
  }
+ showRocks(show,revision=0){
+  if(!show){this.rocks?.dispose();this.rocks=null;return;}
+  const base=this.map.queryTerrainElevation(MALINOVAYA_ROCKS.center);if(!Number.isFinite(base)||base===0&&!this.map.isSourceLoaded('dem'))return;
+  if(this.rocks&&(this.rocksRevision!==revision||Math.abs(base-this.rocksBase)>.4)){this.rocks.dispose();this.rocks=null;}
+  if(!this.rocks){this.rocks=new MalinovayaRockModel(this.scene,(x,y)=>{const z=this.map.queryTerrainElevation(rockFrame.toLngLat([x,y]));return Number.isFinite(z)?z:base;});this.rocks.group.position.set(...this.local(MALINOVAYA_ROCKS.center),0);this.rocks.group.scale.setScalar(this.ml.MercatorCoordinate.fromLngLat(MALINOVAYA_ROCKS.center).meterInMercatorCoordinateUnits()/this.units);this.rocksRevision=revision;this.rocksBase=base;this.map.triggerRepaint();}
+ }
  showWaterTower(show){
   if(!show){this.tower?.dispose();this.tower=null;return;}
-  const z=this.map.queryTerrainElevation(WATER_TOWER.center);if(!Number.isFinite(z))return;
+  const z=this.map.queryTerrainElevation(WATER_TOWER.center);if(!Number.isFinite(z)||z===0&&!this.map.isSourceLoaded('dem'))return;
   if(!this.tower)this.tower=new WaterTowerModel(this.scene);
   const scale=this.ml.MercatorCoordinate.fromLngLat(WATER_TOWER.center).meterInMercatorCoordinateUnits()/this.units;
   this.tower.group.position.set(...this.local(WATER_TOWER.center),z*scale);this.tower.group.scale.setScalar(scale);this.map.triggerRepaint();
@@ -50,5 +58,5 @@ export class LandscapeScene{
   if(this.park)this.park.update(0);
   this.camera.projectionMatrix.copy(this.matrix.fromArray(args.defaultProjectionData.mainMatrix)).multiply(this.transform);this.renderer.resetState();this.renderer.setViewport(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight);this.renderer.render(this.scene,this.camera);this.renderer.resetState();this.stats.frames++;this.schedule();
  }
- onRemove(){if(this.disposed)return;this.disposed=true;clearTimeout(this.timer);this.park?.dispose();this.park=null;this.rodeo?.dispose();this.rodeo=null;this.tower?.dispose();this.tower=null;[this.trunks,...(this.crowns||[])].forEach(m=>m?.dispose());this.resources.forEach(r=>r.dispose());this.elevations.clear();this.renderer?.dispose();}
+ onRemove(){if(this.disposed)return;this.disposed=true;clearTimeout(this.timer);this.park?.dispose();this.park=null;this.rodeo?.dispose();this.rodeo=null;this.tower?.dispose();this.tower=null;this.rocks?.dispose();this.rocks=null;[this.trunks,...(this.crowns||[])].forEach(m=>m?.dispose());this.resources.forEach(r=>r.dispose());this.elevations.clear();this.renderer?.dispose();}
 }

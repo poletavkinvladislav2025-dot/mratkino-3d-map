@@ -1,3 +1,4 @@
+import {ROCK_SURFACES} from '../landscape/malinovaya-rock-plan.js';
 import {rodeoMask,rodeoFrame} from '../landscape/rodeo-plan.js';
 import {placeKind} from './card-content.js';
 import {PLACES,CITY,presetFor,byId,distanceKm} from './presets.js';
@@ -66,7 +67,7 @@ export class RegionController{
  }
  button(text,label,handler){const b=document.createElement('button');b.type='button';b.textContent=text;b.setAttribute('aria-label',label);b.title=label;b.addEventListener('click',handler);return b;}
  setFilters(patch,{silent=false}={}){
-  const next=applyFilters(this.filters,patch),changed=JSON.stringify(next)!==JSON.stringify(this.filters);this.filters=next;
+  const next=applyFilters(this.filters,patch),changed=JSON.stringify(next)!==JSON.stringify(this.filters);this.filters=next;if(this.host.map?.getLayer('malinovaya-rock-surface'))this.host.map.setLayoutProperty('malinovaya-rock-surface','visibility',next.interesting&&next.hiking?'visible':'none');
   for(const input of this.host.shadowRoot.querySelectorAll('[data-category]'))input.checked=next[input.dataset.category];
   this.renderSearch?.();const selected=byId(this.id);if(selected&&!placeVisible(selected,next))this.cardOpen=false;this.sync();if(changed&&!silent)this.bridge.event('filtersChanged',{filters:filterSnapshot(next)});
  }
@@ -83,7 +84,7 @@ export class RegionController{
   <p>Мраткино: цвета по таблице схемы из задания владельца, официальная классификация не подтверждена. Фотография схемы не приложена. У Ю3 конфликт name=Ю3 и ref=Ю2. Ю5 и спорная линия фрирайда не отображаются. С1 — чёрная, закрыта и не обслуживается; показана без катающихся. Ю1, Ю2, Ю3 и С3 — красные; С2 — чёрная. Кресла трёхместные по описанию владельца, в OSM указано четыре места — требуется сверка.</p>
   <p>Пешие треки Малиновой и Ялангаса построены по сети OSM и требуют проверки на местности. Они не подтверждают разрешение прохода. Для Ямантау и Малого Ямантау действуют ограничения заповедника. Собственные файлы GPX / GeoJSON открываются локально и не отправляются на сервер.</p>
   <p>Большие маршруты GPX: Большая Уральская тропа показана красным, Южноуральская тропа — жёлтым. Все участки перенесены из файлов владельца без соединения разрывов. БУТ содержит ветки; суммарная длина не означает длину единой прогулки. Название открывается нажатием на линию. Полный охват доступен в слоях кнопкой «Целиком».</p>
-  <p>Родео-парк: подушка, трамплины, фигуры и трюки — художественная сцена по описанию проекта, не съёмка реального расположения оборудования.</p><p>Водонапорная башня Белорецка — приближённая 3D-модель по изображению из карточки: кирпичный ствол, деревянный восьмигранный верх, крыша и фонарь. Пропорции и детали условны.</p><h3>Управление</h3><p>Перетаскивание — перемещение; правая кнопка мыши — поворот и наклон; колесо — масштаб. На телефоне используйте два пальца. Кнопка 2D / 3D меняет наклон, компас сбрасывает поворот. Статичный лес, сооружения и трассы появляются автоматически. «Оживить карту» включает движение и объём зданий; выбор сохраняется между местами. При уменьшении движения в системе запуск требует явного нажатия. Общий лес основан на полигонах wood OpenFreeMap; неизвестный тип показан условной смесью, около Мраткино/Абзаково сосны — художественная настройка. Позиции отдельных деревьев условны. Городские объекты и киоски представлены маркерами и карточками. «Карта оживает» включает также объёмную застройку по контурам OpenMapTiles; при отсутствии высоты используется условная высота 6 м. Наклон камеры доступен до 85°. Большой Крака: А и Б перенесены из кода владельца; отдельный трек БЮТ ведёт к прежней точке, путь к новой Б не построен. Штампы перенесены из исходного состава проекта и не показывают текущие остатки.</p>
+  <p>Родео-парк: подушка, трамплины, фигуры и трюки — художественная сцена по описанию проекта, не съёмка реального расположения оборудования.</p><p>Водонапорная башня Белорецка — приближённая 3D-модель по изображению из карточки: кирпичный ствол, деревянный восьмигранный верх, крыша и фонарь. Пропорции и детали условны.</p><p>Скалы Первой Малиновой следуют линии обрыва OpenStreetMap, сопоставленной со спутниковым снимком. Высота, трещины и отдельные блоки — приближённая иллюстрация по фотографиям.</p><h3>Управление</h3><p>Перетаскивание — перемещение; правая кнопка мыши — поворот и наклон; колесо — масштаб. На телефоне используйте два пальца. Кнопка 2D / 3D меняет наклон, компас сбрасывает поворот. Статичный лес, сооружения и трассы появляются автоматически. «Оживить карту» включает движение и объём зданий; выбор сохраняется между местами. При уменьшении движения в системе запуск требует явного нажатия. Общий лес основан на полигонах wood OpenFreeMap; неизвестный тип показан условной смесью, около Мраткино/Абзаково сосны — художественная настройка. Позиции отдельных деревьев условны. Городские объекты и киоски представлены маркерами и карточками. «Карта оживает» включает также объёмную застройку по контурам OpenMapTiles; при отсутствии высоты используется условная высота 6 м. Наклон камеры доступен до 85°. Большой Крака: А и Б перенесены из кода владельца; отдельный трек БЮТ ведёт к прежней точке, путь к новой Б не построен. Штампы перенесены из исходного состава проекта и не показывают текущие остатки.</p>
   <p>Этнопарк: чум, ограда и 20 оленей — условная 3D-композиция по описанию владельца, а не точная схема участка.</p><h3>Источники</h3><p>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>, ODbL 1.0 · <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> / OpenMapTiles · <a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">Mapterhorn, источники рельефа</a>. Преувеличение высот 1. Автономный рельеф: Copernicus DEM GLO-30 (около 30 м), © DLR e.V. 2010–2014 / Airbus Defence and Space GmbH 2014–2018, предоставлен ЕС и ESA. MapLibre GL JS — BSD-3-Clause.</p>`;}
  preset(){const p=presetFor(this.id);return p.mobileZoom&&matchMedia('(max-width:760px)').matches?{...p,zoom:p.mobileZoom}:p;}
  async bootstrap(){
@@ -102,6 +103,7 @@ export class RegionController{
   h.highlight();if(this.ski.data){this.ski.selectedIds([]);this.ski.card?.replaceChildren();}this.hiking.selected=null;this.hiking.card.replaceChildren();
   if(meta.navigate!==false){h.map.stop();if(id==='all')this.overview(animate);else{const p=this.preset();h.mode2D=p.pitch<10;h.map.easeTo({center:p.center,zoom:p.zoom,pitch:p.pitch,bearing:p.bearing,padding:this.cameraPadding(),duration:animate?h.duration():0});this.cameraButton();}}
   if(!meta.silent)this.bridge.event('placeSelected',{placeId:id});
+  if(id==='malinovaya'&&meta.navigate!==false){h.mode2D=false;h.flyToBounds(boundsFor(ROCK_SURFACES.features),35,62,animate,16.5);this.cameraButton();}
   if(id==='rodeo'&&meta.navigate!==false)this.focusRodeoPark(animate);
   if(id==='bolshoy-kraka'&&meta.navigate!==false)this.kraka.fit(false,animate);
   this.bridge.updateURL();
@@ -120,6 +122,7 @@ export class RegionController{
   const page=p.sourceUrl||(['malinovaya','malinovaya-3'].includes(this.id)?'https://visitbeloretsk.ru/malinovaya':this.id==='yalangas'?'https://www.visitbeloretsk.ru/yalangas':null);
   if(page&&!page.includes('openstreetmap.org')){const a=document.createElement('a');a.href=page;a.target='_blank';a.rel='noopener';a.textContent='О месте ↗';card.append(a);}
   renderPassportContent(card,p,this);
+  if(p.id==='malinovaya')card.append(this.button('Рассмотреть скалы','Рассмотреть скалы',()=>{h.mode2D=false;h.flyToBounds([[58.3151,54.0029],[58.3165,54.0040]],35,64,true,17.5);this.cameraButton();}));
   if(p.id==='rodeo'){card.append(this.button('Рассмотреть фристайл-парк','Рассмотреть фристайл-парк',()=>this.focusRodeoPark()));card.append(this.button('Рассмотреть подушку','Рассмотреть подушку',()=>this.focusRodeoBag()));}
   if(p.id==='bolshoy-kraka')this.kraka.card(card);
   if(p.id==='kraka')card.append(this.button('Точки А и Б Большого Крака','Показать старт и видовую точку',()=>this.choose('bolshoy-kraka')));
@@ -185,7 +188,7 @@ export class RegionController{
   const h=this.host,map=h.map;if(!map?.getLayer('snow'))return;if(!this.sceneVisible){this.landscape.sync();this.syncScene();this.updateLoadStatus();return;}if(map.isMoving()||this.cameraMoving){if(!map.isMoving()&&!this.settleTimer)this.cameraSettled();return;}this.visible=visibleAreas(map,this.visible);h.setAttribute('data-visible-areas',this.visible.join(','));h.setAttribute('data-active-zones',this.visible.join(','));
   if(this.visible.includes('mratkino')&&!h.resortLoaded)this.request('mratkino',()=>this.ensureResort());
   if(this.visible.includes('abzakovo')&&!this.ski.data)this.request('abzakovo',()=>this.ski.ensure());
-  const hiking=this.visible.filter(id=>id==='malinovaya'||id==='yalangas');
+  const hiking=[...new Set(this.visible.map(hikingArea).filter(Boolean))];
   this.hiking.visible=new Set(this.filters.hiking?hiking:[]);for(const area of hiking)if(!this.hiking.datasets.has(area))this.request(area,()=>this.hiking.ensure(area));
   this.hiking.draw();h.resortActive=this.filters.ski&&this.visible.includes('mratkino')&&h.resortLoaded;this.ski.sync(this.filters.ski&&this.visible.includes('abzakovo')&&!!this.ski.data);
   for(const m of h.markers)m.regionalHidden=!h.resortActive;

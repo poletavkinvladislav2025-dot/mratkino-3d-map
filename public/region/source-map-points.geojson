@@ -553,8 +553,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          58.404897,
-          53.970428
+          58.40492627,
+          53.97033042
         ]
       },
       "properties": {
@@ -568,7 +568,7 @@
           58.404897,
           53.970428
         ],
-        "coordinateStatus": "owner-source-map",
+        "coordinateStatus": "owner-corrected-building",
         "sellsPassport": null,
         "historical": false
       }

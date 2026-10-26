@@ -14,10 +14,10 @@ export function mergeSourcePlaces(existing){
   const displayName=r.sourceId==='kraka'?'Хребет Крака':r.displayName||r.name;
   places.set(r.canonicalId,{...old,id:r.canonicalId,name:displayName,displayName,kind,
    coordinates,zoneRadiusKm:old?.zoneRadiusKm||0,major:old?.major||false,
-   coordinateStatus:r.sourceId==='kraka'?'project-reference':'owner-source-map',
+   coordinateStatus:r.coordinateCorrection?'owner-corrected-building':r.sourceId==='kraka'?'project-reference':'owner-source-map',
    sourceRecord:r,sourceCoordinates:sourceCoordinates(r),previousCoordinates:changed?old.coordinates:undefined,
    previousCoordinateStatus:old?.coordinateStatus,previousCoordinateNote:old?.note,
-   note:r.sourceId==='kraka'?'Основная точка — уточнение владельца; исходная точка сохранена в sourceCoordinates.':'Точка перенесена из исходной карты владельца; это не новая геодезическая проверка.',
+   note:r.coordinateCorrection?.reason|| (r.sourceId==='kraka'?'Основная точка — уточнение владельца; исходная точка сохранена в sourceCoordinates.':'Точка перенесена из исходной карты владельца; это не новая геодезическая проверка.'),
    description:r.description||old?.description||(kind==='peak'?'Горная вершина Южного Урала.':kind==='ridge'?'Хребет Южного Урала.':'Природная локация Южного Урала.'),
    photos:r.photos||old?.photos||[],historical:!!r.historical,
    ...(kind==='stamp-point'?{address:r.address,sellsPassport:r.sellsPassport,conditions:r.conditions,stamps:r.stamps}:{}),

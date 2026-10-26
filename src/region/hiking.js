@@ -1,7 +1,7 @@
 import {content} from './card-content.js';
 import {sameInputs} from '../map-interaction.js';
 import {EMPTY,boundsFor} from '../map-data.js';
-export const hikingArea=id=>id==='malinovaya'||id==='malinovaya-3'?'malinovaya':id==='yalangas'?'yalangas':null;
+export const hikingArea=id=>['malinovaya','malinovaya-2','malinovaya-3'].includes(id)?'malinovaya':id==='yalangas'?'yalangas':null;
 
 export class HikingController{
  constructor(host){this.host=host;this.cache=new Map();this.datasets=new Map();this.visible=new Set();this.serial=0;this.markers=[];}

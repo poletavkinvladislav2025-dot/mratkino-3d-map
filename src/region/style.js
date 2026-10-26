@@ -1,3 +1,4 @@
+import {ROCK_SURFACES} from '../landscape/malinovaya-rock-plan.js';
 import {createStyle,EMPTY,boundsFor} from '../map-data.js';
 import {PLACES} from './presets.js';
 import {addLongDistanceLayers} from './long-distance.js';
@@ -24,6 +25,7 @@ export function createRegionalStyle(data,forestURL,url=path=>path){
  const dem={type:'raster-dem',tiles:[REGION_DEM],tileSize:512,encoding:'terrarium',minzoom:0,maxzoom:12,attribution:'<a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">© Mapterhorn</a>'};
  style.sources.dem={...dem};style.sources.shade={...dem};
  style.sources.basemap={type:'vector',url:BASEMAP_URL,attribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> · © OpenMapTiles · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>'};
+ style.sources['malinovaya-rocks']={type:'geojson',data:ROCK_SURFACES};
  style.sources['region-places']={type:'geojson',data:{type:'FeatureCollection',features:PLACES.map(p=>({type:'Feature',geometry:{type:'Point',coordinates:p.coordinates},properties:{id:p.id,name:p.name,major:p.major?1:0,kind:p.kind}}))}};
  style.sources['touring-routes']={type:'geojson',data:EMPTY};
  style.sources['route-stops']={type:'geojson',data:EMPTY};
@@ -41,6 +43,7 @@ export function createRegionalStyle(data,forestURL,url=path=>path){
  {id:'region-paths',type:'line',source:'basemap','source-layer':'transportation',minzoom:12,filter:['in',['get','class'],['literal',['path','track']]],layout:{visibility:'none'},paint:{'line-color':'#a28c72','line-width':1.1,'line-dasharray':[2,3],'line-opacity':.7}}
  ];
  style.layers.splice(1,0,...baseLayers.slice(0,5));
+ style.layers.splice(style.layers.findIndex(l=>l.id==='hillshade'),0,{id:'malinovaya-rock-surface',type:'fill',source:'malinovaya-rocks',minzoom:13.5,filter:['==',['geometry-type'],'Polygon'],paint:{'fill-color':'#9d9a89','fill-opacity':.65}});
  const hill=style.layers.findIndex(l=>l.id==='hillshade');style.layers.splice(hill+1,0,...baseLayers.slice(5));
  // Hide the specifically disputed freeride line, preserving every named piste and the source file.
  for(const id of ['trail-line','trail-casing'])style.layers.find(l=>l.id===id).filter=['all',['==',['geometry-type'],'LineString'],['!=',['get','id'],'way/933862767']];

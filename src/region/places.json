@@ -83,6 +83,21 @@
     "note": "Вершина сопоставлена с OSM по названию и положению; это не геодезическая проверка."
   },
   {
+    "id": "malinovaya-2",
+    "name": "Вторая Малиновая",
+    "kind": "peak",
+    "coordinates": [
+      58.306933,
+      54.007729
+    ],
+    "coordinateStatus": "owner-coordinate",
+    "major": false,
+    "zoneRadiusKm": 8,
+    "sourceUrl": "https://visitbeloretsk.ru/map",
+    "note": "Точка добавлена по координатам владельца 26.10.2026; отдельный новый маршрут не построен.",
+    "checkedOn": "2026-10-26"
+  },
+  {
     "id": "malinovaya-3",
     "name": "Третья Малиновая",
     "kind": "peak",

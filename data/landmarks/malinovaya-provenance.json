@@ -1,0 +1,26 @@
+{
+  "checkedOn": "2026-10-26",
+  "lineSource": "https://www.openstreetmap.org/way/616057078",
+  "surfaceSource": "https://www.openstreetmap.org/way/616057075",
+  "license": "ODbL-1.0",
+  "satelliteCheck": {
+    "service": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+    "tiles": {
+      "z": 17,
+      "x": 86766,
+      "y": 42080,
+      "size": 1024
+    },
+    "method": "Visually compared the existing OSM cliff and bare-rock polygon to the exposed ridge on World Imagery; no change to source plan geometry."
+  },
+  "newPeak": {
+    "name": "Вторая Малиновая",
+    "coordinateOrder": "longitude,latitude",
+    "coordinates": [
+      58.306933,
+      54.007729
+    ],
+    "source": "Owner message 2026-10-26"
+  },
+  "verticalGeometry": "Illustrative weathered rock columns and strata based on user photos; no measured heights or photogrammetry."
+}
