@@ -13,3 +13,5 @@
 Проверки: модульная проверка координат, габаритов, бюджета геометрии, освобождения ресурсов, ожидания DEM и обновления основания; сборка production; браузерные проверки desktop/mobile на реальных тайлах — видимость модели, ракурс, фильтр и выгрузка при общем обзоре. Скриншоты: `renders/water-tower-desktop.png`, `renders/water-tower-mobile.png`.
 
 Итог: все 16 модульных файлов прошли, production build успешен, desktop/mobile браузерные сценарии прошли (2/2). Дополнительно desktop проверен со включённым объёмом городской застройки (1/1); модель сохраняется в той же сцене и видна. Снимок — `renders/water-tower-city.png`.
+
+Опубликовано по прежнему адресу `/preview/unified/`: source ref `9685025ddcdd9e6b1f2afcfb437f140d87eccc82`, успешный workflow [40386930987](https://github.com/poletavkinvladislav2025-dot/mratkino-3d-map/actions/runs/40386930987). После публикации проверены HTTP-ответы и SHA-256 116 файлов; 85 прежних файлов сохранены. Машинный отчёт: `water-tower-pages-verification.json`.
