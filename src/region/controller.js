@@ -1,3 +1,4 @@
+import {rodeoMask,rodeoFrame} from '../landscape/rodeo-plan.js';
 import {placeKind} from './card-content.js';
 import {PLACES,CITY,presetFor,byId,distanceKm} from './presets.js';
 import {EMPTY} from '../map-data.js';
@@ -82,7 +83,7 @@ export class RegionController{
   <p>Мраткино: цвета по таблице схемы из задания владельца, официальная классификация не подтверждена. Фотография схемы не приложена. У Ю3 конфликт name=Ю3 и ref=Ю2. Ю5 и спорная линия фрирайда не отображаются. С1 — чёрная, закрыта и не обслуживается; показана без катающихся. Ю1, Ю2, Ю3 и С3 — красные; С2 — чёрная. Кресла трёхместные по описанию владельца, в OSM указано четыре места — требуется сверка.</p>
   <p>Пешие треки Малиновой и Ялангаса построены по сети OSM и требуют проверки на местности. Они не подтверждают разрешение прохода. Для Ямантау и Малого Ямантау действуют ограничения заповедника. Собственные файлы GPX / GeoJSON открываются локально и не отправляются на сервер.</p>
   <p>Большие маршруты GPX: Большая Уральская тропа показана красным, Южноуральская тропа — жёлтым. Все участки перенесены из файлов владельца без соединения разрывов. БУТ содержит ветки; суммарная длина не означает длину единой прогулки. Название открывается нажатием на линию. Полный охват доступен в слоях кнопкой «Целиком».</p>
-  <h3>Управление</h3><p>Перетаскивание — перемещение; правая кнопка мыши — поворот и наклон; колесо — масштаб. На телефоне используйте два пальца. Кнопка 2D / 3D меняет наклон, компас сбрасывает поворот. Статичный лес, сооружения и трассы появляются автоматически. «Оживить карту» включает движение и объём зданий; выбор сохраняется между местами. При уменьшении движения в системе запуск требует явного нажатия. Общий лес основан на полигонах wood OpenFreeMap; неизвестный тип показан условной смесью, около Мраткино/Абзаково сосны — художественная настройка. Позиции отдельных деревьев условны. Городские объекты и киоски представлены маркерами и карточками. «Карта оживает» включает также объёмную застройку по контурам OpenMapTiles; при отсутствии высоты используется условная высота 6 м. Наклон камеры доступен до 85°. Большой Крака: А и Б перенесены из кода владельца; отдельный трек БЮТ ведёт к прежней точке, путь к новой Б не построен. Штампы перенесены из исходного состава проекта и не показывают текущие остатки.</p>
+  <p>Родео-парк: подушка, трамплины, фигуры и трюки — художественная сцена по описанию проекта, не съёмка реального расположения оборудования.</p><h3>Управление</h3><p>Перетаскивание — перемещение; правая кнопка мыши — поворот и наклон; колесо — масштаб. На телефоне используйте два пальца. Кнопка 2D / 3D меняет наклон, компас сбрасывает поворот. Статичный лес, сооружения и трассы появляются автоматически. «Оживить карту» включает движение и объём зданий; выбор сохраняется между местами. При уменьшении движения в системе запуск требует явного нажатия. Общий лес основан на полигонах wood OpenFreeMap; неизвестный тип показан условной смесью, около Мраткино/Абзаково сосны — художественная настройка. Позиции отдельных деревьев условны. Городские объекты и киоски представлены маркерами и карточками. «Карта оживает» включает также объёмную застройку по контурам OpenMapTiles; при отсутствии высоты используется условная высота 6 м. Наклон камеры доступен до 85°. Большой Крака: А и Б перенесены из кода владельца; отдельный трек БЮТ ведёт к прежней точке, путь к новой Б не построен. Штампы перенесены из исходного состава проекта и не показывают текущие остатки.</p>
   <p>Этнопарк: чум, ограда и 20 оленей — условная 3D-композиция по описанию владельца, а не точная схема участка.</p><h3>Источники</h3><p>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>, ODbL 1.0 · <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> / OpenMapTiles · <a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">Mapterhorn, источники рельефа</a>. Преувеличение высот 1. Автономный рельеф: Copernicus DEM GLO-30 (около 30 м), © DLR e.V. 2010–2014 / Airbus Defence and Space GmbH 2014–2018, предоставлен ЕС и ESA. MapLibre GL JS — BSD-3-Clause.</p>`;}
  preset(){return presetFor(this.id);}
  async bootstrap(){
@@ -93,7 +94,7 @@ export class RegionController{
   if(this.legendBound!==h.map){this.legendBound=h.map;h.map.on('data',()=>{if(!this.statusTimer)this.statusTimer=setTimeout(()=>{this.statusTimer=null;this.updateLoadStatus();},180);});h.map.on('idle',()=>this.updateLoadStatus());h.map.on('idle',()=>this.refreshLegend());h.map.on('moveend',()=>this.cameraButton());}this.applySeason();this.sync();this.bootstrapped=true;this.bridge.tryReady();
  }
  async choose(id,animate=true,meta={}){
-  id=byId(id)?.id||id;
+  id=byId(id)?.id||id;if(id!=='rodeo')this.rodeoBagFocus=false;
   if(byId(id)?.kind==='stamp-point'&&(!this.filters.stamps||this.filters.passport&&!byId(id).sellsPassport))this.setFilters({view:'stamps'},meta);else if(byId(id)&&byId(id).kind!=='stamp-point'&&!this.filters.interesting)this.setFilters({view:'places'},meta);
   if(id!=='all'&&!byId(id))throw Error('UNKNOWN_PLACE');
   const h=this.host;this.id=id;this.routeId=null;this.importActive=false;h.selected=null;h.setAttribute('data-place',id);h.removeAttribute('data-route');h.$('.place-select').value=id;this.cardOpen=id!=='all'&&(meta.initial?this.initial.card!==false:true);this.renderPlace();this.renderCard();
@@ -118,12 +119,18 @@ export class RegionController{
   const page=p.sourceUrl||(['malinovaya','malinovaya-3'].includes(this.id)?'https://visitbeloretsk.ru/malinovaya':this.id==='yalangas'?'https://www.visitbeloretsk.ru/yalangas':null);
   if(page&&!page.includes('openstreetmap.org')){const a=document.createElement('a');a.href=page;a.target='_blank';a.rel='noopener';a.textContent='О месте ↗';card.append(a);}
   renderPassportContent(card,p,this);
+  if(p.id==='rodeo'){card.append(this.button('Рассмотреть фристайл-парк','Рассмотреть фристайл-парк',()=>h.flyToFeatures([{geometry:rodeoMask()}],0)));card.append(this.button('Рассмотреть подушку','Рассмотреть подушку',()=>this.focusRodeoBag()));}
   if(p.id==='bolshoy-kraka')this.kraka.card(card);
   if(p.id==='kraka')card.append(this.button('Точки А и Б Большого Крака','Показать старт и видовую точку',()=>this.choose('bolshoy-kraka')));
   const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Координаты и источник';details.append(summary);h.text(details,`${p.coordinates[1]}, ${p.coordinates[0]}`,'place-coordinates');if(p.elevation)h.text(details,'Высота по данным OpenStreetMap.');if(page){const a=document.createElement('a');a.href=page;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Источник ↗';details.append(a);}
   if(p.sourceRecord)h.text(details,'Данные исходной карты проекта Visit Beloretsk.');card.append(details);
  }
 
+ focusRodeoBag(){
+  const h=this.host,plan=this.landscape.scene?.rodeo?.plan;
+  if(!plan){this.rodeoBagFocus=true;h.flyToFeatures([{geometry:rodeoMask()}],0);return;}
+  this.rodeoBagFocus=false;const b=plan.bag,points=[plan.point(b.x-22,b.d-32),plan.point(b.x+22,b.d+32)].map(rodeoFrame.toLngLat);this.showCard(false);h.flyToBounds([[Math.min(...points.map(p=>p[0])),Math.min(...points.map(p=>p[1]))],[Math.max(...points.map(p=>p[0])),Math.max(...points.map(p=>p[1]))]],20,55,true,18.5);
+ }
  renderCard(){
   const h=this.host;if(!h.$('.sidebar'))return;h.$('.sidebar').hidden=!this.cardOpen;h.setAttribute('data-card-open',String(this.cardOpen));
   h.$('.region-panel').hidden=this.importActive;h.$('.resort-content').hidden=this.importActive||this.id!=='mratkino'||!h.resortLoaded;

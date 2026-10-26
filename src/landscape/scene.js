@@ -1,3 +1,5 @@
+import {RodeoModel} from './rodeo-model.js';
+import {RODEO,rodeoFrame} from './rodeo-plan.js';
 import * as T from 'three';
 import {saplingPlacements} from '../resort-scene-data.js';
 import {EthnoparkModel} from './ethnopark-model.js';
@@ -25,14 +27,20 @@ export class LandscapeScene{
   const currentZ=this.map.queryTerrainElevation(ethno.center);let previousHerd,elapsed;if(this.park&&Number.isFinite(currentZ)&&Math.abs(currentZ-this.parkBase)>0.3){previousHerd=this.park.herd;elapsed=this.park.elapsed;this.park.dispose();this.park=null;}if(this.park){this.park.update(0);return;}if(!this.map.isSourceLoaded('dem'))return;const z=currentZ;if(z===null)return;const center=this.local(ethno.center),cos=Math.cos(ethno.center[1]*Math.PI/180),angle=ethno.bearing*Math.PI/180;
   this.park=new EthnoparkModel(this.scene,(x,y)=>{const xx=x*Math.cos(angle)-y*Math.sin(angle),yy=x*Math.sin(angle)+y*Math.cos(angle),ll=[ethno.center[0]+xx/(111320*cos),ethno.center[1]+yy/111320];const value=this.map.queryTerrainElevation(ll);return Number.isFinite(value)?value:z;});this.park.group.position.set(...center,0);this.park.group.scale.setScalar(this.ml.MercatorCoordinate.fromLngLat(ethno.center).meterInMercatorCoordinateUnits()/this.units);this.parkBase=z;this.park.group.rotation.z=angle;if(previousHerd){this.park.herd=previousHerd;this.park.elapsed=elapsed;this.park.update(0);}this.stats.deer=ethno.deer.count;this.map.triggerRepaint();this.onStats(this.stats);
  }
+ showRodeo(show,revision=0){
+  if(!show){if(this.rodeo){this.rodeo.dispose();this.rodeo=null;}this.stats.freestylers=0;return;}
+  if(!this.map.isSourceLoaded('dem'))return;const elevation=this.map.queryTerrainElevation(RODEO.center);if(!Number.isFinite(elevation))return;
+  if(this.rodeo&&(Math.abs(elevation-this.rodeoBase)>.4||revision!==this.rodeoRevision)){const elapsed=this.rodeo.elapsed;this.rodeo.dispose();this.rodeo=null;this.rodeoElapsed=elapsed;}
+  if(!this.rodeo){this.rodeo=new RodeoModel(this.scene,(x,y)=>{const z=this.map.queryTerrainElevation(rodeoFrame.toLngLat([x,y]));return Number.isFinite(z)?z:elevation;},{mobile:this.mobile});this.rodeo.group.position.set(...this.local(RODEO.center),0);this.rodeo.group.scale.setScalar(this.ml.MercatorCoordinate.fromLngLat(RODEO.center).meterInMercatorCoordinateUnits()/this.units);this.rodeo.elapsed=this.rodeoElapsed||0;this.rodeo.update(0);this.rodeoBase=elevation;this.rodeoRevision=revision;this.stats.freestylers=this.rodeo.count;this.map.triggerRepaint();}
+ }
  setSeason(season){if(this.season===season)return;this.season=season;this.refresh();}
  setAnimation(value){if(this.animating===value)return;this.animating=value;this.last=0;this.schedule();this.map.triggerRepaint();}
  setForest(value){if(this.forestVisible===value)return;this.forestVisible=value;this.trunks.visible=value;this.crowns.forEach(m=>m.visible=value);this.map.triggerRepaint();}
  schedule(){clearTimeout(this.timer);this.timer=null;if(this.disposed||!this.animating||document.hidden)return;this.timer=setTimeout(()=>{this.timer=null;if(!this.disposed)this.map.triggerRepaint();},1000/(this.mobile?15:22));}
  render(gl,args){if(this.disposed)return;const now=performance.now(),dt=this.animating&&!document.hidden&&this.last?Math.min(.1,(now-this.last)/1000):0;this.last=this.animating?now:0;
-  if(dt){this.stats.elapsed+=dt;this.wind.value=this.stats.elapsed;this.behaviorClock=(this.behaviorClock||0)+dt;if(this.park&&this.map.getZoom()>=ethno.lod.animate&&this.behaviorClock>=.09){this.park.update(Math.min(.15,this.behaviorClock));this.behaviorClock=0;}}
+  if(dt){if(this.rodeo)this.rodeo.update(dt);this.stats.elapsed+=dt;this.wind.value=this.stats.elapsed;this.behaviorClock=(this.behaviorClock||0)+dt;if(this.park&&this.map.getZoom()>=ethno.lod.animate&&this.behaviorClock>=.09){this.park.update(Math.min(.15,this.behaviorClock));this.behaviorClock=0;}}
   if(this.park)this.park.update(0);
   this.camera.projectionMatrix.copy(this.matrix.fromArray(args.defaultProjectionData.mainMatrix)).multiply(this.transform);this.renderer.resetState();this.renderer.setViewport(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight);this.renderer.render(this.scene,this.camera);this.renderer.resetState();this.stats.frames++;this.schedule();
  }
- onRemove(){if(this.disposed)return;this.disposed=true;clearTimeout(this.timer);this.park?.dispose();this.park=null;[this.trunks,...(this.crowns||[])].forEach(m=>m?.dispose());this.resources.forEach(r=>r.dispose());this.elevations.clear();this.renderer?.dispose();}
+ onRemove(){if(this.disposed)return;this.disposed=true;clearTimeout(this.timer);this.park?.dispose();this.park=null;this.rodeo?.dispose();this.rodeo=null;[this.trunks,...(this.crowns||[])].forEach(m=>m?.dispose());this.resources.forEach(r=>r.dispose());this.elevations.clear();this.renderer?.dispose();}
 }

@@ -1,0 +1,5 @@
+import {test,expect} from './tile-fixture.js';
+test('Rodeo close-up renders a curved cushion and mixed landing traffic',async({page})=>{
+ test.setTimeout(120000);await page.emulateMedia({reducedMotion:'reduce'});await page.setViewportSize({width:1365,height:900});await page.goto('/?place=rodeo&effects=0');const app=page.locator('mratkino-map');await expect(app).toHaveAttribute('data-map-state','ready',{timeout:90000});await app.evaluate(e=>{e.$('[data-layer=forest]').checked=false;e.region.layers();});await page.getByRole('button',{name:'Рассмотреть подушку',exact:true}).click();await expect(app).toHaveAttribute('data-freestyle-count','96',{timeout:90000});await expect.poll(()=>app.evaluate(e=>!e.region.cameraMoving&&!e.map.isMoving()),{timeout:30000}).toBe(true);
+ const riders=await app.evaluate(e=>e.region.landscape.scene.rodeo.poses.filter(p=>p.lane===0).map(p=>p.board));expect(riders).toContain(true);expect(riders).toContain(false);await app.evaluate(e=>new Promise(r=>{e.map.once('render',r);e.map.triggerRepaint();}));await page.screenshot({path:'renders/rodeo-freestyle-desktop.png',timeout:60000});
+});
