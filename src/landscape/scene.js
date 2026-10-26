@@ -1,3 +1,4 @@
+import {WaterTowerModel,WATER_TOWER} from './water-tower.js';
 import {RodeoModel} from './rodeo-model.js';
 import {RODEO,rodeoFrame} from './rodeo-plan.js';
 import * as T from 'three';
@@ -33,6 +34,13 @@ export class LandscapeScene{
   if(this.rodeo&&(Math.abs(elevation-this.rodeoBase)>.4||revision!==this.rodeoRevision)){const elapsed=this.rodeo.elapsed;this.rodeo.dispose();this.rodeo=null;this.rodeoElapsed=elapsed;}
   if(!this.rodeo){this.rodeo=new RodeoModel(this.scene,(x,y)=>{const z=this.map.queryTerrainElevation(rodeoFrame.toLngLat([x,y]));return Number.isFinite(z)?z:elevation;},{mobile:this.mobile});this.rodeo.group.position.set(...this.local(RODEO.center),0);this.rodeo.group.scale.setScalar(this.ml.MercatorCoordinate.fromLngLat(RODEO.center).meterInMercatorCoordinateUnits()/this.units);this.rodeo.elapsed=this.rodeoElapsed||0;this.rodeo.update(0);this.rodeoBase=elevation;this.rodeoRevision=revision;this.stats.freestylers=this.rodeo.count;this.map.triggerRepaint();}
  }
+ showWaterTower(show){
+  if(!show){this.tower?.dispose();this.tower=null;return;}
+  const z=this.map.queryTerrainElevation(WATER_TOWER.center);if(!Number.isFinite(z))return;
+  if(!this.tower)this.tower=new WaterTowerModel(this.scene);
+  const scale=this.ml.MercatorCoordinate.fromLngLat(WATER_TOWER.center).meterInMercatorCoordinateUnits()/this.units;
+  this.tower.group.position.set(...this.local(WATER_TOWER.center),z*scale);this.tower.group.scale.setScalar(scale);this.map.triggerRepaint();
+ }
  setSeason(season){if(this.season===season)return;this.season=season;this.refresh();}
  setAnimation(value){if(this.animating===value)return;this.animating=value;this.last=0;this.schedule();this.map.triggerRepaint();}
  setForest(value){if(this.forestVisible===value)return;this.forestVisible=value;this.trunks.visible=value;this.crowns.forEach(m=>m.visible=value);this.map.triggerRepaint();}
@@ -42,5 +50,5 @@ export class LandscapeScene{
   if(this.park)this.park.update(0);
   this.camera.projectionMatrix.copy(this.matrix.fromArray(args.defaultProjectionData.mainMatrix)).multiply(this.transform);this.renderer.resetState();this.renderer.setViewport(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight);this.renderer.render(this.scene,this.camera);this.renderer.resetState();this.stats.frames++;this.schedule();
  }
- onRemove(){if(this.disposed)return;this.disposed=true;clearTimeout(this.timer);this.park?.dispose();this.park=null;this.rodeo?.dispose();this.rodeo=null;[this.trunks,...(this.crowns||[])].forEach(m=>m?.dispose());this.resources.forEach(r=>r.dispose());this.elevations.clear();this.renderer?.dispose();}
+ onRemove(){if(this.disposed)return;this.disposed=true;clearTimeout(this.timer);this.park?.dispose();this.park=null;this.rodeo?.dispose();this.rodeo=null;this.tower?.dispose();this.tower=null;[this.trunks,...(this.crowns||[])].forEach(m=>m?.dispose());this.resources.forEach(r=>r.dispose());this.elevations.clear();this.renderer?.dispose();}
 }
