@@ -1,0 +1,20 @@
+[
+  {
+    "viewport": 1920,
+    "left": 312,
+    "right": 1608,
+    "width": 1296,
+    "padding": "24px 32px 36px",
+    "margin": "0px 280px",
+    "background": "rgb(250, 248, 245)"
+  },
+  {
+    "viewport": 390,
+    "left": 16,
+    "right": 374,
+    "width": 358,
+    "padding": "16px 16px 24px",
+    "margin": "0px",
+    "background": "rgb(250, 248, 245)"
+  }
+]
