@@ -50,7 +50,7 @@ test('published Tilda combination upgrades an existing legacy map and isolates f
  await expect(credits.locator('.maplibregl-ctrl-attrib-inner')).toContainText('OpenStreetMap');
  await credits.locator('summary').click();await expect(credits).not.toHaveClass(/maplibregl-compact-show/);
  expect(await page.evaluate(()=>window.oldFilterClicks)).toBe(0);
- await block.getByRole('button',{name:'Обычная карта',exact:true}).click();await block.locator('[data-filter=passport]').click();
+ await block.getByRole('button',{name:'Карта',exact:true}).click();await block.locator('[data-filter=passport]').click();
  expect(await block.evaluate(e=>e.shadowRoot.VisitBeloretskYandex.getState().view)).toBe('passport');
  await block.getByRole('button',{name:'3D-карта',exact:true}).click();await expect(block.locator('#vb-map-modes')).toHaveAttribute('data-mode','3d');
  await expect.poll(()=>app.evaluate(e=>e.map.getZoom()),{timeout:30000}).toBeGreaterThan(12.4);

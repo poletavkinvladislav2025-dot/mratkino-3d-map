@@ -9,14 +9,30 @@
   if(scope.getElementById('vb-map-modes')){note.textContent='Замените прежний переключатель в T123 и обновите опубликованную страницу.';return;}
   const root=host.closest('.vb-t1');root?.classList.add('vb-unified-root');
   const style=document.createElement('style');style.textContent=`
-#vb-map-modes{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:0 0 10px;font:13px Arial,sans-serif;color:#234b38}#vb-map-modes .vb-mode-group,#vb-map-modes .vb-filter-group{display:flex;gap:4px;align-items:center}#vb-map-modes .vb-mode-group{border-right:1px solid #d9e4d8;padding-right:10px}#vb-map-modes button{min-height:44px;padding:8px 12px;border:1px solid #d9e4d8;border-radius:10px;color:#29543b;background:#f6f9f2;font:inherit;cursor:pointer}#vb-map-modes button[aria-pressed=true]{background:#17623f;color:#fff;border-color:#17623f}#vb-map-modes button:focus-visible,#vb-map-modes select:focus-visible{outline:3px solid #bd854b;outline-offset:2px}#vb-map-modes select{display:none;min-width:0;height:44px;padding:7px;border:1px solid #d4dfd0;border-radius:10px;color:#28503a;background:#fff;font:inherit}#vb-map-modes .vb-short{display:none}.vb-unified-root .vb-t1__tabs{display:none!important}#vb-map-link-note{font:13px/1.5 Arial,sans-serif;color:#3d604b}#vb-map-link-note:empty{display:none}.vb-map-unified-frame{position:absolute;inset:0;width:100%;height:100%;display:block;border:0;z-index:100;background:#f4f7f2}.vb-map-unified-frame[hidden]{display:none!important}.vb-map-unified-3d>:not(.vb-map-unified-frame){visibility:hidden!important;pointer-events:none!important}@media(max-width:640px){#vb-map-modes{flex-wrap:nowrap;gap:6px;font-size:12px}#vb-map-modes .vb-filter-group,#vb-map-modes .vb-full{display:none}#vb-map-modes .vb-short{display:inline}#vb-map-modes .vb-mode-group{padding-right:6px;flex:none}#vb-map-modes button{padding:8px 10px}#vb-map-modes select{display:block;flex:1;width:100%;font-size:16px}}@media(max-width:340px){#vb-map-modes{flex-wrap:wrap}#vb-map-modes .vb-mode-group{width:100%;border-right:0;padding-right:0}#vb-map-modes .vb-mode-group button{flex:1}#vb-map-modes .vb-full{display:inline}#vb-map-modes .vb-short{display:none}#vb-map-modes select{flex-basis:100%}}`;
+#vb-map-modes{display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px;margin:0 0 14px;font:13px Arial,sans-serif;color:#234b38}
+#vb-map-modes .vb-mode-group,#vb-map-modes .vb-filter-group{display:flex;gap:4px;align-items:center}
+#vb-map-modes .vb-mode-group{padding:4px;border:1px solid #d2dfd4;border-radius:15px;background:#e8eee7}
+#vb-map-modes button{min-height:44px;padding:8px 14px;border:1px solid transparent;border-radius:10px;color:#29543b;background:transparent;font:inherit;cursor:pointer}
+#vb-map-modes .vb-mode-group button{font-weight:600}
+#vb-map-modes .vb-mode-group button[aria-pressed=true]{background:#17623f;color:#fff;border-color:#17623f;box-shadow:0 2px 5px #193f2820}
+#vb-map-modes .vb-filter-group button{border-radius:22px;border-color:#d9e4d8;background:#fff}
+#vb-map-modes .vb-filter-group button[aria-pressed=true]{background:#e7efe2;color:#234b38;border-color:#9db798;font-weight:600}
+#vb-map-modes button:hover{background:#dbe6d8}
+#vb-map-modes .vb-mode-group button[aria-pressed=true]:hover{background:#125333}
+#vb-map-modes button:focus-visible,#vb-map-modes select:focus-visible{outline:3px solid #bd854b;outline-offset:2px}
+#vb-map-modes select{display:none;min-width:0;height:44px;padding:7px;border:1px solid #d4dfd0;border-radius:22px;color:#28503a;background:#fff;font:inherit}
+#vb-map-modes .vb-short{display:none}.vb-unified-root .vb-t1__tabs{display:none!important}
+#vb-map-link-note{font:13px/1.5 Arial,sans-serif;color:#3d604b}#vb-map-link-note:empty{display:none}
+.vb-map-unified-frame{position:absolute;inset:0;width:100%;height:100%;display:block;border:0;z-index:100;background:#f4f7f2}.vb-map-unified-frame[hidden]{display:none!important}.vb-map-unified-3d>:not(.vb-map-unified-frame){visibility:hidden!important;pointer-events:none!important}
+@media(max-width:640px){#vb-map-modes{flex-wrap:nowrap;gap:10px;font-size:12px}#vb-map-modes .vb-filter-group,#vb-map-modes .vb-full{display:none}#vb-map-modes .vb-short{display:inline}#vb-map-modes .vb-mode-group{flex:none}#vb-map-modes button{padding:8px 10px}#vb-map-modes select{display:block;flex:1;width:100%;font-size:16px}}
+@media(max-width:340px){#vb-map-modes{flex-wrap:wrap}#vb-map-modes .vb-mode-group{width:100%}#vb-map-modes .vb-mode-group button{flex:1}#vb-map-modes .vb-full{display:inline}#vb-map-modes .vb-short{display:none}#vb-map-modes select{flex-basis:100%}}`;
   (scope===document?document.head:scope).append(style);
   const origin=new URL(mapURL).origin,url=new URL(mapURL);url.searchParams.set('place','all');url.searchParams.set('embed','1');url.searchParams.set('parentOrigin',location.origin);
   const bar=document.createElement('div');bar.id='vb-map-modes';bar.setAttribute('aria-label','Режим и объекты карты');
   const modes=document.createElement('div'),filters=document.createElement('div'),select=document.createElement('select');modes.className='vb-mode-group';modes.setAttribute('role','group');modes.setAttribute('aria-label','Способ отображения');filters.className='vb-filter-group';filters.setAttribute('role','group');filters.setAttribute('aria-label','Показать на карте');select.setAttribute('aria-label','Показать на карте');
   const button=(label,fn)=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.setAttribute('aria-label',label);b.addEventListener('click',fn);return b;};
-  const ordinary=button('Обычная карта',()=>show('yandex')),three=button('3D-карта',()=>show('3d'));
-  ordinary.innerHTML='<span class="vb-full">Обычная карта</span><span class="vb-short">Карта</span>';three.innerHTML='<span class="vb-full">3D-карта</span><span class="vb-short">3D</span>';modes.append(ordinary,three);
+  const ordinary=button('Карта',()=>show('yandex')),three=button('3D-карта',()=>show('3d'));
+  ordinary.innerHTML='<span class="vb-full">Карта</span><span class="vb-short">Карта</span>';three.innerHTML='<span class="vb-full">3D-карта</span><span class="vb-short">3D</span>';modes.append(ordinary,three);
   const views={places:'Места',stamps:'Где поставить штамп',passport:'Где купить паспорт'},viewButtons={};
   for(const [view,label] of Object.entries(views)){const b=button(label,()=>setView(view));b.dataset.filter=view;filters.append(b);viewButtons[view]=b;const option=document.createElement('option');option.value=view;option.textContent=label;select.append(option);}
   select.addEventListener('change',()=>setView(select.value));bar.append(modes,filters,select);host.before(bar);bar.after(note);

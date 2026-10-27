@@ -23,7 +23,7 @@ test('live Yandex API renders the complete ordinary block and changes filter bou
  await page.getByRole('button',{name:'3D-карта',exact:true}).click();const app=page.frameLocator('iframe').locator('mratkino-map');
  await expect.poll(()=>app.evaluate(e=>e.region?.id),{timeout:90000}).toBe('kiosk3');
  expect(await app.evaluate(e=>e.region.filters.passport)).toBe(true);
- await page.getByRole('button',{name:'Обычная карта',exact:true}).click();
+ await page.getByRole('button',{name:'Карта',exact:true}).click();
  await expect.poll(()=>page.evaluate(()=>document.querySelector('.vb-map-complete').shadowRoot.VisitBeloretskYandex.getState().sourceId)).toBe('kiosk3');
  expect(errors).toEqual([]);
  }catch(e){console.log(JSON.stringify({errors,failures:failures.slice(0,10)}));throw e;}finally{await context.close();}
