@@ -15,7 +15,19 @@ test('legend is based on actual rendered routes and never lifts or the resort ra
 });
 test('Yandex adapter accesses the real closure API, keeps source IDs separate, and suppresses echoes',()=>{
  const events=[],points=[{id:'stampStation'},{id:'kiosk3'}],locations=[{id:'malinovaya'},{id:'malinovaya1'}];
- const c={map:{},markers:[...locations.map(p=>({type:'location',dataId:p.id,placemark:{options:{set(){}}}})),...points.map(p=>({type:'kiosk',dataId:p.id,placemark:{options:{set(){}}}}))],locations,stampPoints:points,currentTab:'places',selectedIdx:0,isTransitioning:false,setTimeout,clearTimeout,window:{dispatchEvent:e=>events.push(e)},CustomEvent:class{constructor(type,options){this.type=type;this.detail=options.detail;}}};
+ const c={map:{},markers:[...locations.map(p=>({type:'location',dataId:p.id,data:p,placemark:{options:{set(){}}}})),...points.map(p=>({type:'kiosk',dataId:p.id,data:p,placemark:{options:{set(){}}}}))],locations,stampPoints:points,currentTab:'places',selectedIdx:0,isTransitioning:false,setTimeout,clearTimeout,window:{dispatchEvent:e=>events.push(e)},CustomEvent:class{constructor(type,options){this.type=type;this.detail=options.detail;}}};
  c.switchTab=name=>{c.currentTab=name;c.selectedIdx=-1;c.vbPassportOnly=false;c.vbYandexNotify();};c.navToLoc=id=>{c.switchTab('places');c.selectedIdx=c.markers.findIndex(m=>m.dataId===id);c.vbYandexNotify();};c.navToKiosk=id=>{c.switchTab('stamps');c.selectedIdx=c.markers.findIndex(m=>m.dataId===id);c.vbYandexNotify();};
  vm.createContext(c);vm.runInContext(fs.readFileSync('docs/snippets/yandex-adapter.js','utf8'),c);const a=c.window.VisitBeloretskYandex;assert.equal(a.hasPlace('malinovaya1'),true);assert.equal(a.hasPlace('abzakovo'),false);a.setFilter('passport');a.openPlace('kiosk3');assert.equal(a.getState().view,'passport');assert.equal(a.getState().sourceId,'kiosk3');assert.equal(events.length,0);c.navToLoc('malinovaya');assert.equal(events.at(-1).detail.sourceId,'malinovaya');
+});
+
+test('explicit view navigation is separate from non-moving filter updates',()=>{
+ const command=payload=>validateCommand({type:'vb3d.command',version:1,id:'focus',command:'focusView',payload});
+ for(const view of ['places','stamps','passport'])assert.ok(command({view}));
+ for(const payload of [{view:'all'},{view:'bad'},{},{view:'stamps',zoom:18}])assert.equal(command(payload),null);
+});
+test('ordinary catalog is built from the same coordinates, descriptions, photos and stamp links',()=>{
+ const catalog=JSON.parse(fs.readFileSync('public/integration/map-catalog.json'));
+ assert.equal(catalog.length,52);assert.equal(catalog.filter(p=>p.kind==='stamp-point').length,6);assert.equal(catalog.filter(p=>p.sellsPassports).length,5);
+ for(const p of catalog){const original=byId(p.canonicalId);assert.deepEqual(p.coords,[original.coordinates[1],original.coordinates[0]]);assert.equal(p.desc,original.description||'');for(const stamp of p.stamps||[])if(stamp.locationId)assert.ok(catalog.some(q=>q.id===stamp.locationId));}
+ assert.equal(catalog.find(p=>p.id==='malinovaya').canonicalId,'malinovaya-3');assert.equal(catalog.find(p=>p.id==='malinovaya1').canonicalId,'malinovaya');
 });

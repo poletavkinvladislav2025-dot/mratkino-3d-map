@@ -25,27 +25,27 @@
   const children=Array.from(host.children).map(el=>({el,inert:el.inert,aria:el.getAttribute('aria-hidden')}));
   const frame=document.createElement('iframe');frame.className='vb-map-unified-frame';frame.title='3D-карта Visit Beloretsk';frame.allow='fullscreen';frame.allowFullscreen=true;frame.hidden=true;host.append(frame);
   const toSource={malinovaya:'malinovaya1','malinovaya-3':'malinovaya',iremel:'bigIremel','inzerskie-zubchatki':'inzerskieZubchatki','maly-yamantau':'smallYamantau','arvyak-ryaz':'arvyakRyaz','arskiy-kamen':'arskiyKamen','sinie-skaly':'blueSky','kamennaya-rechka':'stoneyRiver'};
-  let mode=config.defaultMode==='3d'?'3d':'yandex',view=location.hash==='#map-stamps'?'stamps':'places',selected=null,ready=false,loaded=false,sequence=0,internal=false,slowTimer;
+  let mode=config.defaultMode==='3d'?'3d':'yandex',view=location.hash==='#map-stamps'?'stamps':'places',selected=null,ready=false,loaded=false,sequence=0,internal=false,slowTimer,pendingFocus=false;
   const adapter=()=>window.VisitBeloretskYandex?.version===1?window.VisitBeloretskYandex:null;
   function send(command,payload={}){if(ready)frame.contentWindow.postMessage({type:'vb3d.command',version:1,id:'tilda-'+(++sequence),command,payload},origin);}
   function eligible(id){const stamp=/^(stampStation|kiosk\d+)$/.test(id);return view==='places'?!stamp:view==='passport'?stamp&&id!=='stampStation':stamp;}
   function draw(){ordinary.setAttribute('aria-pressed',String(mode==='yandex'));three.setAttribute('aria-pressed',String(mode==='3d'));for(const [v,b] of Object.entries(viewButtons))b.setAttribute('aria-pressed',String(view===v));select.value=view;bar.dataset.mode=mode;bar.dataset.filter=view;for(const tab of root?.querySelectorAll('.vb-t1__tab')||[]){const active=tab.dataset.tab===(view==='places'?'places':'stamps');tab.setAttribute('aria-selected',String(active));tab.classList.toggle('vb-t1__tab--active',active);}}
-  function applyYandex(){
+  function applyYandex(focus=false){
    const a=adapter();internal=true;try{
-    if(a){a.setFilter(view);if(selected&&eligible(selected)&&a.hasPlace(selected))a.openPlace(selected);}
+    if(a){a.setFilter(view,{focus});if(!focus&&selected&&eligible(selected)&&a.hasPlace(selected))a.openPlace(selected);}
     else if(view!=='passport'){const tab=root?.querySelector('[data-tab="'+(view==='places'?'places':'stamps')+'"]');tab?.click();}
     else note.textContent='Для фильтра покупки паспорта на обычной карте установите небольшой адаптер Яндекса из инструкции.';
    }finally{internal=false;}
   }
-  function apply3D(){send('setFilters',{view});if(selected&&eligible(selected))send('openPlace',{placeId:'yandex:'+selected});}
+  function apply3D(){if(pendingFocus&&!selected){send('focusView',{view});pendingFocus=false;return;}pendingFocus=false;send('setFilters',{view});if(selected&&eligible(selected))send('openPlace',{placeId:adapter()?.canonicalId?.(selected)||'yandex:'+selected});}
   function lifecycle(){send(mode==='3d'&&!document.hidden?'resume':'suspend');if(mode==='3d'&&!document.hidden)send('resize');}
-  function setView(next){if(!Object.hasOwn(views,next))return;view=next;draw();if(mode==='3d')send('setFilters',{view});else applyYandex();}
+  function setView(next){if(!Object.hasOwn(views,next))return;view=next;selected=null;pendingFocus=true;draw();if(mode==='3d'){if(ready)apply3D();}else{applyYandex(true);}}
   function show(next){
    if(mode==='yandex'&&next==='3d'){const state=adapter()?.getState();if(state)selected=state.sourceId||null;}
    if(next!=='3d')send('suspend');mode=next;host.classList.toggle('vb-map-unified-3d',mode==='3d');frame.hidden=mode!=='3d';
    for(const item of children){item.el.inert=mode==='3d'||item.inert;if(mode==='3d')item.el.setAttribute('aria-hidden','true');else if(item.aria===null)item.el.removeAttribute('aria-hidden');else item.el.setAttribute('aria-hidden',item.aria);}
    if(mode==='3d'&&!loaded){loaded=true;note.textContent='Загружаем 3D-карту…';slowTimer=setTimeout(()=>{if(!ready)note.textContent='Загрузка занимает больше времени. Можно вернуться к обычной карте.';},25000);frame.src=url.href;}
-   draw();if(mode==='yandex')applyYandex();else if(ready)apply3D();requestAnimationFrame(()=>{lifecycle();if(mode==='yandex')window.dispatchEvent(new Event('resize'));});
+   draw();if(mode==='yandex')applyYandex(!selected);else{if(!selected)pendingFocus=true;if(ready)apply3D();}requestAnimationFrame(()=>{lifecycle();if(mode==='yandex')window.dispatchEvent(new Event('resize'));});
   }
   window.addEventListener('message',e=>{
    if(e.origin!==origin||e.source!==frame.contentWindow)return;const m=e.data;if(!m||m.type!=='vb3d.event'||m.version!==1)return;
@@ -54,14 +54,13 @@
    if(m.event==='placeSelected'&&typeof m.payload?.placeId==='string'){const id=m.payload.placeId;selected=id.startsWith('yandex:')?id.slice(7):toSource[id]||id;}
    if(m.event==='error'&&m.payload?.code==='WEBGL_UNAVAILABLE'){clearTimeout(slowTimer);show('yandex');ordinary.focus();note.textContent='3D недоступна в этом браузере. Открыта обычная карта.';}
   });
-  for(const tab of root?.querySelectorAll('.vb-t1__tab')||[])tab.addEventListener('click',e=>{if(internal)return;if(mode==='3d'){e.preventDefault();e.stopImmediatePropagation();}view=tab.dataset.tab==='places'?'places':'stamps';draw();if(mode==='3d')send('setFilters',{view});},true);
+  for(const tab of root?.querySelectorAll('.vb-t1__tab')||[])tab.addEventListener('click',e=>{if(internal)return;if(mode==='3d'){e.preventDefault();e.stopImmediatePropagation();}view=tab.dataset.tab==='places'?'places':'stamps';draw();if(mode==='3d')setView(view);},true);
   window.addEventListener('hashchange',()=>{if(location.hash==='#map-stamps')setView('stamps');if(location.hash==='#map')setView('places');});
   window.addEventListener('vb-yandex-change',e=>{if(internal||mode!=='yandex')return;const state=e.detail;if(Object.hasOwn(views,state?.view))view=state.view;selected=typeof state?.sourceId==='string'?state.sourceId:null;draw();});
-  window.addEventListener('vb-yandex-ready',()=>{if(mode==='yandex')applyYandex();});
+  window.addEventListener('vb-yandex-ready',()=>{if(mode==='yandex')applyYandex(!selected);});
   document.addEventListener('visibilitychange',lifecycle);if(window.ResizeObserver)new ResizeObserver(()=>{if(mode==='3d')send('resize');}).observe(host);
   note.textContent='';show(mode);if(sourceRecord&&!sourceRecord.contains(host))sourceRecord.style.display='none';
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
-
 </script>

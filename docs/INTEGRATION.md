@@ -1,5 +1,7 @@
 # Связь родительской страницы с 3D-картой, версия 1
 
+> Актуальная установка и явная команда `focusView`: [FILTER-NAVIGATION.md](FILTER-NAVIGATION.md). Ниже сохранён исходный протокол; `setFilters` по-прежнему не двигает камеру.
+
 Предпросмотр: https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/landscape/?place=all
 
 Тестовый родитель: https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/landscape/integration-demo.html

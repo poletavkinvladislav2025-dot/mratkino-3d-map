@@ -1,6 +1,6 @@
 # Visit Beloretsk — единая 3D-карта
 
-**[Общая карта Visit Beloretsk — постоянный адрес](https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/unified/?place=all)** · [Код T123 и адаптер Яндекса](docs/UNIFIED-CONTROLS.md).
+**[Общая карта Visit Beloretsk — постоянный адрес](https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/unified/?place=all)** · [Готовый блок для Тильды: обе карты и фильтры](docs/FILTER-NAVIGATION.md).
 
 Все дальнейшие изменения публикуются по этому адресу. Новые пути и карты для следующих доработок не создаются. Имена `preview/unified` в адресе оставлены для совместимости с уже вставленным iframe в Tilda. Остальные адреса ниже — архивные версии.
 
