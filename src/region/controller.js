@@ -46,7 +46,7 @@ export class RegionController{
   const about=h.$('.data-button');about.innerHTML=MAP_ICONS.info;about.setAttribute('aria-label','О карте');about.title='О карте';nav.append(about);h.$('.toolbar').before(nav);
   const body=h.$('.panel-body'),local=document.createElement('div');local.className='resort-content';const layers=h.$('.layers');for(const c of [...body.children])if(c!==layers)local.append(c);body.prepend(local);
   const panel=document.createElement('section');panel.className='region-panel';panel.setAttribute('aria-live','polite');body.prepend(panel);
-  const close=this.button('×','Закрыть карточку',()=>this.showCard(false));close.className='card-close';h.$('.sidebar').prepend(close);const collapse=this.button('−','Свернуть карточку',()=>{const collapsed=h.$('.sidebar').classList.toggle('collapsed');collapse.textContent=collapsed?'+':'−';collapse.setAttribute('aria-label',collapsed?'Развернуть карточку':'Свернуть карточку');collapse.title=collapse.getAttribute('aria-label');});collapse.className='card-collapse';close.after(collapse);
+  const close=this.button('×','Закрыть карточку',()=>this.showCard(false));close.className='card-close';h.$('.sidebar').prepend(close);const collapse=this.button('−','Свернуть карточку',()=>{const collapsed=h.$('.sidebar').classList.toggle('collapsed');collapse.textContent=collapsed?'+':'−';collapse.setAttribute('aria-label',collapsed?'Развернуть карточку':'Свернуть карточку');collapse.title=collapse.getAttribute('aria-label');this.resizeLayout(true);});collapse.className='card-collapse';close.after(collapse);
   const layerPanel=document.createElement('section');layerPanel.className='layer-popover';layerPanel.hidden=true;layerPanel.setAttribute('aria-label','Слои карты');layerPanel.append(layers);h.$('.map-wrap').append(layerPanel);this.layerPanel=layerPanel;this.setupSearch();
   h.shadowRoot.addEventListener('pointerdown',e=>{if(!this.searchPanel.contains(e.target)&&!search.contains(e.target)){this.searchPanel.hidden=true;search.setAttribute('aria-expanded','false');}if(!layerPanel.contains(e.target)&&!layerButton.contains(e.target)){layerPanel.hidden=true;layerButton.setAttribute('aria-expanded','false');}},{signal:h.abort});
   h.shadowRoot.addEventListener('keydown',e=>{if(e.key!=='Escape'||h.shadowRoot.querySelector('dialog[open]'))return;if(!this.searchPanel.hidden){this.searchPanel.hidden=true;search.setAttribute('aria-expanded','false');search.focus();e.stopPropagation();}else if(!layerPanel.hidden){layerPanel.hidden=true;layerButton.setAttribute('aria-expanded','false');layerButton.focus();e.stopPropagation();}},{signal:h.abort});
@@ -73,6 +73,15 @@ export class RegionController{
  }
  cameraButton(){const m=this.host.map,top=m?m.getPitch()<5:this.host.mode2D,b=this.host.$('[data-action=mode]');this.host.mode2D=top;b.textContent=top?'Наклонный вид':'Вид сверху';b.title=b.textContent;b.setAttribute('aria-label',b.textContent);b.setAttribute('aria-pressed',String(top));}
  cameraPadding(){const h=this.host,s=h.$('.sidebar');if(!this.cardOpen)return {top:0,bottom:0,left:0,right:0};return matchMedia('(max-width:760px)').matches?{top:12,left:12,right:12,bottom:Math.min(s.offsetHeight+20,h.$('.map-wrap').clientHeight*.48)}:{top:20,left:24,right:Math.min(s.offsetWidth+100,h.$('.map-wrap').clientWidth*.48),bottom:30};}
+ resizeLayout(force=false,initial=false){
+  const h=this.host,map=h.map,wrap=h.$('.map-wrap'),nav=h.$('.region-navigation');if(!map||!wrap||!nav)return;
+  h.$('.shell').style.setProperty('--vb-toolbar-height',nav.offsetHeight+'px');if(!this.bootstrapped)return;
+  const size=[wrap.clientWidth,wrap.clientHeight],same=this.layoutSize?.every((n,i)=>n===size[i]);this.layoutSize=size;
+  if(initial){this.resizePending=false;return;}if(same&&!force)return;
+  if(map.isMoving()){this.resizePending=true;return;}
+  const padding=this.cameraPadding(),current=map.getPadding();if(Object.keys(padding).some(k=>Math.abs(current[k]-padding[k])>.5))map.setPadding(padding);
+  this.layoutLabels();
+ }
  // Route names belong to the clicked feature; keep the former bottom strip empty.
  refreshLegend(){const legend=this.host.$('.legend');if(legend){legend.hidden=true;legend.replaceChildren();}}
  applySeason(){const m=this.host.map;if(!m?.getLayer('snow'))return;m.setPaintProperty('snow','background-color',this.season==='summer'?'#d3d8bd':'#edf2ec');if(m.getLayer('region-surfaces'))m.setPaintProperty('region-surfaces','fill-opacity',this.season==='summer'?.72:.48);this.landscape.scene?.setSeason(this.season);}
@@ -92,7 +101,7 @@ export class RegionController{
   if(this.initial.route)await this.openRoute(this.initial.route,{silent:true,focus:!this.initial.camera});
   this.cardOpen=this.initial.card!==false&&this.id!=='all';this.renderCard();
   if(this.initial.camera)h.map.jumpTo(this.initial.camera);
-  if(this.legendBound!==h.map){this.legendBound=h.map;h.map.on('data',()=>{if(!this.statusTimer)this.statusTimer=setTimeout(()=>{this.statusTimer=null;this.updateLoadStatus();},180);});h.map.on('idle',()=>this.updateLoadStatus());h.map.on('idle',()=>this.refreshLegend());h.map.on('moveend',()=>this.cameraButton());}this.applySeason();this.sync();this.bootstrapped=true;this.bridge.tryReady();
+  if(this.legendBound!==h.map){this.legendBound=h.map;h.map.on('data',()=>{if(!this.statusTimer)this.statusTimer=setTimeout(()=>{this.statusTimer=null;this.updateLoadStatus();},180);});h.map.on('idle',()=>this.updateLoadStatus());h.map.on('idle',()=>this.refreshLegend());h.map.on('moveend',()=>{this.cameraButton();if(this.resizePending){this.resizePending=false;this.resizeLayout(true);}});}this.applySeason();this.sync();this.bootstrapped=true;this.resizeLayout(false,true);this.bridge.tryReady();
  }
  async choose(id,animate=true,meta={}){
   id=byId(id)?.id||id;if(id!=='rodeo')this.rodeoBagFocus=false;

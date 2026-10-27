@@ -63,3 +63,63 @@
 .explorer .trail-closure{padding:11px 12px;border-left:4px solid #d0343d;border-radius:8px;background:#fff0ec;color:#9a302b!important;font-weight:700}
 .explorer .route-label.closed-trail{border-color:#26333c;color:#26333c}
 .explorer .trail-row.closed-trail{grid-column:span 2;border-style:dashed;border-color:#26333c;color:#26333c}
+
+/* Keep the existing map usable on narrow phones, short landscape screens and tablets. */
+.explorer{height:100vh;height:100dvh;min-height:0}
+.explorer .region-navigation>button{min-height:44px;height:44px;min-width:44px}
+.explorer .place-search{top:calc(var(--vb-toolbar-height,64px) + 8px);max-height:calc(100% - var(--vb-toolbar-height,64px) - 20px);display:flex;flex-direction:column}
+.explorer .place-search[hidden]{display:none}
+.explorer .place-search input{font-size:16px;flex:none;min-height:44px}
+.explorer .search-results{min-height:0;overscroll-behavior:contain}
+.explorer .search-results button{min-height:44px;overflow-wrap:anywhere}
+.dialog>header{position:sticky;top:0;z-index:2;background:var(--vb-surface)}
+.dialog>header button{flex:none;width:44px;min-height:44px;border-radius:var(--vb-radius);color:var(--vb-ink)}
+.photo-viewer>button{position:sticky;top:0;z-index:2}
+@media(max-width:760px){
+ .explorer .region-navigation{padding-left:max(6px,env(safe-area-inset-left));padding-right:max(6px,env(safe-area-inset-right))}
+ .explorer .region-navigation :is(.map-home,[data-action=sources]){width:44px;min-width:44px;height:44px}
+ .explorer .region-navigation .search-toggle{min-width:44px;max-width:none;overflow:hidden}
+ .explorer .sidebar{left:max(8px,env(safe-area-inset-left));right:max(8px,env(safe-area-inset-right))}
+ .explorer .sidebar :is(.card-close,.card-collapse){width:44px;height:44px;min-width:44px;min-height:44px;margin:6px 6px 0 0;top:6px}
+ .explorer .region-panel h3{padding-right:92px}
+ .explorer .sidebar.collapsed{max-height:80px}
+ .explorer .sidebar.collapsed .region-panel h3{padding-right:92px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;line-height:1.25}
+ .explorer :is(.region-panel,.hiking-card,.catalog-panel,.abz-card) p,.explorer .region-panel a{font-size:13px}
+ .explorer .region-panel>.tiny{font-size:11px}
+ .explorer :is(.trail-list,.abz-trails){grid-template-columns:repeat(auto-fit,minmax(44px,1fr));gap:6px}
+ .explorer :is(.trail-row,.abz-trails button){min-height:44px;font-size:12px}
+ .explorer :is(.category-filters,.layers) label{min-height:44px}
+ .explorer :is(.gallery-nav button,.hiking-options button,.catalog-routes button,.long-route-row button,.region-panel>button){min-height:44px}
+ .explorer .season-control select{font-size:16px;min-height:44px}
+ .dialog{padding:16px}
+}
+@media(max-width:399px){
+ .explorer .region-navigation [data-action=life]{width:44px;min-width:44px;flex:none;padding:0}
+ .explorer .region-navigation [data-action=life] span{display:none}
+ .explorer .region-navigation .search-toggle{font-size:11px;white-space:nowrap;padding:0 8px}
+ .explorer .region-navigation .search-toggle svg{width:18px;height:18px}
+}
+@media(max-height:520px){
+ .explorer .region-navigation{min-height:56px;padding-top:6px;padding-bottom:6px}
+ .explorer .sidebar{max-height:calc(100% - 24px);top:12px}
+ .explorer .place-gallery img{height:110px}
+ .explorer .layer-popover{max-height:calc(100% - 24px)}
+}
+@media(max-height:520px) and (max-width:760px){
+ .explorer .sidebar{top:auto;max-height:46%}
+ .explorer .sidebar.collapsed{max-height:80px}
+}
+
+.explorer .region-navigation .search-toggle span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.explorer .mode-button{min-height:44px;height:44px}
+@media(pointer:coarse){
+ .explorer .sidebar .card-close{width:44px;height:44px;min-width:44px;min-height:44px}
+ .explorer :is(.lift-row,.abz-lift,.gallery-nav button){min-height:44px}
+ .explorer .route-name-popup .maplibregl-popup-close-button{width:44px;height:44px}
+ .explorer .route-name-popup .maplibregl-popup-content{padding-right:44px}
+}
+
+/* Viewport-unit fallbacks retain usable height on browsers without dvh. */
+.dialog{max-height:85vh;max-height:85dvh}
+.photo-viewer{max-height:92vh;max-height:92dvh}
+.photo-viewer>img{max-height:70vh;max-height:70dvh}

@@ -1,0 +1,922 @@
+[
+  {
+    "width": 320,
+    "height": 568,
+    "layout": {
+      "shell": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 568,
+        "right": 320,
+        "bottom": 568
+      },
+      "nav": {
+        "x": 0,
+        "y": 0,
+        "width": 320,
+        "height": 57,
+        "right": 320,
+        "bottom": 57
+      },
+      "buttons": [
+        {
+          "label": "Поиск мест",
+          "x": 6,
+          "y": 7,
+          "width": 54,
+          "height": 42,
+          "right": 60,
+          "bottom": 49,
+          "scrollWidth": 68
+        },
+        {
+          "label": "Общий вид района",
+          "x": 65,
+          "y": 7,
+          "width": 34,
+          "height": 42,
+          "right": 99,
+          "bottom": 49,
+          "scrollWidth": 32
+        },
+        {
+          "label": "Слои карты",
+          "x": 104,
+          "y": 7,
+          "width": 36,
+          "height": 42,
+          "right": 140,
+          "bottom": 49,
+          "scrollWidth": 34
+        },
+        {
+          "label": "Оживить карту",
+          "x": 145,
+          "y": 6,
+          "width": 128,
+          "height": 44,
+          "right": 273,
+          "bottom": 50,
+          "scrollWidth": 126
+        },
+        {
+          "label": "О карте",
+          "x": 278,
+          "y": 7,
+          "width": 36,
+          "height": 42,
+          "right": 314,
+          "bottom": 49,
+          "scrollWidth": 34
+        }
+      ],
+      "card": {
+        "x": 8,
+        "y": 320.953125,
+        "width": 304,
+        "height": 235.046875,
+        "right": 312,
+        "bottom": 556
+      },
+      "map": {
+        "x": 0,
+        "y": 57,
+        "width": 320,
+        "height": 511,
+        "right": 320,
+        "bottom": 568
+      },
+      "padding": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "scrollWidth": 320,
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    "search": {
+      "x": 8,
+      "right": 304,
+      "top": 58,
+      "bottom": 258,
+      "height": 200,
+      "font": "14px"
+    },
+    "layers": {
+      "x": 87,
+      "right": 312,
+      "top": 65,
+      "bottom": 346.046875
+    }
+  },
+  {
+    "width": 360,
+    "height": 640,
+    "layout": {
+      "shell": {
+        "x": 0,
+        "y": 0,
+        "width": 360,
+        "height": 640,
+        "right": 360,
+        "bottom": 640
+      },
+      "nav": {
+        "x": 0,
+        "y": 0,
+        "width": 360,
+        "height": 57,
+        "right": 360,
+        "bottom": 57
+      },
+      "buttons": [
+        {
+          "label": "Поиск мест",
+          "x": 6,
+          "y": 7,
+          "width": 94,
+          "height": 42,
+          "right": 100,
+          "bottom": 49,
+          "scrollWidth": 92
+        },
+        {
+          "label": "Общий вид района",
+          "x": 105,
+          "y": 7,
+          "width": 34,
+          "height": 42,
+          "right": 139,
+          "bottom": 49,
+          "scrollWidth": 32
+        },
+        {
+          "label": "Слои карты",
+          "x": 144,
+          "y": 7,
+          "width": 36,
+          "height": 42,
+          "right": 180,
+          "bottom": 49,
+          "scrollWidth": 34
+        },
+        {
+          "label": "Оживить карту",
+          "x": 185,
+          "y": 6,
+          "width": 128,
+          "height": 44,
+          "right": 313,
+          "bottom": 50,
+          "scrollWidth": 126
+        },
+        {
+          "label": "О карте",
+          "x": 318,
+          "y": 7,
+          "width": 36,
+          "height": 42,
+          "right": 354,
+          "bottom": 49,
+          "scrollWidth": 34
+        }
+      ],
+      "card": {
+        "x": 8,
+        "y": 359.828125,
+        "width": 344,
+        "height": 268.171875,
+        "right": 352,
+        "bottom": 628
+      },
+      "map": {
+        "x": 0,
+        "y": 57,
+        "width": 360,
+        "height": 583,
+        "right": 360,
+        "bottom": 640
+      },
+      "padding": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "scrollWidth": 360,
+      "viewport": [
+        360,
+        640
+      ]
+    },
+    "search": {
+      "x": 8,
+      "right": 344,
+      "top": 58,
+      "bottom": 258,
+      "height": 200,
+      "font": "14px"
+    },
+    "layers": {
+      "x": 127,
+      "right": 352,
+      "top": 65,
+      "bottom": 385.640625
+    }
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "layout": {
+      "shell": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844,
+        "right": 390,
+        "bottom": 844
+      },
+      "nav": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 57,
+        "right": 390,
+        "bottom": 57
+      },
+      "buttons": [
+        {
+          "label": "Поиск мест",
+          "x": 6,
+          "y": 7,
+          "width": 100,
+          "height": 42,
+          "right": 106,
+          "bottom": 49,
+          "scrollWidth": 98
+        },
+        {
+          "label": "Общий вид района",
+          "x": 117,
+          "y": 7,
+          "width": 34,
+          "height": 42,
+          "right": 151,
+          "bottom": 49,
+          "scrollWidth": 32
+        },
+        {
+          "label": "Слои карты",
+          "x": 162,
+          "y": 7,
+          "width": 36,
+          "height": 42,
+          "right": 198,
+          "bottom": 49,
+          "scrollWidth": 34
+        },
+        {
+          "label": "Оживить карту",
+          "x": 209,
+          "y": 6,
+          "width": 128,
+          "height": 44,
+          "right": 337,
+          "bottom": 50,
+          "scrollWidth": 126
+        },
+        {
+          "label": "О карте",
+          "x": 348,
+          "y": 7,
+          "width": 36,
+          "height": 42,
+          "right": 384,
+          "bottom": 49,
+          "scrollWidth": 34
+        }
+      ],
+      "card": {
+        "x": 8,
+        "y": 469.984375,
+        "width": 374,
+        "height": 362.015625,
+        "right": 382,
+        "bottom": 832
+      },
+      "map": {
+        "x": 0,
+        "y": 57,
+        "width": 390,
+        "height": 787,
+        "right": 390,
+        "bottom": 844
+      },
+      "padding": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "scrollWidth": 390,
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    "search": {
+      "x": 8,
+      "right": 368,
+      "top": 58,
+      "bottom": 258,
+      "height": 200,
+      "font": "14px"
+    },
+    "layers": {
+      "x": 157,
+      "right": 382,
+      "top": 65,
+      "bottom": 497.84375
+    }
+  },
+  {
+    "width": 430,
+    "height": 932,
+    "layout": {
+      "shell": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 932,
+        "right": 430,
+        "bottom": 932
+      },
+      "nav": {
+        "x": 0,
+        "y": 0,
+        "width": 430,
+        "height": 57,
+        "right": 430,
+        "bottom": 57
+      },
+      "buttons": [
+        {
+          "label": "Поиск мест",
+          "x": 6,
+          "y": 7,
+          "width": 100,
+          "height": 42,
+          "right": 106,
+          "bottom": 49,
+          "scrollWidth": 98
+        },
+        {
+          "label": "Общий вид района",
+          "x": 127,
+          "y": 7,
+          "width": 34,
+          "height": 42,
+          "right": 161,
+          "bottom": 49,
+          "scrollWidth": 32
+        },
+        {
+          "label": "Слои карты",
+          "x": 182,
+          "y": 7,
+          "width": 36,
+          "height": 42,
+          "right": 218,
+          "bottom": 49,
+          "scrollWidth": 34
+        },
+        {
+          "label": "Оживить карту",
+          "x": 239,
+          "y": 6,
+          "width": 128,
+          "height": 44,
+          "right": 367,
+          "bottom": 50,
+          "scrollWidth": 126
+        },
+        {
+          "label": "О карте",
+          "x": 388,
+          "y": 7,
+          "width": 36,
+          "height": 42,
+          "right": 424,
+          "bottom": 49,
+          "scrollWidth": 34
+        }
+      ],
+      "card": {
+        "x": 8,
+        "y": 517.5,
+        "width": 414,
+        "height": 402.5,
+        "right": 422,
+        "bottom": 920
+      },
+      "map": {
+        "x": 0,
+        "y": 57,
+        "width": 430,
+        "height": 875,
+        "right": 430,
+        "bottom": 932
+      },
+      "padding": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "scrollWidth": 430,
+      "viewport": [
+        430,
+        932
+      ]
+    },
+    "search": {
+      "x": 8,
+      "right": 368,
+      "top": 58,
+      "bottom": 258,
+      "height": 200,
+      "font": "14px"
+    },
+    "layers": {
+      "x": 197,
+      "right": 422,
+      "top": 65,
+      "bottom": 546.25
+    }
+  },
+  {
+    "width": 768,
+    "height": 1024,
+    "layout": {
+      "shell": {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 1024,
+        "right": 768,
+        "bottom": 1024
+      },
+      "nav": {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 65,
+        "right": 768,
+        "bottom": 65
+      },
+      "buttons": [
+        {
+          "label": "Поиск мест",
+          "x": 128.765625,
+          "y": 11,
+          "width": 240,
+          "height": 42,
+          "right": 368.765625,
+          "bottom": 53,
+          "scrollWidth": 238
+        },
+        {
+          "label": "Общий вид района",
+          "x": 376.765625,
+          "y": 11,
+          "width": 42,
+          "height": 42,
+          "right": 418.765625,
+          "bottom": 53,
+          "scrollWidth": 40
+        },
+        {
+          "label": "Слои карты",
+          "x": 426.765625,
+          "y": 11,
+          "width": 42,
+          "height": 42,
+          "right": 468.765625,
+          "bottom": 53,
+          "scrollWidth": 40
+        },
+        {
+          "label": "Оживить карту",
+          "x": 476.765625,
+          "y": 10,
+          "width": 156,
+          "height": 44,
+          "right": 632.765625,
+          "bottom": 54,
+          "scrollWidth": 154
+        },
+        {
+          "label": "О карте",
+          "x": 710,
+          "y": 11,
+          "width": 42,
+          "height": 42,
+          "right": 752,
+          "bottom": 53,
+          "scrollWidth": 40
+        }
+      ],
+      "card": {
+        "x": 354,
+        "y": 81,
+        "width": 298,
+        "height": 869,
+        "right": 652,
+        "bottom": 950
+      },
+      "map": {
+        "x": 0,
+        "y": 65,
+        "width": 768,
+        "height": 959,
+        "right": 768,
+        "bottom": 1024
+      },
+      "padding": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "scrollWidth": 768,
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    "search": {
+      "x": 145,
+      "right": 505,
+      "top": 62,
+      "bottom": 262,
+      "height": 200,
+      "font": "14px"
+    },
+    "layers": {
+      "x": 512,
+      "right": 752,
+      "top": 77,
+      "bottom": 700.34375
+    }
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "layout": {
+      "shell": {
+        "x": 0,
+        "y": 0,
+        "width": 1024,
+        "height": 768,
+        "right": 1024,
+        "bottom": 768
+      },
+      "nav": {
+        "x": 0,
+        "y": 0,
+        "width": 1024,
+        "height": 65,
+        "right": 1024,
+        "bottom": 65
+      },
+      "buttons": [
+        {
+          "label": "Поиск мест",
+          "x": 128.765625,
+          "y": 11,
+          "width": 240,
+          "height": 42,
+          "right": 368.765625,
+          "bottom": 53,
+          "scrollWidth": 238
+        },
+        {
+          "label": "Общий вид района",
+          "x": 376.765625,
+          "y": 11,
+          "width": 42,
+          "height": 42,
+          "right": 418.765625,
+          "bottom": 53,
+          "scrollWidth": 40
+        },
+        {
+          "label": "Слои карты",
+          "x": 426.765625,
+          "y": 11,
+          "width": 42,
+          "height": 42,
+          "right": 468.765625,
+          "bottom": 53,
+          "scrollWidth": 40
+        },
+        {
+          "label": "Оживить карту",
+          "x": 476.765625,
+          "y": 10,
+          "width": 156,
+          "height": 44,
+          "right": 632.765625,
+          "bottom": 54,
+          "scrollWidth": 154
+        },
+        {
+          "label": "О карте",
+          "x": 966,
+          "y": 11,
+          "width": 42,
+          "height": 42,
+          "right": 1008,
+          "bottom": 53,
+          "scrollWidth": 40
+        }
+      ],
+      "card": {
+        "x": 610,
+        "y": 81,
+        "width": 298,
+        "height": 613,
+        "right": 908,
+        "bottom": 694
+      },
+      "map": {
+        "x": 0,
+        "y": 65,
+        "width": 1024,
+        "height": 703,
+        "right": 1024,
+        "bottom": 768
+      },
+      "padding": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "scrollWidth": 1024,
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    "search": {
+      "x": 145,
+      "right": 505,
+      "top": 62,
+      "bottom": 262,
+      "height": 200,
+      "font": "14px"
+    },
+    "layers": {
+      "x": 768,
+      "right": 1008,
+      "top": 77,
+      "bottom": 533.9375
+    }
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "layout": {
+      "shell": {
+        "x": 0,
+        "y": 0,
+        "width": 844,
+        "height": 460,
+        "right": 844,
+        "bottom": 460
+      },
+      "nav": {
+        "x": 0,
+        "y": 0,
+        "width": 844,
+        "height": 65,
+        "right": 844,
+        "bottom": 65
+      },
+      "buttons": [
+        {
+          "label": "Поиск мест",
+          "x": 128.765625,
+          "y": 11,
+          "width": 240,
+          "height": 42,
+          "right": 368.765625,
+          "bottom": 53,
+          "scrollWidth": 238
+        },
+        {
+          "label": "Общий вид района",
+          "x": 376.765625,
+          "y": 11,
+          "width": 42,
+          "height": 42,
+          "right": 418.765625,
+          "bottom": 53,
+          "scrollWidth": 40
+        },
+        {
+          "label": "Слои карты",
+          "x": 426.765625,
+          "y": 11,
+          "width": 42,
+          "height": 42,
+          "right": 468.765625,
+          "bottom": 53,
+          "scrollWidth": 40
+        },
+        {
+          "label": "Оживить карту",
+          "x": 476.765625,
+          "y": 10,
+          "width": 156,
+          "height": 44,
+          "right": 632.765625,
+          "bottom": 54,
+          "scrollWidth": 154
+        },
+        {
+          "label": "О карте",
+          "x": 786,
+          "y": 11,
+          "width": 42,
+          "height": 42,
+          "right": 828,
+          "bottom": 53,
+          "scrollWidth": 40
+        }
+      ],
+      "card": {
+        "x": 430,
+        "y": 81,
+        "width": 298,
+        "height": 305,
+        "right": 728,
+        "bottom": 386
+      },
+      "map": {
+        "x": 0,
+        "y": 65,
+        "width": 844,
+        "height": 395,
+        "right": 844,
+        "bottom": 460
+      },
+      "padding": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "scrollWidth": 844,
+      "viewport": [
+        844,
+        390
+      ]
+    },
+    "search": {
+      "x": 145,
+      "right": 505,
+      "top": 62,
+      "bottom": 262,
+      "height": 200,
+      "font": "14px"
+    },
+    "layers": {
+      "x": 588,
+      "right": 828,
+      "top": 77,
+      "bottom": 333.75
+    }
+  },
+  {
+    "width": 1365,
+    "height": 900,
+    "layout": {
+      "shell": {
+        "x": 0,
+        "y": 0,
+        "width": 1365,
+        "height": 900,
+        "right": 1365,
+        "bottom": 900
+      },
+      "nav": {
+        "x": 0,
+        "y": 0,
+        "width": 1365,
+        "height": 65,
+        "right": 1365,
+        "bottom": 65
+      },
+      "buttons": [
+        {
+          "label": "Поиск мест",
+          "x": 128.765625,
+          "y": 11,
+          "width": 240,
+          "height": 42,
+          "right": 368.765625,
+          "bottom": 53,
+          "scrollWidth": 238
+        },
+        {
+          "label": "Общий вид района",
+          "x": 376.765625,
+          "y": 11,
+          "width": 42,
+          "height": 42,
+          "right": 418.765625,
+          "bottom": 53,
+          "scrollWidth": 40
+        },
+        {
+          "label": "Слои карты",
+          "x": 426.765625,
+          "y": 11,
+          "width": 42,
+          "height": 42,
+          "right": 468.765625,
+          "bottom": 53,
+          "scrollWidth": 40
+        },
+        {
+          "label": "Оживить карту",
+          "x": 476.765625,
+          "y": 10,
+          "width": 156,
+          "height": 44,
+          "right": 632.765625,
+          "bottom": 54,
+          "scrollWidth": 154
+        },
+        {
+          "label": "О карте",
+          "x": 1307,
+          "y": 11,
+          "width": 42,
+          "height": 42,
+          "right": 1349,
+          "bottom": 53,
+          "scrollWidth": 40
+        }
+      ],
+      "card": {
+        "x": 951,
+        "y": 81,
+        "width": 298,
+        "height": 745,
+        "right": 1249,
+        "bottom": 826
+      },
+      "map": {
+        "x": 0,
+        "y": 65,
+        "width": 1365,
+        "height": 835,
+        "right": 1365,
+        "bottom": 900
+      },
+      "padding": {
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0
+      },
+      "scrollWidth": 1365,
+      "viewport": [
+        1365,
+        900
+      ]
+    },
+    "search": {
+      "x": 145,
+      "right": 505,
+      "top": 62,
+      "bottom": 262,
+      "height": 200,
+      "font": "14px"
+    },
+    "layers": {
+      "x": 1109,
+      "right": 1349,
+      "top": 77,
+      "bottom": 619.75
+    }
+  }
+]

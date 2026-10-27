@@ -94,7 +94,7 @@ class MratkinoMap extends HTMLElement {
    map.addControl(new ml.FullscreenControl({container:this.region?this.$('.shell'):this.$('.map-wrap')}),'top-right');
    map.addControl(new ml.ScaleControl({maxWidth:90,unit:'metric'}),'bottom-left');
    map.addControl(new ml.AttributionControl({compact:true}),'bottom-right');
-   this.resizeObserver?.disconnect();this.resizeObserver=new ResizeObserver(()=>map.resize());this.resizeObserver.observe(this.$('.map-wrap'));
+   this.resizeObserver?.disconnect();this.resizeObserver=new ResizeObserver(()=>{map.resize();this.region?.resizeLayout();});this.resizeObserver.observe(this.$('.map-wrap'));
    this.readyTimer=setTimeout(()=>{if(this.getAttribute('data-map-state')!=='ready')this.fallback('Рельеф ещё загружается. Пока показан резервный вид; 3D-карта появится после загрузки.',false);},25000);
    map.on(this.region?'style.load':'load',()=>{
     if(this.map!==map)return;
