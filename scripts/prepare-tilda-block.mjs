@@ -30,7 +30,7 @@ ${vendorStyles}
 mirrorYandexStyles(scope);
 // Catalog is generated from PLACES, including the corrected tower and both Malinovaya IDs.
 mountYandex(${JSON.stringify(catalog)},config,scope);
-const loader=document.createElement('script');loader.src=new URL('tilda-map-switch.js?v=20261027-isolated',base).href;loader.dataset.defaultMode=config.defaultMode||'3d';loader.dataset.mapUrl=new URL('../?v=20261027-isolated',base).href;loader.vbScope=scope;holder.after(loader);
+const loader=document.createElement('script');loader.src=new URL('tilda-map-switch.js?v=20261027-ordinary',base).href;loader.dataset.defaultMode=config.defaultMode||'yandex';loader.dataset.mapUrl=new URL('../?v=20261027-ordinary',base).href;loader.vbScope=scope;holder.after(loader);
 })();
 `;
 fs.writeFileSync('public/integration/tilda-map-block.js',output);
