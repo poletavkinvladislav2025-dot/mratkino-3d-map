@@ -21,6 +21,7 @@ for(const retired of document.querySelectorAll('.vb-t1,#vb-map-modes,.vb-map-uni
  const record=retired.closest('.t-rec'),target=record&&!record.contains(script)?record:retired;
  target.hidden=true;target.inert=true;target.setAttribute('aria-hidden','true');target.style.setProperty('display','none','important');
 }
+const record=script.closest('.t-rec');if(record)record.style.setProperty('background-color','#faf8f5','important');
 const holder=document.createElement('div');holder.className='vb-map-complete';holder.dataset.vbCurrent='isolated-1';script.before(holder);
 const scope=holder.attachShadow({mode:'open'});scope.innerHTML=${JSON.stringify(markup)};
 if(showIntro){const intro=scope.querySelector('.vb-t1__intro');intro.style.display='block';for(const tag of ['h1','p']){const old=previousIntro.querySelector(tag),current=intro.querySelector(tag);if(old&&current)current.textContent=old.textContent;}}
