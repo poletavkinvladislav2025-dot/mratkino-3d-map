@@ -75,12 +75,14 @@ export class RegionController{
  async focusView(view,{silent=false}={}){
   this.setFilters({view},{silent});
   await this.choose('all',false,{silent:true,navigate:false});
-  const h=this.host;this.showCard(false);h.map.stop();
+  const h=this.host;this.showCard(false);h.map.resize();h.map.stop();
   if(view==='places'){this.overview(false);return;}
   const points=PLACES.filter(p=>p.kind==='stamp-point'&&placeVisible(p,this.filters));
   if(!points.length)return;
   const bounds=points.reduce((b,p)=>[[Math.min(b[0][0],p.coordinates[0]),Math.min(b[0][1],p.coordinates[1])],[Math.max(b[1][0],p.coordinates[0]),Math.max(b[1][1],p.coordinates[1])]],[[Infinity,Infinity],[-Infinity,-Infinity]]);
-  h.map.fitBounds(bounds,{padding:{top:100,bottom:110,left:80,right:100},absolutePadding:true,maxZoom:15.5,pitch:35,bearing:0,duration:0});
+  const container=h.map.getContainer(),compact=container.clientWidth<440||container.clientHeight<480;
+  // Fit insets shape this view without persisting padding across responsive resizes.
+  h.map.fitBounds(bounds,{padding:compact?{top:80,bottom:120,left:32,right:72}:{top:100,bottom:110,left:80,right:100},maxZoom:15.5,pitch:compact?15:35,bearing:0,duration:0});
   this.sync();this.cameraButton();this.bridge.updateURL();
  }
  cameraButton(){const m=this.host.map,top=m?m.getPitch()<5:this.host.mode2D,b=this.host.$('[data-action=mode]');this.host.mode2D=top;b.textContent=top?'Наклонный вид':'Вид сверху';b.title=b.textContent;b.setAttribute('aria-label',b.textContent);b.setAttribute('aria-pressed',String(top));}
@@ -259,7 +261,12 @@ export class RegionController{
   const widths=sorted.map(({element,p})=>element.offsetWidth||(p.kind==='stamp-point'?44:110));
   for(const [index,{p,element,marker}] of sorted.entries()){
    const stamp=p.kind==='stamp-point',point=map.project(p.coordinates);const selected=String(p.id===this.id);if(element.getAttribute('aria-pressed')!==selected){element.classList.toggle('selected',p.id===this.id);element.setAttribute('aria-pressed',selected);}
-   const offset=stamp&&zoom>=12.4?(p.id==='stampStation'?[-28,-16]:p.id==='kiosk3'?[28,16]:[0,0]):[0,0];
+   let offset=stamp&&zoom>=12.4?(p.id==='stampStation'?[-28,-16]:p.id==='kiosk3'?[28,16]:[0,0]):[0,0];
+   // Keep nearby stamp buttons selectable in compact views; leader lines retain their true anchors.
+   if(stamp&&!this.filters.interesting&&zoom>=12.4){
+    const free=off=>{const r=[point.x+off[0]-22,point.y+off[1]-22,point.x+off[0]+22,point.y+off[1]+22];return r[0]>=8&&r[2]<=w-48&&r[1]>=55&&r[3]<=hh-65&&!occupied.some(a=>r[0]<a[2]&&r[2]>a[0]&&r[1]<a[3]&&r[3]>a[1]);};
+    if(!free(offset)){const base=offset;let found=false;for(const d of [16,32,48,64]){for(const [x,y] of [[1,0],[-1,0],[0,-1],[0,1],[1,-1],[-1,-1],[1,1],[-1,1]]){const candidate=[base[0]+x*d,base[1]+y*d];if(free(candidate)){offset=candidate;found=true;break;}}if(found)break;}}
+   }
    if(stamp&&element.dataset.offset!==offset.join(',')){element.dataset.offset=offset.join(',');marker.setOffset(offset);element.style.setProperty('--leader-length',Math.hypot(...offset)+'px');element.style.setProperty('--leader-angle',Math.atan2(-offset[1],-offset[0])+'rad');}
    const width=widths[index],x=point.x+offset[0],y=point.y+offset[1],r=stamp?[x-22,y-22,x+22,y+22]:[x-width/2-5,y-30,x+width/2+5,y+5];
    const visible=!(p.id==='bolshoy-kraka'&&zoom>=10)&&enabled&&placeVisible(p,this.filters)&&!(h.resortActive&&p.id==='mratkino')&&!(this.ski.active&&p.id==='abzakovo')&&(zoom>=(stamp?12.4:10.6)||p.major||p.id===this.id)&&r[0]>=8&&r[2]<=w-48&&r[1]>=55&&r[3]<=hh-65&&!occupied.some(a=>r[0]<a[2]&&r[2]>a[0]&&r[1]<a[3]&&r[3]>a[1]);

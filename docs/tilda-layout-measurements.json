@@ -1,0 +1,30 @@
+[
+  {
+    "width": 320,
+    "height": 568,
+    "map": {
+      "left": 16,
+      "right": 304,
+      "width": 288,
+      "height": 480
+    },
+    "titleLeft": 16,
+    "barLeft": 16,
+    "scroll": 320,
+    "viewport": 320
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "map": {
+      "left": 24,
+      "right": 820,
+      "width": 796,
+      "height": 500
+    },
+    "titleLeft": 24,
+    "barLeft": 24,
+    "scroll": 844,
+    "viewport": 844
+  }
+]

@@ -1,15 +1,7 @@
 import {test,expect} from './tile-fixture.js';
 import fs from 'node:fs';
 const catalog=JSON.parse(fs.readFileSync('public/integration/map-catalog.json','utf8'));
-function fakeYandex(){
- const calls=[];window.yandexCalls=calls;
- class Map{constructor(container){this.container={fitToViewport(){}};this.geoObjects={add(p){window.yandexMarkers.push(p);}};this.converter={coordinatesToGlobalPixels:p=>p,globalPixelsToCoordinates:p=>p};this.zoom=11;window.yandexMap=this;}
- setBounds(bounds,options){calls.push({action:'bounds',bounds,options});this.bounds=bounds;this.zoom=bounds[1][0]-bounds[0][0]<.1?14:10;return Promise.resolve();}
- setCenter(center,zoom){calls.push({action:'center',center,zoom});this.zoom=zoom;return Promise.resolve();}
- getZoom(){return this.zoom;}setZoom(z){this.zoom=z;}getGlobalPixelCenter(){return [0,0];}}
- class Placemark{constructor(coords){this.coords=coords;this.values={};this.options={set:(k,v)=>this.values[k]=v};this.geometry={getCoordinates:()=>coords};this.events={add:(name,fn)=>this.click=fn};}}
- window.yandexMarkers=[];window.ymaps={ready:fn=>fn(),Map,Placemark};
-}
+import {fakeYandex} from './fixtures/fake-yandex.js';
 for(const mobile of [false,true])test(`complete ordinary block filters data and frames correct bounds ${mobile?'mobile':'desktop'}`,async({page})=>{
  await page.setViewportSize(mobile?{width:390,height:844}:{width:1365,height:900});await page.addInitScript(fakeYandex);await page.route('**/integration/complete-demo.html',route=>route.fulfill({contentType:'text/html',body:fs.readFileSync('tests/fixtures/tilda-complete.html','utf8')}));await page.goto('/integration/complete-demo.html');
  await expect(page.locator('#vb-map-modes')).toHaveAttribute('data-mode','yandex');expect(await page.evaluate(()=>window.yandexMarkers.length)).toBe(52);
