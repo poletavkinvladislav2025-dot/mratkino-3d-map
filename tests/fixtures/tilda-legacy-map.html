@@ -1,0 +1,1864 @@
+<section class="vb-t1" aria-label="Интерактивная карта Белорецкого района" data-vb-header-theme="dark"> <style>
+.vb-t1,
+.vb-t1 * { box-sizing: border-box; }
+.vb-t1 input,
+.vb-t1 textarea,
+.vb-t1 select { font: inherit; }
+
+.vb-t1 {
+  --vb-accent: #1B4332;
+  --vb-accent-h: #2D6A4F;
+  --vb-terra: #B85C38;
+  --vb-terra-h: #9E4E2E;
+  --vb-text: #2B2B2B;
+  --vb-muted: #6B6B6B;
+  --vb-bg: #FAF8F4;
+  --vb-card: #FFFFFF;
+  --vb-border: #E5E1DA;
+  background: var(--vb-bg);
+  font-family: TildaSans, Arial, sans-serif;
+  color: var(--vb-text);
+  padding: 40px 0 50px;
+  overflow: hidden;
+}
+
+.vb-t1__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ═══ Tabs ═══ */
+.vb-t1__tabs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.vb-t1__tab {
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  padding: 9px 22px;
+  border-radius: 100px;
+  border: 1.5px solid var(--vb-border);
+  background: transparent;
+  color: var(--vb-muted);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.vb-t1__tab:hover {
+  border-color: var(--vb-accent);
+  color: var(--vb-accent);
+}
+
+.vb-t1__tab--active[data-tab="places"] {
+  background: var(--vb-accent);
+  border-color: var(--vb-accent);
+  color: #fff;
+}
+.vb-t1__tab--active[data-tab="places"]:hover {
+  background: var(--vb-accent-h);
+  border-color: var(--vb-accent-h);
+  color: #fff;
+}
+.vb-t1__tab--active[data-tab="stamps"] {
+  background: #7a2222;
+  border-color: #7a2222;
+  color: #fff;
+}
+.vb-t1__tab--active[data-tab="stamps"]:hover {
+  background: #6b1c1c;
+  border-color: #6b1c1c;
+  color: #fff;
+}
+
+/* ═══ Map area — full width ═══ */
+.vb-t1__map-area { min-width: 0; }
+
+/* ═══ Map container ═══ */
+.vb-t1__map {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #D6D0C2;
+  height: 480px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 4px 20px rgba(0,0,0,0.04);
+}
+
+.vb-t1__map-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.vb-t1__map-loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 14px;
+  background: #E8E4DC;
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.vb-t1__map-loader--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.vb-t1__map-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(27, 67, 50, 0.15);
+  border-top-color: var(--vb-accent);
+  border-radius: 50%;
+  animation: vbT1Spin 0.8s linear infinite;
+}
+
+.vb-t1__map-loader-text {
+  font-size: 0.8125rem;
+  color: var(--vb-muted);
+}
+
+@keyframes vbT1Spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ═══════════════════════════════════
+   DESKTOP PANEL (overlay on map)
+   ═══════════════════════════════════ */
+.vb-t1__panel {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  width: 370px;
+  height: 450px;
+  background: var(--vb-card);
+  border-radius: 14px;
+  box-shadow: 0 4px 28px rgba(0,0,0,0.14);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(115%) translateY(-50%);
+  transition: transform 0.38s cubic-bezier(0.25, 0.1, 0.25, 1), width 0.3s ease;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.vb-t1__panel--open {
+  transform: translateX(0) translateY(-50%);
+  pointer-events: auto;
+}
+
+.vb-t1__panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--vb-border);
+  flex-shrink: 0;
+}
+
+.vb-t1__panel-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vb-t1__panel-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 14px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.vb-t1__panel-body::-webkit-scrollbar { width: 4px; }
+.vb-t1__panel-body::-webkit-scrollbar-track { background: transparent; }
+.vb-t1__panel-body::-webkit-scrollbar-thumb { background: var(--vb-border); border-radius: 2px; }
+
+/* Kiosk card mode (desktop) */
+.vb-t1__panel-body--kiosk {
+  overflow-y: hidden;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.vb-t1__panel-body--kiosk > .vb-t1__gallery,
+.vb-t1__panel-body--kiosk > .vb-t1__card-badge,
+.vb-t1__panel-body--kiosk > .vb-t1__card-tag,
+.vb-t1__panel-body--kiosk > .vb-t1__card-name,
+.vb-t1__panel-body--kiosk > .vb-t1__card-desc,
+.vb-t1__panel-body--kiosk > .vb-t1__route-link,
+.vb-t1__panel-body--kiosk > .vb-t1__passport-info {
+  flex-shrink: 0;
+}
+
+.vb-t1__panel-body--kiosk > .vb-t1__stamps-wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.vb-t1__panel-body--kiosk > .vb-t1__stamps-wrapper::-webkit-scrollbar { width: 4px; }
+.vb-t1__panel-body--kiosk > .vb-t1__stamps-wrapper::-webkit-scrollbar-track { background: transparent; }
+.vb-t1__panel-body--kiosk > .vb-t1__stamps-wrapper::-webkit-scrollbar-thumb { background: var(--vb-border); border-radius: 2px; }
+
+/* Places card mode (desktop) */
+.vb-t1__panel--places {
+  width: 400px;
+}
+
+.vb-t1__panel--places .vb-t1__card-name { margin-bottom: 4px; }
+.vb-t1__panel--places .vb-t1__card-desc { margin-bottom: 3px; }
+.vb-t1__panel--places .vb-t1__route-link { margin-top: 3px; }
+
+/* ═══ Nav buttons (shared) ═══ */
+.vb-t1__panel-head .vb-t1__nav-counter {
+  color: var(--vb-text);
+  font-weight: 600;
+}
+
+.vb-t1__panel-head .vb-t1__nav-btn {
+  border-color: rgba(27, 67, 50, 0.22);
+  color: var(--vb-accent);
+}
+
+.vb-t1__panel-head .vb-t1__nav-btn:hover {
+  background: rgba(27, 67, 50, 0.07);
+}
+
+.vb-t1__nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid var(--vb-border);
+  background: transparent;
+  color: var(--vb-text);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.vb-t1__nav-btn:hover {
+  border-color: var(--vb-accent);
+  color: var(--vb-accent);
+}
+
+.vb-t1__nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.vb-t1__nav-icon {
+  width: 13px;
+  height: 13px;
+}
+
+.vb-t1__nav-counter {
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--vb-muted);
+  letter-spacing: 0.02em;
+  min-width: 32px;
+  text-align: center;
+}
+
+/* ═══ Close button (desktop panel) ═══ */
+.vb-t1__close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid var(--vb-border);
+  background: transparent;
+  color: var(--vb-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.vb-t1__close-btn:hover {
+  border-color: var(--vb-terra);
+  color: var(--vb-terra);
+  background: rgba(184,92,56,0.06);
+}
+
+.vb-t1__close-icon {
+  width: 12px;
+  height: 12px;
+}
+
+/* ═══ Единая панель карты: масштаб + разворот слева ═══ */
+.vb-t1__tools {
+  position: absolute;
+  z-index: 12;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.vb-t1__zoom-stack {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(27, 67, 50, 0.10);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 3px 14px rgba(19, 44, 34, 0.12);
+  pointer-events: auto;
+  transition: opacity 0.2s ease;
+}
+
+.vb-t1__zoom-btn,
+.vb-t1__tools .vb-t1__fs-btn {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  margin: 0;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+  color: var(--vb-accent);
+  background: #fff;
+  border: 0;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vb-t1__zoom-btn:hover,
+.vb-t1__tools .vb-t1__fs-btn:hover {
+  color: #fff;
+  background: var(--vb-accent);
+}
+
+.vb-t1__zoom-btn:active,
+.vb-t1__tools .vb-t1__fs-btn:active {
+  background: var(--vb-accent-h);
+}
+
+.vb-t1__zoom-btn:disabled {
+  color: #9DAAA3;
+  background: #fff;
+  cursor: default;
+}
+
+.vb-t1__zoom-btn + .vb-t1__zoom-btn {
+  border-top: 1px solid #E9ECE9;
+}
+
+.vb-t1__zoom-icon,
+.vb-t1__fs-icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  display: block;
+}
+
+.vb-t1__tools .vb-t1__fs-btn {
+  border-radius: 14px;
+  border: 1px solid rgba(27, 67, 50, 0.10);
+  box-shadow: 0 3px 14px rgba(19, 44, 34, 0.12);
+}
+
+.vb-t1__tools .vb-t1__fs-btn[aria-pressed="true"] {
+  background: var(--vb-accent);
+  color: #fff;
+}
+
+.vb-t1__tools .vb-t1__fs-btn[aria-pressed="true"]:hover {
+  background: var(--vb-accent-h);
+}
+
+/* Разворот — собственный режим карты, без встроенного Yandex fullscreen. */
+.vb-t1__map--fullscreen {
+  position: fixed !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-width: none !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  border-radius: 0 !important;
+  z-index: 9998;
+  box-shadow: none !important;
+}
+
+@media (max-width: 960px) {
+  .vb-t1__tools {
+    top: 10px;
+    left: 10px;
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+
+  /* Раскрытая мобильная карточка не конфликтует с масштабом. */
+  .vb-t1__mcard--expanded ~ .vb-t1__tools .vb-t1__zoom-stack {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .vb-t1__mcard--expanded ~ .vb-t1__tools .vb-t1__zoom-btn {
+    pointer-events: none;
+  }
+}
+
+/* ═══════════════════════════════════
+   MOBILE CARD (overlay bottom of map)
+   ═══════════════════════════════════ */
+.vb-t1__mcard {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column-reverse;
+  background: var(--vb-card);
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.14);
+  overflow: hidden;
+  transform: translateY(120%);
+  transition: transform 0.38s cubic-bezier(0.25, 0.1, 0.25, 1);
+  pointer-events: none;
+  max-height: 100%;
+}
+
+.vb-t1__mcard--visible {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.vb-t1__mcard-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  flex-shrink: 0;
+  background: var(--vb-card);
+  border-top: 1px solid var(--vb-border);
+  min-height: 46px;
+}
+
+.vb-t1__mcard-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.vb-t1__mcard-name {
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--vb-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.vb-t1__mcard-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(27, 67, 50, 0.22);
+  background: transparent;
+  color: var(--vb-accent);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.vb-t1__mcard-arrow:hover {
+  border-color: var(--vb-accent);
+  color: var(--vb-accent);
+}
+
+.vb-t1__mcard-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid var(--vb-border);
+  background: transparent;
+  color: var(--vb-accent);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.vb-t1__mcard-toggle svg {
+  transition: transform 0.3s ease;
+}
+
+.vb-t1__mcard--expanded .vb-t1__mcard-toggle svg {
+  transform: rotate(180deg);
+}
+
+.vb-t1__mcard-counter {
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--vb-muted);
+  letter-spacing: 0.02em;
+  text-align: center;
+  flex-shrink: 0;
+  min-width: 28px;
+}
+
+.vb-t1__mcard-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.38s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.vb-t1__mcard--expanded .vb-t1__mcard-body {
+  max-height: min(62vh, calc(100% - 46px));
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.vb-t1__mcard-body-inner {
+  padding: 0 14px 12px;
+}
+
+.vb-t1__mcard--expanded .vb-t1__mcard-body-inner {
+  border-top: 1px solid var(--vb-border);
+  padding-top: 10px;
+}
+
+/* Kiosk card mode (mobile) */
+.vb-t1__mcard-body--kiosk {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.vb-t1__mcard--expanded .vb-t1__mcard-body--kiosk {
+  max-height: min(66vh, calc(100% - 46px));
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+.vb-t1__mcard-body-inner--kiosk {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.vb-t1__mcard-body-inner--kiosk > .vb-t1__gallery,
+.vb-t1__mcard-body-inner--kiosk > .vb-t1__card-badge,
+.vb-t1__mcard-body-inner--kiosk > .vb-t1__card-tag,
+.vb-t1__mcard-body-inner--kiosk > .vb-t1__card-name,
+.vb-t1__mcard-body-inner--kiosk > .vb-t1__card-desc,
+.vb-t1__mcard-body-inner--kiosk > .vb-t1__route-link,
+.vb-t1__mcard-body-inner--kiosk > .vb-t1__passport-info {
+  flex-shrink: 0;
+}
+
+.vb-t1__mcard-body-inner--kiosk > .vb-t1__stamps-wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ═══════════════════════════════════
+   CONTENT ELEMENTS
+   ═══════════════════════════════════ */
+
+/* Gallery */
+.vb-t1__gallery {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.vb-t1__gallery-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 10px;
+}
+
+.vb-t1__mcard .vb-t1__gallery-img {
+  height: 190px;
+}
+
+.vb-t1__mcard-body-inner--kiosk .vb-t1__gallery-img {
+  height: 180px;
+}
+
+.vb-t1__gallery-nav {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255,255,255,0.92);
+  padding: 3px 8px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.vb-t1__gallery-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  color: var(--vb-text);
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  transition: all 0.15s;
+}
+
+.vb-t1__gallery-btn:hover {
+  background: var(--vb-accent);
+  color: #fff;
+}
+
+.vb-t1__gallery-icon {
+  width: 10px;
+  height: 10px;
+}
+
+.vb-t1__gallery-count {
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--vb-text);
+  min-width: 24px;
+  text-align: center;
+}
+
+/* Card badges & text */
+.vb-t1__card-type,
+.vb-t1__card-badge {
+  display: inline-block;
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.vb-t1__card-type {
+  color: var(--vb-accent);
+  background: rgba(27, 67, 50, 0.08);
+}
+
+.vb-t1__card-badge {
+  color: var(--vb-terra);
+  background: rgba(184, 92, 56, 0.08);
+}
+
+.vb-t1__card-badge--green {
+  color: var(--vb-accent);
+  background: rgba(27, 67, 50, 0.08);
+}
+
+.vb-t1__card-tag {
+  display: inline-block;
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  color: var(--vb-accent);
+  background: rgba(27, 67, 50, 0.08);
+  border: 1px solid rgba(27, 67, 50, 0.12);
+}
+
+.vb-t1__card-name {
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--vb-text);
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+.vb-t1__card-name a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+.vb-t1__card-name a:hover {
+  color: var(--vb-accent);
+}
+
+.vb-t1__card-name-link-icon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: baseline;
+  margin-left: 4px;
+  color: var(--vb-terra);
+}
+
+.vb-t1__mcard .vb-t1__card-name {
+  font-size: 0.9375rem;
+}
+
+.vb-t1__card-desc {
+  font-size: 0.8125rem;
+  color: var(--vb-muted);
+  line-height: 1.6;
+  margin: 0 0 4px;
+  text-wrap: pretty;
+}
+
+.vb-t1__mcard .vb-t1__card-desc {
+  font-size: 0.75rem;
+}
+
+.vb-t1__card-desc + .vb-t1__card-desc {
+  margin-top: 4px;
+}
+
+/* Route link */
+.vb-t1__route-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--vb-accent);
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+.vb-t1__route-link:hover { opacity: 0.65; }
+
+.vb-t1__route-link-icon {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+}
+
+/* Passport info */
+.vb-t1__passport-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(27, 67, 50, 0.06);
+  border: 1px solid rgba(27, 67, 50, 0.12);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-top: 8px;
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--vb-accent);
+  line-height: 1.4;
+}
+
+.vb-t1__passport-info--muted {
+  background: rgba(107, 107, 107, 0.06);
+  border-color: rgba(107, 107, 107, 0.12);
+  color: var(--vb-muted);
+}
+
+/* Stamp section (place card) */
+.vb-t1__stamp-section {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--vb-border);
+}
+
+.vb-t1__stamp-group + .vb-t1__stamp-group {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--vb-border);
+}
+
+.vb-t1__stamp-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--vb-muted);
+  margin-bottom: 4px;
+}
+
+.vb-t1__stamp-icon {
+  width: 13px;
+  height: 13px;
+  color: var(--vb-accent);
+  flex-shrink: 0;
+}
+
+.vb-t1__stamp-name {
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--vb-text);
+  margin-bottom: 2px;
+  line-height: 1.3;
+}
+
+.vb-t1__stamp-kiosk {
+  font-size: 0.75rem;
+  color: var(--vb-muted);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.vb-t1__stamp-kiosk strong {
+  color: var(--vb-text);
+  font-weight: 600;
+}
+
+.vb-t1__stamp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--vb-accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.vb-t1__stamp-btn:hover { opacity: 0.6; }
+
+.vb-t1__stamp-btn-arrow {
+  width: 13px;
+  height: 13px;
+  transition: transform 0.2s;
+}
+
+.vb-t1__stamp-btn:hover .vb-t1__stamp-btn-arrow {
+  transform: translateX(3px);
+}
+
+/* Stamps list (kiosk card) */
+.vb-t1__stamps-wrapper {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--vb-border);
+}
+
+.vb-t1__stamps-label {
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--vb-text);
+  margin-bottom: 6px;
+}
+
+.vb-t1__stamps-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.vb-t1__stamps-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--vb-accent);
+  background: rgba(27, 67, 50, 0.08);
+  border: none;
+  border-radius: 7px;
+  padding: 5px 10px;
+  cursor: pointer;
+  white-space: normal;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  transition: background 0.2s;
+}
+
+.vb-t1__stamps-pill:hover {
+  background: rgba(27, 67, 50, 0.15);
+}
+
+.vb-t1__stamps-pill--static {
+  cursor: default;
+  color: var(--vb-muted);
+  background: rgba(107, 107, 107, 0.06);
+}
+
+.vb-t1__stamps-pill--static:hover {
+  background: rgba(107, 107, 107, 0.06);
+}
+
+.vb-t1__stamps-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.6875rem;
+  color: var(--vb-muted);
+  font-weight: 500;
+}
+
+.vb-t1__stamps-nav-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--vb-accent);
+  padding: 2px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.vb-t1__stamps-nav-btn:hover:not(:disabled) { opacity: 0.7; }
+.vb-t1__stamps-nav-btn:disabled { opacity: 0.25; cursor: default; }
+
+/* ═══ Modal ═══ */
+.vb-t1__modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.vb-t1__modal--open { display: flex; }
+
+.vb-t1__modal-content {
+  background: var(--vb-card);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.vb-t1__modal-header {
+  padding: 20px 20px 12px;
+  border-bottom: 1px solid var(--vb-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vb-t1__modal-title {
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--vb-text);
+  margin: 0;
+}
+
+.vb-t1__modal-close {
+  background: none;
+  border: none;
+  color: var(--vb-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.vb-t1__modal-close:hover { color: var(--vb-text); }
+
+.vb-t1__modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+}
+
+.vb-t1__modal-stamp {
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--vb-terra);
+  background: rgba(184, 92, 56, 0.05);
+  border: 1px solid rgba(184, 92, 56, 0.15);
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  text-align: left;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.vb-t1__modal-stamp:hover {
+  background: rgba(184, 92, 56, 0.12);
+  border-color: rgba(184, 92, 56, 0.35);
+}
+
+.vb-t1__modal-stamp--static {
+  cursor: default;
+  color: var(--vb-muted);
+  background: rgba(107, 107, 107, 0.05);
+  border-color: rgba(107, 107, 107, 0.1);
+}
+
+.vb-t1__modal-stamp--static:hover {
+  background: rgba(107, 107, 107, 0.05);
+  border-color: rgba(107, 107, 107, 0.1);
+}
+
+/* ═══════════════════════════════════
+   PHOTO BANK — редакторская панель
+   ═══════════════════════════════════ */
+.vb-t1__photo-bank {
+  padding: 16px;
+  background: #f5f5f5;
+  border-top: 2px dashed #ccc;
+}
+
+.vb-t1__photo-bank-title {
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.vb-t1__photo-bank-group {
+  margin-bottom: 12px;
+}
+
+.vb-t1__photo-bank-group-title {
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.vb-t1__photo-slot {
+  display: inline-block;
+  margin: 0 6px 6px 0;
+  vertical-align: top;
+}
+
+.vb-t1__photo-slot-label {
+  display: block;
+  font-family: TildaSans, Arial, sans-serif;
+  font-size: 10px;
+  color: #666;
+  margin-bottom: 3px;
+  max-width: 84px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vb-t1__photo {
+  display: block;
+  width: 84px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+/* ═══════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════ */
+@media (max-width: 1200px) {
+  .vb-t1__map { height: 440px; }
+}
+
+@media (max-width: 960px) {
+  .vb-t1__map { height: 420px; }
+}
+
+@media (max-width: 640px) {
+  .vb-t1 {
+    padding: 24px 0 32px;
+  }
+  .vb-t1__inner {
+    padding: 0 16px;
+  }
+  .vb-t1__map {
+    height: 520px;
+    border-radius: 12px;
+  }
+  .vb-t1__tabs { gap: 6px; }
+  .vb-t1__tab {
+    font-size: 0.75rem;
+    padding: 7px 16px;
+  }
+  .vb-t1__mcard {
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    border-radius: 12px;
+    max-height: calc(100% - 56px);
+  }
+  .vb-t1__mcard--expanded .vb-t1__mcard-body {
+    max-height: min(64vh, calc(100% - 46px));
+  }
+  .vb-t1__mcard--expanded .vb-t1__mcard-body--kiosk {
+    max-height: min(70vh, calc(100% - 46px));
+  }
+  .vb-t1__mcard-body-inner--kiosk > .vb-t1__stamps-wrapper {
+    flex: 1 1 auto;
+    min-height: 80px;
+    max-height: 220px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 480px) {
+  .vb-t1__map { height: 480px; }
+  .vb-t1__mcard { max-height: calc(100% - 48px); }
+  .vb-t1__mcard .vb-t1__gallery-img { height: 180px; }
+  .vb-t1__mcard-body-inner--kiosk .vb-t1__gallery-img { height: 170px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vb-t1__panel,
+  .vb-t1__mcard,
+  .vb-t1__mcard-body,
+  .vb-t1__stamp-btn-arrow,
+  .vb-t1__map-spinner,
+  .vb-t1__fs-btn {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+.vb-t1{padding:112px 0 32px}.vb-t1__inner{max-width:1280px;padding:0 40px}.vb-t1__intro{max-width:760px;margin:0 0 28px}.vb-t1__intro h1{font-family:TildaSans,Arial,sans-serif;font-size:40px;line-height:1.2;font-weight:600;letter-spacing:-.02em;margin:0 0 16px;color:var(--vb-accent)}.vb-t1__intro p{font-size:18px;line-height:1.6;margin:0;color:#555}.vb-t1__tabs{justify-content:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:20px}.vb-t1__tab{font-size:16px;min-height:48px;padding:10px 22px;white-space:normal}.vb-t1__map{height:clamp(560px,70vh,720px)}.vb-t1__panel{height:calc(100% - 32px);max-height:660px}.vb-t1__card-desc,.vb-t1__mcard .vb-t1__card-desc{font-size:16px;line-height:1.6}.vb-t1__card-name,.vb-t1__mcard .vb-t1__card-name{font-size:22px}.vb-t1__route-link{font-size:15px;min-height:40px}.vb-t1__nav-counter{font-size:14px}.vb-t1__nav-btn,.vb-t1__close-btn,.vb-t1__fs-btn{width:40px;height:40px}.vb-t1__stamp-name{font-size:17px}.vb-t1__passport-info{font-size:14px}.vb-t1__card-tag,.vb-t1__card-badge,.vb-t1__card-type,.vb-t1__stamp-badge{font-size:12px}.vb-t1__panel-body--kiosk{overflow-y:auto}.vb-t1__mcard-name{font-size:15px;white-space:normal;overflow:visible}.vb-t1__mcard-arrow,.vb-t1__mcard-toggle{width:44px;height:44px}.vb-t1__mcard-counter{font-size:12px}.vb-t1 button:focus-visible,.vb-t1 a:focus-visible{outline:2px solid var(--vb-terra);outline-offset:3px}
+@media(max-width:960px){.vb-t1{padding:100px 0 28px}.vb-t1__inner{padding:0 32px}.vb-t1__intro h1{font-size:34px}}
+@media(max-width:640px){.vb-t1{padding:96px 0 24px}.vb-t1__inner{padding:0 20px}.vb-t1__intro h1{font-size:30px}.vb-t1__intro p{font-size:16px}.vb-t1__tab{font-size:15px;padding:10px 16px}.vb-t1__map{height:580px;max-height:80svh;min-height:440px;border-radius:12px}.vb-t1__intro{margin-bottom:24px}.vb-t1__mcard{left:8px;right:8px;bottom:8px;max-height:calc(100% - 64px)}.vb-t1__mcard-info{gap:4px}.vb-t1__mcard-bar{padding:8px;gap:4px}.vb-t1__card-name,.vb-t1__mcard .vb-t1__card-name{font-size:20px}}
+@media(prefers-reduced-motion:reduce){.vb-t1 *{transition:none!important;animation:none!important}}
+#allrecords[data-tilda-page-id="247937509"] .vb-t1__intro{display:none}#allrecords[data-tilda-page-id="247937509"] .vb-t1{padding:0}
+</style> <div class="vb-t1__inner"><header class="vb-t1__intro"><h1>Карта Белорецкого района</h1><p>Выбирайте интересные места, открывайте их описания и находите точки, где можно поставить штамп в туристический паспорт.</p></header> <div class="vb-t1__map-area"> <div class="vb-t1__tabs" role="tablist" aria-label="Навигация по разделам"> <button class="vb-t1__tab vb-t1__tab--active" role="tab" aria-selected="true" data-tab="places">Места</button> <button class="vb-t1__tab" role="tab" aria-selected="false" data-tab="stamps">Где поставить штамп</button> </div> <div class="vb-t1__map"> <div class="vb-t1__map-container" id="vbT1MapContainer"> <div class="vb-t1__map-loader" id="vbT1Loader"> <div class="vb-t1__map-spinner"></div> <span class="vb-t1__map-loader-text">Загружаем карту…</span> </div> </div> <div class="vb-t1__panel" id="vbT1Panel"> <div class="vb-t1__panel-head"> <div class="vb-t1__panel-nav"> <button class="vb-t1__nav-btn" id="vbT1Prev" aria-label="Предыдущая точка"> <svg class="vb-t1__nav-icon" viewBox="0 0 14 14" fill="none"><path d="M9 1L3 7l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg> </button> <span class="vb-t1__nav-counter" id="vbT1Counter">1 / 25</span> <button class="vb-t1__nav-btn" id="vbT1Next" aria-label="Следующая точка"> <svg class="vb-t1__nav-icon" viewBox="0 0 14 14" fill="none"><path d="M5 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg> </button> </div> <button class="vb-t1__close-btn" id="vbT1PanelClose" aria-label="Закрыть панель"> <svg class="vb-t1__close-icon" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg> </button> </div> <div class="vb-t1__panel-body" id="vbT1PanelBody"></div> </div> <div class="vb-t1__mcard" id="vbT1Mcard"> <div class="vb-t1__mcard-bar"> <button class="vb-t1__mcard-arrow" id="vbT1McardPrev" aria-label="Предыдущая"> <svg class="vb-t1__nav-icon" viewBox="0 0 14 14" fill="none"><path d="M9 1L3 7l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg> </button> <div class="vb-t1__mcard-info"> <span class="vb-t1__mcard-name" id="vbT1McardName"></span> <span class="vb-t1__mcard-counter" id="vbT1McardCounter"></span> </div> <button class="vb-t1__mcard-arrow" id="vbT1McardNext" aria-label="Следующая"> <svg class="vb-t1__nav-icon" viewBox="0 0 14 14" fill="none"><path d="M5 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg> </button> <button class="vb-t1__mcard-toggle" id="vbT1McardToggle" aria-label="Раскрыть"> <svg class="vb-t1__nav-icon" viewBox="0 0 14 14" fill="none"><path d="M1 10l6-6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg> </button> </div> <div class="vb-t1__mcard-body" id="vbT1McardBody"> <div class="vb-t1__mcard-body-inner" id="vbT1McardBodyInner"></div> </div> </div> <!-- Единственные управляющие кнопки карты; справа элементы управления отсутствуют. --> <div class="vb-t1__tools" role="group" aria-label="Управление картой"> <div class="vb-t1__zoom-stack" role="group" aria-label="Масштаб карты"> <button class="vb-t1__zoom-btn" id="vbT1ZoomIn" type="button" title="Приблизить карту" aria-label="Приблизить карту"> <svg class="vb-t1__zoom-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M12 5v14" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path></svg> </button> <button class="vb-t1__zoom-btn" id="vbT1ZoomOut" type="button" title="Отдалить карту" aria-label="Отдалить карту"> <svg class="vb-t1__zoom-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path></svg> </button> </div> <button class="vb-t1__fs-btn" id="vbT1FsBtn" type="button" title="Развернуть карту" aria-label="Развернуть карту" aria-pressed="false"> <svg class="vb-t1__fs-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"> <path d="M3 7V3h4M13 7V3H9M3 9v4h4M13 9v4H9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </svg> </button> </div> </div> </div> </div> <div class="vb-t1__modal" id="vbT1Modal"> <div class="vb-t1__modal-content"> <div class="vb-t1__modal-header"> <h3 class="vb-t1__modal-title">Все штампы</h3> <button class="vb-t1__modal-close" id="vbT1ModalClose" aria-label="Закрыть">×</button> </div> <div class="vb-t1__modal-body" id="vbT1ModalBody"></div> </div> </div> <!-- ═══ ФОТОБАНК: редактируйте фотографии карточек здесь ═══
+     Каждый <img> ниже — это реальное изображение, которое
+     отображается в карточках на карте.
+     Чтобы заменить фото: нажмите на миниатюру в редакторе
+     Tilda и выберите новое изображение через стандартное
+     окно загрузки. Пустые слоты (прозрачный плейсхолдер)
+     в карточке не показываются.
+     ═══════════════════════════════════════════════════════ --> <div class="vb-t1__photo-bank" id="vbT1PhotoBank"> <div class="vb-t1__photo-bank-title">📷 Фотобанк карточек — редактируйте изображения здесь</div> <div class="vb-t1__photo-bank-group" data-photo-group="places"> <div class="vb-t1__photo-bank-group-title">Вкладка «Места»</div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Гора Малиновая — 1</span><img class="vb-t1__photo" data-photo-slot="malinovaya-1" src="https://static.tildacdn.com/tild3566-3563-4234-b334-353838343434/_ChatGPT_2__2026__17.png" alt="Гора Малиновая — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Гора Малиновая — 2</span><img class="vb-t1__photo" data-photo-slot="malinovaya-2" alt="" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Гора Малиновая — 3</span><img class="vb-t1__photo" data-photo-slot="malinovaya-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Гора Малиновая — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Первая Малиновая — 1</span><img class="vb-t1__photo" data-photo-slot="malinovaya1-1" src="https://static.tildacdn.com/tild6565-6563-4361-b633-633735396134/_ChatGPT_2__2026__17.png" alt="Первая Малиновая — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Первая Малиновая — 2</span><img class="vb-t1__photo" data-photo-slot="malinovaya1-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Первая Малиновая — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Первая Малиновая — 3</span><img class="vb-t1__photo" data-photo-slot="malinovaya1-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Первая Малиновая — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Большой Иремель — 1</span><img class="vb-t1__photo" data-photo-slot="bigIremel-1" src="https://static.tildacdn.com/tild3233-3131-4263-b465-393932623635/DTa5jVyUYIc.jpg" alt="Большой Иремель — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Большой Иремель — 2</span><img class="vb-t1__photo" data-photo-slot="bigIremel-2" alt="" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Большой Иремель — 3</span><img class="vb-t1__photo" data-photo-slot="bigIremel-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Большой Иремель — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Кумардак — 1</span><img class="vb-t1__photo" data-photo-slot="kumardak-1" src="https://static.tildacdn.com/tild3131-6366-4335-b262-653934633338/photo-1723323423524-.jpg" alt="Кумардак — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Кумардак — 2</span><img class="vb-t1__photo" data-photo-slot="kumardak-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Кумардак — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Кумардак — 3</span><img class="vb-t1__photo" data-photo-slot="kumardak-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Кумардак — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Рассыпная — 1</span><img class="vb-t1__photo" data-photo-slot="rassypnaya-1" src="https://static.tildacdn.com/tild6361-3434-4535-b662-313064336330/_____.png" alt="Рассыпная — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Рассыпная — 2</span><img class="vb-t1__photo" data-photo-slot="rassypnaya-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Рассыпная — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Рассыпная — 3</span><img class="vb-t1__photo" data-photo-slot="rassypnaya-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Рассыпная — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Поперечная — 1</span><img class="vb-t1__photo" data-photo-slot="poperechnaya-1" src="https://static.tildacdn.com/tild6566-3163-4836-a536-303631363534/____.png" alt="Поперечная — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Поперечная — 2</span><img class="vb-t1__photo" data-photo-slot="poperechnaya-2" alt="" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Поперечная — 3</span><img class="vb-t1__photo" data-photo-slot="poperechnaya-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Поперечная — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Инзерские Зубчатки — 1</span><img class="vb-t1__photo" data-photo-slot="inzerskieZubchatki-1" src="https://static.tildacdn.com/tild6439-3063-4661-a537-643539613162/____.png" alt="Инзерские Зубчатки — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Инзерские Зубчатки — 2</span><img class="vb-t1__photo" data-photo-slot="inzerskieZubchatki-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Инзерские Зубчатки — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Инзерские Зубчатки — 3</span><img class="vb-t1__photo" data-photo-slot="inzerskieZubchatki-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Инзерские Зубчатки — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Айгир — 1</span><img class="vb-t1__photo" data-photo-slot="aygir-1" src="https://static.tildacdn.com/tild6533-6265-4331-a234-353838383534/____.png" alt="Айгир — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Айгир — 2</span><img class="vb-t1__photo" data-photo-slot="aygir-2" src="https://static.tildacdn.com/tild3163-3065-4438-a235-393232313066/photo-1565073182887-.jpg" alt="Айгир — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Айгир — 3</span><img class="vb-t1__photo" data-photo-slot="aygir-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Айгир — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Водопад Атыш — 1</span><img class="vb-t1__photo" data-photo-slot="atysh-1" src="https://static.tildacdn.com/tild6161-6435-4062-a366-643235393763/____.png" alt="Водопад Атыш — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Водопад Атыш — 2</span><img class="vb-t1__photo" data-photo-slot="atysh-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Водопад Атыш — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Водопад Атыш — 3</span><img class="vb-t1__photo" data-photo-slot="atysh-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Водопад Атыш — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Ямантау — 1</span><img class="vb-t1__photo" data-photo-slot="yamantau-1" src="https://static.tildacdn.com/tild6439-3430-4532-b731-333265386565/_____.png" alt="Ямантау — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Ямантау — 2</span><img class="vb-t1__photo" data-photo-slot="yamantau-2" alt="" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Ямантау — 3</span><img class="vb-t1__photo" data-photo-slot="yamantau-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Ямантау — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Малый Ямантау — 1</span><img class="vb-t1__photo" data-photo-slot="smallYamantau-1" src="https://static.tildacdn.com/tild6337-3731-4632-b536-653537636536/____.png" alt="Малый Ямантау — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Малый Ямантау — 2</span><img class="vb-t1__photo" data-photo-slot="smallYamantau-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Малый Ямантау — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Малый Ямантау — 3</span><img class="vb-t1__photo" data-photo-slot="smallYamantau-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Малый Ямантау — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Арвяк-Рязь — 1</span><img class="vb-t1__photo" data-photo-slot="arvyakRyaz-1" src="https://static.tildacdn.com/tild6633-6132-4631-a630-656465336166/_ChatGPT_2__2026__18.png" alt="Арвяк-Рязь — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Арвяк-Рязь — 2</span><img class="vb-t1__photo" data-photo-slot="arvyakRyaz-2" src="https://static.tildacdn.com/tild3139-3565-4830-b234-353631653633/photo-1551189496-17e.jpg" alt="Арвяк-Рязь — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Арвяк-Рязь — 3</span><img class="vb-t1__photo" data-photo-slot="arvyakRyaz-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Арвяк-Рязь — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Мраткино — 1</span><img class="vb-t1__photo" data-photo-slot="mratkino-1" src="https://static.tildacdn.com/tild6665-3761-4336-b139-633434343766/_ChatGPT_2__2026__18.png" alt="Мраткино — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Мраткино — 2</span><img class="vb-t1__photo" data-photo-slot="mratkino-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Мраткино — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Мраткино — 3</span><img class="vb-t1__photo" data-photo-slot="mratkino-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Мраткино — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Ялангас — 1</span><img class="vb-t1__photo" data-photo-slot="yalangas-1" src="https://static.tildacdn.com/tild3634-6134-4765-b839-313365343232/___.png" alt="Ялангас — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Ялангас — 2</span><img class="vb-t1__photo" data-photo-slot="yalangas-2" src="https://static.tildacdn.com/tild3832-3939-4534-b837-393734613739/____at_dawn.png" alt="Ялангас — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Ялангас — 3</span><img class="vb-t1__photo" data-photo-slot="yalangas-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Ялангас — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Арский камень — 1</span><img class="vb-t1__photo" data-photo-slot="arskiyKamen-1" src="https://static.tildacdn.com/tild6239-3738-4530-a136-616636316266/___.png" alt="Арский камень — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Арский камень — 2</span><img class="vb-t1__photo" data-photo-slot="arskiyKamen-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Арский камень — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Арский камень — 3</span><img class="vb-t1__photo" data-photo-slot="arskiyKamen-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Арский камень — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Масим — 1</span><img class="vb-t1__photo" data-photo-slot="masim-1" src="https://static.tildacdn.com/tild3466-6630-4138-b263-356334653463/____.png" alt="Масим — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Масим — 2</span><img class="vb-t1__photo" data-photo-slot="masim-2" alt="" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Масим — 3</span><img class="vb-t1__photo" data-photo-slot="masim-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Масим — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Хребет Крака — 1</span><img class="vb-t1__photo" data-photo-slot="kraka-1" src="https://static.tildacdn.com/tild3231-3035-4339-a131-326639333630/___.png" alt="Хребет Крака — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Хребет Крака — 2</span><img class="vb-t1__photo" data-photo-slot="kraka-2" src="https://static.tildacdn.com/tild3235-3032-4736-b337-323932396162/____.png" alt="Хребет Крака — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Хребет Крака — 3</span><img class="vb-t1__photo" data-photo-slot="kraka-3" src="https://static.tildacdn.com/tild3537-3330-4364-b962-306332653234/1IKH3Y8S9D6x_vaIZ9FB.jpg" alt="Хребет Крака — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Курташтау — 1</span><img class="vb-t1__photo" data-photo-slot="kurtashtau-1" src="https://static.tildacdn.com/tild3239-3835-4564-b634-323739383465/GkgZUUvC2Ak_1600x900.jpg" alt="Курташтау — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Курташтау — 2</span><img class="vb-t1__photo" data-photo-slot="kurtashtau-2" src="https://static.tildacdn.com/tild3763-3861-4232-b038-653365323934/DSC_4307_1600x900.jpg" alt="Курташтау — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Курташтау — 3</span><img class="vb-t1__photo" data-photo-slot="kurtashtau-3" src="https://static.tildacdn.com/tild6665-3033-4463-b362-643331356133/uralweb_1600x900.jpg" alt="Курташтау — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Кирель — 1</span><img class="vb-t1__photo" data-photo-slot="kirel-1" src="https://static.tildacdn.com/tild3162-6237-4637-b230-313765636637/39528593610_1600x900.jpg" alt="Кирель — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Кирель — 2</span><img class="vb-t1__photo" data-photo-slot="kirel-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Кирель — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Кирель — 3</span><img class="vb-t1__photo" data-photo-slot="kirel-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Кирель — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Кушай — 1</span><img class="vb-t1__photo" data-photo-slot="kushay-1" src="https://static.tildacdn.com/tild3436-6539-4464-b436-336633326530/luw0O6N9zJbPypIrPJOZ.jpg" alt="Кушай — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Кушай — 2</span><img class="vb-t1__photo" data-photo-slot="kushay-2" src="https://static.tildacdn.com/tild6365-6465-4239-b937-396362643933/1RAEWr3RbvmmJPNS4sMc.jpg" alt="Кушай — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Кушай — 3</span><img class="vb-t1__photo" data-photo-slot="kushay-3" src="https://static.tildacdn.com/tild3138-6636-4930-b339-343661393430/_oRknAjPIPpDBAjq7Zvi.jpg" alt="Кушай — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Скульптурная композиция «Лоси» — 1</span><img class="vb-t1__photo" data-photo-slot="moose-1" src="https://static.tildacdn.com/tild6639-3561-4665-a331-333963373636/_____.png" alt="Скульптурная композиция «Лоси» — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Скульптурная композиция «Лоси» — 2</span><img class="vb-t1__photo" data-photo-slot="moose-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Скульптурная композиция «Лоси» — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Скульптурная композиция «Лоси» — 3</span><img class="vb-t1__photo" data-photo-slot="moose-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Скульптурная композиция «Лоси» — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Водонапорная башня Белорецка — 1</span><img class="vb-t1__photo" data-photo-slot="waterTower-1" src="https://static.tildacdn.com/tild6530-6230-4064-a431-663335356639/____.png" alt="Водонапорная башня Белорецка — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Водонапорная башня Белорецка — 2</span><img class="vb-t1__photo" data-photo-slot="waterTower-2" src="https://static.tildacdn.com/tild3035-3966-4465-b666-643532343232/_____.png" alt="Водонапорная башня Белорецка — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Водонапорная башня Белорецка — 3</span><img class="vb-t1__photo" data-photo-slot="waterTower-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Водонапорная башня Белорецка — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Белорецкий завод — 1</span><img class="vb-t1__photo" data-photo-slot="beloretskFactory-1" src="https://static.tildacdn.com/tild3765-6330-4534-b833-386662643433/r3agdpicfm04fw0lw6fy.jpg" alt="Белорецкий завод — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Белорецкий завод — 2</span><img class="vb-t1__photo" data-photo-slot="beloretskFactory-2" src="https://static.tildacdn.com/tild6563-3531-4463-a665-306462353064/15-78_1600x900.jpg" alt="Белорецкий завод — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Белорецкий завод — 3</span><img class="vb-t1__photo" data-photo-slot="beloretskFactory-3" src="https://static.tildacdn.com/tild3836-6136-4761-b565-646336383236/40355864045_2.jpg" alt="Белорецкий завод — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Белорецкий заводской гудок — 1</span><img class="vb-t1__photo" data-photo-slot="factoryWhistle-1" src="https://static.tildacdn.com/tild3733-6561-4564-a461-383936316365/_____.png" alt="Белорецкий заводской гудок — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Белорецкий заводской гудок — 2</span><img class="vb-t1__photo" data-photo-slot="factoryWhistle-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Белорецкий заводской гудок — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Белорецкий заводской гудок — 3</span><img class="vb-t1__photo" data-photo-slot="factoryWhistle-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Белорецкий заводской гудок — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Синие скалы — 1</span><img class="vb-t1__photo" data-photo-slot="blueSky-1" src="https://static.tildacdn.com/tild6539-3737-4536-a266-366138346161/maxresdefault_3_2_16.jpg" alt="Синие скалы — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Синие скалы — 2</span><img class="vb-t1__photo" data-photo-slot="blueSky-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Синие скалы — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Синие скалы — 3</span><img class="vb-t1__photo" data-photo-slot="blueSky-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Синие скалы — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Белорецкая узкоколейка — 1</span><img class="vb-t1__photo" data-photo-slot="narrowGauge1-1" src="https://static.tildacdn.com/tild3332-3434-4135-b238-386439373134/IMG_3494.JPG" alt="Белорецкая узкоколейка — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Белорецкая узкоколейка — 2</span><img class="vb-t1__photo" data-photo-slot="narrowGauge1-2" alt="" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Белорецкая узкоколейка — 3</span><img class="vb-t1__photo" data-photo-slot="narrowGauge1-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Белорецкая узкоколейка — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Белорецк — утраченный символ — 1</span><img class="vb-t1__photo" data-photo-slot="lostSymbol-1" src="https://static.tildacdn.com/tild3637-3433-4134-a563-313034336363/____.png" alt="Белорецк — утраченный символ — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Белорецк — утраченный символ — 2</span><img class="vb-t1__photo" data-photo-slot="lostSymbol-2" src="https://static.tildacdn.com/tild6334-3265-4961-a631-336564313635/a0ed70b6-2636-4133-8.png" alt="Белорецк — утраченный символ — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Белорецк — утраченный символ — 3</span><img class="vb-t1__photo" data-photo-slot="lostSymbol-3" src="https://static.tildacdn.com/tild3361-3935-4233-b563-643566306566/____.png" alt="Белорецк — утраченный символ — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Тирлянское колесо — 1</span><img class="vb-t1__photo" data-photo-slot="tyrlyannWheel-1" src="https://static.tildacdn.com/tild3263-3164-4462-a630-663333633966/958bf8e0-1de1-4a5e-a.png" alt="Тирлянское колесо — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Тирлянское колесо — 2</span><img class="vb-t1__photo" data-photo-slot="tyrlyannWheel-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Тирлянское колесо — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Тирлянское колесо — 3</span><img class="vb-t1__photo" data-photo-slot="tyrlyannWheel-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Тирлянское колесо — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Руины Тирлянского завода — 1</span><img class="vb-t1__photo" data-photo-slot="tyrlyannRuins-1" src="https://static.tildacdn.com/tild6432-3064-4731-b236-653131316262/____.png" alt="Руины Тирлянского металлургического завода — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Руины Тирлянского завода — 2</span><img class="vb-t1__photo" data-photo-slot="tyrlyannRuins-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Руины Тирлянского металлургического завода — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Руины Тирлянского завода — 3</span><img class="vb-t1__photo" data-photo-slot="tyrlyannRuins-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Руины Тирлянского металлургического завода — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Каменная речка — 1</span><img class="vb-t1__photo" data-photo-slot="stoneyRiver-1" src="https://static.tildacdn.com/tild3837-6531-4330-b738-623834346436/____.png" alt="Каменная речка — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Каменная речка — 2</span><img class="vb-t1__photo" data-photo-slot="stoneyRiver-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Каменная речка — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Каменная речка — 3</span><img class="vb-t1__photo" data-photo-slot="stoneyRiver-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Каменная речка — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Наследие Белорецкой узкоколейки — 1</span><img class="vb-t1__photo" data-photo-slot="narrowGauge2-1" src="https://static.tildacdn.com/tild3332-3536-4132-b736-313835326436/_____1.png" alt="Наследие Белорецкой узкоколейки — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Наследие Белорецкой узкоколейки — 2</span><img class="vb-t1__photo" data-photo-slot="narrowGauge2-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Наследие Белорецкой узкоколейки — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Наследие Белорецкой узкоколейки — 3</span><img class="vb-t1__photo" data-photo-slot="narrowGauge2-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Наследие Белорецкой узкоколейки — фото 3" width="84" height="60"></div> </div> <div class="vb-t1__photo-bank-group" data-photo-group="stamps"> <div class="vb-t1__photo-bank-group-title">Вкладка «Где поставить штамп»</div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Штамп-станция «Счастье в горах» — 1</span><img class="vb-t1__photo" data-photo-slot="stampStation-1" alt="" width="84" height="60" src="https://static.tildacdn.com/tild3435-3738-4134-a433-353136343964/_ChatGPT_2__2026__16.png"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Штамп-станция «Счастье в горах» — 2</span><img class="vb-t1__photo" data-photo-slot="stampStation-2" alt="" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Штамп-станция «Счастье в горах» — 3</span><img class="vb-t1__photo" data-photo-slot="stampStation-3" alt="" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Точка со штампом «Центральная площадь» — 1</span><img class="vb-t1__photo" data-photo-slot="kiosk3-1" src="https://static.tildacdn.com/tild6665-3230-4366-a461-653666623238/_ChatGPT_2__2026__16.png" alt="Точка со штампом «Центральная площадь» — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Точка со штампом «Центральная площадь» — 2</span><img class="vb-t1__photo" data-photo-slot="kiosk3-2" alt="" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Точка со штампом «Центральная площадь» — 3</span><img class="vb-t1__photo" data-photo-slot="kiosk3-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Точка со штампом «Центральная площадь» — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Точка со штампом «Карла Маркса, 79» — 1</span><img class="vb-t1__photo" data-photo-slot="kiosk2-1" src="https://static.tildacdn.com/tild3930-3762-4939-b063-346133373331/_ChatGPT_2__2026__16.png" alt="Точка со штампом «Карла Маркса, 79» — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Точка со штампом «Карла Маркса, 79» — 2</span><img class="vb-t1__photo" data-photo-slot="kiosk2-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Точка со штампом «Карла Маркса, 79» — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Точка со штампом «Карла Маркса, 79» — 3</span><img class="vb-t1__photo" data-photo-slot="kiosk2-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Точка со штампом «Карла Маркса, 79» — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Точка со штампом «50 лет Октября, 46» — 1</span><img class="vb-t1__photo" data-photo-slot="kiosk4-1" src="https://static.tildacdn.com/tild6432-3363-4230-a461-386364643362/_ChatGPT_2__2026__16.png" alt="Точка со штампом «50 лет Октября, 46» — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Точка со штампом «50 лет Октября, 46» — 2</span><img class="vb-t1__photo" data-photo-slot="kiosk4-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Точка со штампом «50 лет Октября, 46» — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Точка со штампом «50 лет Октября, 46» — 3</span><img class="vb-t1__photo" data-photo-slot="kiosk4-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Точка со штампом «50 лет Октября, 46» — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Точка со штампом «Ленина, 67» — 1</span><img class="vb-t1__photo" data-photo-slot="kiosk7-1" src="https://static.tildacdn.com/tild6264-6164-4764-b137-343736623030/_ChatGPT_2__2026__16.png" alt="Точка со штампом «Ленина, 67» — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Точка со штампом «Ленина, 67» — 2</span><img class="vb-t1__photo" data-photo-slot="kiosk7-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Точка со штампом «Ленина, 67» — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Точка со штампом «Ленина, 67» — 3</span><img class="vb-t1__photo" data-photo-slot="kiosk7-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Точка со штампом «Ленина, 67» — фото 3" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Точка со штампом «Карла Маркса, 67» — 1</span><img class="vb-t1__photo" data-photo-slot="kiosk8-1" src="https://static.tildacdn.com/tild6235-3366-4266-a130-323636623963/_ChatGPT_2__2026__16.png" alt="Точка со штампом «Карла Маркса, 67» — фото 1" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Точка со штампом «Карла Маркса, 67» — 2</span><img class="vb-t1__photo" data-photo-slot="kiosk8-2" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Точка со штампом «Карла Маркса, 67» — фото 2" width="84" height="60"></div> <div class="vb-t1__photo-slot"><span class="vb-t1__photo-slot-label">Точка со штампом «Карла Маркса, 67» — 3</span><img class="vb-t1__photo" data-photo-slot="kiosk8-3" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Точка со штампом «Карла Маркса, 67» — фото 3" width="84" height="60"></div> </div> </div> <!-- Скрываем фотобанк от посетителей сайта сразу при парсинге HTML --> <script>(function(){var p=document.getElementById('vbT1PhotoBank');if(!p)return;p.style.display='none';var imgs=p.getElementsByTagName('img');for(var i=0;i<imgs.length;i++){imgs[i].setAttribute('loading','lazy');imgs[i].setAttribute('decoding','async');}})();</script> <script>
+(function(){
+  'use strict';
+
+  /* Фотографии карточек хранятся в статичных <img> элементах фотобанка
+     (блок «Фотобанк» в конце секции, id="vbT1PhotoBank").
+     Слот: data-photo-slot="<id карточки>-<номер фото>" на каждом <img>.
+     JavaScript читает src этих изображений при отображении
+     и переключает слайды галереи. */
+
+  /* ═══ DATA: 29 locations ═══ */
+  var locations=[
+    {id:'malinovaya',name:'Гора Малиновая',type:'Гора',desc:'',coords:[54.021079,58.292092],zoom:13,url:'https://visitbeloretsk.ru/malinovaya'},
+    {id:'malinovaya1',name:'Первая Малиновая',type:'Гора',desc:'',coords:[54.003275,58.316773],zoom:13},
+    {id:'bigIremel',name:'Большой Иремель',type:'Гора',desc:'',coords:[54.520000,58.842533],zoom:12},
+    {id:'kumardak',name:'Кумардак',type:'Горный хребет',desc:'',coords:[54.377466,58.419291],zoom:13},
+    {id:'rassypnaya',name:'Рассыпная',type:'Гора',desc:'',coords:[54.105889,58.425567],zoom:13},
+    {id:'poperechnaya',name:'Поперечная',type:'Гора',desc:'',coords:[54.648918,58.652720],zoom:13},
+    {id:'inzerskieZubchatki',name:'Инзерские Зубчатки',type:'Горный хребет',desc:'',coords:[54.270733,58.374117],zoom:13},
+    {id:'aygir',name:'Айгир',type:'Скалы',desc:'',coords:[54.133177,57.677734],zoom:14},
+    {id:'atysh',name:'Водопад Атыш',type:'Водопад',desc:'',coords:[54.555669,57.271753],zoom:14},
+    {id:'yamantau',name:'Ямантау',type:'Гора',desc:'',coords:[54.254422,58.105652],zoom:12},
+    {id:'smallYamantau',name:'Малый Ямантау',type:'Гора',desc:'',coords:[54.184593,57.696156],zoom:13},
+    {id:'arvyakRyaz',name:'Арвяк-Рязь',type:'Гора',desc:'',coords:[53.774752,58.326348],zoom:13},
+    {id:'mratkino',name:'Мраткино',type:'Гора / активный отдых',desc:'',coords:[54.000315,58.441455],zoom:13},
+    {id:'yalangas',name:'Ялангас',type:'Гора',desc:'',coords:[54.127702,58.319030],zoom:13},
+    {id:'arskiyKamen',name:'Арский камень',type:'Скала / природный объект',desc:'',coords:[53.870892,58.256564],zoom:14},
+    {id:'masim',name:'Масим',type:'Гора',desc:'',coords:[53.153992,57.251818],zoom:12},
+    {id:'kraka',name:'Хребет Крака',type:'Горный хребет',desc:'',coords:[53.584992,58.033943],zoom:13},
+    {id:'kurtashtau',name:'Курташтау',type:'Гора',desc:'',coords:[53.927334,58.573613],zoom:13},
+    {id:'kirel',name:'Кирель',type:'Гора',desc:'',coords:[54.028744,58.231660],zoom:13},
+    {id:'kushay',name:'Кушай',type:'Гора',desc:'',coords:[53.709749,58.583285],zoom:13},
+    {id:'moose',name:'Скульптурная композиция «Лоси»',type:'Городской объект',desc:'',coords:[53.952007,58.337262],zoom:16},
+    {id:'waterTower',name:'Водонапорная башня Белорецка',type:'История и архитектура',desc:'',coords:[53.970428,58.404897],zoom:16},
+    {id:'beloretskFactory',name:'Белорецкий завод',type:'Промышленная история',desc:'',coords:[53.971129,58.397852],zoom:16},
+    {id:'factoryWhistle',name:'Белорецкий заводской гудок',type:'Промышленная история',desc:'Заводской гудок расположен на крыше котельной №1 Белорецкого металлургического комбината.',coords:[53.972507,58.397944],zoom:17},
+    {id:'blueSky',name:'Синие скалы',type:'Скалы',desc:'',coords:[53.885056,58.509249],zoom:14},
+    {id:'narrowGauge1',name:'Белорецкая узкоколейка',type:'Историческая железная дорога',desc:'',coords:[54.221817,58.594842],zoom:15},
+    {id:'lostSymbol',name:'Белорецк — утраченный символ',type:'История и архитектура',desc:'',coords:[53.980521,58.410522],zoom:16},
+    {id:'tyrlyannWheel',name:'Тирлянское колесо',type:'Промышленная история',desc:'',coords:[54.219259,58.588118],zoom:15},
+    {id:'tyrlyannRuins',name:'Руины Тирлянского металлургического завода',type:'История и архитектура',desc:'',coords:[54.217785,58.586884],zoom:15},
+    {id:'stoneyRiver',name:'Каменная речка',type:'Природный объект',desc:'',coords:[54.050217,58.267802],zoom:14},
+    {id:'narrowGauge2',name:'Наследие Белорецкой узкоколейки',type:'Историческая железная дорога',desc:'',coords:[53.984282,58.404807],zoom:16}
+  ];
+
+  /* ═══ DATA: 6 stamp points ═══ */
+  var stampPoints=[
+    {id:'stampStation',name:'Счастье в горах',isStampFree:true,sellsPassports:false,coords:[53.967439,58.410206],desc:'',zoom:16,
+      passportInfo:'Здесь можно бесплатно поставить коллекционный штамп \u00abБелорецк \u2014 Счастье в горах\u00bb. Паспорта в этой точке не продаются.',
+      stamps:[{name:'Белорецк — Счастье в горах'}]},
+    {id:'kiosk3',name:'Центральная площадь',coords:[53.967411,58.410272],desc:'центр Белорецка',zoom:16,
+      stamps:[{name:'Иремель',locationId:'bigIremel'},{name:'Белорецкий завод — круглый',locationId:'beloretskFactory'},{name:'Белорецкий гудок — «Голос города»',locationId:'factoryWhistle'},{name:'Синие скалы — вариант 1',locationId:'blueSky'},{name:'Гора Малиновая — три вершины',locationId:'malinovaya'},{name:'Белорецкая узкоколейка — вариант 1',locationId:'narrowGauge1'},{name:'Лось — Белорецк',locationId:'moose'},{name:'Арский камень — «Пропавшая экспедиция»',locationId:'arskiyKamen'},{name:'Белорецк — утраченный символ 1936–2020',locationId:'lostSymbol'},{name:'Тирлянское колесо — маховик прокатного стана',locationId:'tyrlyannWheel'},{name:'Белорецк — завод, мост и башня'},{name:'Белорецк — город металлургов, вариант 1'},{name:'Мелодия горной Башкирии'},{name:'Медовый Башкортостан'},{name:'Башкортостан — медовый край'},{name:'Куница — герб Белорецка'},{name:'Агидель'},{name:'Лапа медведя'},{name:'Ящерица — вариант 1'},{name:'«Вечный зов» — вариант 1'},{name:'Панорама Белорецка — Южный Урал'}]},
+    {id:'kiosk2',name:'Карла Маркса, 79',coords:[53.972548,58.419482],desc:'',zoom:16,
+      stamps:[{name:'Белорецкий гудок — «Голос завода»',locationId:'factoryWhistle'},{name:'Ямантау',locationId:'yamantau'},{name:'Масим',locationId:'masim'},{name:'Кирель',locationId:'kirel'},{name:'Кушай',locationId:'kushay'},{name:'«Вечный зов» — вариант 2'},{name:'Счастье в горах — надпись'}]},
+    {id:'kiosk4',name:'50 лет Октября, 46',coords:[53.960132,58.405329],desc:'12-й микрорайон',zoom:16,
+      stamps:[{name:'Айгир',locationId:'aygir'},{name:'Водопад Атыш',locationId:'atysh'},{name:'Синие скалы — вариант 2',locationId:'blueSky'},{name:'Третья Малиновая',locationId:'malinovaya'},{name:'Малый Ямантау',locationId:'smallYamantau'},{name:'Хребет Крака',locationId:'kraka'},{name:'Курташтау',locationId:'kurtashtau'},{name:'Каменная речка / «Золотая речка»',locationId:'stoneyRiver'},{name:'Ящерица — вариант 3'},{name:'Природа Башкортостана — горы и лось'},{name:'Горная столица Башкортостана — Белорецк'}]},
+    {id:'kiosk7',name:'Ленина, 67',coords:[53.972137,58.409446],desc:'перекрёсток Ленина и Пушкина',zoom:16,
+      stamps:[{name:'Первая Малиновая',locationId:'malinovaya1'},{name:'Ялангас — Freeride Ural',locationId:'yalangas'},{name:'Мраткино — J-CARVE',locationId:'mratkino'},{name:'Арвяк-Рязь',locationId:'arvyakRyaz'},{name:'Арский камень',locationId:'arskiyKamen'},{name:'Белорецкий завод — квадратный',locationId:'beloretskFactory'},{name:'Белорецк — прямоугольный'},{name:'Счастье в горах — круглый'},{name:'Лапа медведя'},{name:'«Вечный зов» — вариант 3'}]},
+    {id:'kiosk8',name:'Карла Маркса, 67',coords:[53.969501,58.413822],desc:'рядом со школой №1',zoom:16,
+      stamps:[{name:'Большой Иремель',locationId:'bigIremel'},{name:'Белорецкая узкоколейка — вариант 2',locationId:'narrowGauge2'},{name:'Тирлянский завод',locationId:'tyrlyannRuins'},{name:'Кумардак',locationId:'kumardak'},{name:'Рассыпная',locationId:'rassypnaya'},{name:'Поперечная',locationId:'poperechnaya'},{name:'Инзерские Зубчатки',locationId:'inzerskieZubchatki'},{name:'Рәхим итегеҙ — Башҡортостан!'},{name:'Башкирская юрта'},{name:'Куница — герб Белорецка'},{name:'Лапа медведя'},{name:'Ящерица — вариант 2'},{name:'Белорецк — город металлургов, вариант 2'},{name:'«Вечный зов» — вариант 2'}]}
+  ];
+
+  /* ═══ DATA: place descriptions ═══ */
+  var placeDescs={
+    'malinovaya':'Живописная гора с открытыми площадками и видами на окрестности',
+    'malinovaya1':'Вершина восточной части горы Малиновой',
+    'bigIremel':'Двухвершинный горный массив на Южном Урале',
+    'kumardak':'Хребет с видами на горные реки и долины',
+    'rassypnaya':'Вершина с каменистыми склонами и открытыми участками',
+    'poperechnaya':'Вершина на Главном Уральском хребте',
+    'inzerskieZubchatki':'Цепь скальных гребней над долиной реки Инзер',
+    'aygir':'Скальные образования на берегу реки Белой',
+    'atysh':'Каскадный водопад в живописном ущелье',
+    'yamantau':'Высочайшая точка Белорецкого района',
+    'smallYamantau':'Вершина в массиве Ямантау',
+    'arvyakRyaz':'Гора со скальными выходами и лесными массивами',
+    'mratkino':'Место для скалолазания и активного отдыха',
+    'yalangas':'Вершина с маршрутами различной сложности',
+    'arskiyKamen':'Скальное образование с обзорными площадками',
+    'masim':'Вершина в заповедной зоне Южного Урала',
+    'kraka':'Протяжённый хребет с разнообразными маршрутами',
+    'kurtashtau':'Гора с характерными скальными формами',
+    'kirel':'Вершина среди хвойных лесов и горных полян',
+    'kushay':'Гора с маршрутами для летнего и зимнего отдыха',
+    'moose':'Скульптурная композиция в центре Белорецка',
+    'waterTower':'Историческое сооружение в центре города',
+    'beloretskFactory':'Металлургический комбинат в центре Белорецка',
+    'blueSky':'Живописные скальные образования над долиной',
+    'narrowGauge1':'Историческая железная дорога узкой колеи',
+    'narrowGauge2':'Памятник истории развития промышленности Белорецка',
+    'lostSymbol':'Историческое сооружение, утраченное в 2020 году',
+    'tyrlyannWheel':'Маховик исторического прокатного стана',
+    'tyrlyannRuins':'Руины Тирлянского завода — памятник прошлого',
+    'stoneyRiver':'Живописный водный объект в горной местности'
+  };
+
+  /* ═══ STATE ═══ */
+  var currentTab='places',selectedIdx=-1,currentImageIdx=0,isTransitioning=false,isFs=false;
+  var ymaps=null,map=null,markers=[];
+
+  /* ═══ DOM ═══ */
+  var panel=document.getElementById('vbT1Panel');
+  var panelBody=document.getElementById('vbT1PanelBody');
+  var mcard=document.getElementById('vbT1Mcard');
+  var mcardBody=document.getElementById('vbT1McardBody');
+  var mcardBodyInner=document.getElementById('vbT1McardBodyInner');
+  var mcardName=document.getElementById('vbT1McardName');
+  var tabBtns=document.querySelectorAll('.vb-t1__tab');
+  var mapContainer=document.getElementById('vbT1MapContainer');
+  var mapLoader=document.getElementById('vbT1Loader');
+  var counterEl=document.getElementById('vbT1Counter');
+  var mcardCounterEl=document.getElementById('vbT1McardCounter');
+  var photoBank=document.getElementById('vbT1PhotoBank');
+
+  /* ═══════════════════════════════════════════
+     MARKER SVGs — Diamond + Station Star
+     ═══════════════════════════════════════════ */
+  var ENC=encodeURIComponent;
+
+  function starPath(cx,cy,outerR,innerR){
+    var pts=[];
+    for(var i=0;i<10;i++){
+      var r=i%2===0?outerR:innerR;
+      var a=-Math.PI/2+(i*Math.PI/5);
+      pts.push((cx+r*Math.cos(a)).toFixed(2)+' '+(cy+r*Math.sin(a)).toFixed(2));
+    }
+    return 'M '+pts[0]+' L '+pts.slice(1).join(' L ')+' Z';
+  }
+
+  function makeDiamondSvg(fill,w,h,active){
+    var cx=w/2,cy=h/2;
+    var path='M '+cx+' 0 L '+w+' '+cy+' L '+cx+' '+h+' L 0 '+cy+' Z';
+    var sw=active?3:2.5;
+    var inner='';
+    if(active){
+      var ir=Math.min(cx,cy)*0.36;
+      inner='<circle cx="'+cx+'" cy="'+cy+'" r="'+ir+'" fill="none" stroke="white" stroke-width="2"/>';
+    }else{
+      var dr=Math.min(cx,cy)*0.26;
+      inner='<circle cx="'+cx+'" cy="'+cy+'" r="'+dr+'" fill="white" opacity="0.9"/>';
+    }
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+w+' '+h+'">'
+      +'<path d="'+path+'" fill="'+fill+'" stroke="white" stroke-width="'+sw+'" stroke-linejoin="round"/>'
+      +inner+'</svg>';
+  }
+
+  function makeStationSvg(fill,w,h,active){
+    var cx=w/2,cy=h/2;
+    var path='M '+cx+' 0 L '+w+' '+cy+' L '+cx+' '+h+' L 0 '+cy+' Z';
+    var sw=active?3:2.5;
+    var oR=Math.min(cx,cy)*(active?0.38:0.32);
+    var iR=oR*0.42;
+    var star='<path d="'+starPath(cx,cy,oR,iR)+'" fill="white" opacity="0.95"/>';
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+w+' '+h+'">'
+      +'<path d="'+path+'" fill="'+fill+'" stroke="white" stroke-width="'+sw+'" stroke-linejoin="round"/>'
+      +star+'</svg>';
+  }
+
+  var GREEN='#1B4332',TERRA='#B85C38';
+
+  var greenDef='data:image/svg+xml,'+ENC(makeDiamondSvg(GREEN,20,24,false));
+  var terraDef='data:image/svg+xml,'+ENC(makeDiamondSvg(TERRA,20,24,false));
+  var greenSel='data:image/svg+xml,'+ENC(makeDiamondSvg(GREEN,30,36,true));
+  var terraSel='data:image/svg+xml,'+ENC(makeDiamondSvg(TERRA,30,36,true));
+  var stationDef='data:image/svg+xml,'+ENC(makeStationSvg(TERRA,20,24,false));
+  var stationSel='data:image/svg+xml,'+ENC(makeStationSvg(TERRA,30,36,true));
+
+  function isStation(d){return d&&d.isStampFree===true;}
+
+  var arrowSvg='<svg class="vb-t1__stamp-btn-arrow" viewBox="0 0 14 14" fill="none"><path d="M1 7h11M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var routeSvg='<svg class="vb-t1__route-link-icon" viewBox="0 0 12 12" fill="none"><path d="M1.5 10.5L10.5 1.5M10.5 1.5H4.5M10.5 1.5V7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var stampSvg='<svg class="vb-t1__stamp-icon" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M4 7.5L6.5 10L12 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  /* ═══ Photo bank: чтение URL из статичных <img> элементов ═══ */
+  function getPhotos(cardId){
+    var out=[];
+    if(!cardId||!photoBank)return out;
+    var nodes=photoBank.querySelectorAll('.vb-t1__photo');
+    var slots=[];
+    for(var i=0;i<nodes.length;i++){
+      var key=nodes[i].getAttribute('data-photo-slot')||'';
+      if(key.indexOf(cardId+'-')!==0)continue;
+      var src=(nodes[i].getAttribute('src')||'').trim();
+      if(!src||src.indexOf('data:')===0)continue;
+      slots.push({order:parseInt(key.slice(cardId.length+1),10)||0,src:src,alt:nodes[i].getAttribute('alt')||''});
+    }
+    slots.sort(function(a,b){return a.order-b.order;});
+    for(var j=0;j<slots.length;j++)out.push(slots[j]);
+    return out;
+  }
+
+  /* ═══ Gallery ═══ */
+  function renderGallery(data){
+    var photos=getPhotos(data.id);
+    if(!photos.length)return'';
+    var h='<div class="vb-t1__gallery"><img class="vb-t1__gallery-img" src="'+photos[0].src+'" alt="'+(photos[0].alt||data.name||'')+'" loading="lazy">';
+    if(photos.length>1){
+      h+='<div class="vb-t1__gallery-nav">';
+      h+='<button class="vb-t1__gallery-btn" data-dir="-1" aria-label="Назад"><svg class="vb-t1__gallery-icon" viewBox="0 0 14 14" fill="none"><path d="M9 1L3 7l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
+      h+='<span class="vb-t1__gallery-count">1 / '+photos.length+'</span>';
+      h+='<button class="vb-t1__gallery-btn" data-dir="1" aria-label="Вперёд"><svg class="vb-t1__gallery-icon" viewBox="0 0 14 14" fill="none"><path d="M5 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
+      h+='</div>';
+    }
+    return h+'</div>';
+  }
+
+  function changePhoto(dir){
+    if(selectedIdx<0)return;
+    var photos=getPhotos(markers[selectedIdx].data.id);if(photos.length<2)return;
+    currentImageIdx+=dir;
+    if(currentImageIdx<0)currentImageIdx=photos.length-1;
+    if(currentImageIdx>=photos.length)currentImageIdx=0;
+    var c=document.getElementById('vbT1MapContainer').ownerDocument.documentElement.clientWidth>960?panelBody:mcardBodyInner;
+    var img=c.querySelector('.vb-t1__gallery-img'),cnt=c.querySelector('.vb-t1__gallery-count');
+    if(img)img.src=photos[currentImageIdx].src;
+    if(cnt)cnt.textContent=(currentImageIdx+1)+' / '+photos.length;
+  }
+
+  /* ═══ Stamps ═══ */
+  function renderStamps(sp,container){
+    var grid=container.querySelector('.vb-t1__stamps-grid');
+    var nav=container.querySelector('.vb-t1__stamps-nav');
+    if(!grid)return;
+    if(!sp.stamps||!sp.stamps.length){grid.innerHTML='';if(nav){nav.innerHTML='';nav.style.display='none';}return;}
+    var h='';
+    for(var i=0;i<sp.stamps.length;i++){
+      if(sp.stamps[i].locationId)h+='<button class="vb-t1__stamps-pill" data-location-id="'+sp.stamps[i].locationId+'">'+sp.stamps[i].name+'</button>';
+      else h+='<span class="vb-t1__stamps-pill vb-t1__stamps-pill--static">'+sp.stamps[i].name+'</span>';
+    }
+    grid.innerHTML=h;
+    if(nav){nav.innerHTML='';nav.style.display='none';}
+  }
+
+  function closeModal(){var m=document.getElementById('vbT1Modal');if(m)m.classList.remove('vb-t1__modal--open');}
+
+  /* ═══ Helpers ═══ */
+  function findLoc(id){for(var i=0;i<locations.length;i++)if(locations[i].id===id)return locations[i];return null;}
+  function findSp(id){for(var i=0;i<stampPoints.length;i++)if(stampPoints[i].id===id)return stampPoints[i];return null;}
+  function getLocStamps(locId){
+    var r=[];
+    for(var k=0;k<stampPoints.length;k++){var sp=stampPoints[k];for(var s=0;s<sp.stamps.length;s++){if(sp.stamps[s].locationId===locId)r.push({name:sp.stamps[s].name,kioskId:sp.id,kioskName:sp.name});}}
+    return r;
+  }
+
+  /* ═══ Render content ═══ */
+  function renderContent(data,type){
+    var h='';
+    if(type==='location'){
+      h+=renderGallery(data);
+      h+='<div class="vb-t1__card-type">'+data.type+'</div>';
+      if(data.url){
+        h+='<h3 class="vb-t1__card-name"><a href="'+data.url+'">'+data.name+'<svg class="vb-t1__card-name-link-icon" viewBox="0 0 14 14" fill="none"><path d="M4.5 2h7.5v7.5M12 2L5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></h3>';
+      }else{
+        h+='<h3 class="vb-t1__card-name">'+data.name+'</h3>';
+      }
+      var locDesc=data.desc||placeDescs[data.id]||'';
+      if(locDesc)h+='<p class="vb-t1__card-desc">'+locDesc+'</p>';
+      h+='<a class="vb-t1__route-link" href="https://yandex.ru/maps/?pt='+data.coords[1]+','+data.coords[0]+'&z=16" target="_blank" rel="noopener noreferrer">Открыть в Яндекс Картах '+routeSvg+'</a>';
+      var stamps=getLocStamps(data.id);
+      if(stamps.length>0){
+        h+='<div class="vb-t1__stamp-section">';
+        for(var i=0;i<stamps.length;i++){
+          h+='<div class="vb-t1__stamp-group">';
+          h+='<div class="vb-t1__stamp-badge">'+stampSvg+' ШТАМП ЭТОГО МЕСТА</div>';
+          h+='<div class="vb-t1__stamp-name">'+stamps[i].name+'</div>';
+          h+='<div class="vb-t1__stamp-kiosk">Где поставить: <strong>'+stamps[i].kioskName+'</strong></div>';
+          h+='<button class="vb-t1__stamp-btn" data-kiosk-id="'+stamps[i].kioskId+'">Показать точку со штампом '+arrowSvg+'</button>';
+          h+='</div>';
+        }
+        h+='</div>';
+      }
+    }else{
+      var sellsP=data.sellsPassports!==false;
+      var isFree=data.isStampFree===true;
+      h+=renderGallery(data);
+      h+='<div class="vb-t1__card-badge'+(!sellsP?' vb-t1__card-badge--green':'')+'">'+(!sellsP?'ШТАМП-СТАНЦИЯ':'ТОЧКА СО ШТАМПАМИ')+'</div>';
+      if(isFree)h+='<div class="vb-t1__card-tag">Бесплатный штамп</div>';
+      h+='<h3 class="vb-t1__card-name">'+data.name+'</h3>';
+      if(data.desc)h+='<p class="vb-t1__card-desc">'+data.desc+'</p>';
+      h+='<a class="vb-t1__route-link" href="https://yandex.ru/maps/?pt='+data.coords[1]+','+data.coords[0]+'&z=16" target="_blank" rel="noopener noreferrer">Открыть в Яндекс Картах '+routeSvg+'</a>';
+      if(!sellsP){h+='<div class="vb-t1__passport-info vb-t1__passport-info--muted">'+(data.passportInfo||'Здесь можно бесплатно поставить коллекционный штамп. Паспорта в этой точке не продаются.')+'</div>';}
+      else{h+='<div class="vb-t1__passport-info">Здесь можно купить Паспорт туриста и поставить коллекционные штампы</div>';}
+      if(data.stamps&&data.stamps.length>0){
+        h+='<div class="vb-t1__stamps-wrapper">';
+        h+='<div class="vb-t1__stamps-label">Доступные штампы:</div>';
+        h+='<div class="vb-t1__stamps-grid" id="vbT1StampsGrid"></div>';
+        h+='<div class="vb-t1__stamps-nav"></div>';
+        h+='</div>';
+      }
+    }
+    return h;
+  }
+
+  /* ═══ Navigation ═══ */
+  function getVis(){
+    var t=currentTab==='places'?'location':'kiosk',r=[];
+    for(var i=0;i<markers.length;i++)if(markers[i].type===t)r.push(i);
+    return r;
+  }
+
+  function updCounter(c,t){if(counterEl)counterEl.textContent=(c+1)+' / '+t;if(mcardCounterEl)mcardCounterEl.textContent=(c+1)+' / '+t;}
+
+  function go(dir){
+    var vis=getVis();if(!vis.length)return;
+    var cv=-1;for(var i=0;i<vis.length;i++)if(vis[i]===selectedIdx){cv=i;break;}
+    if(cv===-1)cv=0;
+    var nv=cv+dir;if(nv<0)nv=vis.length-1;if(nv>=vis.length)nv=0;
+    var ni=vis[nv],m=markers[ni];
+    if(map&&m&&m.placemark)map.setCenter(m.data.coords,m.data.zoom||15,{flying:true,duration:400});
+    selectMarkerByIndex(ni);
+  }
+
+  function deselectMarker(){
+    if(selectedIdx>=0&&markers[selectedIdx]){
+      var m=markers[selectedIdx];
+      var isLoc=m.type==='location';
+      var st=isStation(m.data);
+      m.placemark.options.set('iconImageHref',st?stationDef:(isLoc?greenDef:terraDef));
+      m.placemark.options.set('iconImageSize',[20,24]);
+      m.placemark.options.set('iconImageOffset',[-10,-24]);
+    }
+    selectedIdx=-1;
+    if(document.getElementById('vbT1MapContainer').ownerDocument.documentElement.clientWidth<=960){
+      mcard.classList.remove('vb-t1__mcard--visible');
+      mcard.classList.remove('vb-t1__mcard--expanded');
+      mcardBody.classList.remove('vb-t1__mcard-body--kiosk');
+      mcardBodyInner.classList.remove('vb-t1__mcard-body-inner--kiosk');
+    }
+  }
+
+  /* ═══ Map reposition ═══ */
+  var repositionTimer=null;
+
+  function repositionMap(){
+    if(!map||selectedIdx<0)return;
+    try{
+      var m=markers[selectedIdx];
+      var mapRect=mapContainer.getBoundingClientRect();
+      var mw=mapRect.width,mh=mapRect.height;
+      var desk=document.getElementById('vbT1MapContainer').ownerDocument.documentElement.clientWidth>960;
+      var zoom=map.getZoom();
+      var markerPx=map.converter.coordinatesToGlobalPixels(m.data.coords,zoom);
+      var centerPx=map.getGlobalPixelCenter();
+      var mcx=markerPx[0]-centerPx[0]+mw/2;
+      var mcy=markerPx[1]-centerPx[1]+mh/2;
+      var dx,dy;
+      if(desk){
+        var pw=panel.classList.contains('vb-t1__panel--open')?panel.offsetWidth:0;
+        dx=(mw-pw)/2-mcx;
+        dy=mh/2-mcy;
+      }else{
+        var ch=mcard.classList.contains('vb-t1__mcard--visible')?mcard.offsetHeight:0;
+        dx=mw/2-mcx;
+        dy=(mh-ch)/2-mcy;
+      }
+      if(Math.abs(dx)<3&&Math.abs(dy)<3)return;
+      var np=[centerPx[0]+dx,centerPx[1]+dy];
+      var nc=map.converter.globalPixelsToCoordinates(np,zoom);
+      map.setCenter(nc,zoom,{flying:true,duration:400});
+    }catch(e){}
+  }
+
+  var cardModeTimer;
+  function syncCardMode(){
+    if(selectedIdx<0||isTransitioning)return;
+    var desk=document.getElementById("vbT1MapContainer").ownerDocument.documentElement.clientWidth>960;
+    var wrong=desk?mcard.classList.contains("vb-t1__mcard--visible"):panel.classList.contains("vb-t1__panel--open");
+    if(!wrong)return;
+    var idx=selectedIdx;
+    panel.classList.remove("vb-t1__panel--open","vb-t1__panel--places");
+    mcard.classList.remove("vb-t1__mcard--visible","vb-t1__mcard--expanded");
+    selectedIdx=-1;selectMarkerByIndex(idx);
+  }
+  function scheduleCardMode(){clearTimeout(cardModeTimer);cardModeTimer=setTimeout(syncCardMode,260);}
+  function scheduleReposition(){clearTimeout(repositionTimer);repositionTimer=setTimeout(repositionMap,80);}
+
+  /* ═══ Select marker ═══ */
+  function selectMarkerByIndex(idx){
+    if(idx===selectedIdx||isTransitioning)return;
+    deselectMarker();
+    selectedIdx=idx;
+    currentImageIdx=0;
+    isTransitioning=true;
+    var m=markers[idx];
+    var isLoc=m.type==='location';
+    var st=isStation(m.data);
+
+    m.placemark.options.set('iconImageHref',st?stationSel:(isLoc?greenSel:terraSel));
+    m.placemark.options.set('iconImageSize',[30,36]);
+    m.placemark.options.set('iconImageOffset',[-15,-36]);
+
+    var vis=getVis();
+    for(var i=0;i<vis.length;i++)if(vis[i]===idx){updCounter(i,vis.length);break;}
+
+    var desk=document.getElementById('vbT1MapContainer').ownerDocument.documentElement.clientWidth>960;
+    var tgt=desk?panelBody:mcardBodyInner;
+
+    tgt.style.opacity='0';tgt.style.transform='translateY(6px)';
+    tgt.style.transition='opacity 0.2s,transform 0.2s';
+
+    setTimeout(function(){
+      tgt.innerHTML=renderContent(m.data,m.type);
+      if(m.type==='kiosk'){
+        renderStamps(m.data,tgt);
+        if(desk){panelBody.classList.add('vb-t1__panel-body--kiosk');panel.classList.remove('vb-t1__panel--places');}
+        else{mcardBody.classList.add('vb-t1__mcard-body--kiosk');mcardBodyInner.classList.add('vb-t1__mcard-body-inner--kiosk');}
+        var sw=tgt.querySelector('.vb-t1__stamps-wrapper');if(sw)sw.scrollTop=0;
+      }else{
+        if(desk){panelBody.classList.remove('vb-t1__panel-body--kiosk');panel.classList.add('vb-t1__panel--places');}
+        else{mcardBody.classList.remove('vb-t1__mcard-body--kiosk');mcardBodyInner.classList.remove('vb-t1__mcard-body-inner--kiosk');}
+      }
+      if(!desk){
+        if(m.data.url){
+          mcardName.innerHTML='<a href="'+m.data.url+'" style="color:inherit;text-decoration:none;">'+m.data.name+'</a>';
+        }else{
+          mcardName.textContent=m.data.name;
+        }
+      }
+
+      tgt.style.opacity='1';tgt.style.transform='translateY(0)';
+
+      if(desk&&!panel.classList.contains('vb-t1__panel--open')){
+        panel.classList.add('vb-t1__panel--open');
+        setTimeout(repositionMap,160);
+      }else if(desk){
+        repositionMap();
+      }else{
+        mcard.classList.add('vb-t1__mcard--visible');
+        mcard.classList.remove('vb-t1__mcard--expanded');
+      }
+      isTransitioning=false;
+    },220);
+  }
+
+  function closePanel(){
+    panel.classList.remove('vb-t1__panel--open');
+    panel.classList.remove('vb-t1__panel--places');
+    panelBody.classList.remove('vb-t1__panel-body--kiosk');
+    deselectMarker();
+    setTimeout(function(){fitMap(currentTab==='places'?'location':'kiosk');},400);
+  }
+
+  function toggleMcard(){mcard.classList.toggle('vb-t1__mcard--expanded');setTimeout(repositionMap,400);}
+
+  /* ═══ Контролы карты: изменение масштаба ═══ */
+  function changeZoom(direction){
+    if(!map)return;
+    var zoom=map.getZoom();
+    var target=Math.max(1,Math.min(21,zoom+direction));
+    if(target!==zoom)map.setZoom(target,{duration:180,checkZoomRange:true});
+  }
+
+  /* ═══ Собственный разворот карты ═══ */
+  var fsExpandPath='M3 7V3h4M13 7V3H9M3 9v4h4M13 9v4H9';
+  var fsCollapsePath='M7 3v4H3M9 3v4h4M7 13v-4H3M9 13v-4h4';
+  var oldBodyOverflow='',oldHtmlOverflow='';
+
+  function toggleFullscreen(){
+    var mapEl=document.querySelector('.vb-t1__map');
+    var btn=document.getElementById('vbT1FsBtn');
+    var svgPath=btn.querySelector('svg path');
+    isFs=!isFs;
+    if(isFs){
+      oldBodyOverflow=document.body.style.overflow;
+      oldHtmlOverflow=document.documentElement.style.overflow;
+      document.body.style.overflow='hidden';
+      document.documentElement.style.overflow='hidden';
+      mapEl.classList.add('vb-t1__map--fullscreen');
+    }else{
+      mapEl.classList.remove('vb-t1__map--fullscreen');
+      document.body.style.overflow=oldBodyOverflow;
+      document.documentElement.style.overflow=oldHtmlOverflow;
+    }
+
+    var actionLabel=isFs?'Свернуть карту':'Развернуть карту';
+    btn.setAttribute('aria-label',actionLabel);
+    btn.setAttribute('title',actionLabel);
+    btn.setAttribute('aria-pressed',String(isFs));
+    svgPath.setAttribute('d',isFs?fsCollapsePath:fsExpandPath);
+
+    // Не открываем карточку автоматически: сохраняем выбранное место.
+    function refreshMapViewport(){
+      if(map&&map.container)map.container.fitToViewport();
+      if(selectedIdx>=0)scheduleReposition();
+      scheduleCardMode();
+    }
+    requestAnimationFrame(function(){
+      refreshMapViewport();
+      setTimeout(refreshMapViewport,120);
+    });
+  }
+
+  /* ═══ Fit map ═══ */
+  function fitMap(type){
+    var coords=[];
+    for(var i=0;i<markers.length;i++)if(markers[i].type===type)coords.push(markers[i].placemark.geometry.getCoordinates());
+    if(!coords.length)return;
+    if(coords.length===1){map.setCenter(coords[0],markers[0].data.zoom||15,{duration:400});return;}
+    var s=coords[0][0],n=coords[0][0],w=coords[0][1],e=coords[0][1];
+    for(var i=1;i<coords.length;i++){
+      if(coords[i][0]<s)s=coords[i][0];if(coords[i][0]>n)n=coords[i][0];
+      if(coords[i][1]<w)w=coords[i][1];if(coords[i][1]>e)e=coords[i][1];
+    }
+    map.setBounds([[s,w],[n,e]],{checkZoomRange:true,zoomMargin:type==='location'?24:60,duration:400});
+  }
+
+  /* ═══ Tab switch ═══ */
+  function switchTab(name,fit,autoSel){
+    currentTab=name;
+    var activeType=name==='places'?'location':'kiosk';
+    for(var i=0;i<tabBtns.length;i++){
+      var act=tabBtns[i].getAttribute('data-tab')===name;
+      tabBtns[i].classList.toggle('vb-t1__tab--active',act);
+      tabBtns[i].setAttribute('aria-selected',act?'true':'false');
+    }
+    for(var i=0;i<markers.length;i++)markers[i].placemark.options.set('visible',markers[i].type===activeType);
+    deselectMarker();
+    if(fit!==false)fitMap(activeType);
+    var vis=getVis();
+    if(autoSel!==false&&vis.length>0)selectMarkerByIndex(vis[0]);
+  }
+
+  /* ═══ Navigate to specific points ═══ */
+  function navToKiosk(kid){
+    switchTab('stamps',false,false);
+    var sp=findSp(kid);if(!sp)return;
+    map.setCenter(sp.coords,sp.zoom||16,{duration:400});
+    for(var i=0;i<markers.length;i++){if(markers[i].type==='kiosk'&&markers[i].dataId===kid){selectMarkerByIndex(i);return;}}
+  }
+
+  function navToLoc(lid){
+    switchTab('places',false,false);
+    var loc=findLoc(lid);if(!loc)return;
+    map.setCenter(loc.coords,loc.zoom||15,{duration:400});
+    for(var i=0;i<markers.length;i++){if(markers[i].type==='location'&&markers[i].dataId===lid){selectMarkerByIndex(i);return;}}
+  }
+
+  /* ═══ Hash ═══ */
+  function scrollToBlock(){var s=document.querySelector('.vb-t1');if(s)s.scrollIntoView({behavior:'smooth',block:'start'});}
+  function handleHash(){var h=window.location.hash;if(h==='#map'){switchTab('places');scrollToBlock();}else if(h==='#map-stamps'){switchTab('stamps');scrollToBlock();}}
+
+  /* ═══ Create map ═══ */
+  function createMap(){
+    // Встроенные zoomControl/fullscreenControl отключены: все три кнопки слева свои.
+    map=new ymaps.Map(mapContainer,{center:[54.0,58.35],zoom:11,controls:[],behaviors:['default','scrollZoom']});
+
+    for(var i=0;i<locations.length;i++){(function(j){
+      var l=locations[j];
+      var pm=new ymaps.Placemark(l.coords,{},{
+        iconLayout:'default#image',iconImageHref:greenDef,iconImageSize:[20,24],iconImageOffset:[-10,-24]
+      });
+      map.geoObjects.add(pm);
+      markers.push({placemark:pm,type:'location',dataId:l.id,data:l});
+    })(i);}
+
+    for(var i=0;i<stampPoints.length;i++){(function(j){
+      var sp=stampPoints[j];
+      var st=isStation(sp);
+      var pm=new ymaps.Placemark(sp.coords,{},{
+        iconLayout:'default#image',iconImageHref:st?stationDef:terraDef,iconImageSize:[20,24],iconImageOffset:[-10,-24]
+      });
+      map.geoObjects.add(pm);
+      markers.push({placemark:pm,type:'kiosk',dataId:sp.id,data:sp});
+    })(i);}
+
+    for(var i=0;i<markers.length;i++){(function(j){markers[j].placemark.events.add('click',function(){selectMarkerByIndex(j);});})(i);}
+
+    if(window.location.hash==='#map-stamps'){switchTab('stamps',true,true);}
+    else{fitMap('location');selectMarkerByIndex(getVis()[0]);}
+
+    if(typeof ResizeObserver!=='undefined')new ResizeObserver(function(){scheduleCardMode();if(map&&map.container)map.container.fitToViewport();if(selectedIdx>=0)scheduleReposition();}).observe(mapContainer);
+    mapLoader.classList.add('vb-t1__map-loader--hidden');
+  }
+
+  function initMap(){
+    if(window.ymaps){ymaps=window.ymaps;ymaps.ready(createMap);return;}
+    var s=document.createElement('script');s.src='https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=your-api-key';s.async=true;
+    s.onload=function(){ymaps=window.ymaps;ymaps.ready(createMap);};
+    document.head.appendChild(s);
+  }
+
+  /* ═══ Event listeners ═══ */
+  for(var f=0;f<tabBtns.length;f++){(function(btn){btn.addEventListener('click',function(){var t=btn.getAttribute('data-tab');switchTab(t);var h=t==='places'?'#map':'#map-stamps';if(window.location.hash!==h)history.replaceState(null,'',h);});})(tabBtns[f]);}
+  window.addEventListener('hashchange',handleHash);
+  window.addEventListener('resize',function(){
+    scheduleCardMode();
+    if(selectedIdx>=0)scheduleReposition();
+    if(map&&map.container)map.container.fitToViewport();
+  });
+
+  document.getElementById('vbT1Prev').addEventListener('click',function(){go(-1);});
+  document.getElementById('vbT1Next').addEventListener('click',function(){go(1);});
+  document.getElementById('vbT1PanelClose').addEventListener('click',closePanel);
+  document.getElementById('vbT1McardPrev').addEventListener('click',function(){go(-1);});
+  document.getElementById('vbT1McardNext').addEventListener('click',function(){go(1);});
+  document.getElementById('vbT1McardToggle').addEventListener('click',toggleMcard);
+  document.getElementById('vbT1ZoomIn').addEventListener('click',function(){changeZoom(1);});
+  document.getElementById('vbT1ZoomOut').addEventListener('click',function(){changeZoom(-1);});
+  document.getElementById('vbT1FsBtn').addEventListener('click',toggleFullscreen);
+
+  function setupClickHandler(el){
+    el.addEventListener('click',function(e){
+      var gb=e.target.closest('.vb-t1__gallery-btn');if(gb){changePhoto(parseInt(gb.getAttribute('data-dir'),10));return;}
+      var sb=e.target.closest('.vb-t1__stamp-btn');if(sb){navToKiosk(sb.getAttribute('data-kiosk-id'));return;}
+      var pl=e.target.closest('.vb-t1__stamps-pill');if(pl&&pl.hasAttribute('data-location-id')){navToLoc(pl.getAttribute('data-location-id'));return;}
+    });
+  }
+  setupClickHandler(panelBody);
+  setupClickHandler(mcardBodyInner);
+
+  document.getElementById('vbT1ModalClose').addEventListener('click',closeModal);
+  document.getElementById('vbT1Modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+  document.getElementById('vbT1ModalBody').addEventListener('click',function(e){var s=e.target.closest('.vb-t1__modal-stamp');if(s&&s.hasAttribute('data-location-id')){closeModal();navToLoc(s.getAttribute('data-location-id'));}});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(isFs){toggleFullscreen();return;}closeModal();}});
+
+  initMap();
+  if(window.location.hash==='#map'||window.location.hash==='#map-stamps')setTimeout(scrollToBlock,150);
+})();
+</script> </section>
