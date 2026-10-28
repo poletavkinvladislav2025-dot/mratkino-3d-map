@@ -76,6 +76,13 @@
 .dialog>header button{flex:none;width:44px;min-height:44px;border-radius:var(--vb-radius);color:var(--vb-ink)}
 .photo-viewer>button{position:sticky;top:0;z-index:2}
 @media(max-width:760px){
+ /* Geographic popups can overflow at either edge. Dock route details inside the map on phones. */
+ .explorer .route-name-popup{left:12px!important;right:12px!important;bottom:12px!important;top:auto!important;transform:none!important;max-width:none!important;width:auto;box-sizing:border-box}
+ .explorer .route-name-popup .maplibregl-popup-tip{display:none}
+ .explorer .route-name-popup .maplibregl-popup-content{width:100%;box-sizing:border-box;padding:16px 48px 16px 16px;overflow-wrap:anywhere}
+ .explorer .route-name-popup .maplibregl-popup-close-button{width:44px;height:44px;min-width:44px;min-height:44px}
+ .explorer .long-route-popup{max-height:min(260px,45dvh);overscroll-behavior:contain}
+ .explorer .long-route-popup a{min-height:44px;display:inline-flex;align-items:center}
  .explorer .region-navigation{padding-left:max(6px,env(safe-area-inset-left));padding-right:max(6px,env(safe-area-inset-right))}
  .explorer .region-navigation :is(.map-home,[data-action=sources]){width:44px;min-width:44px;height:44px}
  .explorer .region-navigation .search-toggle{min-width:44px;max-width:none;overflow:hidden}
