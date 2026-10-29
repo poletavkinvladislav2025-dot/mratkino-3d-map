@@ -1,3 +1,4 @@
+import './prepare-parallel-routes.mjs';
 import './prepare-tilda-block.mjs';
 /** Derive a small resort-only facility payload; keep the complete OSM source untouched. */
 import fs from 'node:fs';import crypto from 'node:crypto';

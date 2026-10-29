@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
 import {natureTiles,natureTreeBudget} from '../src/region/nature-data.js';
 const json=path=>JSON.parse(fs.readFileSync(path));
-test('five built-in walking variants use only connected, attributable OSM edges and preserve waypoint order',()=>{
+test('six built-in walking variants use only connected, attributable OSM edges and preserve waypoint order',()=>{
  let routes=0;
  for(const area of ['malinovaya','yalangas']){
   const dir=`public/region/hiking/${area}`,data=json(dir+'/routes.geojson'),audit=json(dir+'/route-audit.json');
@@ -14,10 +14,11 @@ test('five built-in walking variants use only connected, attributable OSM edges 
     assert.ok(way.nodes.some((n,j)=>j>0&&((n===a&&way.nodes[j-1]===b)||(n===b&&way.nodes[j-1]===a))));assert.deepEqual(line.geometry.coordinates[i],audit.nodes[a]);
    }
    if(route.id==='first-return'){const c=line.geometry.coordinates;assert.equal(c.length%2,1);for(let i=0;i<c.length;i++)assert.deepEqual(c[i],c[c.length-1-i]);}
+   if(route.id==='three-peaks-return'){assert.deepEqual(route.via,['bel','first','second','third','bel']);assert.deepEqual(line.geometry.coordinates[0],line.geometry.coordinates.at(-1));}
    if(route.id==='three-peaks'){assert.deepEqual(route.via,['bel','first','second','third','otn']);assert.notDeepEqual(line.geometry.coordinates[0],line.geometry.coordinates.at(-1));}
   }
  }
- assert.equal(routes,5);
+ assert.equal(routes,6);
  const second=json('public/region/hiking/malinovaya/route-audit.json').stops.second;assert.equal(second.osmId,'node/2031955366');assert.deepEqual(second.coordinates,[58.3062014,54.0080719]);assert.ok(second.requestedToPeakDistanceM<1);
 });
 test('nature detail is camera-tiled, bounded on mobile and released outside the two local areas',()=>{

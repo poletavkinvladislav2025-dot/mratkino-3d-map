@@ -7,10 +7,10 @@ export const trailLayerId=route=>'long-distance-'+route.id+'-line';
 export function addLongDistanceLayers(style,url=path=>path){
  for(const route of routes){
   const source='long-distance-'+route.id;
-  style.sources[source]={type:'geojson',data:url(route.asset),tolerance:.2,maxzoom:15,attribution:`<a href="${route.sourcePage}" target="_blank" rel="noopener">${route.name}</a>`};
+  style.sources[source]={type:'geojson',data:url(route.asset.replace('.geojson','-display.geojson')),tolerance:.2,maxzoom:15,attribution:`<a href="${route.sourcePage}" target="_blank" rel="noopener">${route.name}</a>`};
   const layout={'line-cap':'round','line-join':'round',visibility:'visible'};
-  style.layers.push({id:source+'-casing',type:'line',source,layout:{...layout},paint:{'line-color':'#345145','line-opacity':.45,'line-width':['interpolate',['linear'],['zoom'],3,2.2,8,2.8,15,3.3,20,3.8]}});
-  style.layers.push({id:trailLayerId(route),type:'line',source,layout:{...layout},paint:{'line-color':route.color,'line-opacity':1,'line-width':['interpolate',['linear'],['zoom'],3,1.1,8,1.4,15,2,20,2.4]}});
+  style.layers.push({id:source+'-casing',type:'line',source,layout:{...layout},paint:{'line-offset':['coalesce',['get','renderOffset'],0],'line-color':'#345145','line-opacity':.45,'line-width':['interpolate',['linear'],['zoom'],3,2.2,8,2.8,15,3.3,20,3.8]}});
+  style.layers.push({id:trailLayerId(route),type:'line',source,layout:{...layout},paint:{'line-offset':['coalesce',['get','renderOffset'],0],'line-color':route.color,'line-opacity':1,'line-width':['interpolate',['linear'],['zoom'],3,1.1,8,1.4,15,2,20,2.4]}});
  }
 }
 export class LongDistanceController{

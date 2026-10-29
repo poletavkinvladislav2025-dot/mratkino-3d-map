@@ -26,7 +26,8 @@ POINTS={
 ROUTES={'malinovaya':[
  ('first-return','До Первой и обратно',['bel','first','bel'],'out-and-back'),
  ('third','Из Отнурка на Третью',['otn','third'],'ascent'),
- ('three-peaks','Через три вершины',['bel','first','second','third','otn'],'through')],
+ ('three-peaks','Через три вершины',['bel','first','second','third','otn'],'through'),
+ ('three-peaks-return','Три вершины · к автомобилю',['bel','first','second','third','bel'],'loop')],
  'yalangas': [('a1','От старта А1',['a1','yal'],'ascent'),('a2','От старта А2',['a2','yal'],'ascent')]}
 def dump(path,data):
  path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(data,ensure_ascii=False,separators=(',',':'))+'\n')
@@ -59,7 +60,7 @@ def vector_woodland(zone,area):
    sources.append({'url':url,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()})
  dump(OUT/area/'forest-sources.json',{'source':'OpenFreeMap landcover/wood, OSM-derived; clipped to hiking corridors','zoom':z,'tiles':sources})
  return unary_union(woods)
-def process(area):
+def process(area,routes_only=False):
  source=RAW/(area+'-osm.xml');root=ET.parse(source).getroot()
  nodes={n.get('id'):[float(n.get('lon')),float(n.get('lat'))] for n in root.findall('node')}
  node_tags={n.get('id'):tags(n) for n in root.findall('node') if n.findall('tag')}
@@ -117,6 +118,7 @@ def process(area):
  used_way_ids=set(wid for r in audit_routes for wid in r['edgeWayIds'])
  audit={'generatedAt':DATE,'license':'ODbL-1.0','osmSource':'https://api.openstreetmap.org/api/0.6/map?bbox='+BOXES[area],'sourceSha256':hashlib.sha256(source.read_bytes()).hexdigest(),'method':'Dijkstra over shared OSM nodes; public walking edges only; no gap bridging; no safety verification','stops':stops,'routes':audit_routes,'ways':{wid:{'tags':ways[wid]['tags'],'nodes':ways[wid]['nodes']} for wid in sorted(used_way_ids)},'nodes':{n:nodes[n] for wid in used_way_ids for n in ways[wid]['nodes'] if n in nodes}}
  dump(directory/'route-audit.json',audit)
+ if routes_only:return
  # Detail only inside 250 m route corridors and 500/700 m summit areas.
  summit_radius=700 if area=='yalangas' else 500
  zone=unary_union([line.buffer(250) for line in route_lines]+[Point(FORWARD(*s['coordinates'])).buffer(summit_radius) for s in stops.values() if s['osmId']])
@@ -177,10 +179,11 @@ def process(area):
   if old.name not in active:old.unlink()
  print(area,[(r['id'],r['distanceM']) for r in audit_routes],'nature cells',len(tiles),'tree candidates',tree_count)
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--download',action='store_true');args=p.parse_args();RAW.mkdir(exist_ok=True)
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--download',action='store_true');p.add_argument('--routes-only',action='store_true');p.add_argument('--area',choices=BOXES);args=p.parse_args();RAW.mkdir(exist_ok=True)
  for area,bounds in BOXES.items():
+  if args.area and area!=args.area:continue
   path=RAW/(area+'-osm.xml')
   if args.download or not path.exists():
    response=requests.get('https://api.openstreetmap.org/api/0.6/map',params={'bbox':bounds},headers={'User-Agent':'VisitBeloretskMap/0.3 bounded research'},timeout=90);response.raise_for_status();path.write_bytes(response.content)
-  process(area)
+  process(area,args.routes_only)
 if __name__=='__main__':main()

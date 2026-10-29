@@ -1,0 +1,56 @@
+{
+  "source": "Owner pasted Malinovaya Tilda V6",
+  "sourceSha256": "e66a62d105848d5345c1262e35742246156ed5f2327e01523327dda404d5a604",
+  "coordinateOrder": "longitude,latitude",
+  "points": {
+    "bel": [
+      58.346343,
+      53.981498
+    ],
+    "otn": [
+      58.328721,
+      54.046798
+    ],
+    "first": [
+      58.316773,
+      54.003275
+    ],
+    "second": [
+      58.3062,
+      54.00807
+    ],
+    "third": [
+      58.292092,
+      54.021079
+    ]
+  },
+  "routes": {
+    "first": [
+      "bel",
+      "first"
+    ],
+    "third": [
+      "otn",
+      "third"
+    ],
+    "all_through": [
+      "bel",
+      "first",
+      "second",
+      "third",
+      "otn"
+    ],
+    "all_return": [
+      "bel",
+      "first",
+      "second",
+      "third",
+      "bel"
+    ]
+  },
+  "notes": [
+    "No embedded track geometry in supplied code; it delegates routing to BRouter. Existing auditable connected OSM network is reused instead.",
+    "The file labels second as preliminary. Earlier owner-supplied landmark [58.306933,54.007729] is retained; route uses the existing mapped peak node without a fabricated connector.",
+    "First three walking variants and all original GPX coordinates remain unchanged. Added three-peaks-return on the same walking network."
+  ]
+}

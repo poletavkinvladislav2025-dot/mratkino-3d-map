@@ -12,7 +12,7 @@ test('full GPX conversion is reproducible, uncut and keeps every separate segmen
 });
 test('red and yellow thin tracks belong to the initial style, without a zoom threshold or interaction',()=>{
  const style=createRegionalStyle({manifest:JSON.parse(fs.readFileSync('public/live/manifest.json'))},null,path=>'https://example.test/maps/'+path);
- for(const route of LONG_DISTANCE_ROUTES){assert.equal(style.sources['long-distance-'+route.id].data,'https://example.test/maps/'+route.asset);const layer=style.layers.find(l=>l.id===trailLayerId(route));assert.equal(layer.layout.visibility,'visible');assert.equal(layer.minzoom,undefined);assert.equal(layer.paint['line-color'],route.id==='gut'?'#d83b35':'#f2c52b');assert.ok(layer.paint['line-width'].includes(1.4));}
+ for(const route of LONG_DISTANCE_ROUTES){assert.equal(style.sources['long-distance-'+route.id].data,'https://example.test/maps/'+route.asset.replace('.geojson','-display.geojson'));const layer=style.layers.find(l=>l.id===trailLayerId(route));assert.equal(layer.layout.visibility,'visible');assert.equal(layer.minzoom,undefined);assert.equal(layer.paint['line-color'],route.id==='gut'?'#d83b35':'#f2c52b');assert.ok(layer.paint['line-width'].includes(1.4));}
  assert.deepEqual(cameraPayload({zoom:3}),{zoom:3});assert.equal(cameraPayload({zoom:2.99}),null);assert.equal(readURLState('?place=all&z=3.5').camera.zoom,3.5);
  const map={getLayer:()=>true,getLayoutProperty:()=> 'visible',getContainer:()=>({clientWidth:800,clientHeight:600}),queryRenderedFeatures:()=>[{layer:{id:'long-distance-gut-line'}},{layer:{id:'long-distance-yt-line'}}]};assert.deepEqual(visibleLegendKinds(map),['long-distance:gut','long-distance:yt']);
 });

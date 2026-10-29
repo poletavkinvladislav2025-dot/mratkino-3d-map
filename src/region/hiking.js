@@ -15,7 +15,7 @@ export class HikingController{
  }
  async ensure(area){
   const h=this.host;if(this.datasets.has(area))return this.datasets.get(area);
-  if(!this.cache.has(area))this.cache.set(area,h.json(`region/hiking/${area}/routes.geojson`).catch(error=>{this.cache.delete(area);throw error;}));
+  if(!this.cache.has(area))this.cache.set(area,Promise.all([h.json(`region/hiking/${area}/routes.geojson`),h.json(`region/hiking/${area}/routes-display.geojson`)]).then(([data,display])=>({...data,renderFeatures:display.features})).catch(error=>{this.cache.delete(area);throw error;}));
   const data=await this.cache.get(area);if(h.abort.aborted)return;
   this.datasets.set(area,data);this.bindMap();this.draw();h.setAttribute('data-hiking-state','ready');return data;
  }
@@ -55,7 +55,7 @@ export class HikingController{
  draw(){
   const map=this.host.map;if(!map?.getSource('hiking-routes'))return;
   const selected=this.host.region.routeId,inputs=[map,selected,this.area,this.selected,this.data,this.returning,...[...this.visible].sort().flatMap(area=>[area,this.datasets.get(area)])];if(sameInputs(this.drawInputs,inputs))return;this.drawInputs=inputs;
-  const features=[...this.visible].flatMap(area=>(this.datasets.get(area)?.features||[]).filter(f=>f.geometry.type==='LineString').map(f=>{const canonicalId=area+'/'+f.properties.id;return {...f,properties:{...f.properties,area,canonicalId,selected:canonicalId===selected},geometry:canonicalId===selected&&this.returning?{...f.geometry,coordinates:[...f.geometry.coordinates].reverse()}:f.geometry};}));
+  const features=[...this.visible].flatMap(area=>(this.datasets.get(area)?.renderFeatures||[]).filter(f=>f.geometry.type==='LineString').map(f=>{const canonicalId=area+'/'+f.properties.id;return {...f,properties:{...f.properties,area,canonicalId,selected:canonicalId===selected,renderOffset:canonicalId===selected&&this.returning?-f.properties.renderOffset:f.properties.renderOffset},geometry:canonicalId===selected&&this.returning?{...f.geometry,coordinates:[...f.geometry.coordinates].reverse()}:f.geometry};}));
   map.getSource('hiking-routes').setData({type:'FeatureCollection',features});this.clearStops(false);const automaticStops=[...this.visible].flatMap(area=>(this.datasets.get(area)?.features||[]).filter(f=>f.geometry.type==='Point'&&['start','finish','start-finish'].includes(f.properties.role)));if(!this.selected||selected!==this.area+'/'+this.selected||!this.visible.has(this.area)){map.getSource('hiking-stops').setData({type:'FeatureCollection',features:automaticStops});return;}
   const original=this.data.features.filter(f=>f.geometry.type==='Point'&&f.properties.routeId===this.selected);
   const stops=(this.returning?[...original].reverse():original).map((f,i)=>({...f,properties:{...f.properties,sequence:i+1,role:this.returning?(f.properties.role==='start'?'finish':f.properties.role==='finish'?'start':f.properties.role):f.properties.role}}));

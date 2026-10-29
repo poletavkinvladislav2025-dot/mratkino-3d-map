@@ -3,21 +3,21 @@ const root=page=>page.locator('mratkino-map');
 const read=(page,fn)=>root(page).evaluate(fn);
 async function settled(page){await page.waitForFunction(()=>{const el=document.querySelector('mratkino-map');return el?.getAttribute('data-map-state')==='ready'&&!el.map.isMoving()&&el.map.areTilesLoaded()},null,{timeout:90000});}
 
-test('five real-network route choices share one 3D map; nature cells load on demand and dispose',async({page})=>{
+test('six real-network route choices share one 3D map; nature cells load on demand and dispose',async({page})=>{
  test.setTimeout(360000);const errors=[],requests=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));await page.setViewportSize({width:1440,height:1080});await page.emulateMedia({reducedMotion:'reduce'});
  await page.goto('/?place=malinovaya');await expect(root(page)).toHaveAttribute('data-hiking-state','ready',{timeout:60000});await settled(page);
  expect(requests.some(u=>/nature-scene|three.module|nature-index|\/tiles\/\d+-\d+\.json|\/live\/trails/.test(u))).toBe(false);
  await read(page,el=>el.map.identity='shared-hiking-map');
- for(const id of ['first-return','third','three-peaks']){
+ for(const id of ['first-return','third','three-peaks','three-peaks-return']){
   await page.locator(`[data-route="${id}"]`).click();await expect(root(page)).toHaveAttribute('data-route','malinovaya/'+id);
-  const data=await read(page,async el=>({line:(await el.map.getSource('hiking-routes').getData()).features,points:(await el.map.getSource('hiking-stops').getData()).features}));expect(data.line).toHaveLength(1);expect(data.line[0].properties.id).toBe(id);
+  const data=await read(page,async el=>({line:(await el.map.getSource('hiking-routes').getData()).features,points:(await el.map.getSource('hiking-stops').getData()).features}));expect(data.line.some(f=>f.properties.id===id&&f.properties.selected)).toBe(true);
   if(id==='three-peaks')expect(data.points.map(p=>p.properties.key)).toEqual(['bel','first','second','third','otn']);
  }
  await page.locator('[data-action=mode]').click();await expect.poll(()=>read(page,el=>el.map.getPitch())).toBeLessThan(10);await page.locator('[data-route=three-peaks]').click();await expect(page.locator('[data-action=mode]')).toHaveText('2D');expect(await read(page,el=>el.mode2D)).toBe(false);
  await settled(page);await page.screenshot({path:'renders/hiking-malinovaya.png',fullPage:true,timeout:60000});
  await page.locator('.place-select').selectOption('yalangas');await expect(root(page)).toHaveAttribute('data-route','yalangas/a1',{timeout:60000});
  for(const id of ['a1','a2']){await page.locator(`[data-route="${id}"]`).click();await expect(root(page)).toHaveAttribute('data-route','yalangas/'+id);}
- await page.getByRole('button',{name:'Показать путь обратно',exact:true}).click();expect(await read(page,async el=>{const c=(await el.map.getSource('hiking-routes').getData()).features[0].geometry.coordinates;return JSON.stringify(c)===JSON.stringify([...el.region.hiking.route.geometry.coordinates].reverse());})).toBe(true);
+ await page.getByRole('button',{name:'Показать путь обратно',exact:true}).click();expect(await read(page,async el=>{const rendered=(await el.map.getSource('hiking-routes').getData()).features.filter(f=>f.properties.canonicalId==='yalangas/a2'),original=el.region.hiking.data.renderFeatures.filter(f=>f.properties.id==='a2');return rendered.every((f,i)=>JSON.stringify(f.geometry.coordinates)===JSON.stringify([...original[i].geometry.coordinates].reverse())&&f.properties.renderOffset===-original[i].properties.renderOffset);})).toBe(true);
  expect(await read(page,async el=>(await el.map.getSource('hiking-stops').getData()).features.map(f=>[f.properties.key,f.properties.role,f.properties.sequence]))).toEqual([['yal','start',1],['a2','finish',2]]);
  await settled(page);await page.screenshot({path:'renders/hiking-yalangas.png',fullPage:true,timeout:60000});
  await page.locator('[data-action=life]').click();await expect(root(page)).toHaveAttribute('data-scene-state','nature',{timeout:60000});

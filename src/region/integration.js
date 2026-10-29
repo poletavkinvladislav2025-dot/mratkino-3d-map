@@ -1,7 +1,7 @@
 import {PLACES,CITY,PLACE_ALIASES,canonicalPlaceId} from './presets.js';
 import {validateFilters,filterSnapshot} from './filters.js';
 const places=new Set(['all',CITY.id,...PLACES.map(p=>p.id),...Object.keys(PLACE_ALIASES)]);
-export const ROUTE_IDS=[...['1','2','3','4','5','7','8','9','10','11','12','13'].map(n=>'abzakovo/trail/'+n),...[1,2,3,4].map(n=>'mratkino/trail/south-'+n),...[1,2,3].map(n=>'mratkino/trail/north-'+n),'malinovaya/first-return','malinovaya/third','malinovaya/three-peaks','yalangas/a1','yalangas/a2'];
+export const ROUTE_IDS=[...['1','2','3','4','5','7','8','9','10','11','12','13'].map(n=>'abzakovo/trail/'+n),...[1,2,3,4].map(n=>'mratkino/trail/south-'+n),...[1,2,3].map(n=>'mratkino/trail/north-'+n),'malinovaya/first-return','malinovaya/third','malinovaya/three-peaks','malinovaya/three-peaks-return','yalangas/a1','yalangas/a2'];
 const routes=new Set(ROUTE_IDS),record=x=>!!x&&typeof x==='object'&&!Array.isArray(x),finite=(v,min,max)=>typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=max;
 const knownRoute=id=>routes.has(id)||typeof id==='string'&&/^[a-z-]+\/way\/\d{1,14}$/.test(id)&&PLACES.some(p=>p.id===id.split('/')[0]&&p.geometryUrl);
 export function cameraPayload(p){
