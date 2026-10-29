@@ -9,3 +9,5 @@ Display-only lane files are generated at build time for all current local walkin
 Local route colors distinguish the four Malinovaya variants and two Yalangas approaches. Route cards, focus, return-direction controls, IDs and the one permanent public map URL are retained. Runtime only reads precomputed display sections; there is no spatial matching on camera movement. Original coordinates/lengths/stops remain the source for cards and camera framing.
 
 Validation: unit checks, production build, nature/route clearance test, real-tile browser checks of complete GPX tracks and all four Malinovaya choices on desktop/phone passed. Browser screenshots were inspected; Chromium emulation was used, not a physical phone.
+
+Published source `8b225cf40494021a1f92ef6a5c5bab9bd871626d`, successful workflow `40910181615`. Post-publication verification: 181 files, 110 previous files unchanged (`parallel-pages-verification.json`), including the new display geometry, walking variant and updated nature cells. Existing Tilda snippet and public map URL are unchanged.
