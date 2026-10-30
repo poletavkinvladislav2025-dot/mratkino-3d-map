@@ -31,11 +31,12 @@ function rayWidth(point,normal,areas){
  for(const t of cuts.sort((a,b)=>a-b))if(!insideRiderArea([point[0]+normal[0]*(t+.05),point[1]+normal[1]*(t+.05)],areas))return Math.max(0,t-2.5);
  return 0;
 }
-export function buildRiderCorridor(line,areas,{spacing=4,centerlineOnly=false,maxHalfWidth=Infinity}={}){
+export function buildRiderCorridor(line,areas,{spacing=4,centerlineOnly=false,maxHalfWidth=Infinity,illustrativeHalfWidth=0}={}){
  const length=pathLength(line),frames=[];
  const frameAt=d=>{
   const {point,angle}=samplePath(line,d),normal=[-Math.sin(angle),Math.cos(angle)];
   const widths=[1,-1].map(sign=>{
+   if(centerlineOnly&&illustrativeHalfWidth>0)return Math.min(maxHalfWidth,illustrativeHalfWidth);
    if(!insideRiderArea(point,areas))return 0;
    return Math.min(maxHalfWidth,rayWidth(point,normal.map(v=>v*sign),areas));
   });

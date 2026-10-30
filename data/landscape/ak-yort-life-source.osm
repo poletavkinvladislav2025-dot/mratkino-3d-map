@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<osm version="0.6" generator="Visit Beloretsk bounded Ak Yort selection"><node id="769286049" visible="true" version="4" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7303104" lon="56.0304460" />
+ <node id="769286210" visible="true" version="4" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7300997" lon="56.0305102" />
+ <node id="769286330" visible="true" version="4" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7307432" lon="56.0281742" />
+ <node id="769286594" visible="true" version="4" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7301897" lon="56.0261989" />
+ <node id="1436473415" visible="true" version="2" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7307073" lon="56.0273582" />
+ <node id="1436473422" visible="true" version="2" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7306182" lon="56.0269096" />
+ <node id="1436473436" visible="true" version="2" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7305628" lon="56.0299643" />
+ <node id="1436473462" visible="true" version="2" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7307253" lon="56.0290197" />
+ <node id="11804212243" visible="true" version="1" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7304812" lon="56.0264647" />
+ <node id="11804212244" visible="true" version="1" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7297307" lon="56.0298327" />
+ <node id="11804212245" visible="true" version="1" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7297074" lon="56.0293296" />
+ <node id="11804212246" visible="true" version="1" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7297088" lon="56.0284171" />
+ <node id="11804212247" visible="true" version="1" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7297546" lon="56.0274697" />
+ <node id="11804212248" visible="true" version="1" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7298024" lon="56.0268307" />
+ <node id="11804212249" visible="true" version="1" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7299859" lon="56.0263392" />
+ <node id="11804212250" visible="true" version="1" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7302021" lon="56.0256732" />
+ <node id="11804212251" visible="true" version="1" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7294652" lon="56.0258567" />
+ <node id="11804212252" visible="true" version="1" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050" lat="54.7293319" lon="56.0300231" />
+ <way id="61740147" visible="true" version="4" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050">
+  <nd ref="769286594" />
+  <nd ref="11804212243" />
+  <nd ref="1436473422" />
+  <nd ref="1436473415" />
+  <nd ref="769286330" />
+  <nd ref="1436473462" />
+  <nd ref="1436473436" />
+  <nd ref="769286049" />
+  <nd ref="769286210" />
+  <tag k="piste:difficulty" v="easy" />
+  <tag k="piste:type" v="downhill" />
+  <tag k="sport" v="skiing" />
+ </way>
+ <way id="61740159" visible="true" version="3" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050">
+  <nd ref="769286210" />
+  <nd ref="11804212250" />
+  <tag k="aerialway" v="drag_lift" />
+ </way>
+ <way id="1271090628" visible="true" version="1" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050">
+  <nd ref="769286594" />
+  <nd ref="11804212249" />
+  <nd ref="11804212248" />
+  <nd ref="11804212247" />
+  <nd ref="11804212246" />
+  <nd ref="11804212245" />
+  <nd ref="11804212244" />
+  <nd ref="769286210" />
+  <tag k="piste:difficulty" v="easy" />
+  <tag k="piste:type" v="downhill" />
+  <tag k="sport" v="skiing" />
+ </way>
+ <way id="1271090629" visible="true" version="1" changeset="149763348" timestamp="2024-04-09T07:42:34Z" user="Vasiliy" uid="60050">
+  <nd ref="11804212252" />
+  <nd ref="11804212251" />
+  <tag k="aerialway" v="drag_lift" />
+ </way>
+ </osm>

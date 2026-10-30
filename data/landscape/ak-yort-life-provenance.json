@@ -1,0 +1,15 @@
+{
+  "sourceUrl": "https://api.openstreetmap.org/api/0.6/map?bbox=56.012,54.722,56.04,54.742",
+  "checkedOn": "2026-10-30",
+  "responseSha256": "5985116d914c18fbba239f1ac1e25ce7516fc8a5feaed0009e2188b5726c146b",
+  "retainedSourceSha256": "f40bd180404ad5d86ae631b155821edc470fdd34788b4d64c652fa7e397d56f7",
+  "selectedWays": [
+    "1271090628",
+    "1271090629",
+    "61740147",
+    "61740159"
+  ],
+  "rule": "Two downhill lines and their two drag lifts closest to the existing Ak Yort reference point, approximately 250–320 m southeast. Other nearby ski areas, jumps and public cable car excluded. Exact OSM node coordinates retained; no connecting geometry.",
+  "anchorNote": "Existing node/949698185 is named СК Ак йорт and is a bus stop. Existing map anchor retained; piste geometries and their bounds are independent.",
+  "license": "ODbL-1.0, © OpenStreetMap contributors"
+}

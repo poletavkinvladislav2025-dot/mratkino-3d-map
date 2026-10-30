@@ -96,15 +96,15 @@ export class ResortScene {
   this.routes=[];
   for(const feature of this.data.lifts.features){
    if(feature.geometry.type!=='LineString')continue;
-   const chair=feature.properties.tags?.aerialway==='chair_lift';
-   this.routes.push({feature,chair,seats:this.profile.seatsFromSource?feature.properties.seats||1:3,animate:feature.properties.animate!==false,count:this.mobile?(chair?12:6):(chair?24:10),points:[],length:0});
+   const type=feature.properties.tags?.aerialway, gondola=['gondola','cable_car'].includes(type),carpet=type==='magic_carpet',rope=type==='rope_tow',tbar=type==='t-bar',chair=type==='chair_lift'||gondola;
+   this.routes.push({feature,chair,gondola,carpet,rope,tbar,cableHeight:carpet ? .08 : rope ? 1.05 : chair ? 7 : 3.1,seats:this.profile.seatsFromSource?feature.properties.seats||1:3,animate:feature.properties.animate!==false,count:this.profile.vehicleCounts?.[chair?'chair':'drag']??(this.mobile?(chair?12:6):(chair?24:10)),points:[],length:0});
   }
   this.stats.lifts=this.routes.length;
   this.parts=[];const box=this.geometry(new THREE.BoxGeometry(1,1,1)),sphere=this.geometry(new THREE.SphereGeometry(1,6,4));
   const steel=this.material(0x686d78),seat=this.material(0xc88a54),clothes=this.material(0x326f87),red=this.material(0xb95b46),skin=this.material(0xf1ceb0),skis=this.material(0x3e4651);
-  const add=(kind,geometry,material,position,scale,filter=()=>true,anchor='cable')=>{
+  const add=(kind,geometry,material,position,scale,filter=()=>true,anchor='cable',cabin=false)=>{
    const count=this.routes.filter(r=>r.chair===(kind==='chair')).reduce((n,r)=>n+r.count,0);
-   this.parts.push({kind,position,scale,filter,anchor,mesh:this.batch(geometry,material,count,this.vehicles)});
+   this.parts.push({kind,position,scale,filter:v=>filter(v)&&(kind!=='chair'||!!v.gondola===cabin),anchor,mesh:this.batch(geometry,material,count,this.vehicles)});
   };
   // Open bench, back, hangers and safety rail; capacity follows the resort profile.
   add('chair',box,steel,[0,0,-1.3],[.07,.07,2.6]);
@@ -112,7 +112,7 @@ export class ResortScene {
   add('chair',box,seat,[0,-.27,-2.28],v=>[v.seats*.7+.05,.1,.65]);
   for(const sign of [-1,1])add('chair',box,steel,v=>[sign*((v.seats*.7+.05)/2-.055),0,-2.25],[.06,.65,.8]);
   add('chair',box,steel,[0,.32,-2.1],v=>[v.seats*.7+.05,.06,.06]);
-  const maxSeats=Math.max(1,...this.routes.filter(r=>r.chair).map(r=>r.seats));
+  const maxSeats=Math.min(this.profile.maxAnimatedPassengers??8,Math.max(1,...this.routes.filter(r=>r.chair&&!r.gondola).map(r=>r.seats)));
   for(let index=0;index<maxSeats;index++){
    const occupied=vehicle=>vehicle.ascending&&vehicle.active&&vehicle.index%3!==1&&index<vehicle.seats;
    const x=v=>(index-(v.seats-1)/2)*.7;
@@ -123,10 +123,17 @@ export class ResortScene {
     add('chair',box,skis,v=>[x(v)+dx,.4,-3.32],[.08,1.5,.045],occupied);
    }
   }
+  // Closed gondola cabins share the same bounded instance loop as open chairs.
+  add('chair',box,steel,[0,0,-.65],[.1,.1,1.3],()=>true,'cable',true);
+  add('chair',box,red,[0,0,-2],[1.7,1.3,1.7],()=>true,'cable',true);
+  add('chair',box,this.material(0x8db4bf),[0,.665,-1.8],[1.45,.03,.85],()=>true,'cable',true);
+  add('chair',box,this.material(0x8db4bf),[0,-.665,-1.8],[1.45,.03,.85],()=>true,'cable',true);
   // Single-person platter: stem + disc, with skis on the snow on the uphill branch.
   const disc=this.geometry(new THREE.CylinderGeometry(.21,.21,.06,10).rotateX(Math.PI/2));
-  add('drag',box,steel,[0,0,-1.15],[.045,.045,2.3]);
-  add('drag',disc,steel,[0,0,-2.3],[1,1,1]);
+  add('drag',box,steel,[0,0,-1.15],[.045,.045,2.3],v=>!v.rope&&!v.carpet);
+  add('drag',disc,steel,[0,0,-2.3],[1,1,1],v=>!v.rope&&!v.carpet&&!v.tbar);
+  add('drag',box,steel,[0,0,-2.3],[.9,.06,.06],v=>v.tbar);
+  add('drag',box,steel,[0,0,0],[.9,1.1,.08],v=>v.carpet&&v.ascending,'cable');
   const riding=v=>v.ascending&&v.active&&v.index%3!==1;
   add('drag',box,red,[0,-.12,-1.05],[.36,.28,.62],riding,'ground');
   add('drag',sphere,skin,[0,-.12,-.56],[.17,.17,.19],riding,'ground');
@@ -147,22 +154,23 @@ export class ResortScene {
    if(first===null||last===null){route.points=[];route.length=0;if(route.cable)route.cable.visible=false;continue;}
    if(first>last)coordinates=[...coordinates].reverse();
    const flat=coordinates.map(this.project),length=pathLength(flat),line=[];
-   for(let d=0;d<length;d+=18){const ll=this.unproject(samplePath(flat,d).point),z=this.height(ll);if(z===null)continue;const [x,y]=this.local(ll);line.push([x,y,z+(route.chair?7:3.1)]);}
-   const end=coordinates.at(-1),[x,y]=this.local(end);line.push([x,y,this.height(end)+(route.chair?7:3.1)]);
+   for(let d=0;d<length;d+=18){const ll=this.unproject(samplePath(flat,d).point),z=this.height(ll);if(z===null)continue;const [x,y]=this.local(ll);line.push([x,y,z+route.cableHeight]);}
+   const end=coordinates.at(-1),[x,y]=this.local(end);line.push([x,y,this.height(end)+route.cableHeight]);
    if(line.length<2)continue;
    route.ascentLength=pathLength(line);route.points=liftLoop(line,route.chair?2.2:1);route.length=pathLength(route.points);
    if(route.cable){route.cable.geometry.dispose();route.cable.geometry=new THREE.BufferGeometry().setFromPoints(route.points.map(p=>new THREE.Vector3(...p)));route.cable.visible=true;}
    else {route.cable=new THREE.Line(new THREE.BufferGeometry().setFromPoints(route.points.map(p=>new THREE.Vector3(...p))),this.cableMaterial);this.vehicles.add(route.cable);}
+   if(route.carpet)route.cable.visible=false;
   }
   this.refreshRiderPaths();this.updateVehicles();this.updateRiders();this.onStats({...this.stats});this.map.triggerRepaint();
  }
  updateVehicles(){
   const groups={chair:[],drag:[]};
   for(const route of this.routes)for(let index=0;index<route.count;index++){
-   const vehicle=liftVehicle(route,index,route.animate?this.elapsed:0);vehicle.seats=route.seats;vehicle.active=route.animate;vehicle.routeId=route.feature.properties.id;
+   const vehicle=liftVehicle(route,index,route.animate?this.elapsed:0);vehicle.gondola=route.gondola;vehicle.carpet=route.carpet;vehicle.rope=route.rope;vehicle.tbar=route.tbar;vehicle.seats=route.seats;vehicle.active=route.animate;vehicle.routeId=route.feature.properties.id;
    if(vehicle.sample){
     const [x,y]=vehicle.sample.point,ll=new this.ml.MercatorCoordinate(this.origin.x+x*this.units,this.origin.y-y*this.units).toLngLat();
-    vehicle.ground=(this.height(ll)??vehicle.sample.point[2]-(route.chair?7:3.1))+2;
+    vehicle.ground=(this.profile.sampledGround?vehicle.sample.point[2]-route.cableHeight:this.height(ll)??vehicle.sample.point[2]-(route.chair?7:3.1))+2;
    }
    groups[route.chair?'chair':'drag'].push(vehicle);
   }
@@ -204,7 +212,8 @@ export class ResortScene {
    if(a===null||b===null){route.length=0;route.points=[];continue;}
    if(a<b)coords=[...coords].reverse();
    const flat=coords.map(this.project),length=pathLength(flat),points=[];
-   const reversed=a<b;if(!route.corridor||route.reversed!==reversed){route.corridor=buildRiderCorridor(flat,route.areas,{centerlineOnly:!!this.profile.centerlineOnly,maxHalfWidth:Math.min(...route.areas.map(a=>a.maxHalfWidthM??Infinity))});route.reversed=reversed;}
+   const reversed=a<b;if(!route.corridor||route.reversed!==reversed){route.corridor=buildRiderCorridor(flat,route.areas,{centerlineOnly:!!this.profile.centerlineOnly,illustrativeHalfWidth:this.profile.corridorHalfWidth||0,maxHalfWidth:Math.min(...route.areas.map(a=>a.maxHalfWidthM??Infinity))});route.reversed=reversed;}
+   if(this.profile.sampledGround)for(const frame of route.corridor.frames)frame.elevation=this.height(this.unproject(frame.point));
    for(let d=0;d<length;d+=12){const ll=this.unproject(samplePath(flat,d).point),z=this.height(ll);if(z===null)continue;const [x,y]=this.local(ll);points.push([x,y,z+.05]);}
    const last=coords.at(-1),z=this.height(last),[x,y]=this.local(last);if(z!==null)points.push([x,y,z+.05]);
    route.points=points;route.length=points.length>1?route.corridor.length:0;
@@ -220,7 +229,7 @@ export class ResortScene {
    const profile=agent.profile,state=states[personIndex];
    if(state){
     const ll=this.unproject(state.point),onScreen=ll[0]>=west&&ll[0]<=east&&ll[1]>=south&&ll[1]<=north;
-    const z=onScreen&&state.inside&&state.clear?this.height(ll):null;
+    let z=null;if(onScreen&&state.inside&&state.clear){if(this.profile.sampledGround){const corridor=agent.corridor,i=Math.min(corridor.frames.length-2,Math.floor(state.distance/corridor.spacing)),a=corridor.frames[i],b=corridor.frames[i+1],t=(state.distance-a.d)/(b.d-a.d||1);if(Number.isFinite(a.elevation)&&Number.isFinite(b.elevation))z=a.elevation+(b.elevation-a.elevation)*t;}else z=this.height(ll);}
     state.visible=z!==null&&state.fade>0;
     if(state.visible){const [x,y]=this.local(ll);state.position=[x,y,z+.04];}
    }
