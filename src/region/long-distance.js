@@ -42,11 +42,16 @@ export class LongDistanceController{
    if(!layers.length)return;
    const hits=new Set(map.queryRenderedFeatures(box,{layers}).map(f=>f.layer.id));
    const selected=routes.filter(r=>hits.has(trailLayerId(r)));if(!selected.length)return;
-   this.popup?.remove();const content=document.createElement('div');content.className='long-route-popup';
-   for(const route of selected){const section=document.createElement('section'),name=document.createElement('h3'),description=document.createElement('p'),link=document.createElement('a');name.textContent=route.name;name.style.borderLeftColor=route.color;description.textContent=route.description;link.href=route.sourcePage;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Сайт тропы ↗';section.append(name,description,link);content.append(section);}
-   this.popupRoutes=selected.map(r=>r.id);this.popup=new this.host.ml.Popup({closeButton:true,closeOnClick:true,closeOnMove:true,maxWidth:'300px',className:'route-name-popup'}).setLngLat(event.lngLat).setDOMContent(content).addTo(map);
+   this.showPopup(selected,event.lngLat);
   });
  }
+ showPopup(selected,lngLat,meta={}){
+   this.popup?.remove();const content=document.createElement('div');content.className='long-route-popup';
+   for(const route of selected){const section=document.createElement('section'),name=document.createElement('h3'),description=document.createElement('p'),link=document.createElement('a');name.textContent=route.name;name.style.borderLeftColor=route.color;description.textContent=route.description;link.href=route.sourcePage;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Сайт тропы ↗';section.append(name,description,link);content.append(section);}
+   this.popupRoutes=selected.map(r=>r.id);this.popup=new this.host.ml.Popup({closeButton:true,closeOnClick:true,closeOnMove:!meta.focus,maxWidth:'300px',className:'route-name-popup'}).setLngLat(lngLat).setDOMContent(content).addTo(this.host.map);
+  const r=this.region;r.routeId='long-distance/'+selected[0].id;if(!meta.silent)r.bridge.event('routeSelected',{placeId:r.id,routeId:r.routeId});r.bridge.updateURL();
+ }
+ open(id,meta={}){const route=routes.find(r=>r.id===id);if(!route)throw Error('UNKNOWN_ROUTE');if(meta.focus)this.fit(id);this.showPopup([route],[(route.bounds[0][0]+route.bounds[1][0])/2,(route.bounds[0][1]+route.bounds[1][1])/2],meta);}
  reset(){this.popup?.remove();this.popup=null;this.boundMap=null;}
  fit(id){
   const route=routes.find(r=>r.id===id);if(!route||!this.host.map?.getLayer(trailLayerId(route)))return;

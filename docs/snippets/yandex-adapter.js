@@ -2,7 +2,7 @@
 var vbYandexMuted=0,vbPassportOnly=false,vbLastSnapshot='',vbPendingPlace=null,vbPlaceTimer;
 function vbYandexState(){
   var selected=selectedIdx>=0?markers[selectedIdx]:null;
-  return {view:currentTab==='places'?'places':vbPassportOnly?'passport':'stamps',sourceId:selected?selected.dataId:null};
+  return {view:currentTab==='places'?'places':vbPassportOnly?'passport':'stamps',sourceId:selected?selected.dataId:null,routeId:typeof vbRoutes!=='undefined'?vbRoutes?.selected||null:null};
 }
 function vbYandexNotify(){
   if(vbYandexMuted)return;
@@ -27,6 +27,8 @@ function vbFitView(view){
 }
 window.VisitBeloretskYandex={
   version:1,
+  getRoutes:function(){return typeof vbRoutes!=='undefined'&&vbRoutes?vbRoutes.getRoutes():Promise.resolve([]);},
+  openRoute:async function(id,options){if(typeof vbRoutes==='undefined'||!vbRoutes)return false;vbYandexMuted++;try{deselectMarker();panel.classList.remove('vb-t1__panel--open');mcard.classList.remove('vb-t1__mcard--visible');currentTab='places';vbPassportOnly=false;const ok=await vbRoutes.select(id,options?.focus!==false);return ok;}finally{vbYandexMuted--;vbYandexNotify();}},
   getCamera:function(){return map?{center:map.getCenter(),zoom:map.getZoom(),bounds:map.getBounds()}:null;},
   getState:function(){return map?vbYandexState():null;},
   canonicalId:function(id){var p=locations.concat(stampPoints).find(function(p){return p.id===id;});return p?.canonicalId;},

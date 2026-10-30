@@ -1,14 +1,15 @@
-function mountYandex(catalog,config){
+function mountYandex(catalog,config,scope){
   'use strict';
 
   // Cards and photos use the shared catalog generated from the 3D registry.
+  scope.vbPlaces=catalog;
 
   var locations=catalog.filter(function(p){return p.kind!=='stamp-point';});
   var stampPoints=catalog.filter(function(p){return p.kind==='stamp-point';});
   var placeDescs={};
 
   var currentTab='places',selectedIdx=-1,currentImageIdx=0,isTransitioning=false,isFs=false;
-  var ymaps=null,map=null,markers=[];
+  var ymaps=null,map=null,markers=[],vbRoutes=null;
 
   /* ═══ DOM ═══ */
   var panel=document.getElementById('vbT1Panel');
@@ -275,6 +276,7 @@ function mountYandex(catalog,config){
   function selectMarkerByIndex(idx){
     if(idx===selectedIdx||isTransitioning)return;
     deselectMarker();
+    if(vbRoutes)vbRoutes.clear();
     selectedIdx=idx;
     vbYandexNotify();
     currentImageIdx=0;
@@ -407,6 +409,7 @@ function mountYandex(catalog,config){
   /* ═══ Tab switch ═══ */
   function switchTab(name,fit,autoSel){
     vbPassportOnly=false;
+    if(vbRoutes){vbRoutes.clear();vbRoutes.setView(name==='places'?'places':'stamps');}
     currentTab=name;
     var activeType=name==='places'?'location':'kiosk';
     for(var i=0;i<tabBtns.length;i++){
@@ -433,7 +436,7 @@ function mountYandex(catalog,config){
   function navToLoc(lid){
     switchTab('places',false,false);
     var loc=findLoc(lid);if(!loc)return;
-    map.setCenter(loc.coords,loc.zoom||15,{duration:400});
+    if(loc.bounds){var b=loc.bounds;map.setBounds([[b[1],b[0]],[b[3],b[2]]],{checkZoomRange:true,zoomMargin:innerWidth<=640?[35,30,180,30]:[40,350,40,40],duration:400});}else map.setCenter(loc.coords,loc.zoom||15,{duration:400});
     for(var i=0;i<markers.length;i++){if(markers[i].type==='location'&&markers[i].dataId===lid){selectMarkerByIndex(i);return;}}
   }
 
@@ -467,6 +470,7 @@ function mountYandex(catalog,config){
 
     for(var i=0;i<markers.length;i++){(function(j){markers[j].placemark.events.add('click',function(){selectMarkerByIndex(j);});})(i);}
 
+    vbRoutes=createYandexRoutes(ymaps,map,config,function(id){window.VisitBeloretskYandex.openRoute(id).catch(function(){window.dispatchEvent(new CustomEvent('vb-yandex-routes-error'));});},function(){window.dispatchEvent(new CustomEvent('vb-yandex-routes-error'));});
     if(window.location.hash==='#map-stamps'){switchTab('stamps',true,true);}
     else{map.setBounds([[53.75,58.25],[54.07,58.72]],{checkZoomRange:true,zoomMargin:45});}
 

@@ -56,7 +56,7 @@ export class SkiAreaController{
   const h=this.host,p=f.properties;this.selectedIds([p.id]);this.card.replaceChildren();h.cardTitle(this.card,'Подъёмник',p.name);
   h.text(this.card,p.tags.aerialway==='chair_lift'?`Открытые кресла · ${p.seats} места.`:'Тарельчатый бугельный подъёмник.');
 
-  this.button('Показать подъёмник',()=>this.fit([f]));h.region.selectFeature('abzakovo',null,meta);if(meta.focus)this.fit([f]);
+  this.button('Показать подъёмник',()=>this.fit([f]));h.region.selectFeature('abzakovo','abzakovo/lift/'+p.id,meta);if(meta.focus)this.fit([f]);
  }
  button(title,handler){const b=document.createElement('button');b.type='button';b.className='show-trail';b.textContent=title;b.addEventListener('click',handler);this.card.append(b);}
  sourceLinks(features){for(const f of features){const a=document.createElement('a');a.href=f.properties.sourceUrl;a.target='_blank';a.rel='noopener noreferrer';a.textContent=f.properties.id+' ↗';this.card.append(a);}}

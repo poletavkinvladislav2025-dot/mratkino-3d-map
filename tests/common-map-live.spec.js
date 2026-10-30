@@ -1,0 +1,10 @@
+import {test,expect} from '@playwright/test';import {relayTiles} from './tile-fixture.js';
+test('real Yandex SDK displays shared route geometry and switches to the same 3D route',async({browser})=>{
+ test.setTimeout(180000);const context=await browser.newContext({viewport:{width:1365,height:900},...(process.env.HTTPS_PROXY?{proxy:{server:process.env.HTTPS_PROXY,bypass:'127.0.0.1,localhost'}}:{})});const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));await relayTiles(page);
+ try{await page.route('**/integration/common-live.html',r=>r.fulfill({contentType:'text/html',body:'<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><div class="t-rec"><script src="tilda-map-block.js" data-place="yalangas" data-route="yalangas/a1" defer></script></div>'}));await page.goto('http://127.0.0.1:5175/integration/common-live.html');const block=page.locator('.vb-map-complete');
+ await expect.poll(()=>page.evaluate(()=>document.querySelector('.vb-map-complete')?.shadowRoot.VisitBeloretskYandex?.getState()?.routeId),{timeout:90000}).toBe('yalangas/a1');
+ expect(await block.evaluate(e=>e.shadowRoot.VisitBeloretskYandex.openRoute('yalangas/a2'))).toBe(true);await expect(block.locator('.vb-route-detail')).toContainText('От старта А2');await expect(block.locator('#vb-map-link-note')).not.toContainText('не загрузил');
+ await page.screenshot({path:'/tmp/common-yandex-live.png',timeout:60000});
+ await block.getByRole('button',{name:'3D-карта',exact:true}).click();const app=page.frameLocator('iframe').locator('mratkino-map');await expect.poll(()=>app.evaluate(e=>e.region?.routeId),{timeout:90000}).toBe('yalangas/a2');await block.getByRole('button',{name:'Карта',exact:true}).click();await expect.poll(()=>block.evaluate(e=>e.shadowRoot.VisitBeloretskYandex.getState().routeId)).toBe('yalangas/a2');expect(errors).toEqual([]);
+ }finally{await page.unrouteAll({behavior:'ignoreErrors'});await context.close();}
+});

@@ -1,3 +1,4 @@
+import {hikingColorExpression} from './route-colors.js';
 import {ROCK_SURFACES} from '../landscape/malinovaya-rock-plan.js';
 import {createStyle,EMPTY,boundsFor} from '../map-data.js';
 import {PLACES} from './presets.js';
@@ -62,7 +63,7 @@ export function createRegionalStyle(data,forestURL,url=path=>path){
  {id:'nature-open',type:'fill',source:'nature-surfaces',filter:['all',['==',['geometry-type'],'Polygon'],['in',['get','kind'],['literal',['bare_rock','scree','grassland','heath','scrub','clearing']]]],paint:{'fill-color':['match',['get','kind'],'bare_rock','#a79e89','scree','#b5ab97','grassland','#b5bd8f','heath','#abb38b','scrub','#829776','#c8c9a5'],'fill-opacity':.75}},
  {id:'nature-rock-edge',type:'line',source:'nature-surfaces',filter:['in',['get','kind'],['literal',['bare_rock','scree','cliff']]],paint:{'line-color':'#736e61','line-width':['interpolate',['linear'],['zoom'],14,.6,18,1.6],'line-opacity':.6}},
  {id:'hiking-route-casing',type:'line',source:'hiking-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-offset':['coalesce',['get','renderOffset'],0],'line-color':'#fffdf4','line-width':4.5,'line-opacity':.95}},
- {id:'hiking-route-line',type:'line',source:'hiking-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-offset':['coalesce',['get','renderOffset'],0],'line-color':['match',['get','canonicalId'],'malinovaya/first-return','#126b70','malinovaya/third','#8853a6','malinovaya/three-peaks','#cc6b20','malinovaya/three-peaks-return','#3369b3','yalangas/a1','#126b70','yalangas/a2','#8853a6','#42765c'],'line-width':['case',['==',['get','selected'],true],3.5,2.8],'line-dasharray':[3,1]}},
+ {id:'hiking-route-line',type:'line',source:'hiking-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-offset':['coalesce',['get','renderOffset'],0],'line-color':hikingColorExpression,'line-width':['case',['==',['get','selected'],true],3.5,2.8],'line-dasharray':[3,1]}},
  {id:'hiking-route-stops',type:'circle',minzoom:13.2,source:'hiking-stops',paint:{'circle-color':['match',['get','role'],'start','#2d7054','start-finish','#2d7054','finish','#a74d2f','#877747'],'circle-radius':5,'circle-stroke-color':'#fff','circle-stroke-width':2}},
  {id:'touring-route-casing',type:'line',source:'touring-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#fff','line-width':7}},
  {id:'touring-route-line',type:'line',source:'touring-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#b66542','line-width':3.2}},

@@ -173,6 +173,8 @@ export class RegionController{
   if(!meta.silent){if(placeChanged)this.bridge.event('placeSelected',{placeId:place});if(routeId)this.bridge.event('routeSelected',{placeId:place,routeId});}
  }
  async openRoute(id,meta={}){
+  if(id.startsWith('long-distance/')){this.longDistance.open(id.split('/')[1],meta);return;}
+  const lift=/^(mratkino|abzakovo)\/lift\/(way\/\d+)$/.exec(id);if(lift){if(lift[1]==='mratkino'){await this.ensureResort();const f=this.host.data.lifts.features.find(f=>f.properties.id===lift[2]);if(!f)throw Error('UNKNOWN_ROUTE');this.host.selectLift(f,!!meta.focus,meta);}else{await this.ski.ensure();const f=this.ski.data.lifts.features.find(f=>f.properties.id===lift[2]);if(!f)throw Error('UNKNOWN_ROUTE');this.ski.selectLift(f,meta);}return;}
   if(id.startsWith('abzakovo/trail/')){const n=id.split('/')[2];await this.ski.ensure();if(!this.ski.selectTrail(n,meta))throw Error('UNKNOWN_ROUTE');return;}
   if(id.startsWith('mratkino/trail/')){await this.ensureResort();const slug=id.split('/')[2],m=/^(south|north)-([1-4])$/.exec(slug),name=m?(m[1]==='south'?'Ю':'С')+m[2]:null;const f=this.host.data.trails.features.find(f=>f.geometry.type==='LineString'&&f.properties.name===name);if(!f)throw Error('UNKNOWN_ROUTE');this.host.selectTrail(f,false,meta);if(meta.focus)this.host.flyToFeatures([f],this.host.cameras[f.properties.slope]?.bearing||0);return;}
   if(this.catalog.isRoute(id)){await this.catalog.openRoute(id,meta);return;}
