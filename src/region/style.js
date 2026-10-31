@@ -30,7 +30,7 @@ export function createRegionalStyle(data,forestURL,url=path=>path){
  style.sources['region-places']={type:'geojson',data:{type:'FeatureCollection',features:PLACES.map(p=>({type:'Feature',geometry:{type:'Point',coordinates:p.coordinates},properties:{id:p.id,name:p.name,major:p.major?1:0,kind:p.kind}}))}};
  style.sources['touring-routes']={type:'geojson',data:EMPTY};
  style.sources['route-stops']={type:'geojson',data:EMPTY};
- for(const id of ['winter-catalog','hiking-routes','hiking-stops','nature-surfaces'])style.sources[id]={type:'geojson',data:EMPTY};
+ for(const id of ['direction-routes','winter-catalog','hiking-routes','hiking-stops','nature-surfaces'])style.sources[id]={type:'geojson',data:EMPTY};
  for(const name of ['trails','lifts','stations','boundary','piste-areas'])style.sources['abzakovo-'+name]={type:'geojson',data:EMPTY};
  // Real building footprints only; detailed volume is enabled by the global effects control.
  const baseLayers=[
@@ -63,6 +63,8 @@ export function createRegionalStyle(data,forestURL,url=path=>path){
  {id:'nature-open',type:'fill',source:'nature-surfaces',filter:['all',['==',['geometry-type'],'Polygon'],['in',['get','kind'],['literal',['bare_rock','scree','grassland','heath','scrub','clearing']]]],paint:{'fill-color':['match',['get','kind'],'bare_rock','#a79e89','scree','#b5ab97','grassland','#b5bd8f','heath','#abb38b','scrub','#829776','#c8c9a5'],'fill-opacity':.75}},
  {id:'nature-rock-edge',type:'line',source:'nature-surfaces',filter:['in',['get','kind'],['literal',['bare_rock','scree','cliff']]],paint:{'line-color':'#736e61','line-width':['interpolate',['linear'],['zoom'],14,.6,18,1.6],'line-opacity':.6}},
  {id:'hiking-route-casing',type:'line',source:'hiking-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-offset':['coalesce',['get','renderOffset'],0],'line-color':'#fffdf4','line-width':4.5,'line-opacity':.95}},
+ {id:'direction-route-casing',type:'line',source:'direction-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-offset':['coalesce',['get','renderOffset'],0],'line-color':'#fffdf7','line-width':['case',['get','selected'],8,4.5],'line-opacity':.95}},
+ {id:'direction-route-line',type:'line',source:'direction-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-offset':['coalesce',['get','renderOffset'],0],'line-color':['get','color'],'line-width':['case',['get','selected'],5,2.5],'line-opacity':['case',['get','selected'],1,.72]}},
  {id:'hiking-route-line',type:'line',source:'hiking-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-offset':['coalesce',['get','renderOffset'],0],'line-color':hikingColorExpression,'line-width':['case',['==',['get','selected'],true],3.5,2.8],'line-dasharray':[3,1]}},
  {id:'hiking-route-stops',type:'circle',minzoom:13.2,source:'hiking-stops',paint:{'circle-color':['match',['get','role'],'start','#2d7054','start-finish','#2d7054','finish','#a74d2f','#877747'],'circle-radius':5,'circle-stroke-color':'#fff','circle-stroke-width':2}},
  {id:'touring-route-casing',type:'line',source:'touring-routes',layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':'#fff','line-width':7}},

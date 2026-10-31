@@ -27,7 +27,7 @@ export function parallelRoutes(inputs,{tolerance=5,step=20,gap=5}={}){
     if(!peers.has(other.key)||peers.get(other.key).index>other.index)peers.set(other.key,other);
    }
    const ids=[...peers.keys()].sort(),reference=peers.get(ids[0]),direction=s.dx*reference.dx+s.dy*reference.dy<0?-1:1,offset=(ids.indexOf(s.key)-(ids.length-1)/2)*gap*direction;
-   if(!current||current.properties.renderOffset!==offset||current.properties.overlapCount!==ids.length){current={type:'Feature',properties:{id:group.feature.properties.id,routeId:group.feature.properties.routeId,segmentId:group.feature.properties.segmentId,renderOffset:offset,overlapCount:ids.length},geometry:{type:'LineString',coordinates:[s.from,s.to]}};outputs[group.input.id].features.push(current);}else if(lastParent===s.parent)current.geometry.coordinates[current.geometry.coordinates.length-1]=s.to;else current.geometry.coordinates.push(s.to);lastParent=s.parent;
+   if(!current||current.properties.renderOffset!==offset||current.properties.overlapCount!==ids.length){current={type:'Feature',properties:{...group.feature.properties,id:group.feature.properties.id,routeId:group.feature.properties.routeId,segmentId:group.feature.properties.segmentId,renderOffset:offset,overlapCount:ids.length},geometry:{type:'LineString',coordinates:[s.from,s.to]}};outputs[group.input.id].features.push(current);}else if(lastParent===s.parent)current.geometry.coordinates[current.geometry.coordinates.length-1]=s.to;else current.geometry.coordinates.push(s.to);lastParent=s.parent;
   }
  }
  return outputs;

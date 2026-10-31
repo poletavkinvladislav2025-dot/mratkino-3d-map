@@ -1,3 +1,4 @@
+import {DIRECTION_PLACES,DIRECTION_ROUTES} from './directions.js';
 import {rodeoPlan,rodeoFrame} from '../landscape/rodeo-plan.js';
 import {content} from './card-content.js';
 import registry from './places.json' with {type:'json'};
@@ -5,7 +6,9 @@ import winter from './winter-places.json' with {type:'json'};
 import {ethnopark as ethno} from '../landscape/ethnopark-settings.js';
 import {mergeSourcePlaces,aliasesFor} from './passport.js';
 const descriptions={mratkino:'Горнолыжный центр в Белорецке с трассами на южном и северном склонах. С верхних участков открываются виды на город и горы Южного Урала.',abzakovo:'Горнолыжный курорт возле Новоабзаково с лесными спусками, учебными участками и спортивными трассами. Рядом расположен биатлонный комплекс.'};
-export const PLACES=mergeSourcePlaces([...registry.map(p=>({...p,description:descriptions[p.id]||p.description})),...winter.map(p=>p.id==='ethnopark'?{...p,name:ethno.name,description:ethno.description,coordinates:ethno.center,sourceUrl:ethno.sourceUrl,photo:ethno.photo,photoCredit:ethno.photoCredit}:p)]).map(p=>({...p,...content.places[p.id]}));
+const existingPlaces=mergeSourcePlaces([...registry.map(p=>({...p,description:descriptions[p.id]||p.description})),...winter.map(p=>p.id==='ethnopark'?{...p,name:ethno.name,description:ethno.description,coordinates:ethno.center,sourceUrl:ethno.sourceUrl,photo:ethno.photo,photoCredit:ethno.photoCredit}:p)]).map(p=>({...p,...content.places[p.id]}));
+const additions=DIRECTION_PLACES.filter(p=>!existingPlaces.some(e=>e.id===p.mapPlaceId)).map(p=>{const route=DIRECTION_ROUTES.find(r=>r.id===p.defaultRouteId),point=route?.points.find(x=>x.role==='goal')||route?.points[0];return point?{id:p.mapPlaceId,name:({'bolshoy-shatak':'Большой Шатак',vishnevaya:'Вишнёвая'})[p.placeId]||route.title,kind:'peak',coordinates:point.coordinates,zoneRadiusKm:2,major:false,description:p.placeId==='bolshoy-shatak'?'Двухдневный поход по хребту. Конец опубликованного трека и отдельный маркер вершины показаны раздельно.':'Пеший маршрут: линия и точки уточняются.',stampAvailable:p.stampAvailable}:null;}).filter(Boolean);
+export const PLACES=[...existingPlaces,...additions.map(p=>({...p,...content.places[p.id]}))];
 export const PLACE_ALIASES=aliasesFor(PLACES);
 export const canonicalPlaceId=id=>Object.hasOwn(PLACE_ALIASES,id)?PLACE_ALIASES[id]:id;
 // A stable local welcome view, independent of distant places or full GPX bounds.

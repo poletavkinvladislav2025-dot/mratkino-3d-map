@@ -46,3 +46,7 @@ data/landscape/*.xml
 data/landscape/*.pbf
 .explorerstable/
 .regionstable/
+
+# Source-page responses stay local; hashes, GPX and routing evidence are retained.
+data/directions/research/*.body
+data/directions/research/*.txt

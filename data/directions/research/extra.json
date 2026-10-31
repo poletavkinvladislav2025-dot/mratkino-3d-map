@@ -1,0 +1,14 @@
+[
+  {
+    "url": "https://rutrail.org/trails/66/gpx/",
+    "httpStatus": 200,
+    "file": "991499062cb1.body",
+    "sha256": "d2cd13c3cf8eb400b29917d37fb68d106bfe158353b4c107f5f5cd4cd3494ac3"
+  },
+  {
+    "url": "https://api.openstreetmap.org/api/0.6/map?bbox=58.80,54.50,58.88,54.58",
+    "httpStatus": 200,
+    "file": "35224ede01eb.body",
+    "sha256": "082da488e8ae733037692f00021354c22380bb8f91d2b7facc4d9183c16ca358"
+  }
+]

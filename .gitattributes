@@ -1,0 +1,2 @@
+# Preserve original downloaded GPX bytes (including CRLF) for source hash auditing.
+data/directions/source/tirlyan.gpx -text -diff

@@ -36,7 +36,7 @@ export class LongDistanceController{
   map.on('click',event=>{
    const box=[[event.point.x-7,event.point.y-7],[event.point.x+7,event.point.y+7]];
    // Local pistes and lifts retain their own detailed cards at crossings.
-   const local=['trail-line','lift-line','abzakovo-trail-line','abzakovo-lift-line','winter-catalog-line','hiking-route-line','kraka-but-line'].filter(id=>map.getLayer(id)&&map.getLayoutProperty(id,'visibility')!=='none');
+   const local=['direction-route-line','trail-line','lift-line','abzakovo-trail-line','abzakovo-lift-line','winter-catalog-line','hiking-route-line','kraka-but-line'].filter(id=>map.getLayer(id)&&map.getLayoutProperty(id,'visibility')!=='none');
    if(local.length&&map.queryRenderedFeatures(box,{layers:local}).length){this.popup?.remove();return;}
    const layers=routes.filter(r=>this.region.filters.hiking&&this.visible[r.id]).map(trailLayerId).filter(id=>map.getLayer(id));
    if(!layers.length)return;

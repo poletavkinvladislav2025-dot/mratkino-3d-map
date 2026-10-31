@@ -1,0 +1,18 @@
+[
+  {
+    "routeId": "kumardak-iselgan",
+    "referenceTrackId": "kumardak-reference",
+    "calculatedLengthM": 12496,
+    "within75mOfReferenceFraction": 0.872,
+    "referenceLengthM": 11239,
+    "note": "Reference is separate: Kumardak reference runs downhill and ends below the chalet; Kraka reference is a longer traverse. Final line is calculated in walking direction from the accepted start."
+  },
+  {
+    "routeId": "kraka-shigaevo",
+    "referenceTrackId": "kraka-reference",
+    "calculatedLengthM": 4567,
+    "within75mOfReferenceFraction": 0.931,
+    "referenceLengthM": 16209,
+    "note": "Reference is separate: Kumardak reference runs downhill and ends below the chalet; Kraka reference is a longer traverse. Final line is calculated in walking direction from the accepted start."
+  }
+]

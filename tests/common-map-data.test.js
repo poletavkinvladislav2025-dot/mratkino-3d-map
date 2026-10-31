@@ -6,7 +6,7 @@ test('both renderers use one route catalog with valid assets, route IDs and unch
  assert.equal(new Set(catalog.routes.map(r=>r.id)).size,catalog.routes.length);
  for(const r of catalog.routes){assert.ok(r.title);assert.ok(r.description);assert.match(r.color,/^#[a-f\d]{6}$/i);assert.ok(fs.existsSync('public/'+r.asset));if(r.displayAsset)assert.ok(fs.existsSync('public/'+r.displayAsset));assert.ok(validateCommand({type:'vb3d.command',version:1,id:'test',command:'openRoute',payload:{routeId:r.id}}),r.id);}
  for(const place of ['zavyaliha','sunny-valley']){assert.ok(catalog.routes.some(r=>r.placeId===place&&r.category==='ski'));assert.ok(catalog.routes.some(r=>r.placeId===place&&r.category==='lift'));}
- assert.equal(catalog.routes.filter(r=>r.id.startsWith('malinovaya/')).length,4);assert.equal(catalog.routes.filter(r=>r.id.startsWith('yalangas/')).length,2);assert.ok(ROUTE_IDS.includes('long-distance/gut'));
+ assert.equal(catalog.routes.filter(r=>r.placeId==='malinovaya').length,4);assert.equal(catalog.routes.filter(r=>r.placeId==='yalangas').length,2);assert.ok(ROUTE_IDS.includes('long-distance/gut'));
  assert.equal(catalog.routes.find(r=>r.id==='mratkino/trail/north-1').closed,true);
 });
 test('ordinary route lanes offset screen pixels and remain finite at sharp turns',()=>{

@@ -1,0 +1,58 @@
+[
+  {
+    "url": "https://greaturaltrail.ru/pohodnagorumasimiznovomusyatovo",
+    "httpStatus": 403,
+    "file": "c4f123f416da.body",
+    "links": [],
+    "sha256": "32f2fa940d4b4fe19aca1e53a24e5aac29c57b7c5ee78588325b87f1b649c864"
+  },
+  {
+    "url": "https://greaturaltrail.ru/pohodnagorumasimizakbulatovo",
+    "httpStatus": 403,
+    "file": "2ed5fafdc6ad.body",
+    "links": [],
+    "sha256": "32f2fa940d4b4fe19aca1e53a24e5aac29c57b7c5ee78588325b87f1b649c864"
+  },
+  {
+    "url": "https://www.suraltrail.ru/seg2",
+    "httpStatus": 403,
+    "file": "4bffe8f0d798.body",
+    "links": [],
+    "sha256": "d21e5340835812563fb3f76001583770328cff18eb9cb7c7de8beef9c21c4481"
+  },
+  {
+    "url": "https://www.suraltrail.ru/seg4",
+    "httpStatus": 403,
+    "file": "2dd6c5cdc90d.body",
+    "links": [],
+    "sha256": "32f2fa940d4b4fe19aca1e53a24e5aac29c57b7c5ee78588325b87f1b649c864"
+  },
+  {
+    "url": "https://trekkingmania.ru/assets/files/gpx/arvyakryaz.gpx",
+    "httpStatus": 403,
+    "file": "716f4508a1b2.body",
+    "links": [],
+    "sha256": "e77281ddcb419afd469fdab79aac126f4f0771d71975e7ef8b759969b8fcc57e"
+  },
+  {
+    "url": "https://trekkingmania.ru/assets/files/gpx/kirel.gpx",
+    "httpStatus": 403,
+    "file": "964e014b3804.body",
+    "links": [],
+    "sha256": "e77281ddcb419afd469fdab79aac126f4f0771d71975e7ef8b759969b8fcc57e"
+  },
+  {
+    "url": "https://dooptrb.ru/parks/iremel/",
+    "httpStatus": 200,
+    "file": "06b1a574222b.body",
+    "links": [],
+    "sha256": "589f8ecf47701e3df742822193adeb44c6765221b75a84a4d6ff8c58cbf8e247"
+  },
+  {
+    "url": "https://api.openstreetmap.org/api/0.6/map?bbox=58.285,53.765,58.335,53.785",
+    "httpStatus": 200,
+    "file": "bf3da8d80d59.body",
+    "links": [],
+    "sha256": "0f9a4ab76ed1bf79a506655f3e7294954c11f400b9ab0e4d2d71d890910282a9"
+  }
+]

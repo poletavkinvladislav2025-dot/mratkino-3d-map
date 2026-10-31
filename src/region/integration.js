@@ -1,9 +1,10 @@
+import {DIRECTION_ROUTES,directionRoute,directionPlace,defaultDirectionRoute} from './directions.js';
 import {PLACES,CITY,PLACE_ALIASES,canonicalPlaceId} from './presets.js';
 import {validateFilters,filterSnapshot} from './filters.js';
 const places=new Set(['all',CITY.id,...PLACES.map(p=>p.id),...Object.keys(PLACE_ALIASES)]);
-export const ROUTE_IDS=[...['1','2','3','4','5','7','8','9','10','11','12','13'].map(n=>'abzakovo/trail/'+n),...[1,2,3,4].map(n=>'mratkino/trail/south-'+n),...[1,2,3].map(n=>'mratkino/trail/north-'+n),'malinovaya/first-return','malinovaya/third','malinovaya/three-peaks','malinovaya/three-peaks-return','yalangas/a1','yalangas/a2','long-distance/gut','long-distance/yt'];
+export const ROUTE_IDS=[...DIRECTION_ROUTES.map(r=>r.id),...['1','2','3','4','5','7','8','9','10','11','12','13'].map(n=>'abzakovo/trail/'+n),...[1,2,3,4].map(n=>'mratkino/trail/south-'+n),...[1,2,3].map(n=>'mratkino/trail/north-'+n),'malinovaya/first-return','malinovaya/third','malinovaya/three-peaks','malinovaya/three-peaks-return','yalangas/a1','yalangas/a2','long-distance/gut','long-distance/yt'];
 const routes=new Set(ROUTE_IDS),record=x=>!!x&&typeof x==='object'&&!Array.isArray(x),finite=(v,min,max)=>typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=max;
-const knownRoute=id=>routes.has(id)||typeof id==='string'&&/^(mratkino|abzakovo)\/lift\/way\/\d{1,14}$/.test(id)||typeof id==='string'&&/^[a-z-]+\/way\/\d{1,14}$/.test(id)&&PLACES.some(p=>p.id===id.split('/')[0]&&p.geometryUrl);
+const knownRoute=id=>!!directionRoute(id)||routes.has(id)||typeof id==='string'&&/^(mratkino|abzakovo)\/lift\/way\/\d{1,14}$/.test(id)||typeof id==='string'&&/^[a-z-]+\/way\/\d{1,14}$/.test(id)&&PLACES.some(p=>p.id===id.split('/')[0]&&p.geometryUrl);
 export function cameraPayload(p){
  if(!record(p)||!Object.keys(p).length||Object.keys(p).some(k=>!['center','zoom','pitch','bearing'].includes(k)))return null;
  const out={};
@@ -15,7 +16,7 @@ export function validateCommand(d){
  if(!record(d)||d.type!=='vb3d.command'||d.version!==1||typeof d.id!=='string'||!/^[A-Za-z0-9_.:-]{1,80}$/.test(d.id)||Object.keys(d).some(k=>!['type','version','id','command','payload'].includes(k)))return null;
  const p=d.payload??{};if(!record(p))return null;
  if(d.command==='openPlace'&&Object.keys(p).length===1&&places.has(p.placeId))return {...d,payload:p};
- if(d.command==='openRoute'&&Object.keys(p).length===1&&knownRoute(p.routeId))return {...d,payload:p};
+ if(d.command==='openRoute'&&Object.keys(p).every(k=>['routeId','autoFit'].includes(k))&&knownRoute(p.routeId)&&(p.autoFit===undefined||typeof p.autoFit==='boolean'))return {...d,payload:p};
  if(d.command==='setCamera'&&cameraPayload(p))return {...d,payload:p};
  if(d.command==='setFilters'&&validateFilters(p))return {...d,payload:p};
  if(d.command==='focusView'&&Object.keys(p).length===1&&['places','stamps','passport'].includes(p.view))return {...d,payload:p};
@@ -23,13 +24,13 @@ export function validateCommand(d){
  return null;
 }
 export function readURLState(search=''){
- const p=new URLSearchParams(search),place=p.get('place'),out={place:places.has(place)?canonicalPlaceId(place):'all',card:p.get('card')!=='0'};
- if(knownRoute(p.get('route')))out.route=p.get('route');
+ const p=new URLSearchParams(search),place=p.get('placeId')||p.get('place'),out={place:places.has(place)?canonicalPlaceId(place):'all',card:p.get('card')!=='0'};
+ const route=p.get('routeId')||p.get('route');if(knownRoute(route))out.route=route;else if(p.has('placeId')&&defaultDirectionRoute(place))out.route=defaultDirectionRoute(place).id;const direction=directionRoute(out.route);if(direction)out.place=direction.mapPlaceId;if(p.has('placeId')&&place!=='all')out.explicitPlace=true;
  if(['0','1'].includes(p.get('effects')))out.effects=p.get('effects')==='1';
  const numeric=key=>p.get(key)?.trim()?Number(p.get(key)):NaN;
  const camera={};if(p.has('lat')&&p.has('lng'))camera.center={lat:numeric('lat'),lng:numeric('lng')};
  for(const [key,param] of [['zoom','z'],['pitch','pitch'],['bearing','bearing']])if(p.has(param))camera[key]=numeric(param);
- out.camera=cameraPayload(camera)||undefined;return out;
+ out.camera=cameraPayload(camera)||undefined;if(p.get('autoFit')==='false')out.autoFit=false;return out;
 }
 export function permittedOrigin(value,ownOrigin){
  if(!value)return ownOrigin;
@@ -51,7 +52,7 @@ export class IntegrationBridge{
    if(['suspend','resume'].includes(command.command)){this.execute(command);return;}
    this.queue.push(command);this.drain();
   };
-  window.addEventListener('message',this.receive);
+  window.addEventListener('message',this.receive);this.popstate=()=>{const state=readURLState(location.search);if(!this.region.bootstrapped){this.region.initial=state;return;}if(state.route)this.region.openRoute(state.route,{silent:true,focus:true,history:true});else this.region.choose(state.place,false,{silent:true});};window.addEventListener('popstate',this.popstate);
  }
  bindMap(){
   const map=this.host.map;if(this.bound===map)return;this.bound=map;
@@ -75,7 +76,7 @@ export class IntegrationBridge{
    if(c.command==='openPlace')await r.choose(c.payload.placeId,false,{silent:true});
    if(c.command==='setFilters')r.setFilters(c.payload,{silent:true});
    if(c.command==='focusView')await r.focusView(c.payload.view,{silent:true});
-   if(c.command==='openRoute')await r.openRoute(c.payload.routeId,{silent:true,focus:true});
+   if(c.command==='openRoute')await r.openRoute(c.payload.routeId,{silent:true,focus:c.payload.autoFit!==false});
    if(c.command==='setCamera'){h.map.stop();h.map.jumpTo(cameraPayload(c.payload));r.sync();}
    if(c.command==='resize'){h.map.resize();r.sync();}
    if(c.command==='suspend')r.suspend(true);
@@ -93,11 +94,12 @@ export class IntegrationBridge{
  updateURL(){
   if(this.disposed||!this.region.bootstrapped)return;clearTimeout(this.urlTimer);this.urlTimer=setTimeout(()=>{
    if(this.disposed)return;const u=new URL(location.href),r=this.region,c=this.snapshot();u.searchParams.set('place',r.id);if(r.routeId)u.searchParams.set('route',r.routeId);else u.searchParams.delete('route');
+   const direction=directionRoute(r.routeId);if(direction){u.searchParams.set('routeId',r.routeId);u.searchParams.set('placeId',direction.placeId);}else{u.searchParams.delete('routeId');u.searchParams.delete('placeId');}
    u.searchParams.set('card',r.cardOpen?'1':'0');u.searchParams.set('effects',r.effectsWanted?'1':'0');
    if(c){u.searchParams.set('lat',c.center.lat.toFixed(6));u.searchParams.set('lng',c.center.lng.toFixed(6));u.searchParams.set('z',c.zoom.toFixed(2));u.searchParams.set('pitch',c.pitch.toFixed(1));u.searchParams.set('bearing',c.bearing.toFixed(1));}
    history.replaceState(null,'',u);
   },400);
  }
  reset(){this.ready=false;this.bound=null;clearTimeout(this.cameraTimer);clearTimeout(this.urlTimer);this.cameraTimer=null;this.suppressCamera=false;}
- dispose(){this.disposed=true;clearTimeout(this.cameraTimer);clearTimeout(this.urlTimer);window.removeEventListener('message',this.receive);this.queue=[];this.pending.clear();this.results.clear();}
+ dispose(){this.disposed=true;clearTimeout(this.cameraTimer);clearTimeout(this.urlTimer);window.removeEventListener('message',this.receive);window.removeEventListener('popstate',this.popstate);this.queue=[];this.pending.clear();this.results.clear();}
 }

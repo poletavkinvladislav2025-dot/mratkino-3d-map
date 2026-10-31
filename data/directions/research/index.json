@@ -1,0 +1,285 @@
+[
+  {
+    "url": "https://belortravel.ru/attractions/gora-kirel-beloretskiy-rayon/",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:14:52.645616+00:00",
+    "file": "8bd89bee1711.body",
+    "sha256": "a317c4daaec4ddc2109f7002b9d9ac1f60d59bbb70834e61add2821a6c93cc57",
+    "links": []
+  },
+  {
+    "url": "https://belortravel.ru/attractions/inzerskie-zubchatki/",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:14:52.745542+00:00",
+    "file": "df13e420990f.body",
+    "sha256": "86f8df600350d0952f89fea533676021e59e9e8de1cc25029ce518f7e2a62648",
+    "links": []
+  },
+  {
+    "url": "https://dooptrb.ru/parks/iremel/",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:14:52.633682+00:00",
+    "file": "06b1a574222b.body",
+    "sha256": "9aaa92b4d3589735357dd2c45e418ea157c35aa411f31da358ed4cd00f69b26f",
+    "links": [
+      "/upload/iblock/493/4935ac844ab4c2858aa80076c7d32b15.pdf",
+      "/upload/iblock/9fe/9fea578fed17f663bdc321734812fe61.pdf"
+    ]
+  },
+  {
+    "url": "https://dooptrb.ru/upload/medialibrary/маршруты%20Иремеля1.pdf",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:14:54.047538+00:00",
+    "file": "e2f0f8f3dfd7.body",
+    "sha256": "9bd872b2c298bbdfa9a210792c6be143f516d987df77573384e45833da46eceb",
+    "links": []
+  },
+  {
+    "url": "https://greaturaltrail.ru/inzerskiezubchatkiizverhnearshinskogo",
+    "httpStatus": 403,
+    "checkedAt": "2026-10-31T18:14:51.999397+00:00",
+    "file": "889b1554bdfa.body",
+    "sha256": "b365b60eb280d24f4ed0c8aa44395e60950b9ab1ad52824721226ac5ebfa3015",
+    "links": []
+  },
+  {
+    "url": "https://greaturaltrail.ru/pohod-na-bolshoj-iremel-iz-tyulyuka",
+    "httpStatus": 403,
+    "checkedAt": "2026-10-31T18:14:52.038482+00:00",
+    "file": "0ef962743cce.body",
+    "sha256": "93004c26ab77258f4eecb3e9a7ddd9b2cffd75b623c75bae25f8305e3cb18069",
+    "links": []
+  },
+  {
+    "url": "https://greaturaltrail.ru/pohodnabolshojkumardak",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:14:53.679601+00:00",
+    "file": "99f4078997d0.body",
+    "sha256": "8c6f75a0345ae82faad2e9252cc9e34b272c0ec6685dd77c1429e14b78303871",
+    "links": [
+      "/gpx-kml",
+      "https://disk.yandex.ru/d/TiMvF740c-Am0g",
+      "https://disk.yandex.ru/d/VPEvgv1RtZI2FQ",
+      "https://disk.yandex.ru/d/WlOKrlkKQAvePw",
+      "https://disk.yandex.ru/d/hPX9IMURs9yd0Q",
+      "https://disk.yandex.ru/d/o8sxey9xXHafEA",
+      "https://disk.yandex.ru/d/oeGLzANMjAG8yw",
+      "https://disk.yandex.ru/d/y6udeyYfX6zJqQ",
+      "https://disk.yandex.ru/d/yQ0CNDcAU6WgSA",
+      "https://www.greaturaltrail.ru/gpx-kml"
+    ]
+  },
+  {
+    "url": "https://greaturaltrail.ru/pohodnagorubolshojshatakizverhnegoavzyana",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:14:54.070444+00:00",
+    "file": "bb7a5efb113c.body",
+    "sha256": "b57f8033d3be94b2539fe84a6fa260e1a63fa26eae85539e377caeaf780ea728",
+    "links": [
+      "/gpx-kml",
+      "https://disk.yandex.ru/d/JL5SObM54DfoIw",
+      "https://disk.yandex.ru/d/TiMvF740c-Am0g",
+      "https://disk.yandex.ru/d/VPEvgv1RtZI2FQ",
+      "https://disk.yandex.ru/d/WlOKrlkKQAvePw",
+      "https://disk.yandex.ru/d/o8sxey9xXHafEA",
+      "https://disk.yandex.ru/d/oeGLzANMjAG8yw",
+      "https://disk.yandex.ru/d/y6udeyYfX6zJqQ",
+      "https://disk.yandex.ru/d/yQ0CNDcAU6WgSA",
+      "https://www.greaturaltrail.ru/gpx-kml"
+    ]
+  },
+  {
+    "url": "https://greaturaltrail.ru/pohodnahrebetbolshojkraka",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:14:54.273485+00:00",
+    "file": "5431ee4835c6.body",
+    "sha256": "415d9a63b0cd0ba9eeb3bcd3783b2a5cf346e2453ea0328117b1f20fb11ba1b9",
+    "links": [
+      "/gpx-kml",
+      "https://disk.yandex.ru/d/TiMvF740c-Am0g",
+      "https://disk.yandex.ru/d/VPEvgv1RtZI2FQ",
+      "https://disk.yandex.ru/d/WlOKrlkKQAvePw",
+      "https://disk.yandex.ru/d/h1qYsdOQrmttZA",
+      "https://disk.yandex.ru/d/o8sxey9xXHafEA",
+      "https://disk.yandex.ru/d/oeGLzANMjAG8yw",
+      "https://disk.yandex.ru/d/y6udeyYfX6zJqQ",
+      "https://disk.yandex.ru/d/yQ0CNDcAU6WgSA",
+      "https://www.greaturaltrail.ru/gpx-kml"
+    ]
+  },
+  {
+    "url": "https://idilesom.com/bashkir/places/6873",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:14:54.366722+00:00",
+    "file": "c3fd926c3131.body",
+    "sha256": "21daa8a045dbb327a2a4a56909585e18178247bcee1725295a93c74e523f7e45",
+    "links": []
+  },
+  {
+    "url": "https://nashural.ru/article/marshruti-ot-znatokov/na-atysh-cherez-verhnie-lemezy/",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:14:54.587910+00:00",
+    "file": "1d7c877ddca5.body",
+    "sha256": "a45b91b43d7f349c574527cdedccd5efbb31b33986af6fa1e71f8b8912b0c7ea",
+    "links": [
+      "https://nashural.ru/assets/cache/min/1/assets/plugins/adrotate/library/jquery.adrotate.clicktracker.js?ver=1781071499"
+    ]
+  },
+  {
+    "url": "https://rutrail.org/trails/66/",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:14:55.380529+00:00",
+    "file": "bba4ca396b0f.body",
+    "sha256": "461e5967c9650b20d2dea56f90e6761bd6fa4dc2a79ba793dc28328cf07588ae",
+    "links": [
+      "/data/trail/map_pdf/map_66.pdf?v1",
+      "/trails/66/gpx/"
+    ]
+  },
+  {
+    "url": "https://suraltrail.ru/seg2",
+    "httpStatus": 403,
+    "checkedAt": "2026-10-31T18:14:56.395799+00:00",
+    "file": "f855573e1e99.body",
+    "sha256": "40ba0bc91d6459f39439cecbae6336c977053fb98e888b042bbbbf0914357f00",
+    "links": []
+  },
+  {
+    "url": "https://suraltrail.ru/seg4",
+    "httpStatus": 403,
+    "checkedAt": "2026-10-31T18:14:56.385104+00:00",
+    "file": "623b647f1481.body",
+    "sha256": "12a7891aec76efdbc2f6d01a1b0ab37f6163bf6e03501b1a04e899bf59bbfffc",
+    "links": []
+  },
+  {
+    "url": "https://trekkingmania.ru/gora_kurtashtau/",
+    "httpStatus": 403,
+    "checkedAt": "2026-10-31T18:14:55.854460+00:00",
+    "file": "156c7cff6ea1.body",
+    "sha256": "a422d4a7cf16664514913906dff1d3e681d0bb6c4a35349aab458ca1e9e20b04",
+    "links": []
+  },
+  {
+    "url": "https://trekkingmania.ru/gora_rassyipnaya/",
+    "httpStatus": 403,
+    "checkedAt": "2026-10-31T18:14:55.857297+00:00",
+    "file": "b89aaea7c198.body",
+    "sha256": "a422d4a7cf16664514913906dff1d3e681d0bb6c4a35349aab458ca1e9e20b04",
+    "links": []
+  },
+  {
+    "url": "https://trekkingmania.ru/marshrut_vyixodnogo_dnya_gora_arvyakryaz/",
+    "httpStatus": 403,
+    "checkedAt": "2026-10-31T18:14:56.441237+00:00",
+    "file": "1fd6cb450edc.body",
+    "sha256": "a422d4a7cf16664514913906dff1d3e681d0bb6c4a35349aab458ca1e9e20b04",
+    "links": []
+  },
+  {
+    "url": "https://trekkingmania.ru/marshrut_vyixodnogo_dnya_gora_kirel/",
+    "httpStatus": 403,
+    "checkedAt": "2026-10-31T18:14:56.983236+00:00",
+    "file": "c464c4667fcb.body",
+    "sha256": "a422d4a7cf16664514913906dff1d3e681d0bb6c4a35349aab458ca1e9e20b04",
+    "links": []
+  },
+  {
+    "url": "https://trekkingmania.ru/otchyotyi/1351-sinie_skalyi/",
+    "httpStatus": 403,
+    "checkedAt": "2026-10-31T18:14:57.238643+00:00",
+    "file": "e1317a30d88a.body",
+    "sha256": "a422d4a7cf16664514913906dff1d3e681d0bb6c4a35349aab458ca1e9e20b04",
+    "links": []
+  },
+  {
+    "url": "https://trekkingmania.ru/xajking_na_ajgire_karatash_gora_ufa_borisovyi_pechi/",
+    "httpStatus": 403,
+    "checkedAt": "2026-10-31T18:14:56.594572+00:00",
+    "file": "42089d46c0fb.body",
+    "sha256": "a422d4a7cf16664514913906dff1d3e681d0bb6c4a35349aab458ca1e9e20b04",
+    "links": []
+  },
+  {
+    "url": "https://uraloved.ru/arskij-kamen",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:14:57.739640+00:00",
+    "file": "7e645d23adf0.body",
+    "sha256": "985f6337b474d1b0bbf6e36c758ffeec94396d00b45ab922a82793d63a392846",
+    "links": []
+  },
+  {
+    "url": "https://uraloved.ru/kamennaya-reka-i-utjos",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:14:57.827539+00:00",
+    "file": "80d55cb8241e.body",
+    "sha256": "7d0571d619fa507a783e9edd007400b5e2d59988a9d78401e1c56ede5814b022",
+    "links": []
+  },
+  {
+    "url": "https://uraltrail.ru/mountains/kushai/",
+    "error": "HTTPSConnectionPool(host='uraltrail.ru', port=443): Max retries exceeded with url: /mountains/kushai/ (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))"
+  },
+  {
+    "url": "https://visit-bashkortostan.ru/vodopad-atysh-na-r-lemeze/",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:14:58.985954+00:00",
+    "file": "46dbb0c11d5c.body",
+    "sha256": "33f9dcdcca277187c04b0a1add3a8525bac07a5cbf01674eecd1c593d1489d3e",
+    "links": []
+  },
+  {
+    "url": "https://www.exje.ru/wp-content/uploads/2020/06/iremel4print.pdf",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:15:01.195002+00:00",
+    "file": "3168300db531.body",
+    "sha256": "019a66ad531938154c4c848935ef6acacd293ff9d2b892fd479ec949fd0f03c2",
+    "links": []
+  },
+  {
+    "url": "https://www.greaturaltrail.ru/pohodnagorumasimizakbulatovo",
+    "httpStatus": 403,
+    "checkedAt": "2026-10-31T18:14:58.414441+00:00",
+    "file": "c8d01184f40d.body",
+    "sha256": "32f2fa940d4b4fe19aca1e53a24e5aac29c57b7c5ee78588325b87f1b649c864",
+    "links": []
+  },
+  {
+    "url": "https://www.greaturaltrail.ru/pohodnagorumasimiznovomusyatovo",
+    "httpStatus": 403,
+    "checkedAt": "2026-10-31T18:14:59.028165+00:00",
+    "file": "86da70f3c082.body",
+    "sha256": "c2e0f4be96cc738f04c82bc16d21a257432bc7c2734d9508b18a31c8f2f3823c",
+    "links": []
+  },
+  {
+    "url": "https://www.south-ural-reserve.ru/the-news/279-2019-02-04-07-01-51",
+    "httpStatus": 503,
+    "checkedAt": "2026-10-31T18:14:59.583787+00:00",
+    "file": "371dd25ea1ba.body",
+    "sha256": "b5b660bc2bb92e97199b4b045f7e21eca39307fa087b8be85bb006cc7d83b34b",
+    "links": []
+  },
+  {
+    "url": "https://zigalga.org/node/17802",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:15:00.149146+00:00",
+    "file": "8a37f26dd41f.body",
+    "sha256": "e0757934081dff2d0cc33a83f7352fc4d30a35f98ad004f0578994e9d890fa6f",
+    "links": [
+      "/modules/file/icons/application-pdf.png",
+      "https://zigalga.org/sites/default/files/docs/%D0%97%D0%B8%D0%B3%D0%B0%D0%BB%D1%8C%D0%B3%D0%B0%20%D0%9F%D0%BE%20%D0%BF%D1%80%D0%B5%D0%B4%D0%B3%D0%BE%D1%80%D1%8C%D1%8F%D0%BC%20%D0%97%D0%B8%D0%B3%D0%B0%D0%BB%D1%8C%D0%B3%D0%B8.pdf",
+      "https://zigalga.org/sites/default/files/docs/%D0%97%D0%B8%D0%B3%D0%B0%D0%BB%D1%8C%D0%B3%D0%B0%20%D0%A1%D0%B5%D0%BB%D0%BE%20%D0%92%D0%B5%D1%80%D1%85-%D0%9A%D0%B0%D1%82%D0%B0%D0%B2%D0%BA%D0%B0%20-%20%D0%B3%D0%BE%D1%80%D0%B0%20%D0%90%D0%BD%D1%82%D0%B5%D0%BD%D0%BD%D0%B0%D1%8F%20-%20%D1%81%D0%B5%D0%BB%D0%BE%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%BA%D0%B0.pdf",
+      "https://zigalga.org/sites/default/files/docs/%D0%97%D0%B8%D0%B3%D0%B0%D0%BB%D1%8C%D0%B3%D0%B0%20%D0%A1%D0%B5%D0%BB%D0%BE%20%D0%92%D0%B5%D1%80%D1%85-%D0%9A%D0%B0%D1%82%D0%B0%D0%B2%D0%BA%D0%B0%20-%20%D0%B3%D0%BE%D1%80%D0%B0%20%D0%9F%D0%BE%D0%BF%D0%B5%D1%80%D0%B5%D1%87%D0%BD%D0%B0%D1%8F.pdf",
+      "https://zigalga.org/sites/default/files/docs/%D0%97%D0%B8%D0%B3%D0%B0%D0%BB%D1%8C%D0%B3%D0%B0%20%D0%A1%D0%B5%D0%BB%D0%BE%20%D0%A2%D1%8E%D0%BB%D1%8E%D0%BA%20-%20%D0%B3%D0%BE%D1%80%D0%B0%20%D0%9F%D0%BE%D0%BF%D0%B5%D1%80%D0%B5%D1%87%D0%BD%D0%B0%D1%8F.pdf"
+    ]
+  },
+  {
+    "url": "https://brouter.de/brouter?lonlats=58.47225,54.081409|58.431184,54.101626&profile=trekking&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "checkedAt": "2026-10-31T18:14:59.686853+00:00",
+    "file": "ef387a79ca46.body",
+    "sha256": "80e03a81d3e3b669ab38eb0dd0b94206d77ab022d62e02d000d45f5dd72e79de",
+    "links": []
+  }
+]

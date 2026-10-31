@@ -27,7 +27,7 @@ test('explicit view navigation is separate from non-moving filter updates',()=>{
 });
 test('ordinary catalog is built from the same coordinates, descriptions, photos and stamp links',()=>{
  const catalog=JSON.parse(fs.readFileSync('public/integration/map-catalog.json'));
- assert.equal(catalog.length,52);assert.equal(catalog.filter(p=>p.kind==='stamp-point').length,6);assert.equal(catalog.filter(p=>p.sellsPassports).length,5);
+ assert.equal(catalog.length,54);assert.equal(catalog.filter(p=>p.kind==='stamp-point').length,6);assert.equal(catalog.filter(p=>p.sellsPassports).length,5);
  for(const p of catalog){const original=byId(p.canonicalId);assert.deepEqual(p.coords,[original.coordinates[1],original.coordinates[0]]);assert.equal(p.desc,original.description||'');for(const stamp of p.stamps||[])if(stamp.locationId)assert.ok(catalog.some(q=>q.id===stamp.locationId));}
  assert.equal(catalog.find(p=>p.id==='malinovaya').canonicalId,'malinovaya-3');assert.equal(catalog.find(p=>p.id==='malinovaya1').canonicalId,'malinovaya');
 });

@@ -1,0 +1,23 @@
+[
+  {
+    "url": "https://zapovedtravel.ru/Route/Details/2d834ecd-5228-477c-9dea-03d55d49d420",
+    "httpStatus": 502,
+    "file": "de3dfaa5455e.body",
+    "links": [],
+    "sha256": "bf4d0c2fe5252a3e32908499c90a4da5f961c7a7d989c5ef37b406d145929f1b"
+  },
+  {
+    "url": "https://south-ural-reserve.ru/the-news/279-2019-02-04-07-01-51",
+    "httpStatus": 503,
+    "file": "d855049b7a26.body",
+    "links": [],
+    "sha256": "b5b660bc2bb92e97199b4b045f7e21eca39307fa087b8be85bb006cc7d83b34b"
+  },
+  {
+    "url": "https://api.openstreetmap.org/api/0.6/map?bbox=58.38,53.87,58.42,53.92",
+    "httpStatus": 200,
+    "file": "8975dd173102.body",
+    "links": [],
+    "sha256": "e6e9bea62d7e5c44b5d73c298fd17a1b07e69f51d281af3d766b4cb80e37a551"
+  }
+]

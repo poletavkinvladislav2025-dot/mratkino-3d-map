@@ -1,0 +1,107 @@
+[
+  {
+    "route": "Арвяк-Рязь",
+    "track_name": "Arvyakryaz",
+    "points": 60,
+    "segments": 1,
+    "start": [
+      53.778555,
+      58.299367
+    ],
+    "end": [
+      53.778214,
+      58.299251
+    ],
+    "length_km": 6.494,
+    "nearest_target_point": [
+      53.773148,
+      58.327033
+    ],
+    "target_gap_m": 12,
+    "start_end_gap_m": 39
+  },
+  {
+    "route": "Кирель",
+    "track_name": "Kirel",
+    "points": 43,
+    "segments": 1,
+    "start": [
+      54.009194,
+      58.207262
+    ],
+    "end": [
+      54.028841,
+      58.230329
+    ],
+    "length_km": 3.213,
+    "nearest_target_point": [
+      54.028841,
+      58.230329
+    ],
+    "target_gap_m": 45,
+    "start_end_gap_m": 2654
+  },
+  {
+    "route": "Кумардак",
+    "track_name": "М-790 Радиальный поход на Большой Кумардак",
+    "points": 66,
+    "segments": 1,
+    "start": [
+      54.377285,
+      58.419417
+    ],
+    "end": [
+      54.355055,
+      58.525504
+    ],
+    "length_km": 11.214,
+    "nearest_target_point": [
+      54.377285,
+      58.419417
+    ],
+    "target_gap_m": 22,
+    "start_end_gap_m": 7304
+  },
+  {
+    "route": "Большой Шатак",
+    "track_name": "М-740 Поход на гору Большой Шатак из Верхнего Авзяна",
+    "points": 439,
+    "segments": 1,
+    "start": [
+      53.524707,
+      57.532121
+    ],
+    "end": [
+      53.6983,
+      57.63368
+    ],
+    "length_km": 22.638,
+    "nearest_target_point": [
+      53.6983,
+      57.63368
+    ],
+    "target_gap_m": 459,
+    "start_end_gap_m": 20432
+  },
+  {
+    "route": "Крака",
+    "track_name": "М-750 Хребет Большой Крака",
+    "points": 276,
+    "segments": 1,
+    "start": [
+      53.834985,
+      57.985865
+    ],
+    "end": [
+      53.808013,
+      58.196987
+    ],
+    "length_km": 16.17,
+    "nearest_target_point": [
+      53.818398,
+      58.141862
+    ],
+    "target_gap_m": 31,
+    "start_end_gap_m": 14179
+  }
+]

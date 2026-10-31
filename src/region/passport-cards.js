@@ -3,6 +3,7 @@ import {stampsForPlace,INVENTORY_NOTICE} from './passport.js';
 
 function heading(parent,text){const h=document.createElement('h3');h.textContent=text;parent.append(h);}
 export function renderPassportContent(card,p,region){
+ if(p?.stampAvailable===false)return;
  if(!p)return;
  const h=region.host;
  const list=document.createElement('ul');list.className='passport-links';
