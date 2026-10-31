@@ -21,7 +21,7 @@ export class LongDistanceController{
    const row=document.createElement('div');row.className='long-route-row';const label=document.createElement('label'),input=document.createElement('input'),name=document.createElement('span');input.type='checkbox';input.checked=true;input.dataset.longRoute=route.id;name.textContent=route.name;name.style.borderLeftColor=route.color;label.title=route.filename;label.append(input,name);
    input.addEventListener('change',()=>{this.visible[route.id]=input.checked;if(input.checked&&!this.region.filters.hiking)this.region.setFilters({hiking:true});this.sync();this.region.refreshLegend();});this.checkboxes.set(route.id,input);
    const fit=this.region.button('Целиком','Показать целиком: '+route.name,()=>this.fit(route.id));fit.dataset.fitLongRoute=route.id;
-   const note=document.createElement('small');note.textContent=route.id==='gut'?`${route.segmentCount} участков и веток · ≈ ${Math.round(route.distanceKm).toLocaleString('ru-RU')} км`:`≈ ${Math.round(route.distanceKm)} км · по GPX`;
+   const note=document.createElement('small');note.textContent=route.id==='gut'?`${route.segmentCount} участков и веток · ≈ ${Math.round(route.distanceKm).toLocaleString('ru-RU')} км`:`${route.distanceLabel||"Трек"}: ≈ ${Math.round(route.distanceKm)} км`;
    row.append(label,fit,note);field.append(row);
   }
   parent.append(field);
