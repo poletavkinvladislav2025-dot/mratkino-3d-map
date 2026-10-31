@@ -189,6 +189,18 @@ function mountYandex(catalog,config,scope){
     return h;
   }
 
+  // Both map engines use the shared canonical placeId → route relationship.
+  function renderPlaceRoutes(container,data){
+    var previous=container.querySelector('.vb-place-routes');if(previous)previous.remove();
+    var routes=(scope.vbRouteCatalog||[]).filter(function(r){return r.placeId===data.canonicalId;});
+    if(!routes.length)return;
+    var section=document.createElement('section');section.className='vb-place-routes';section.setAttribute('aria-label','Маршруты этого места');
+    var groups=[['hiking','Пешие маршруты'],['ski','Горнолыжные трассы'],['lift','Подъёмники'],['nordic','Беговые лыжи'],['tubing','Тюбинг'],['training','Учебные участки']];
+    groups.forEach(function(group){var list=routes.filter(function(r){return r.category===group[0];});if(!list.length)return;var title=document.createElement('h4');title.textContent=group[1];section.append(title);list.forEach(function(r){var b=document.createElement('button');b.type='button';b.textContent=r.title+(r.distanceM?' · '+(r.distanceM/1000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' км':'')+(r.closed?' · Закрыта':'');b.dataset.routeId=r.id;b.style.setProperty('--route-color',r.color);section.append(b);});});
+    container.append(section);
+  }
+  scope.vbRefreshPlaceRoutes=function(){if(selectedIdx<0)return;var data=markers[selectedIdx].data;for(var container of [panelBody,mcardBodyInner]){if(container.dataset.placeId===data.id)renderPlaceRoutes(container,data);}};
+
   /* ═══ Navigation ═══ */
   function getVis(){
     var t=currentTab==='places'?'location':'kiosk',r=[];
@@ -302,6 +314,7 @@ function mountYandex(catalog,config,scope){
     setTimeout(function(){
       if(selectedIdx!==selection){isTransitioning=false;return;}
       tgt.innerHTML=renderContent(m.data,m.type);
+      tgt.dataset.placeId=m.data.id;renderPlaceRoutes(tgt,m.data);tgt.scrollTop=0;mcardBody.scrollTop=0;
       if(m.type==='kiosk'){
         renderStamps(m.data,tgt);
         if(desk){panelBody.classList.add('vb-t1__panel-body--kiosk');panel.classList.remove('vb-t1__panel--places');}
@@ -342,7 +355,11 @@ function mountYandex(catalog,config,scope){
     setTimeout(function(){fitMap(currentTab==='places'?'location':'kiosk');},400);
   }
 
-  function toggleMcard(){mcard.classList.toggle('vb-t1__mcard--expanded');setTimeout(repositionMap,400);}
+  function toggleMcard(){mcard.classList.toggle('vb-t1__mcard--expanded');document.getElementById('vbT1McardToggle').setAttribute('aria-expanded',String(mcard.classList.contains('vb-t1__mcard--expanded')));setTimeout(repositionMap,400);}
+  var swipeStart=null;const grip=mcard.querySelector('.vb-t1__mcard-bar');
+  grip.addEventListener('pointerdown',function(e){if(e.pointerType==='touch'&&!e.target.closest('button,a')){swipeStart={y:e.clientY,id:e.pointerId};grip.setPointerCapture(e.pointerId);}});
+  grip.addEventListener('pointerup',function(e){if(!swipeStart||swipeStart.id!==e.pointerId)return;const delta=e.clientY-swipeStart.y;swipeStart=null;if(Math.abs(delta)<30)return;const expanded=delta<0;mcard.classList.toggle('vb-t1__mcard--expanded',expanded);document.getElementById('vbT1McardToggle').setAttribute('aria-expanded',String(expanded));scheduleReposition();});
+  grip.addEventListener('pointercancel',function(){swipeStart=null;});
 
   /* ═══ Контролы карты: изменение масштаба ═══ */
   function changeZoom(direction){
@@ -508,6 +525,7 @@ function mountYandex(catalog,config,scope){
 
   function setupClickHandler(el){
     el.addEventListener('click',function(e){
+      var route=e.target.closest('[data-route-id]');if(route){scope.dispatchEvent(new CustomEvent('vb-open-route',{detail:route.dataset.routeId}));return;}
       var gb=e.target.closest('.vb-t1__gallery-btn');if(gb){changePhoto(parseInt(gb.getAttribute('data-dir'),10));return;}
       var sb=e.target.closest('.vb-t1__stamp-btn');if(sb){navToKiosk(sb.getAttribute('data-kiosk-id'));return;}
       var pl=e.target.closest('.vb-t1__stamps-pill');if(pl&&pl.hasAttribute('data-location-id')){navToLoc(pl.getAttribute('data-location-id'));return;}

@@ -128,3 +128,8 @@
 .kraka-anchor[data-anchor="Б"]{background:#bd4d30}
 .kraka-anchor[hidden]{display:none}
 .kraka-track-toggle{display:flex;align-items:center;gap:8px;margin:16px 0;font-size:13px;line-height:1.5}
+
+/* The shared Tilda search controls both engines; standalone keeps its own search. */
+.explorer.embedded.external-search .search-toggle{display:none}
+
+.card-grip{display:none}@media(max-width:760px){.explorer .card-grip{display:block;height:18px;position:sticky;top:0;background:#fff;z-index:3;touch-action:none;cursor:grab}.explorer .card-grip::after{content:'';display:block;position:absolute;top:7px;left:calc(50% - 18px);width:36px;height:4px;background:#d2dfd4;border-radius:4px}.explorer .sidebar.collapsed{max-height:84px}}
