@@ -1,5 +1,6 @@
 import catalog from './direction-catalog.json' with {type:'json'};
-export const DIRECTION_ROUTES=catalog.routes;
+import {directionPresentation} from './direction-presentation.js';
+export const DIRECTION_ROUTES=catalog.routes.map(directionPresentation);
 export const DIRECTION_PLACES=catalog.places;
 export const directionRoute=id=>DIRECTION_ROUTES.find(r=>r.id===id||r.aliases.includes(id));
 export const directionPlace=id=>DIRECTION_PLACES.find(p=>p.placeId===id||p.mapPlaceId===id);

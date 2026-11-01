@@ -80,7 +80,9 @@
    scope.vbRouteCatalog=routeList;scope.vbRefreshPlaceRoutes?.();searchDraw();
    trailList.replaceChildren();for(const r of routeList.filter(r=>r.placeId==='all'))trailList.append(button(r.title,()=>{trails.open=false;chooseRoute(r.id);}));
    routeCard.hidden=mode!=='yandex'||!current||view!=='places';if(routeCard.hidden)return;const title=document.createElement('h3'),description=document.createElement('p');title.textContent=current.title;description.textContent=current.description||'';routeCard.replaceChildren();if(place){const parent=document.createElement('p');parent.className='vb-route-parent';parent.textContent=place.name;routeCard.append(parent);}routeCard.append(title,description);
-   if(current.distanceM){const length=document.createElement('p');length.textContent=(current.distanceLabel?current.distanceLabel+': ':'')+'≈ '+(current.distanceM/1000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' км';routeCard.append(length);}
+   const displayDistance=current.displayDistanceM??current.distanceM,displayLabel=current.displayDistanceLabel??current.distanceLabel;
+   if(displayDistance){const length=document.createElement('p');length.textContent=(displayLabel?displayLabel+': ':'')+'≈ '+(displayDistance/1000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' км';routeCard.append(length);}
+   if(current.returnLabel){const returning=document.createElement('p');returning.textContent=current.returnLabel;routeCard.append(returning);}
    if(current.buildStatus&&current.buildStatus!=='ready'){const status=document.createElement('p');status.className='vb-route-status';status.textContent=(current.hasGeometry?'Маршрут неполный. ':'Линия пока не подтверждена. ')+(current.statusReason||'');routeCard.append(status);}
    if(current.days){const days=document.createElement('p');days.textContent='Продолжительность: '+current.days+' дня';routeCard.append(days);}
    if(current.geometrySource){const source=document.createElement('p');source.textContent=current.geometrySourceLabel||(current.geometrySource==='source_gpx'?'Линия из опубликованного GPX':'Расчёт по пешеходной сети OpenStreetMap');routeCard.append(source);}
