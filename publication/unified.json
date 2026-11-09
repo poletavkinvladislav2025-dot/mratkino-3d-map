@@ -1,8 +1,8 @@
 {
-  "previewRef": "2367c9ed38e8065941aa520022a04b1c15c39d5b",
+  "previewRef": "245cc24194056adb76c6c2043a9655d713fac8f3",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Shulgan-Tash cave, museum and reserve with 3D cave and bort scenes; ethnopark page link; focused search; counters and 3D teaser",
+  "change": "Shulgan-Tash grot reads as a dark opening; forest cleared around cave lake and bort",
   "validated": "57 dependency-free unit modules locally; full unit suite and production build in workflow; live-page style injection at 375 and 1280 px",
   "reason": "A new main dispatch SHA is required to distinguish this Pages release from the earlier main dispatch."
 }
