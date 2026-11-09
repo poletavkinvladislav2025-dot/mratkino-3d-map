@@ -285,7 +285,7 @@ export class RegionController{
     if(!free(offset)){const base=offset;let found=false;for(const d of [16,32,48,64]){for(const [x,y] of [[1,0],[-1,0],[0,-1],[0,1],[1,-1],[-1,-1],[1,1],[-1,1]]){const candidate=[base[0]+x*d,base[1]+y*d];if(free(candidate)){offset=candidate;found=true;break;}}if(found)break;}}
    }
    if((stamp||p.railwayIcon||p.id==='moose')&&element.dataset.offset!==offset.join(',')){element.dataset.offset=offset.join(',');marker.setOffset(offset);element.style.setProperty('--leader-length',Math.hypot(...offset)+'px');element.style.setProperty('--leader-angle',Math.atan2(-offset[1],-offset[0])+'rad');}
-   const width=widths[index],x=point.x+offset[0],y=point.y+offset[1],r=stamp?[x-22,y-22,x+22,y+22]:[x-width/2-5,y-30,x+width/2+5,y+5];
+   const width=widths[index],x=point.x+offset[0],y=point.y+offset[1],r=stamp?[x-22,y-22,x+22,y+22]:rank(p)?[x-width/2-3,y-28,x+width/2+3,y]:[x-width/2-5,y-30,x+width/2+5,y+5];
    const visible=(!this.directions.scoped||p.id===this.id)&&!(p.id==='bolshoy-kraka'&&zoom>=10)&&enabled&&placeVisible(p,this.filters)&&!(h.resortActive&&p.id==='mratkino')&&!(this.ski.active&&p.id==='abzakovo')&&(zoom>=(stamp?12.4:p.railwayIcon&&!rank(p)?12:10.6)||p.major||rank(p)>=2||p.id===this.id)&&r[0]>=8&&r[2]<=w-48&&r[1]>=55&&r[3]<=hh-65&&!occupied.some(a=>r[0]<a[2]&&r[2]>a[0]&&r[1]<a[3]&&r[3]>a[1]);
    const visibility=visible?'visible':'hidden';if(element.style.visibility!==visibility){element.style.visibility=visibility;element.tabIndex=visible?0:-1;}if(visible)occupied.push(r);
   }
