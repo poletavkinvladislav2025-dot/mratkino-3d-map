@@ -68,6 +68,8 @@ export class BortTree extends Base{
    bodies.push(new T.SphereGeometry(.16,6,4).scale(1,1.6,1).rotateZ(ang).translate(x,y,z));
    wings.push(new T.PlaneGeometry(.34,.18).rotateZ(ang).translate(x,y,z+.14));}
   this.bees=this.mesh(bodies,this.material(0xe2ad25),'bees');this.wings=this.mesh(wings,this.material(0xf4f2ea,{side:T.DoubleSide,transparent:true,opacity:.75}),'wings');
+  // Enlarged so the bort stands out over the illustrative forest around it.
+  const inner=new T.Group();inner.name='bort-scaled';inner.scale.setScalar(1.7);inner.add(...this.group.children);this.group.add(inner);
   scene.add(this.group);
  }
 }
