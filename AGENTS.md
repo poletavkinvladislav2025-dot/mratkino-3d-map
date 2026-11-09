@@ -10,3 +10,5 @@ Keep owner-supplied coordinates and source provenance. Do not fabricate walking 
 Validate changes with the relevant unit checks, production build and focused browser tests for changed map behavior. Network-backed browser tests use the existing tile relay and real provider data.
 
 The owner authorized automatic publication after changes and successful relevant checks on 2026-11-09. Publish using the existing workflow and permanent map URL without asking for confirmation again. This supersedes earlier task-specific holds on publication.
+
+Use a unique main dispatch commit for each Pages release. Update `publication/unified.json` on main (in an isolated worktree, preserving all other files) to record the tested previewRef before dispatching `unified.yml` from main. Reusing the same main SHA on 2026-11-09 reported success while still serving the previous artifact; a fresh metadata-only main commit fixed publication. Keep the application changes on the continuing map branch; do not merge unrelated application files into main merely to obtain a new release SHA, and do not broaden the github-pages environment branch policy.
