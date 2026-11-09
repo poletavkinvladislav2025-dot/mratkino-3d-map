@@ -1,8 +1,8 @@
 {
-  "previewRef": "3f13a39b15baabc4b8357d400b83bdae8a3c659c",
+  "previewRef": "e9d8e64468ecdb415447e3adabdd75eefefd6d77",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Updated 83-fragment BUZHD railway, Shushpa station, three moose sculptures and mapped second/third Malinovaya cliffs",
-  "validated": "production build; 25 unit modules; desktop/mobile railway and landmark browser tests",
+  "change": "UI pass: hidden duplicate place strip, card actions, map position kept on close, compact toolbar, green/brass palette, header tap fix, 3D label priority and calmer shared routes",
+  "validated": "57 dependency-free unit modules locally; full unit suite and production build in workflow; live-page style injection at 375 and 1280 px",
   "reason": "A new main dispatch SHA is required to distinguish this Pages release from the earlier main dispatch."
 }
