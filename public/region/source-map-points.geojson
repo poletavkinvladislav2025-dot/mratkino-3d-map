@@ -664,7 +664,7 @@
       "properties": {
         "sourceId": "narrowGauge1",
         "canonicalId": "narrowGauge1",
-        "name": "Белорецкая узкоколейка",
+        "name": "Скальная выемка Белорецкой узкоколейки",
         "recordType": "place",
         "sourceLatitude": "54.221817",
         "sourceLongitude": "58.594842",
@@ -787,14 +787,14 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          58.404807,
-          53.984282
+          58.33854,
+          53.95218
         ]
       },
       "properties": {
         "sourceId": "narrowGauge2",
         "canonicalId": "narrowGauge2",
-        "name": "Наследие Белорецкой узкоколейки",
+        "name": "Паровоз ГР-231",
         "recordType": "place",
         "sourceLatitude": "53.984282",
         "sourceLongitude": "58.404807",
@@ -802,7 +802,7 @@
           58.404807,
           53.984282
         ],
-        "coordinateStatus": "owner-source-map",
+        "coordinateStatus": "owner-corrected-monument",
         "sellsPassport": null,
         "historical": false
       }

@@ -13,7 +13,7 @@ test('all 37 owner source records resolve uniquely without deleting any earlier 
   assert.equal(byId('yandex:'+id),p);assert.equal(presetFor('yandex:'+id).id,p.id);
  }
  for(const file of ['places.json','winter-places.json'])for(const old of JSON.parse(fs.readFileSync('src/region/'+file)))assert.ok(byId(old.id),old.id);
- assert.equal(PLACES.length,54);assert.equal(stampPoints(PLACES).length,6);assert.equal(new Set(PLACES.map(p=>p.id)).size,54);
+ assert.equal(PLACES.length,58);assert.equal(stampPoints(PLACES).length,6);assert.equal(new Set(PLACES.map(p=>p.id)).size,58);
  assert.deepEqual(byId('kraka').sourceCoordinates,[58.033943,53.584992]);assert.deepEqual(byId('ethnopark').coordinates,[58.289544,53.945615]);
 });
 test('Malinovaya legacy collision and both railways and factory/whistle remain separate',()=>{

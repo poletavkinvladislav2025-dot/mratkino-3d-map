@@ -2,6 +2,7 @@ import {hikingColorExpression} from './route-colors.js';
 import {ROCK_SURFACES} from '../landscape/malinovaya-rock-plan.js';
 import {createStyle,EMPTY,boundsFor} from '../map-data.js';
 import {PLACES} from './presets.js';
+import {addBuzhdLayers} from './buzhd.js';
 import {addLongDistanceLayers} from './long-distance.js';
 import {skiColorExpression} from './ski-colors.js';
 export const REGION_DEM='https://tiles.mapterhorn.com/{z}/{x}/{y}.webp';
@@ -87,5 +88,6 @@ export function createRegionalStyle(data,forestURL,url=path=>path){
   {id:'region-street-names',type:'symbol',source:'basemap','source-layer':'transportation_name',minzoom:14,filter:['any',['in',['get','class'],['literal',['primary','secondary','tertiary','minor','service']]],['==',['get','subclass'],'pedestrian']],layout:{'symbol-placement':'line','symbol-spacing':260,'text-field':['coalesce',['get','name:ru'],['get','name']],'text-font':['Noto Sans Regular'],'text-size':11,'text-padding':6,'text-max-angle':35},paint:{'text-color':'#53654f','text-halo-color':'#fafbf5','text-halo-width':1.6}}
  );
  addLongDistanceLayers(style,url);
+ addBuzhdLayers(style,url('region/buzhd/buzhd.geojson'));
  return style;
 }

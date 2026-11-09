@@ -1,0 +1,17 @@
+{
+  "bounds": [
+    [
+      57.46383,
+      53.82111
+    ],
+    [
+      58.60646,
+      54.6106
+    ]
+  ],
+  "features": 47,
+  "lineFeatures": 41,
+  "sha256": "abe26fa3b94689eb5be3134cde1642a3771b38d87b3ecbad59a92cf2add913c7",
+  "license": "ODbL-1.0",
+  "attribution": "Трасса: © участники OpenStreetMap, ODbL 1.0"
+}

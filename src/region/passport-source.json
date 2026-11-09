@@ -476,7 +476,9 @@
           "alt": "Белорецкая узкоколейка — фото 1",
           "sourceUrl": "https://visitbeloretsk.ru/map"
         }
-      ]
+      ],
+      "url": "https://visitbeloretsk.ru/uzkokoleyka",
+      "displayName": "Скальная выемка Белорецкой узкоколейки"
     },
     {
       "sourceId": "lostSymbol",
@@ -566,7 +568,17 @@
           "alt": "Наследие Белорецкой узкоколейки — фото 1",
           "sourceUrl": "https://visitbeloretsk.ru/map"
         }
-      ]
+      ],
+      "url": "https://visitbeloretsk.ru/uzkokoleyka",
+      "displayName": "Паровоз ГР-231",
+      "ownerCoordinates": [
+        58.33854,
+        53.95218
+      ],
+      "coordinateCorrection": {
+        "status": "owner-corrected-monument",
+        "reason": "Перенос по координатам владельца и приложенному buzhd.geojson (OSM node 9961390218), 09.11.2026. Исходные координаты сохранены; независимая сверка по панорамам не выполнена."
+      }
     },
     {
       "sourceId": "stampStation",

@@ -13,3 +13,11 @@ const data={trails,facilities:JSON.parse(source)},filtered=resortFacilities(data
 fs.mkdirSync('public/region',{recursive:true});fs.writeFileSync('public/region/mratkino-facilities.geojson',JSON.stringify(filtered));
 fs.writeFileSync('public/region/mratkino-facilities-provenance.json',JSON.stringify({source:'public/live/facilities.geojson',sourceSha256:crypto.createHash('sha256').update(source).digest('hex'),sourceCount:data.facilities.features.length,selectedCount:filtered.features.length,rule:'intersects bounding box of seven named resort pistes, plus approximately 200 m; same source geometries and IDs',license:'ODbL-1.0, © OpenStreetMap contributors'},null,2)+'\n');
 console.log(`Resort facilities: ${filtered.features.length}/${data.facilities.features.length} source objects; ${fs.statSync('public/region/mratkino-facilities.geojson').size} bytes`);
+
+// Publish the exact owner-supplied OSM geometry, retaining points, splits and original provenance.
+const railway=fs.readFileSync('data/buzhd.geojson');
+const {validateBuzhd}=await import('../src/region/buzhd.js');
+const railwayData=JSON.parse(railway),railwayBounds=validateBuzhd(railwayData);
+fs.mkdirSync('public/region/buzhd',{recursive:true});
+fs.copyFileSync('data/buzhd.geojson','public/region/buzhd/buzhd.geojson');
+fs.writeFileSync('src/region/buzhd-metadata.json',JSON.stringify({bounds:railwayBounds,features:railwayData.features.length,lineFeatures:railwayData.features.filter(f=>f.geometry.type!=='Point').length,sha256:crypto.createHash('sha256').update(railway).digest('hex'),license:'ODbL-1.0',attribution:railwayData.attribution},null,2)+'\n');

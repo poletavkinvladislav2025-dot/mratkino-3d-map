@@ -1,3 +1,4 @@
+import {BUZHD_POINTS,BUZHD_BOUNDS,BUZHD_HISTORY} from './buzhd.js';
 import {DIRECTION_PLACES,DIRECTION_ROUTES} from './directions.js';
 import {rodeoPlan,rodeoFrame} from '../landscape/rodeo-plan.js';
 import {content} from './card-content.js';
@@ -6,10 +7,11 @@ import winter from './winter-places.json' with {type:'json'};
 import {ethnopark as ethno} from '../landscape/ethnopark-settings.js';
 import {mergeSourcePlaces,aliasesFor} from './passport.js';
 const descriptions={mratkino:'Горнолыжный центр в Белорецке с трассами на южном и северном склонах. С верхних участков открываются виды на город и горы Южного Урала.',abzakovo:'Горнолыжный курорт возле Новоабзаково с лесными спусками, учебными участками и спортивными трассами. Рядом расположен биатлонный комплекс.'};
-const existingPlaces=mergeSourcePlaces([...registry.map(p=>({...p,description:descriptions[p.id]||p.description})),...winter.map(p=>p.id==='ethnopark'?{...p,name:ethno.name,description:ethno.description,coordinates:ethno.center,sourceUrl:ethno.sourceUrl,photo:ethno.photo,photoCredit:ethno.photoCredit}:p)]).map(p=>({...p,...content.places[p.id]}));
+const existingPlaces=mergeSourcePlaces([...registry.map(p=>({...p,description:descriptions[p.id]||p.description})),...winter.map(p=>p.id==='ethnopark'?{...p,name:ethno.name,description:ethno.description,coordinates:ethno.center,sourceUrl:ethno.sourceUrl,photo:ethno.photo,photoCredit:ethno.photoCredit}:p)]).map(p=>({...p,...content.places[p.id],...(p.id==='narrowGauge2'?{railwayIcon:'steam',railwayColor:'#B08D57'}:{})}));
 const additions=DIRECTION_PLACES.filter(p=>!existingPlaces.some(e=>e.id===p.mapPlaceId)).map(p=>{const route=DIRECTION_ROUTES.find(r=>r.id===p.defaultRouteId),point=route?.points.find(x=>x.role==='goal')||route?.points[0];return point?{id:p.mapPlaceId,name:({'bolshoy-shatak':'Большой Шатак',vishnevaya:'Вишнёвая'})[p.placeId]||route.title,kind:'peak',coordinates:point.coordinates,zoneRadiusKm:2,major:false,description:p.placeId==='bolshoy-shatak'?'Двухдневный поход по хребту. Конец опубликованного трека и отдельный маркер вершины показаны раздельно.':'Пеший маршрут: линия и точки уточняются.',stampAvailable:p.stampAvailable}:null;}).filter(Boolean);
-export const PLACES=[...existingPlaces,...additions.map(p=>({...p,...content.places[p.id]}))];
-export const PLACE_ALIASES=aliasesFor(PLACES);
+const railwayPlaces=BUZHD_POINTS.filter(p=>p.id!=='gr231').map(p=>({...p,kind:'heritage',zoneRadiusKm:0,major:false,sourceUrl:BUZHD_HISTORY,url:BUZHD_HISTORY,railwayIcon:p.icon,railwayColor:p.color,coordinateStatus:'owner-supplied-20261109',...content.places[p.id]}));
+export const PLACES=[...existingPlaces,...additions.map(p=>({...p,...content.places[p.id]})),...railwayPlaces,{id:'buzhd',name:'Белорецкая узкоколейка (БУЖД)',kind:'heritage',coordinates:[(BUZHD_BOUNDS[0][0]+BUZHD_BOUNDS[1][0])/2,(BUZHD_BOUNDS[0][1]+BUZHD_BOUNDS[1][1])/2],zoneRadiusKm:0,major:false,sourceUrl:BUZHD_HISTORY,url:BUZHD_HISTORY,...content.places.buzhd,description:'Бывшая узкоколейная железная дорога Белорецка и окрестностей. На карте показаны сохранившиеся в OpenStreetMap фрагменты полотна. Рельсы сняты; сейчас по полотну идут грунтовки. Паровозы на карте — условная историческая анимация, а не действующее движение поездов.'}];
+export const PLACE_ALIASES={...aliasesFor(PLACES),gr231:'narrowGauge2'};
 export const canonicalPlaceId=id=>Object.hasOwn(PLACE_ALIASES,id)?PLACE_ALIASES[id]:id;
 // A stable local welcome view, independent of distant places or full GPX bounds.
 export const REGION_BOUNDS=[[58.25,53.75],[58.72,54.07]];
@@ -20,7 +22,9 @@ export function presetFor(id){
  if(place)id=place.id;
  if(id==='all')return {id,center:[58.485,53.91],zoom:10.3,pitch:35,bearing:0,layers:{labels:true,forest:true,paths:false},data:[],bounds:REGION_BOUNDS};
  if(!place)return presetFor('mratkino');
+ if(id==='buzhd')return {id,center:place.coordinates,zoom:9,pitch:35,bearing:0,bounds:BUZHD_BOUNDS};
  if(id==='rodeo'){const park=rodeoPlan();return {id,center:rodeoFrame.toLngLat(park.point(0,park.length/2)),zoom:16,pitch:55,bearing:-125};}
+ if(id==='narrowGauge2')return {id,center:place.coordinates,zoom:19.5,mobileZoom:19,pitch:62,bearing:40};
  if(id==='waterTower')return {id,center:place.coordinates,zoom:19.3,mobileZoom:18.2,pitch:64,bearing:20};
  if(id==='ethnopark')return {id,center:place.coordinates,zoom:18.1,pitch:58,bearing:ethno.bearing};
  const city=id==='beloretsk',resort=id==='mratkino',abzakovo=id==='abzakovo';
