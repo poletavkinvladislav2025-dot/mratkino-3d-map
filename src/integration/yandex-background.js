@@ -1,6 +1,11 @@
 /** Observe supported tile readiness / explicit failures without treating opaque HTTP 200 tiles as errors. */
 export function watchYandexBackground(map,element,onState,{timeoutMs=18000}={}){
- let disposed=false,epoch=0,timer,bindings=[];const report=state=>{if(!disposed)onState(state);};
+ let disposed=false,epoch=0,timer,bindings=[],last=null;
+ // Slow mobile networks can miss the readiness deadline even though tiles arrive later.
+ // A painted ground layer is the ground truth: it overrides a timeout or a single failed tile.
+ const painted=()=>{try{const pane=element.querySelector('[class*="ground-pane"]');if(!pane)return false;for(const img of pane.querySelectorAll('img'))if(img.complete&&img.naturalWidth>0)return true;for(const c of pane.querySelectorAll('canvas')){if(!c.width||!c.height)continue;try{const d=c.getContext('2d').getImageData(0,0,c.width,c.height).data,step=4*Math.max(1,Math.floor(d.length/4/2000));for(let i=3;i<d.length;i+=step)if(d[i]>0)return true;}catch{return true;}}}catch{}return false;};
+ const report=state=>{if(disposed)return;if(state==='error'&&painted())state='ready';if(state===last&&state!=='loading')return;last=state;onState(state);};
+ let checks=0;const poll=setInterval(()=>{if(disposed||++checks>40){clearInterval(poll);return;}if(last!=='ready'&&painted())report('ready');},1500);
  const clear=()=>{clearTimeout(timer);for(const [events,name,fn] of bindings)events.remove?.(name,fn);bindings=[];};
  function bind(events,name,fn){if(events?.add){events.add(name,fn);bindings.push([events,name,fn]);}}
  function containers(layer,depth=0,failed,ready){if(!layer||depth>6)return [];bind(layer.events,'error',failed);bind(layer.events,'tileloaderror',failed);bind(layer.events,'tilesloaded',ready);if(typeof layer.getContainer==='function'){try{return [layer.getContainer()];}catch{return [];}}const found=[];if(typeof layer.getLength==='function')for(let i=0;i<layer.getLength();i++)found.push(...containers(layer.get(i),depth+1,failed,ready));return found;}
@@ -18,5 +23,5 @@ export function watchYandexBackground(map,element,onState,{timeoutMs=18000}={}){
  const failedImage=e=>{const img=e.target;if(img?.tagName!=='IMG')return;try{if(/(^|\.)(maps\.yandex\.net|maps\.yandex\.ru)$/.test(new URL(img.currentSrc||img.src).hostname))report('error');}catch{}};
  let performanceWatch=null;if(typeof PerformanceObserver==='function'){try{performanceWatch=new PerformanceObserver(list=>{for(const e of list.getEntries()){try{if(e.responseStatus>=400&&/(^|\.)maps\.yandex\.(net|ru)$/.test(new URL(e.name).hostname))report('error');}catch{}}});performanceWatch.observe({type:'resource',buffered:false});}catch{performanceWatch=null;}}
  element.addEventListener('error',failedImage,true);const changed=()=>arm();map.events?.add?.('typechange',changed);arm();
- return {restart:arm,dispose(){disposed=true;++epoch;clear();performanceWatch?.disconnect();element.removeEventListener('error',failedImage,true);map.events?.remove?.('typechange',changed);}};
+ return {restart:arm,dispose(){disposed=true;clearInterval(poll);++epoch;clear();performanceWatch?.disconnect();element.removeEventListener('error',failedImage,true);map.events?.remove?.('typechange',changed);}};
 }
