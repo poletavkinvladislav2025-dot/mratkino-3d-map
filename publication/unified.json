@@ -1,8 +1,8 @@
 {
-  "previewRef": "0a7a8e17803dd9192a54a29ccad3488b80709352",
+  "previewRef": "3f13a39b15baabc4b8357d400b83bdae8a3c659c",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "BUZHD railway layer and historical steam trains",
-  "validated": "production build, 24 unit modules, desktop/mobile browser tests and existing Yandex/3D switch",
+  "change": "Updated 83-fragment BUZHD railway, Shushpa station, three moose sculptures and mapped second/third Malinovaya cliffs",
+  "validated": "production build; 25 unit modules; desktop/mobile railway and landmark browser tests",
   "reason": "A new main dispatch SHA is required to distinguish this Pages release from the earlier main dispatch."
 }
