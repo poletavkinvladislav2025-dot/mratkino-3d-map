@@ -1,0 +1,8 @@
+{
+  "previewRef": "0a7a8e17803dd9192a54a29ccad3488b80709352",
+  "publicPath": "/mratkino-3d-map/preview/unified/",
+  "workflow": "unified.yml",
+  "change": "BUZHD railway layer and historical steam trains",
+  "validated": "production build, 24 unit modules, desktop/mobile browser tests and existing Yandex/3D switch",
+  "reason": "A new main dispatch SHA is required to distinguish this Pages release from the earlier main dispatch."
+}
