@@ -129,6 +129,7 @@
   for(const tab of root?.querySelectorAll('.vb-t1__tab')||[])tab.addEventListener('click',e=>{if(internal)return;if(mode==='3d'){e.preventDefault();e.stopImmediatePropagation();}view=tab.dataset.tab==='places'?'places':'stamps';draw();if(mode==='3d')setView(view);},true);
   window.addEventListener('hashchange',()=>{if(location.hash==='#map-stamps')setView('stamps');if(location.hash==='#map')setView('places');});
   bus.addEventListener('vb-yandex-change',e=>{if(internal||mode!=='yandex')return;const state=e.detail;if(Object.hasOwn(views,state?.view))view=state.view;selected=typeof state?.sourceId==='string'?state.sourceId:null;const nextRoute=typeof state?.routeId==='string'?state.routeId:null;if(nextRoute&&nextRoute!==selectedRoute)rememberRoute(nextRoute);selectedRoute=nextRoute;draw();});
+  bus.addEventListener('vb-yandex-open-3d',()=>show('3d'));
   bus.addEventListener('vb-yandex-routes-error',()=>{note.textContent='Маршруты временно не загрузились. Можно открыть 3D-карту.';});
   bus.addEventListener('vb-yandex-ready',()=>{if(mode==='yandex')applyYandex(!selected);});
   document.addEventListener('visibilitychange',lifecycle);if(window.ResizeObserver)new ResizeObserver(()=>{if(mode==='3d')send('resize');}).observe(host);

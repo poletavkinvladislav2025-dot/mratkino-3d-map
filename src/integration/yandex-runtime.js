@@ -23,6 +23,32 @@ function mountYandex(catalog,config,scope){
   var mapLoader=document.getElementById('vbT1Loader');
   var counterEl=document.getElementById('vbT1Counter');
   var mcardCounterEl=document.getElementById('vbT1McardCounter');
+  var backgroundWatch=null,retrying=false;
+  var recovery=document.createElement('div');recovery.className='vb-yandex-recovery';recovery.hidden=true;recovery.setAttribute('role','status');
+  var recoveryText=document.createElement('p'),retryButton=document.createElement('button'),threeButton=document.createElement('button');
+  retryButton.type=threeButton.type='button';retryButton.textContent='Повторить загрузку';threeButton.textContent='Открыть 3D';
+  recovery.append(recoveryText,retryButton,threeButton);document.querySelector('.vb-t1__map').append(recovery);
+  var refreshButton=document.createElement('button');refreshButton.type='button';refreshButton.className='vb-t1__refresh-btn';refreshButton.textContent='↻';refreshButton.title='Обновить фон карты';refreshButton.setAttribute('aria-label','Обновить фон карты');document.querySelector('.vb-t1__tools').append(refreshButton);
+  function backgroundState(state){
+    mapContainer.dataset.backgroundState=state;
+    if(state==='error'){recovery.hidden=false;recoveryText.textContent='Не удалось загрузить фон Яндекс.Карты. Маршруты и места сохранены.';}
+    if(state==='ready')recovery.hidden=true;
+  }
+  function sdkFailure(){recovery.hidden=false;recoveryText.textContent='Яндекс.Карта временно недоступна. Повторите загрузку или откройте 3D.';mapLoader.classList.add('vb-t1__map-loader--hidden');mapContainer.dataset.backgroundState='error';}
+  function boundedBackground(operation){return new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('YANDEX_BACKGROUND_TIMEOUT')),15000);Promise.resolve(operation).then(value=>{clearTimeout(timer);resolve(value);},error=>{clearTimeout(timer);reject(error);});});}
+  async function retryBackground(){
+    if(retrying)return;retrying=true;retryButton.disabled=refreshButton.disabled=true;recoveryText.textContent='Повторяем загрузку карты…';
+    try{if(!map){await initMap();}else{
+      const center=map.getCenter(),zoom=map.getZoom(),type=map.getType();backgroundWatch?.dispose();backgroundWatch=null;
+      // Replace only the basemap. Existing route geometry, points, cards and selection stay in the same Map.
+      try{await boundedBackground(map.setType(null));}finally{await boundedBackground(map.setType(type));}
+      await boundedBackground(map.setCenter(center,zoom,{duration:0}));map.container.fitToViewport();backgroundWatch=watchYandexBackground(map,mapContainer,backgroundState);
+      recovery.hidden=true;
+    }}catch{sdkFailure();}finally{retrying=false;retryButton.disabled=refreshButton.disabled=false;}
+  }
+  retryButton.addEventListener('click',retryBackground);refreshButton.addEventListener('click',retryBackground);
+  threeButton.addEventListener('click',function(){scope.dispatchEvent(new Event('vb-yandex-open-3d'));});
+
 
   /* ═══════════════════════════════════════════
      MARKER SVGs — Diamond + Station Star
@@ -463,6 +489,7 @@ function mountYandex(catalog,config,scope){
 
   /* ═══ Create map ═══ */
   function createMap(){
+    if(map)return;
     // Встроенные zoomControl/fullscreenControl отключены: все три кнопки слева свои.
     map=new ymaps.Map(mapContainer,{center:[54.0,58.35],zoom:11,controls:[],behaviors:['default','scrollZoom']});
 
@@ -492,16 +519,14 @@ function mountYandex(catalog,config,scope){
     else{map.setBounds([[53.75,58.25],[54.07,58.72]],{checkZoomRange:true,zoomMargin:45});}
 
     if(typeof ResizeObserver!=='undefined')new ResizeObserver(function(){scheduleCardMode();if(map&&map.container)map.container.fitToViewport();if(selectedIdx>=0)scheduleReposition();}).observe(mapContainer);
+    backgroundWatch=watchYandexBackground(map,mapContainer,backgroundState);recovery.hidden=true;
     mapLoader.classList.add('vb-t1__map-loader--hidden');
     window.dispatchEvent(new Event('vb-yandex-ready'));
   }
 
-  function initMap(){
-    if(window.ymaps){ymaps=window.ymaps;ymaps.ready(createMap);return;}
-    var s=document.createElement('script');s.src='https://api-maps.yandex.ru/2.1/?lang=ru_RU'+(config.yandexApiKey?'&apikey='+encodeURIComponent(config.yandexApiKey):'');s.async=true;
-    s.onload=function(){ymaps=window.ymaps;ymaps.ready(createMap);};
-    s.onerror=function(){mapLoader.textContent='Не удалось загрузить обычную карту. Попробуйте 3D-карту.';};
-    document.head.appendChild(s);
+  async function initMap(){
+    try{const result=await loadYandexSDK(config);ymaps=result.sdk;mapContainer.dataset.yandexKey=result.diagnostics.keyStatus;mapContainer.dataset.yandexReused=String(result.diagnostics.reused);mapContainer.dataset.yandexDuplicateBootstraps=String(result.diagnostics.duplicateBootstraps);createMap();}
+    catch{sdkFailure();}
   }
 
   /* ═══ Event listeners ═══ */
