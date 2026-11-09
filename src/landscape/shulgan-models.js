@@ -32,6 +32,11 @@ export class ShulganCave extends Base{
   const walls=new T.BoxGeometry(archW-.8,D,archH-archW/2).translate(0,D/2,(archH-archW/2)/2);
   const back=new T.PlaneGeometry(archW,archH).rotateX(Math.PI/2).translate(0,D-.5,archH/2);
   this.mesh([tube,back],this.material(0x1d1b19,{side:T.DoubleSide}),'grot');this.mesh(walls,this.material(0x26231f,{side:T.BackSide}),'grot-walls');
+  // The hill behind the cliff can poke into the grot; a dark arch just inside the face keeps the opening readable.
+  const door=new T.Shape();door.moveTo(-archW/2+.3,0);door.lineTo(-archW/2+.3,archH-archW/2);door.absarc(0,archH-archW/2,archW/2-.3,Math.PI,0,true);door.lineTo(archW/2-.3,0);door.closePath();
+  const reveal=new T.CylinderGeometry(archW/2-.2,archW/2-.2,2.2,24,1,true,-Math.PI/2,Math.PI).translate(0,1.1,archH-archW/2);
+  this.mesh(new T.ShapeGeometry(door,14).rotateX(Math.PI/2).translate(0,2.2,0),this.material(0x14110e,{side:T.DoubleSide}),'grot-shadow');
+  this.mesh(reveal,this.material(0x3b352e,{side:T.DoubleSide}),'grot-reveal');
   // Stream from the grot to the lake, and the lake (blue karst spring).
   const stream=new T.PlaneGeometry(9,30).translate(0,-12,.25);
   const lake=new T.CircleGeometry(1,40).scale(30,20,1).translate(4,-44,.3);

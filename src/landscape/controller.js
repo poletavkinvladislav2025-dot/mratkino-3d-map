@@ -41,6 +41,8 @@ export class LandscapeController{
  redraw(){const s=this.scene,m=this.host.map;if(!s||!m||m.isMoving()||this.region.cameraMoving)return;const center=m.getCenter().toArray(),zoom=m.getZoom(),masks=this.masks(),forest=this.host.$('[data-layer=forest]').checked,landmarkGround=LANDMARKS.map(p=>m.queryTerrainElevation(p.center)),inputs=[s,...landmarkGround,...center.map(n=>n.toFixed(6)),zoom.toFixed(2),this.cellRevision,this.groundRevision,masks,forest,this.region.filters.interesting,this.region.filters.hiking,this.region.filters.ski,this.region.season,this.host.resortActive,...(this.selected||[])];if(sameInputs(this.redrawInputs,inputs))return;this.redrawInputs=inputs;const rate=Math.min(1,Math.max(.08,(zoom-12.7)/2.8)),points=[];
   for(const id of forest?this.selected||[]:[]){const data=this.cache.get(id);if(!data)continue;for(const p of data.points){const distance=distanceKm(center,p)*1000,density=rate*Math.min(1,Math.max(0,(this.budget.radius-distance)/(this.budget.radius*.35)));if(p[2]/4294967296>density)continue;const xy=project(p),scale=1/Math.cos(p[1]*Math.PI/180);if(masks.some(o=>inBox(xy,o.b,o.pad*scale)&&near(xy,o.g,o.pad*scale)))continue;
     const ep=project(ethno.center);if(Math.abs(xy[0]-ep[0])<ethno.pen.width*.75*scale&&Math.abs(xy[1]-ep[1])<ethno.pen.depth*.75*scale)continue;
+    // Keep illustrated landmark scenes (cave lake, bort clearing) free of forest instances.
+    if(LANDMARKS.some(l=>l.clearRadiusMeters&&distanceKm(p,l.center)*1000<l.clearRadiusMeters))continue;
     // Artistic pine profile only in the two documented resort scenes; unknown forest elsewhere stays mixed.
     points.push(p[3]===3&&(distanceKm(p,[58.4371909,53.9974603])<2||distanceKm(p,[58.622413,53.7959094])<2)?[p[0],p[1],p[2],4]:p);
   }}
