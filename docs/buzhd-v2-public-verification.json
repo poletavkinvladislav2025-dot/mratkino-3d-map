@@ -1,0 +1,50 @@
+[
+  {
+    "path": "region/buzhd/buzhd.geojson",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "a000df4e3aa3472bb6ca00a4129ac338a064112076eb2052d671604fd76c7093"
+  },
+  {
+    "path": "integration/tilda-map-block.js",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "2489e15cb74d46c69d84446224830f7f7c15a736584dcd86bbe96eee98785155"
+  },
+  {
+    "path": "integration/map-catalog.json",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "83ce08212d0bc86d9dc3aec5056e87a3da0dc0adcb03901e6e4d776dc062f0df"
+  },
+  {
+    "path": "integration/route-catalog.json",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "237777a940c9a7a867a111a8616f580093d089233168064df7baee778cb26773"
+  },
+  {
+    "path": "assets/buzhd-trains-CnG1VH1C.js",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "cd67d698b87fdf0edc3332da7356cbd666ee02c3e79dbbf091d131022e97969a"
+  },
+  {
+    "path": "assets/scene-CsNwTtnu.js",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "b581799b2780fc308ccb52056ce9a2d2f8356ed8c18233d54ec0d5dc4a31104b"
+  },
+  {
+    "path": "assets/index-BJUbWavl.js",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "4e307847c123ac77190920cbddf85ece398d5cee8be89c5c6ef026c3753842a3"
+  },
+  {
+    "path": "index.html",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "8598fc62be9b0184befcf34ead840f99d8b6226605f311593386cb32a88cfc8f"
+  }
+]
