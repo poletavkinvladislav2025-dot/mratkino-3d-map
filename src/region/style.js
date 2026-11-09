@@ -1,4 +1,5 @@
 import {hikingColorExpression} from './route-colors.js';
+import {LANDMARK_ROCKS} from '../landscape/landmark-plan.js';
 import {ROCK_SURFACES} from '../landscape/malinovaya-rock-plan.js';
 import {createStyle,EMPTY,boundsFor} from '../map-data.js';
 import {PLACES} from './presets.js';
@@ -28,6 +29,7 @@ export function createRegionalStyle(data,forestURL,url=path=>path){
  style.sources.dem={...dem};style.sources.shade={...dem};
  style.sources.basemap={type:'vector',url:BASEMAP_URL,attribution:'<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> · © OpenMapTiles · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>'};
  style.sources['malinovaya-rocks']={type:'geojson',data:ROCK_SURFACES};
+ style.sources['landmark-rocks']={type:'geojson',data:LANDMARK_ROCKS,attribution:'© участники OpenStreetMap · ODbL'};
  style.sources['region-places']={type:'geojson',data:{type:'FeatureCollection',features:PLACES.map(p=>({type:'Feature',geometry:{type:'Point',coordinates:p.coordinates},properties:{id:p.id,name:p.name,major:p.major?1:0,kind:p.kind}}))}};
  style.sources['touring-routes']={type:'geojson',data:EMPTY};
  style.sources['route-stops']={type:'geojson',data:EMPTY};
@@ -87,6 +89,7 @@ export function createRegionalStyle(data,forestURL,url=path=>path){
   {id:'region-town-names',type:'symbol',source:'basemap','source-layer':'place',minzoom:8,filter:['in',['get','class'],['literal',['city','town','village','hamlet']]],layout:{'text-field':['coalesce',['get','name:ru'],['get','name']],'text-font':['Noto Sans Regular'],'text-size':['interpolate',['linear'],['zoom'],8,11,14,15],'text-padding':18,'symbol-sort-key':['coalesce',['get','rank'],20]},paint:{'text-color':'#294f3c','text-halo-color':'#f9fbf2','text-halo-width':1.8}},
   {id:'region-street-names',type:'symbol',source:'basemap','source-layer':'transportation_name',minzoom:14,filter:['any',['in',['get','class'],['literal',['primary','secondary','tertiary','minor','service']]],['==',['get','subclass'],'pedestrian']],layout:{'symbol-placement':'line','symbol-spacing':260,'text-field':['coalesce',['get','name:ru'],['get','name']],'text-font':['Noto Sans Regular'],'text-size':11,'text-padding':6,'text-max-angle':35},paint:{'text-color':'#53654f','text-halo-color':'#fafbf5','text-halo-width':1.6}}
  );
+ style.layers.push({id:'landmark-rock-surface',type:'fill',source:'landmark-rocks',minzoom:13.5,filter:['==',['geometry-type'],'Polygon'],paint:{'fill-color':'#9d9a89','fill-opacity':.65}});
  addLongDistanceLayers(style,url);
  addBuzhdLayers(style,url('region/buzhd/buzhd.geojson'));
  return style;

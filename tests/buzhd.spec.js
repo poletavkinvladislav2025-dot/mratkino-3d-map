@@ -3,7 +3,7 @@ for(const viewport of [{width:1365,height:900},{width:375,height:812}])test('BUZ
  test.setTimeout(180000);await page.setViewportSize(viewport);const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto('/?place=buzhd');const app=page.locator('mratkino-map');await expect(app).toHaveAttribute('data-map-state','ready',{timeout:60000});await expect(app).toHaveAttribute('data-place','buzhd');
  await expect.poll(()=>app.evaluate(h=>h.map.isMoving())).toBe(false);
- const frame=await app.evaluate(h=>{const m=h.map,r=m.getContainer().getBoundingClientRect(),bounds=[[57.46383,53.82111],[58.60646,54.6106]];return {width:r.width,height:r.height,points:bounds.map(p=>{const q=m.project(p);return [q.x,q.y];}),terrain:m.getTerrain(),source:m.getStyle().sources.buzhd};});
+ const frame=await app.evaluate(h=>{const m=h.map,r=m.getContainer().getBoundingClientRect(),bounds=[[57.3473, 53.76016], [58.60646, 54.6106]];return {width:r.width,height:r.height,points:bounds.map(p=>{const q=m.project(p);return [q.x,q.y];}),terrain:m.getTerrain(),source:m.getStyle().sources.buzhd};});
  for(const [x,y] of frame.points){expect(x).toBeGreaterThan(0);expect(x).toBeLessThan(frame.width);expect(y).toBeGreaterThan(0);expect(y).toBeLessThan(frame.height);}
  expect(frame.terrain.exaggeration).toBe(1);expect(frame.source.attribution).toContain('участники OpenStreetMap');
  await app.evaluate(h=>{h.map.jumpTo({center:[58.59418,54.22092],zoom:16.5,pitch:55,bearing:0,padding:{top:60,bottom:40,left:40,right:40}});h.region.buzhd.sync();});

@@ -1,0 +1,562 @@
+[
+  {
+    "id": "aygir",
+    "name": "Айгир",
+    "kind": "rocks",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild6533-6265-4331-a234-353838383534/____.png",
+      "https://static.tildacdn.com/tild3163-3065-4438-a235-393232313066/photo-1565073182887-.jpg"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "iremel",
+    "name": "Большой Иремель",
+    "kind": "peak",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3233-3131-4263-b465-393932623635/DTa5jVyUYIc.jpg"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "inzerskie-zubchatki",
+    "name": "Инзерские Зубчатки",
+    "kind": "ridge",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild6439-3063-4661-a537-643539613162/____.png"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "malinovaya",
+    "name": "Первая Малиновая",
+    "kind": "peak",
+    "model": "mapped-cliffs",
+    "photos": [
+      "https://static.tildacdn.com/tild6565-6563-4361-b633-633735396134/_ChatGPT_2__2026__17.png"
+    ],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "malinovaya-2",
+    "name": "Вторая Малиновая",
+    "kind": "peak",
+    "model": "mapped-cliffs",
+    "photos": [],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "malinovaya-3",
+    "name": "Третья Малиновая",
+    "kind": "peak",
+    "model": "mapped-cliffs",
+    "photos": [
+      "https://static.tildacdn.com/tild3566-3563-4234-b334-353838343434/_ChatGPT_2__2026__17.png"
+    ],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "yalangas",
+    "name": "Ялангас",
+    "kind": "peak",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3634-6134-4765-b839-313365343232/___.png",
+      "https://static.tildacdn.com/tild3832-3939-4534-b837-393734613739/____at_dawn.png"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "yamantau",
+    "name": "Ямантау",
+    "kind": "peak",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild6439-3430-4532-b731-333265386565/_____.png"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "maly-yamantau",
+    "name": "Малый Ямантау",
+    "kind": "peak",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild6337-3731-4632-b536-653537636536/____.png"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "kirel",
+    "name": "Кирель",
+    "kind": "peak",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3162-6237-4637-b230-313765636637/39528593610_1600x900.jpg"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "kushay",
+    "name": "Кушай",
+    "kind": "peak",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3436-6539-4464-b436-336633326530/luw0O6N9zJbPypIrPJOZ.jpg",
+      "https://static.tildacdn.com/tild6365-6465-4239-b937-396362643933/1RAEWr3RbvmmJPNS4sMc.jpg",
+      "https://static.tildacdn.com/tild3138-6636-4930-b339-343661393430/_oRknAjPIPpDBAjq7Zvi.jpg"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "kraka",
+    "name": "Хребет Крака",
+    "kind": "ridge",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3231-3035-4339-a131-326639333630/___.png",
+      "https://static.tildacdn.com/tild3235-3032-4736-b337-323932396162/____.png",
+      "https://static.tildacdn.com/tild3537-3330-4364-b962-306332653234/1IKH3Y8S9D6x_vaIZ9FB.jpg"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "kurtashtau",
+    "name": "Курташтау",
+    "kind": "peak",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3239-3835-4564-b634-323739383465/GkgZUUvC2Ak_1600x900.jpg",
+      "https://static.tildacdn.com/tild3763-3861-4232-b038-653365323934/DSC_4307_1600x900.jpg",
+      "https://static.tildacdn.com/tild6665-3033-4463-b362-643331356133/uralweb_1600x900.jpg"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "kumardak",
+    "name": "Кумардак",
+    "kind": "peak",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3131-6366-4335-b262-653934633338/photo-1723323423524-.jpg"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "rassypnaya",
+    "name": "Рассыпная",
+    "kind": "peak",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild6361-3434-4535-b662-313064336330/_____.png"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "poperechnaya",
+    "name": "Поперечная",
+    "kind": "peak",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild6566-3163-4836-a536-303631363534/____.png"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "arvyak-ryaz",
+    "name": "Арвяк-Рязь",
+    "kind": "peak",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild6633-6132-4631-a630-656465336166/_ChatGPT_2__2026__18.png",
+      "https://static.tildacdn.com/tild3139-3565-4830-b234-353631653633/photo-1551189496-17e.jpg"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "mratkino",
+    "name": "Мраткино",
+    "kind": "resort",
+    "model": "resort-scene",
+    "photos": [
+      "https://static.tildacdn.com/tild6665-3761-4336-b139-633434343766/_ChatGPT_2__2026__18.png"
+    ],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "sinie-skaly",
+    "name": "Синие скалы",
+    "kind": "rocks",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild6539-3737-4536-a266-366138346161/maxresdefault_3_2_16.jpg"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "arskiy-kamen",
+    "name": "Арский камень",
+    "kind": "rocks",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild6239-3738-4530-a136-616636316266/___.png"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "atysh",
+    "name": "Водопад Атыш",
+    "kind": "waterfall",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild6161-6435-4062-a366-643235393763/____.png"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "kamennaya-rechka",
+    "name": "Каменная речка",
+    "kind": "natural",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3837-6531-4330-b738-623834346436/____.png"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "abzakovo",
+    "name": "ГЛЦ Абзаково",
+    "kind": "resort",
+    "model": "resort-scene",
+    "photos": [],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "bolshoy-kraka",
+    "name": "Большой Крака · А и Б",
+    "kind": "ridge",
+    "model": null,
+    "photos": [],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "bannoye",
+    "name": "ГЛЦ Банное",
+    "kind": "resort",
+    "model": "resort-scene",
+    "photos": [],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "rodeo",
+    "name": "Родео-парк, Учалы",
+    "kind": "training-park",
+    "model": "freestyle-park",
+    "photos": [],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "zavyaliha",
+    "name": "ГЛЦ Завьялиха",
+    "kind": "resort",
+    "model": "resort-scene",
+    "photos": [],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "euroasia",
+    "name": "Евразия, Куса",
+    "kind": "resort",
+    "model": "resort-scene",
+    "photos": [],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "sunny-valley",
+    "name": "ГЛЦ Солнечная долина",
+    "kind": "resort",
+    "model": "resort-scene",
+    "photos": [],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "minyar",
+    "name": "ГЛЦ Миньяр",
+    "kind": "resort",
+    "model": "resort-scene",
+    "photos": [],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "adzhigardak",
+    "name": "Аджигардак",
+    "kind": "resort",
+    "model": "resort-scene",
+    "photos": [],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "ak-yort",
+    "name": "Ак Йорт",
+    "kind": "resort",
+    "model": "resort-scene",
+    "photos": [],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "ufa-biathlon",
+    "name": "СОК «Биатлон», Уфа",
+    "kind": "nordic",
+    "model": "mapped-routes-and-optional-riders",
+    "photos": [],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "ethnopark",
+    "name": "Этнопарк «Северные олени»",
+    "kind": "ethnopark",
+    "model": "park-and-animals",
+    "photos": [],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "abzakovo-biathlon",
+    "name": "Лыжная / роллерная трасса Абзаково",
+    "kind": "nordic",
+    "model": "mapped-routes-and-optional-riders",
+    "photos": [],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "kushtau",
+    "name": "Куш-Тау",
+    "kind": "resort",
+    "model": "resort-scene",
+    "photos": [],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "masim",
+    "name": "Масим",
+    "kind": "peak",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3466-6630-4138-b263-356334653463/____.png"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "moose",
+    "name": "Скульптурная композиция «Лоси»",
+    "kind": "heritage",
+    "model": "photo-sculpture",
+    "photos": [
+      "https://static.tildacdn.com/tild6639-3561-4665-a331-333963373636/_____.png"
+    ],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "waterTower",
+    "name": "Водонапорная башня Белорецка",
+    "kind": "heritage",
+    "model": "photo-architecture",
+    "photos": [
+      "https://static.tildacdn.com/tild6530-6230-4064-a431-663335356639/____.png",
+      "https://static.tildacdn.com/tild3035-3966-4465-b666-643532343232/_____.png"
+    ],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "beloretskFactory",
+    "name": "Белорецкий завод",
+    "kind": "heritage",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3765-6330-4534-b833-386662643433/r3agdpicfm04fw0lw6fy.jpg",
+      "https://static.tildacdn.com/tild6563-3531-4463-a665-306462353064/15-78_1600x900.jpg",
+      "https://static.tildacdn.com/tild3836-6136-4761-b565-646336383236/40355864045_2.jpg"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "factoryWhistle",
+    "name": "Белорецкий заводской гудок",
+    "kind": "heritage",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3733-6561-4564-a461-383936316365/_____.png"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "narrowGauge1",
+    "name": "Скальная выемка Белорецкой узкоколейки",
+    "kind": "heritage",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3332-3434-4135-b238-386439373134/IMG_3494.JPG"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "lostSymbol",
+    "name": "Белорецк — утраченный символ",
+    "kind": "heritage",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3637-3433-4134-a563-313034336363/____.png",
+      "https://static.tildacdn.com/tild6334-3265-4961-a631-336564313635/a0ed70b6-2636-4133-8.png",
+      "https://static.tildacdn.com/tild3361-3935-4233-b563-643566306566/____.png"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "tyrlyannWheel",
+    "name": "Тирлянское колесо",
+    "kind": "heritage",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3263-3164-4462-a630-663333633966/958bf8e0-1de1-4a5e-a.png"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "tyrlyannRuins",
+    "name": "Руины Тирлянского металлургического завода",
+    "kind": "heritage",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild6432-3064-4731-b236-653131316262/____.png"
+    ],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "narrowGauge2",
+    "name": "Паровоз ГР-231",
+    "kind": "heritage",
+    "model": "steam-locomotive",
+    "photos": [
+      "https://static.tildacdn.com/tild3332-3536-4132-b736-313835326436/_____1.png"
+    ],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "stampStation",
+    "name": "Штамп-станция «Счастье в горах»",
+    "kind": "stamp-point",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3435-3738-4134-a433-353136343964/_ChatGPT_2__2026__16.png"
+    ],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "kiosk3",
+    "name": "Центральная площадь",
+    "kind": "stamp-point",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild6665-3230-4366-a461-653666623238/_ChatGPT_2__2026__16.png"
+    ],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "kiosk2",
+    "name": "Карла Маркса, 79",
+    "kind": "stamp-point",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild3930-3762-4939-b063-346133373331/_ChatGPT_2__2026__16.png"
+    ],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "kiosk4",
+    "name": "50 лет Октября, 46",
+    "kind": "stamp-point",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild6432-3363-4230-a461-386364643362/_ChatGPT_2__2026__16.png"
+    ],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "kiosk7",
+    "name": "Ленина, 67",
+    "kind": "stamp-point",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild6264-6164-4764-b137-343736623030/_ChatGPT_2__2026__16.png"
+    ],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "kiosk8",
+    "name": "Карла Маркса, 67",
+    "kind": "stamp-point",
+    "model": null,
+    "photos": [
+      "https://static.tildacdn.com/tild6235-3366-4266-a130-323636623963/_ChatGPT_2__2026__16.png"
+    ],
+    "needsIndividualModel": false
+  },
+  {
+    "id": "bolshoy-shatak",
+    "name": "Большой Шатак",
+    "kind": "peak",
+    "model": null,
+    "photos": [],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "vishnevaya",
+    "name": "Вишнёвая",
+    "kind": "peak",
+    "model": null,
+    "photos": [],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "tu7",
+    "name": "Тепловоз ТУ7А (памятник)",
+    "kind": "heritage",
+    "model": null,
+    "photos": [],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "cut",
+    "name": "Скальная выемка БУЖД",
+    "kind": "heritage",
+    "model": null,
+    "photos": [],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "shushpa",
+    "name": "Бывшая станция Шушпа",
+    "kind": "heritage",
+    "model": null,
+    "photos": [],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "arsha",
+    "name": "Бывший мост узкоколейки",
+    "kind": "heritage",
+    "model": null,
+    "photos": [],
+    "needsIndividualModel": true
+  },
+  {
+    "id": "buzhd",
+    "name": "Белорецкая узкоколейка (БУЖД)",
+    "kind": "heritage",
+    "model": null,
+    "photos": [],
+    "needsIndividualModel": true
+  }
+]

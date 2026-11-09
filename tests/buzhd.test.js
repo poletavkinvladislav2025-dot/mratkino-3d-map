@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {addBuzhdLayers,validateBuzhd,BUZHD_POINTS} from '../src/region/buzhd.js';
+import {addBuzhdLayers,validateBuzhd,BUZHD_POINTS,BUZHD_LINES,buzhdPopupContent} from '../src/region/buzhd.js';
 import fs from 'node:fs';
 import {trainPaths,trainSample,steamTrain} from '../src/region/buzhd-trains.js';
 import {PLACES,byId} from '../src/region/presets.js';
@@ -17,8 +17,8 @@ test('BUZHD keeps disconnected source geometry and derives bounds from every com
 });
 test('published BUZHD is the unaltered owner collection; new points keep old IDs and stamp assignments',()=>{
  const bytes=fs.readFileSync('data/buzhd.geojson');assert.deepEqual(fs.readFileSync('public/region/buzhd/buzhd.geojson'),bytes);
- const data=JSON.parse(bytes);assert.equal(data.features.length,47);assert.equal(data.features.filter(f=>f.geometry.type==='LineString').length,41);
- assert.deepEqual(validateBuzhd(data),[[57.46383,53.82111],[58.60646,54.6106]]);
+ const data=JSON.parse(bytes);assert.equal(data.features.length,90);assert.equal(data.features.filter(f=>f.geometry.type==='LineString').length,83);
+ assert.deepEqual(validateBuzhd(data),[[57.3473, 53.76016], [58.60646, 54.6106]]);
  assert.equal(readURLState('?place=buzhd').place,'buzhd');assert.equal(readURLState('?place=gr231').place,'narrowGauge2');
  assert.deepEqual(byId('gr231').coordinates,[58.33854,53.95218]);assert.deepEqual(sourceCoordinates(byId('narrowGauge2').sourceRecord),[58.404807,53.984282]);
  assert.match(byId('narrowGauge1').name,/Скальная выемка/);
@@ -27,7 +27,7 @@ test('published BUZHD is the unaltered owner collection; new points keep old IDs
 });
 test('steam trains sample individual source paths, never peat or gaps, and have four driving axles',()=>{
  const data=JSON.parse(fs.readFileSync('data/buzhd.geojson')),paths=trainPaths(data);assert.ok(paths.length>3);
- for(const path of paths){assert.ok(data.features.some(f=>f.properties.osm_way===path.osmWay&&['north','tukan'].includes(f.properties.line)));assert.deepEqual(trainSample(path,-1),path.points[0]);const end=trainSample(path,path.length+100);assert.ok(Math.hypot(end[0]-path.points.at(-1)[0],end[1]-path.points.at(-1)[1])<1e-10);}
+ for(const path of paths){assert.ok(data.features.some(f=>f.properties.osm_way===path.osmWay&&['north','south','tukan'].includes(f.properties.line)));assert.deepEqual(trainSample(path,-1),path.points[0]);const end=trainSample(path,path.length+100);assert.ok(Math.hypot(end[0]-path.points.at(-1)[0],end[1]-path.points.at(-1)[1])<1e-10);}
  const model=steamTrain();assert.equal(model.wheels.filter(w=>w.position.z===.64).length,8);assert.ok(model.group.children.length<80);model.dispose();
 });
 test('BUZHD never substitutes unknown coordinates or builds an empty route',()=>{
@@ -35,4 +35,10 @@ test('BUZHD never substitutes unknown coordinates or builds an empty route',()=>
  assert.throws(()=>validateBuzhd({type:'FeatureCollection',features:[]}),/DATA_MISSING/);
  assert.throws(()=>validateBuzhd({type:'FeatureCollection',features:[{type:'Feature',properties:{line:'north'},geometry:{type:'LineString',coordinates:[[null,54],[58,54]]}}]}),/INVALID_COORDINATE/);
  assert.deepEqual(BUZHD_POINTS.find(p=>p.id==='gr231').coordinates,[58.33854,53.95218]);
+});
+test('updated railway branches have distinct colors and today is shown as plain text',()=>{
+ const style={sources:{},layers:[]};addBuzhdLayers(style,JSON.parse(fs.readFileSync('data/buzhd.geojson')));
+ const solid=style.layers.find(l=>l.id==='buzhd-solid');for(const line of ['north','south','tukan','branch'])assert.ok(solid.paint['line-color'].includes(BUZHD_LINES[line].color));assert.equal(style.layers.find(l=>l.id==='buzhd-peat').paint['line-color'],'#D9921B');
+ const saved=globalThis.document;globalThis.document={createElement:tag=>({tag,children:[],append(...items){this.children.push(...items);}})};
+ try{const popup=buzhdPopupContent({section:'Южная линия',opened:'1912',closed:'2002',line:'south',today:'Станционная улица <img>'});assert.ok(popup.children.some(p=>p.textContent==='Сегодня здесь: Станционная улица <img>'));assert.deepEqual(byId('shushpa').coordinates,[58.4814,54.0816]);}finally{globalThis.document=saved;}
 });

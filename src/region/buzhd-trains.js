@@ -3,7 +3,7 @@ import * as THREE from 'three';
 const meters=(a,b)=>Math.hypot((b[0]-a[0])*111320*Math.cos((a[1]+b[1])*Math.PI/360),(b[1]-a[1])*111320);
 /** Each source feature is a separate path. Endpoints are never linked across gaps. */
 export function trainPaths(data){
- return data.features.filter(f=>['north','tukan'].includes(f.properties?.line)&&f.geometry.type==='LineString').map(f=>{
+ return data.features.filter(f=>['north','south','tukan'].includes(f.properties?.line)&&f.geometry.type==='LineString').map(f=>{
   const points=f.geometry.coordinates,distances=[0];for(let i=1;i<points.length;i++)distances.push(distances.at(-1)+meters(points[i-1],points[i]));
   return {points,distances,length:distances.at(-1),osmWay:f.properties.osm_way};
  }).filter(p=>p.length>1000);

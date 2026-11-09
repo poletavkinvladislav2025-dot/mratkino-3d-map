@@ -25,6 +25,8 @@ export function presetFor(id){
  if(id==='buzhd')return {id,center:place.coordinates,zoom:9,pitch:35,bearing:0,bounds:BUZHD_BOUNDS};
  if(id==='rodeo'){const park=rodeoPlan();return {id,center:rodeoFrame.toLngLat(park.point(0,park.length/2)),zoom:16,pitch:55,bearing:-125};}
  if(id==='narrowGauge2')return {id,center:place.coordinates,zoom:19.5,mobileZoom:19,pitch:62,bearing:40};
+ if(id==='moose')return {id,center:place.coordinates,zoom:19.5,mobileZoom:19.1,pitch:64,bearing:145};
+ if(['malinovaya-2','malinovaya-3'].includes(id))return {id,center:place.coordinates,zoom:16.1,mobileZoom:15.8,pitch:62,bearing:35};
  if(id==='waterTower')return {id,center:place.coordinates,zoom:19.3,mobileZoom:18.2,pitch:64,bearing:20};
  if(id==='ethnopark')return {id,center:place.coordinates,zoom:18.1,pitch:58,bearing:ethno.bearing};
  const city=id==='beloretsk',resort=id==='mratkino',abzakovo=id==='abzakovo';

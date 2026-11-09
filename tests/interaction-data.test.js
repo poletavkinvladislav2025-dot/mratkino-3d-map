@@ -12,10 +12,10 @@ test('nearest forest cells match exhaustive selection without enumerating a hori
 });
 test('static forest does not re-upload matrices; moving cameras defer rebuilds and changed terrain invalidates the cache',()=>{
  const saved=globalThis.matchMedia;globalThis.matchMedia=()=>({matches:false});try{
-  let moving=false,uploads=0,lon=58.5;const scene={stats:{trees:1},elevations:new Map(),setSaplings(){},setTrees(){uploads++;},setForest(){},showRodeo(){},showWaterTower(){},showRocks(){},showPark(){},setAnimation(){}};
-  const host={resortLoaded:false,map:{isMoving:()=>moving,getCenter:()=>({toArray:()=>[lon,54.08]}),getZoom:()=>15.2},$:()=>({checked:true}),setAttribute(){}};
+  let moving=false,uploads=0,lon=58.5,ground=0;const scene={landmarks:new Map(),showLandmarks(){},stats:{trees:1},elevations:new Map(),setSaplings(){},setTrees(){uploads++;},setForest(){},showRodeo(){},showWaterTower(){},showRocks(){},showPark(){},setAnimation(){}};
+  const host={resortLoaded:false,map:{isMoving:()=>moving,getCenter:()=>({toArray:()=>[lon,54.08]}),getZoom:()=>15.2,queryTerrainElevation:()=>ground},$:()=>({checked:true}),setAttribute(){}};
   const region={host,ski:{},filters:{interesting:true},season:'winter',updateLoadStatus(){}};const c=new LandscapeController(region);c.scene=scene;c.selected=['cell'];c.cache.set('cell',{points:[[58.5,54.08,1,3]]});
-  c.redraw();assert.equal(uploads,1);for(let i=0;i<20;i++)c.redraw();assert.equal(uploads,1);moving=true;lon+=.001;c.redraw();assert.equal(uploads,1);moving=false;c.redraw();assert.equal(uploads,2);c.refreshGround();assert.equal(uploads,3);
+  c.redraw();assert.equal(uploads,1);for(let i=0;i<20;i++)c.redraw();assert.equal(uploads,1);ground=500;c.redraw();assert.equal(uploads,2);c.redraw();assert.equal(uploads,2);moving=true;lon+=.001;c.redraw();assert.equal(uploads,2);moving=false;c.redraw();assert.equal(uploads,3);c.refreshGround();assert.equal(uploads,4);
  }finally{globalThis.matchMedia=saved;}
 });
 test('unchanged hiking and catalog routes avoid worker messages; data, filters and selection still invalidate them',()=>{

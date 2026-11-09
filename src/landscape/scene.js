@@ -1,3 +1,5 @@
+import {MooseMonument} from './moose-model.js';
+import {LANDMARKS,landmarkColumns} from './landmark-plan.js';
 import {MalinovayaRockModel} from './malinovaya-rock-model.js';
 import {MALINOVAYA_ROCKS,rockFrame} from './malinovaya-rock-plan.js';
 import {WaterTowerModel,WATER_TOWER} from './water-tower.js';
@@ -9,7 +11,7 @@ import {EthnoparkModel} from './ethnopark-model.js';
 import {ethnopark as ethno} from './ethnopark-settings.js';
 /** One bounded shared renderer for automatic static forest and the unique park. */
 export class LandscapeScene{
- constructor(map,ml,{budget,mobile,onStats}){Object.assign(this,{map,ml,budget,mobile,onStats});this.id='regional-landscape';this.type='custom';this.renderingMode='3d';this.resources=new Set();this.stats={trees:0,frames:0,deer:0,elapsed:0};this.points=[];this.animating=false;this.forestVisible=true;this.disposed=false;this.elevations=new Map();}
+ constructor(map,ml,{budget,mobile,onStats}){Object.assign(this,{map,ml,budget,mobile,onStats});this.id='regional-landscape';this.type='custom';this.renderingMode='3d';this.resources=new Set();this.stats={trees:0,frames:0,deer:0,elapsed:0};this.points=[];this.animating=false;this.forestVisible=true;this.disposed=false;this.elevations=new Map();this.landmarks=new Map();}
  onAdd(map,gl){this.origin=this.ml.MercatorCoordinate.fromLngLat(map.getCenter(),0);this.units=this.origin.meterInMercatorCoordinateUnits();this.scene=new T.Scene();this.camera=new T.Camera();this.scene.add(new T.AmbientLight(0xe0e8df,2));const sun=new T.DirectionalLight(0xfff3dd,2.4);sun.position.set(-120,-160,260);this.scene.add(sun);this.renderer=new T.WebGLRenderer({canvas:map.getCanvas(),context:gl,antialias:false});this.renderer.autoClear=false;this.renderer.outputColorSpace=T.SRGBColorSpace;this.matrix=new T.Matrix4();this.transform=new T.Matrix4().makeTranslation(this.origin.x,this.origin.y,0).scale(new T.Vector3(this.units,-this.units,this.units));this.dummy=new T.Object3D();this.makeTrees();this.last=0;this.refresh();}
  makeTrees(){const mat=c=>{const m=new T.MeshLambertMaterial({color:c,flatShading:true});this.resources.add(m);return m;},batch=(g,m)=>{this.resources.add(g);const o=new T.InstancedMesh(g,m,this.budget.trees);o.frustumCulled=false;o.count=0;o.instanceMatrix.setUsage(T.DynamicDrawUsage);this.scene.add(o);return o;};
   this.trunks=batch(new T.CylinderGeometry(.22,.36,1,6).rotateX(Math.PI/2),mat(0x89725b));this.wind={value:0};const foliage=mat(0xffffff);foliage.onBeforeCompile=shader=>{shader.uniforms.vbTime=this.wind;shader.vertexShader='uniform float vbTime;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\ntransformed.x += sin(vbTime * .65 + instanceMatrix[3].x * .017) * .065 * max(position.z + .5, 0.0);');};
@@ -49,6 +51,17 @@ export class LandscapeScene{
   const scale=this.ml.MercatorCoordinate.fromLngLat(WATER_TOWER.center).meterInMercatorCoordinateUnits()/this.units;
   this.tower.group.position.set(...this.local(WATER_TOWER.center),z*scale);this.tower.group.scale.setScalar(scale);this.map.triggerRepaint();
  }
+ showLandmarks(ids,revision=0){
+  const wanted=new Set(ids);
+  for(const [id,entry] of this.landmarks)if(!wanted.has(id)){entry.model.dispose();this.landmarks.delete(id);}
+  for(const plan of LANDMARKS.filter(p=>wanted.has(p.id))){
+   const z=this.map.queryTerrainElevation(plan.center);if(!Number.isFinite(z)||z===0&&!this.map.isSourceLoaded('dem'))continue;
+   let entry=this.landmarks.get(plan.id);if(entry&&(Math.abs(entry.z-z)>.4||plan.kind==='rocks'&&entry.revision!==revision)){entry.model.dispose();this.landmarks.delete(plan.id);entry=null;}
+   if(!entry){const height=(x,y)=>{const value=this.map.queryTerrainElevation(plan.frame.toLngLat([x,y]));return Number.isFinite(value)?value:z;};const model=plan.kind==='moose'?new MooseMonument(this.scene):new MalinovayaRockModel(this.scene,height,{id:plan.id+'-rocks',columns:h=>landmarkColumns(plan,h)});entry={model,z,revision};this.landmarks.set(plan.id,entry);}
+   const scale=this.ml.MercatorCoordinate.fromLngLat(plan.center).meterInMercatorCoordinateUnits()/this.units;entry.model.group.position.set(...this.local(plan.center),plan.kind==='moose'?z*scale:0);entry.model.group.scale.setScalar(scale);if(plan.kind==='moose')entry.model.group.rotation.z=plan.bearing*Math.PI/180;
+  }
+  this.map.triggerRepaint();
+ }
  setSeason(season){if(this.season===season)return;this.season=season;this.refresh();}
  setAnimation(value){if(this.animating===value)return;this.animating=value;this.last=0;this.schedule();this.map.triggerRepaint();}
  setForest(value){if(this.forestVisible===value)return;this.forestVisible=value;this.trunks.visible=value;this.crowns.forEach(m=>m.visible=value);this.map.triggerRepaint();}
@@ -58,5 +71,5 @@ export class LandscapeScene{
   if(this.park)this.park.update(0);
   this.camera.projectionMatrix.copy(this.matrix.fromArray(args.defaultProjectionData.mainMatrix)).multiply(this.transform);this.renderer.resetState();this.renderer.setViewport(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight);this.renderer.render(this.scene,this.camera);this.renderer.resetState();this.stats.frames++;this.schedule();
  }
- onRemove(){if(this.disposed)return;this.disposed=true;clearTimeout(this.timer);this.park?.dispose();this.park=null;this.rodeo?.dispose();this.rodeo=null;this.tower?.dispose();this.tower=null;this.rocks?.dispose();this.rocks=null;[this.trunks,...(this.crowns||[])].forEach(m=>m?.dispose());this.resources.forEach(r=>r.dispose());this.elevations.clear();this.renderer?.dispose();}
+ onRemove(){if(this.disposed)return;this.disposed=true;clearTimeout(this.timer);this.park?.dispose();this.park=null;this.rodeo?.dispose();this.rodeo=null;this.tower?.dispose();this.tower=null;this.rocks?.dispose();this.rocks=null;this.landmarks.forEach(e=>e.model.dispose());this.landmarks.clear();[this.trunks,...(this.crowns||[])].forEach(m=>m?.dispose());this.resources.forEach(r=>r.dispose());this.elevations.clear();this.renderer?.dispose();}
 }

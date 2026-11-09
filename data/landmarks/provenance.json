@@ -1,0 +1,9 @@
+{
+  "source": "https://www.openstreetmap.org/api/0.6/map?bbox=58.282,54.004,58.312,54.026",
+  "checkedOn": "2026-11-09",
+  "snapshotSha256": "31f8b79b8ded51e0f193fc9a03d542bf23a8d31dca55bd1e7264de2651bda60a",
+  "license": "ODbL-1.0",
+  "note": "Exact OSM cliff and bare rock plan geometry; heights, fractures and boulders are illustrative, not surveyed.",
+  "moosePhoto": "https://static.tildacdn.com/tild6639-3561-4665-a331-333963373636/_____.png",
+  "mooseNote": "Cow, bull with palmate antlers, calf; approximate model from project photo, local arrangement and dimensions are illustrative."
+}

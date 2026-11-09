@@ -22,6 +22,7 @@ import {PlaceGallery} from './gallery.js';
 import {LongDistanceController} from './long-distance.js';
 import {MAP_ICONS} from '../map-icons.js';
 import {CAMERA_CONTROL} from '../map-interaction.js';
+import {landmarkById} from '../landscape/landmark-plan.js';
 import {BuzhdController} from './buzhd-controller.js';
 import {railwayIconSVG} from './buzhd.js';
 import {KrakaController} from './kraka.js';
@@ -73,7 +74,7 @@ export class RegionController{
  }
  button(text,label,handler){const b=document.createElement('button');b.type='button';b.textContent=text;b.setAttribute('aria-label',label);b.title=label;b.addEventListener('click',handler);return b;}
  setFilters(patch,{silent=false}={}){
-  const next=applyFilters(this.filters,patch),changed=JSON.stringify(next)!==JSON.stringify(this.filters);this.filters=next;if(this.host.map?.getLayer('malinovaya-rock-surface'))this.host.map.setLayoutProperty('malinovaya-rock-surface','visibility',next.interesting&&next.hiking?'visible':'none');
+  const next=applyFilters(this.filters,patch),changed=JSON.stringify(next)!==JSON.stringify(this.filters);this.filters=next;if(this.host.map?.getLayer('landmark-rock-surface'))this.host.map.setLayoutProperty('landmark-rock-surface','visibility',next.interesting&&next.hiking?'visible':'none');if(this.host.map?.getLayer('malinovaya-rock-surface'))this.host.map.setLayoutProperty('malinovaya-rock-surface','visibility',next.interesting&&next.hiking?'visible':'none');
   for(const input of this.host.shadowRoot.querySelectorAll('[data-category]'))input.checked=next[input.dataset.category];
   this.renderSearch?.();const selected=byId(this.id);if(selected&&!placeVisible(selected,next))this.cardOpen=false;this.sync();if(changed&&!silent)this.bridge.event('filtersChanged',{filters:filterSnapshot(next)});
  }
@@ -133,6 +134,7 @@ export class RegionController{
   if(meta.navigate!==false){h.map.stop();if(id==='all')this.overview(animate);else{const p=this.preset();h.mode2D=p.pitch<10;h.map.easeTo({center:p.center,zoom:p.zoom,pitch:p.pitch,bearing:p.bearing,padding:this.cameraPadding(),duration:animate?h.duration():0});this.cameraButton();}}
   if(!meta.silent)this.bridge.event('placeSelected',{placeId:id});
   if(id==='malinovaya'&&meta.navigate!==false){h.mode2D=false;h.flyToBounds(boundsFor(ROCK_SURFACES.features),35,62,animate,16.5);this.cameraButton();}
+  if(['malinovaya-2','malinovaya-3'].includes(id)&&meta.navigate!==false){const plan=landmarkById(id);h.mode2D=false;h.flyToBounds(boundsFor(plan.features.filter(f=>f.properties.kind==='cliff')),35,62,animate,16.8);this.cameraButton();}
   if(id==='rodeo'&&meta.navigate!==false)this.focusRodeoPark(animate);
   if(id==='bolshoy-kraka'&&meta.navigate!==false)this.kraka.fit(false,animate);
   if(id==='buzhd'){this.buzhd.visible=true;this.buzhd.sync();if(meta.navigate!==false)this.buzhd.fit(animate);}
@@ -153,6 +155,8 @@ export class RegionController{
   if(page&&!page.includes('openstreetmap.org')){const a=document.createElement('a');a.href=page;a.target='_blank';a.rel='noopener';a.textContent=p.railwayIcon||['buzhd','narrowGauge1'].includes(p.id)?'История дороги →':'О месте ↗';card.append(a);}
   renderPassportContent(card,p,this);
   if(p.id==='malinovaya')card.append(this.button('Рассмотреть скалы','Рассмотреть скалы',()=>{h.mode2D=false;h.flyToBounds([[58.3151,54.0029],[58.3165,54.0040]],35,64,true,17.5);this.cameraButton();}));
+  if(p.id==='moose')h.text(card,'Приближённая 3D-композиция по фотографии: лосиха, самец и лосёнок.');
+  if(['malinovaya-2','malinovaya-3'].includes(p.id))h.text(card,'Контуры скал — OpenStreetMap; высота и отдельные каменные блоки показаны условно.');
   if(p.id==='rodeo'){card.append(this.button('Рассмотреть фристайл-парк','Рассмотреть фристайл-парк',()=>this.focusRodeoPark()));card.append(this.button('Рассмотреть подушку','Рассмотреть подушку',()=>this.focusRodeoBag()));}
   if(p.id==='buzhd'){card.append(this.button('Показать полотно целиком','Показать полотно целиком',()=>this.buzhd.fit()));card.append(this.button('Рассмотреть паровоз','Рассмотреть паровоз ГР-231',()=>this.choose('gr231')));}
   if(p.id==='bolshoy-kraka')this.kraka.card(card);
@@ -273,13 +277,13 @@ export class RegionController{
   const widths=sorted.map(({element,p})=>element.offsetWidth||(p.kind==='stamp-point'?44:110));
   for(const [index,{p,element,marker}] of sorted.entries()){
    const stamp=p.kind==='stamp-point',point=map.project(p.coordinates);const selected=String(p.id===this.id);if(element.getAttribute('aria-pressed')!==selected){element.classList.toggle('selected',p.id===this.id);element.setAttribute('aria-pressed',selected);}
-   let offset=p.railwayIcon&&p.id===this.id&&zoom>=17?[0,-65]:stamp&&zoom>=12.4?(p.id==='stampStation'?[-28,-16]:p.id==='kiosk3'?[28,16]:[0,0]):[0,0];
+   let offset=(p.railwayIcon||p.id==='moose')&&p.id===this.id&&zoom>=17?[0,-65]:stamp&&zoom>=12.4?(p.id==='stampStation'?[-28,-16]:p.id==='kiosk3'?[28,16]:[0,0]):[0,0];
    // Keep nearby stamp buttons selectable in compact views; leader lines retain their true anchors.
    if(stamp&&!this.filters.interesting&&zoom>=12.4){
     const free=off=>{const r=[point.x+off[0]-22,point.y+off[1]-22,point.x+off[0]+22,point.y+off[1]+22];return r[0]>=8&&r[2]<=w-48&&r[1]>=55&&r[3]<=hh-65&&!occupied.some(a=>r[0]<a[2]&&r[2]>a[0]&&r[1]<a[3]&&r[3]>a[1]);};
     if(!free(offset)){const base=offset;let found=false;for(const d of [16,32,48,64]){for(const [x,y] of [[1,0],[-1,0],[0,-1],[0,1],[1,-1],[-1,-1],[1,1],[-1,1]]){const candidate=[base[0]+x*d,base[1]+y*d];if(free(candidate)){offset=candidate;found=true;break;}}if(found)break;}}
    }
-   if((stamp||p.railwayIcon)&&element.dataset.offset!==offset.join(',')){element.dataset.offset=offset.join(',');marker.setOffset(offset);element.style.setProperty('--leader-length',Math.hypot(...offset)+'px');element.style.setProperty('--leader-angle',Math.atan2(-offset[1],-offset[0])+'rad');}
+   if((stamp||p.railwayIcon||p.id==='moose')&&element.dataset.offset!==offset.join(',')){element.dataset.offset=offset.join(',');marker.setOffset(offset);element.style.setProperty('--leader-length',Math.hypot(...offset)+'px');element.style.setProperty('--leader-angle',Math.atan2(-offset[1],-offset[0])+'rad');}
    const width=widths[index],x=point.x+offset[0],y=point.y+offset[1],r=stamp?[x-22,y-22,x+22,y+22]:[x-width/2-5,y-30,x+width/2+5,y+5];
    const visible=(!this.directions.scoped||p.id===this.id)&&!(p.id==='bolshoy-kraka'&&zoom>=10)&&enabled&&placeVisible(p,this.filters)&&!(h.resortActive&&p.id==='mratkino')&&!(this.ski.active&&p.id==='abzakovo')&&(zoom>=(stamp?12.4:10.6)||p.major||p.id===this.id)&&r[0]>=8&&r[2]<=w-48&&r[1]>=55&&r[3]<=hh-65&&!occupied.some(a=>r[0]<a[2]&&r[2]>a[0]&&r[1]<a[3]&&r[3]>a[1]);
    const visibility=visible?'visible':'hidden';if(element.style.visibility!==visibility){element.style.visibility=visibility;element.tabIndex=visible?0:-1;}if(visible)occupied.push(r);

@@ -3,7 +3,7 @@ import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {rockColumns} from './malinovaya-rock-plan.js';
 /** Approximate quartzite forms; only the plan line is surveyed OSM geometry. */
 export class MalinovayaRockModel{
- constructor(scene,height){this.group=new T.Group();this.group.name='first-malinovaya-rocks';this.resources=new Set();this.columns=rockColumns(height);const pieces=[],colors=[0x8a9498,0xa1abae,0x969fa1,0xafb8b9,0x788487];
+ constructor(scene,height,{id='first-malinovaya-rocks',columns=rockColumns}={}){this.group=new T.Group();this.group.name=id;this.resources=new Set();this.columns=columns(height);const pieces=[],colors=[0x8a9498,0xa1abae,0x969fa1,0xafb8b9,0x788487];
   const paint=(g,seed)=>{if(g.index){const n=g.toNonIndexed();g.dispose();g=n;}const a=new Float32Array(g.attributes.position.count*3);for(let i=0;i<a.length/3;i++){const c=new T.Color(colors[Math.floor(seed/31)%colors.length]).multiplyScalar(.92+(Math.floor(i/6)%3)*.035);a.set([c.r,c.g,c.b],i*3);}g.setAttribute('color',new T.BufferAttribute(a,3));pieces.push(g);};
   for(const c of this.columns){const rows=Math.ceil((c.top-c.base)/4.5),h=(c.top-c.base)/rows;
    for(let row=0;row<rows;row++){
