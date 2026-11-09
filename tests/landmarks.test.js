@@ -10,3 +10,7 @@ test('landmark anchors retain owner coordinates and extra Malinovaya rocks use d
 test('moose monument has a cow, bull and calf with bounded geometry and disposes all resources',()=>{
  const scene=new T.Scene(),model=new MooseMonument(scene);assert.deepEqual(model.animals.map(a=>a.name),['cow','bull','calf']);assert.equal(model.animals[1].children.length,3);assert.equal(model.animals[0].children.length,2);let triangles=0;model.group.traverse(o=>{if(o.isMesh)triangles+=o.geometry.index?o.geometry.index.count/3:o.geometry.attributes.position.count/3;});assert.ok(triangles>1000&&triangles<20000);model.dispose();assert.equal(model.resources.size,0);assert.equal(scene.children.length,0);
 });
+test('Shulgan-Tash cave and bort scenes build bounded geometry and dispose all resources',async()=>{
+ const {ShulganCave,BortTree}=await import('../src/landscape/shulgan-models.js');
+ for(const Model of [ShulganCave,BortTree]){const scene=new T.Scene(),model=new Model(scene);let triangles=0;const box=new T.Box3().setFromObject(model.group);model.group.traverse(o=>{if(o.isMesh)triangles+=o.geometry.index?o.geometry.index.count/3:o.geometry.attributes.position.count/3;});assert.ok(triangles>200&&triangles<30000,String(triangles));assert.ok(box.max.z>15&&box.max.z<60);assert.ok(box.min.z>-5);model.dispose();assert.equal(model.resources.size,0);assert.equal(scene.children.length,0);}
+});

@@ -74,6 +74,24 @@
 .vb-r-map-context{display:none!important}
 @media(max-width:640px){.vb-map-toolbar{gap:8px;margin-bottom:10px}.vb-map-toolbar #vb-map-modes{flex:1 1 100%}.vb-map-toolbar .vb-map-search{flex:1 1 100%;flex-wrap:nowrap;gap:6px}.vb-map-toolbar .vb-search-box{flex:1 1 auto;min-width:0}.vb-map-toolbar .vb-search-reset{flex:none;width:44px;padding:0;justify-content:center;font-size:18px}.vb-map-toolbar .vb-reset-text{display:none}}
 `;(scope===document?document.head:scope).append(uiStyle);
+  // Invitation to the 3D map: a relief thumbnail over the ordinary map; the heavy 3D map loads only on click.
+  const teaser=document.createElement('button');teaser.type='button';teaser.className='vb-3d-teaser';teaser.setAttribute('aria-label','Посмотреть горы в 3D');
+  teaser.innerHTML='<img alt="" loading="lazy" src="'+new URL('teaser-3d.webp',script?.src||mapURL+'integration/').href+'"><span>Горы в 3D <b aria-hidden="true">→</b></span>';
+  teaser.addEventListener('click',()=>show('3d'));host.append(teaser);
+  // Counters under the page title: computed from the same data the map shows.
+  const plural=(n,a,b,c)=>{const m=n%100,k=n%10;return n+' '+(m>10&&m<20?c:k===1?a:k>1&&k<5?b:c);};
+  const intro=scope.querySelector('.vb-t1__intro');let stats=null;
+  const drawStats=()=>{if(!intro||intro.style.display!=='block')return;if(!stats){stats=document.createElement('p');stats.className='vb-map-stats';intro.querySelector('h1')?.after(stats);}const places=placeList.filter(p=>p.kind!=='stamp-point').length,points=placeList.filter(p=>p.kind==='stamp-point').length;stats.textContent=[plural(places,'место','места','мест'),plural(points,'точка','точки','точек')+' со штампами',routeList.length?plural(routeList.length,'маршрут','маршрута','маршрутов')+' и трасс':''].filter(Boolean).join(' · ');};
+  drawStats();bar.addEventListener('vb-stats',drawStats);
+  uiStyle.textContent+=`
+.vb-3d-teaser{position:absolute;z-index:90;top:16px;right:16px;display:flex;flex-direction:column;width:168px;padding:0;border:2px solid #fff;border-radius:14px;overflow:hidden;background:#193c30;color:#fff;box-shadow:0 6px 22px #193c3040;cursor:pointer;font:600 14px/1.2 TildaSans,Arial,sans-serif;text-align:left;transition:transform .18s}
+.vb-3d-teaser:hover{transform:translateY(-2px)}.vb-3d-teaser:focus-visible{outline:3px solid #bd854b;outline-offset:2px}
+.vb-3d-teaser img{display:block;width:100%;height:96px;object-fit:cover}
+.vb-3d-teaser span{display:flex;justify-content:space-between;align-items:center;padding:9px 12px}
+.vb-t1__map:has(.vb-t1__panel--open) .vb-3d-teaser,.vb-t1__map:has(.vb-t1__mcard--visible) .vb-3d-teaser{display:none}
+.vb-map-stats{margin:6px 0 0!important;font:600 14px/1.4 TildaSans,Arial,sans-serif!important;color:#7c5c1b!important;letter-spacing:.01em}
+@media(max-width:640px){.vb-3d-teaser{top:12px;right:12px;width:auto;flex-direction:row;align-items:center;border-radius:12px}.vb-3d-teaser img{width:44px;height:44px}.vb-3d-teaser span{padding:0 12px;gap:6px;font-size:13px}.vb-map-stats{font-size:13px!important;margin-top:4px!important}}
+`;
   // Site header (outside the map): the closed mobile menu must not take taps from the map below it.
   if(!document.getElementById('vb-header-nav-fix')){const fix=document.createElement('style');fix.id='vb-header-nav-fix';fix.textContent='@media(max-width:1100px){.vb-header__nav{pointer-events:none}}@media(min-width:961px) and (max-width:1100px){.vb-header__menu{pointer-events:auto}}';document.head.append(fix);}
   let resultIndex=-1;
@@ -82,8 +100,8 @@
   function searchDraw(){
    if(results.hidden)return;results.replaceChildren();resultIndex=-1;searchInput.removeAttribute('aria-activedescendant');
    const normalize=x=>x.toLocaleLowerCase('ru').replaceAll('ё','е'),q=normalize(searchInput.value.trim());
-   const places=placeList.filter(p=>!scopedPlace()||p.canonicalId===(selectedRouteMeta()?.mapPlaceId||scopedPlace())).filter(p=>(view==='places'?p.kind!=='stamp-point':p.kind==='stamp-point'&&(view!=='passport'||p.sellsPassports))&&(!q||normalize(p.name).includes(q))).map(p=>({label:p.name,detail:p.type||'Место',run:()=>choosePlace(p.id)}));
-   const routes=view==='places'?routeList.filter(r=>!scopedPlace()||r.placeId===scopedPlace()).filter(r=>q?normalize(r.title+' '+(placeList.find(p=>p.canonicalId===(r.mapPlaceId||r.placeId))?.name||'')).includes(q):r.placeId==='all').map(r=>({label:r.title+(r.buildStatus&&r.buildStatus!=='ready'?' · '+(r.hasGeometry?'неполный':'только точки'):''),detail:r.placeId==='all'?'Длинная тропа':placeList.find(p=>p.canonicalId===(r.mapPlaceId||r.placeId))?.name||'Маршрут',run:()=>chooseRoute(r.id)})):[];
+   const places=placeList.filter(p=>!scopedPlace()||p.canonicalId===(selectedRouteMeta()?.mapPlaceId||scopedPlace())).filter(p=>(view==='places'?p.kind!=='stamp-point':p.kind==='stamp-point'&&(view!=='passport'||p.sellsPassports))&&(!q||normalize(p.name).includes(q))).map(p=>({canonicalId:p.canonicalId,label:p.name,detail:p.type||'Место',run:()=>choosePlace(p.id)}));
+   const placeHits=new Set(places.map(x=>x.canonicalId)),routes=view==='places'?routeList.filter(r=>!scopedPlace()||r.placeId===scopedPlace()).filter(r=>q?!placeHits.has(r.mapPlaceId||r.placeId)&&normalize(r.title).includes(q):r.placeId==='all').map(r=>({label:r.title+(r.buildStatus&&r.buildStatus!=='ready'?' · '+(r.hasGeometry?'неполный':'только точки'):''),detail:r.placeId==='all'?'Длинная тропа':placeList.find(p=>p.canonicalId===(r.mapPlaceId||r.placeId))?.name||'Маршрут',run:()=>chooseRoute(r.id)})):[];
    const items=[...places.slice(0,8),...routes.slice(0,12)];
    for(const [i,item] of items.entries()){const row=button('',item.run);row.setAttribute('role','option');row.setAttribute('aria-selected','false');row.id='vb-result-'+i;row.tabIndex=-1;const title=document.createElement('strong'),detail=document.createElement('small');title.textContent=item.label;detail.textContent=item.detail;row.append(title,detail);results.append(row);}
    if(!items.length){const empty=document.createElement('p');empty.textContent='Ничего не найдено. Попробуйте другое название.';results.append(empty);}
@@ -121,7 +139,7 @@
   }
   function chooseRoute(id,remember=true){selectedRoute=routeList.some(r=>r.id===id||r.aliases?.includes(id))?id:null;if(remember)rememberRoute(selectedRoute);view='places';selected=placeList.find(p=>p.canonicalId===(selectedRouteMeta()?.mapPlaceId||selectedRouteMeta()?.placeId))?.id||null;pendingFocus=false;closeSearch();searchInput.value='';draw();if(mode==='3d'){if(ready&&!layoutPending)apply3D();}else applyYandex(false);}
   bus.addEventListener('vb-open-route',e=>chooseRoute(e.detail));
-  fetch(new URL('route-catalog.json',script.src)).then(r=>{if(!r.ok)throw Error();return r.json();}).then(d=>{routeList=d.routes;bar.dataset.routeCatalog='ready';if(selectedRoute&&!selectedRouteMeta()){selectedRoute=null;note.textContent='Этот маршрут не найден. Найдите другой маршрут через поиск.';}draw();}).catch(()=>{note.textContent='Не удалось загрузить список маршрутов. Обновите страницу.';});
+  fetch(new URL('route-catalog.json',script.src)).then(r=>{if(!r.ok)throw Error();return r.json();}).then(d=>{routeList=d.routes;bar.dataset.routeCatalog='ready';bar.dispatchEvent(new Event('vb-stats'));if(selectedRoute&&!selectedRouteMeta()){selectedRoute=null;note.textContent='Этот маршрут не найден. Найдите другой маршрут через поиск.';}draw();}).catch(()=>{note.textContent='Не удалось загрузить список маршрутов. Обновите страницу.';});
 
   function send(command,payload={}){if(ready)frame.contentWindow.postMessage({type:'vb3d.command',version:1,id:'tilda-'+(++sequence),command,payload},origin);}
   function eligible(id){const stamp=/^(stampStation|kiosk\d+)$/.test(id);return view==='places'?!stamp:view==='passport'?stamp&&id!=='stampStation':stamp;}

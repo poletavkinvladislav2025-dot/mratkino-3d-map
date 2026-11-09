@@ -95,7 +95,7 @@
       58.306933
     ],
     "zoom": 15,
-    "url": "",
+    "url": "https://visitbeloretsk.ru/map",
     "photos": []
   },
   {
@@ -501,6 +501,51 @@
     "photos": []
   },
   {
+    "id": "shulgan-tash",
+    "canonicalId": "shulgan-tash",
+    "kind": "cave",
+    "name": "Пещера Шульган-Таш (Капова)",
+    "type": "Пещера",
+    "desc": "Карстовая пещера в Бурзянском районе с рисунками каменного века: мамонты, лошади, носороги. Из грота вытекает река Шульган. Оригинальные рисунки закрыты для свободного посещения, экскурсии — через заповедник.",
+    "coords": [
+      53.043733,
+      57.064983
+    ],
+    "zoom": 15,
+    "url": "https://visitbeloretsk.ru/shulgan-tash",
+    "photos": []
+  },
+  {
+    "id": "shulgan-tash-muzey",
+    "canonicalId": "shulgan-tash-muzey",
+    "kind": "museum",
+    "name": "Музейный комплекс «Пещера Шульган-Таш»",
+    "type": "Музей",
+    "desc": "Музей заповедника у входа в урочище Мурат-Тугай: копии рисунков Каповой пещеры в натуральную величину и история людей каменного века. Около 1,5 км до входа в пещеру.",
+    "coords": [
+      53.035418,
+      57.077949
+    ],
+    "zoom": 15,
+    "url": "https://visitbeloretsk.ru/shulgan-tash-muzey",
+    "photos": []
+  },
+  {
+    "id": "shulgan-tash-zapovednik",
+    "canonicalId": "shulgan-tash-zapovednik",
+    "kind": "reserve",
+    "name": "Заповедник «Шульган-Таш» · бортничество",
+    "type": "Заповедник",
+    "desc": "Заповедник, где сохраняют бурзянскую бортевую пчелу и древний промысел — сбор дикого мёда из бортей в стволах деревьев. Медовые туры и экологические тропы.",
+    "coords": [
+      53.111947,
+      56.947778
+    ],
+    "zoom": 15,
+    "url": "https://visitbeloretsk.ru/shulgan-tash-zapovednik",
+    "photos": []
+  },
+  {
     "id": "bannoye",
     "canonicalId": "bannoye",
     "kind": "resort",
@@ -701,7 +746,7 @@
       58.289544
     ],
     "zoom": 15,
-    "url": "",
+    "url": "https://visitbeloretsk.ru/oleni",
     "photos": []
   },
   {

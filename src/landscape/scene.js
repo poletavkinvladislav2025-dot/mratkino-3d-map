@@ -1,4 +1,5 @@
 import {MooseMonument} from './moose-model.js';
+import {ShulganCave,BortTree} from './shulgan-models.js';
 import {LANDMARKS,landmarkColumns} from './landmark-plan.js';
 import {MalinovayaRockModel} from './malinovaya-rock-model.js';
 import {MALINOVAYA_ROCKS,rockFrame} from './malinovaya-rock-plan.js';
@@ -57,8 +58,8 @@ export class LandscapeScene{
   for(const plan of LANDMARKS.filter(p=>wanted.has(p.id))){
    const z=this.map.queryTerrainElevation(plan.center);if(!Number.isFinite(z)||z===0&&!this.map.isSourceLoaded('dem'))continue;
    let entry=this.landmarks.get(plan.id);if(entry&&(Math.abs(entry.z-z)>.4||plan.kind==='rocks'&&entry.revision!==revision)){entry.model.dispose();this.landmarks.delete(plan.id);entry=null;}
-   if(!entry){const height=(x,y)=>{const value=this.map.queryTerrainElevation(plan.frame.toLngLat([x,y]));return Number.isFinite(value)?value:z;};const model=plan.kind==='moose'?new MooseMonument(this.scene):new MalinovayaRockModel(this.scene,height,{id:plan.id+'-rocks',columns:h=>landmarkColumns(plan,h)});entry={model,z,revision};this.landmarks.set(plan.id,entry);}
-   const scale=this.ml.MercatorCoordinate.fromLngLat(plan.center).meterInMercatorCoordinateUnits()/this.units;entry.model.group.position.set(...this.local(plan.center),plan.kind==='moose'?z*scale:0);entry.model.group.scale.setScalar(scale);if(plan.kind==='moose')entry.model.group.rotation.z=plan.bearing*Math.PI/180;
+   if(!entry){const height=(x,y)=>{const value=this.map.queryTerrainElevation(plan.frame.toLngLat([x,y]));return Number.isFinite(value)?value:z;};const model=plan.kind==='moose'?new MooseMonument(this.scene):plan.kind==='cave'?new ShulganCave(this.scene):plan.kind==='bort'?new BortTree(this.scene):new MalinovayaRockModel(this.scene,height,{id:plan.id+'-rocks',columns:h=>landmarkColumns(plan,h)});entry={model,z,revision};this.landmarks.set(plan.id,entry);}
+   const scale=this.ml.MercatorCoordinate.fromLngLat(plan.center).meterInMercatorCoordinateUnits()/this.units;const placed=plan.kind!=='rocks';entry.model.group.position.set(...this.local(plan.center),placed?z*scale:0);entry.model.group.scale.setScalar(scale);if(placed)entry.model.group.rotation.z=(plan.bearing||0)*Math.PI/180;
   }
   this.map.triggerRepaint();
  }

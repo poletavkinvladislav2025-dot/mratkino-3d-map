@@ -4,7 +4,7 @@ const catalog=JSON.parse(fs.readFileSync('public/integration/map-catalog.json','
 import {fakeYandex} from './fixtures/fake-yandex.js';
 for(const mobile of [false,true])test(`complete ordinary block filters data and frames correct bounds ${mobile?'mobile':'desktop'}`,async({page})=>{
  await page.setViewportSize(mobile?{width:390,height:844}:{width:1365,height:900});await page.addInitScript(fakeYandex);await page.route('**/integration/complete-demo.html',route=>route.fulfill({contentType:'text/html',body:fs.readFileSync('tests/fixtures/tilda-complete.html','utf8')}));await page.goto('/integration/complete-demo.html');
- await expect(page.locator('#vb-map-modes')).toHaveAttribute('data-mode','yandex');expect(await page.evaluate(()=>window.yandexMarkers.length)).toBe(52);
+ await expect(page.locator('#vb-map-modes')).toHaveAttribute('data-mode','yandex');expect(await page.evaluate(()=>window.yandexMarkers.length)).toBe(55);
  const choose=async view=>mobile?page.locator('#vb-map-modes select').selectOption(view):page.locator('[data-filter="'+view+'"]').click();
  for(const view of ['stamps','passport','places','stamps','passport']){
   await choose(view);const state=await page.evaluate(()=>({view:document.querySelector('.vb-map-complete').shadowRoot.VisitBeloretskYandex.getState(),visible:window.yandexMarkers.map((p,i)=>p.values.visible?i:-1).filter(i=>i>=0),last:window.yandexCalls.at(-1)}));

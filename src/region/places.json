@@ -483,5 +483,59 @@
     "description": "Точки старта А и вершины Б из карты владельца. Хребет показан по цифровому рельефу. Путь от А к новой Б требует проверки.",
     "sourceUrl": "https://www.greaturaltrail.ru/pohodnahrebetbolshojkraka",
     "checkedOn": "2026-10-23"
+  },
+  {
+    "id": "shulgan-tash",
+    "name": "Пещера Шульган-Таш (Капова)",
+    "kind": "cave",
+    "category": "interesting",
+    "coordinates": [
+      57.064983,
+      53.043733
+    ],
+    "coordinateStatus": "yandex-maps-organization",
+    "coordinateSource": "https://yandex.ru/maps/org/109954337383",
+    "checkedOn": "2026-11-09",
+    "sourceUrl": "https://visitbeloretsk.ru/shulgan-tash",
+    "description": "Карстовая пещера в Бурзянском районе с рисунками каменного века: мамонты, лошади, носороги. Из грота вытекает река Шульган. Оригинальные рисунки закрыты для свободного посещения, экскурсии — через заповедник.",
+    "major": false,
+    "zoneRadiusKm": 0,
+    "photos": []
+  },
+  {
+    "id": "shulgan-tash-muzey",
+    "name": "Музейный комплекс «Пещера Шульган-Таш»",
+    "kind": "museum",
+    "category": "interesting",
+    "coordinates": [
+      57.077949,
+      53.035418
+    ],
+    "coordinateStatus": "yandex-maps-organization",
+    "coordinateSource": "https://yandex.ru/maps/?text=Музейный комплекс Пещера Шульган-Таш",
+    "checkedOn": "2026-11-09",
+    "sourceUrl": "https://visitbeloretsk.ru/shulgan-tash-muzey",
+    "description": "Музей заповедника у входа в урочище Мурат-Тугай: копии рисунков Каповой пещеры в натуральную величину и история людей каменного века. Около 1,5 км до входа в пещеру.",
+    "major": false,
+    "zoneRadiusKm": 0,
+    "photos": []
+  },
+  {
+    "id": "shulgan-tash-zapovednik",
+    "name": "Заповедник «Шульган-Таш» · бортничество",
+    "kind": "reserve",
+    "category": "interesting",
+    "coordinates": [
+      56.947778,
+      53.111947
+    ],
+    "coordinateStatus": "yandex-maps-organization",
+    "coordinateSource": "https://yandex.ru/maps/?text=Государственный природный биосферный заповедник Шульган-Таш",
+    "checkedOn": "2026-11-09",
+    "sourceUrl": "https://visitbeloretsk.ru/shulgan-tash-zapovednik",
+    "description": "Заповедник, где сохраняют бурзянскую бортевую пчелу и древний промысел — сбор дикого мёда из бортей в стволах деревьев. Медовые туры и экологические тропы.",
+    "major": false,
+    "zoneRadiusKm": 0,
+    "photos": []
   }
 ]

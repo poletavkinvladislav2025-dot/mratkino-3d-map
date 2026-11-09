@@ -28,6 +28,9 @@ export function presetFor(id){
  if(id==='moose')return {id,center:place.coordinates,zoom:19.5,mobileZoom:19.1,pitch:64,bearing:145};
  if(['malinovaya-2','malinovaya-3'].includes(id))return {id,center:place.coordinates,zoom:16.1,mobileZoom:15.8,pitch:62,bearing:35};
  if(id==='waterTower')return {id,center:place.coordinates,zoom:19.3,mobileZoom:18.2,pitch:64,bearing:20};
+ if(id==='shulgan-tash')return {id,center:place.coordinates,zoom:17.4,mobileZoom:16.9,pitch:64,bearing:20};
+ if(id==='shulgan-tash-zapovednik')return {id,center:place.coordinates,zoom:18.6,mobileZoom:18.1,pitch:62,bearing:-30};
+ if(id==='shulgan-tash-muzey')return {id,center:place.coordinates,zoom:16.6,pitch:50,bearing:0};
  if(id==='ethnopark')return {id,center:place.coordinates,zoom:18.1,pitch:58,bearing:ethno.bearing};
  const city=id==='beloretsk',resort=id==='mratkino',abzakovo=id==='abzakovo';
  const urban=place.kind==='stamp-point'||place.kind==='heritage';

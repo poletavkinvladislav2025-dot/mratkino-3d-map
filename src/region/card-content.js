@@ -1,6 +1,6 @@
 import content from './map-content.json' with {type:'json'};
 export {content};
-export const placeKind=kind=>({peak:'Гора',ridge:'Хребет',rocks:'Скалы',waterfall:'Водопад',natural:'Природное место',resort:'Горнолыжный комплекс','training-park':'Парк активного отдыха',nordic:'Лыжные трассы',ethnopark:'Этнопарк',heritage:'История и достопримечательности','stamp-point':'Точка штампов',city:'Город'}[kind]||'Место');
+export const placeKind=kind=>({peak:'Гора',ridge:'Хребет',rocks:'Скалы',waterfall:'Водопад',natural:'Природное место',resort:'Горнолыжный комплекс','training-park':'Парк активного отдыха',nordic:'Лыжные трассы',ethnopark:'Этнопарк',cave:'Пещера',museum:'Музей',reserve:'Заповедник',heritage:'История и достопримечательности','stamp-point':'Точка штампов',city:'Город'}[kind]||'Место');
 export const routeKind=category=>({ski:'Горнолыжная трасса',nordic:'Беговая лыжня',lift:'Подъёмник',tubing:'Тюбинговая трасса',training:'Спортивный участок'}[category]||'Трасса');
 export function routeName(p){
  const raw=p.name||'',generic=!raw||/^(Маршрут OSM|Участок OSM|Лыжный \/ лыжероллерный участок OSM|Подъёмник)$/i.test(raw);
