@@ -1259,3 +1259,21 @@
 <style>
 .vb-yandex-recovery{position:absolute;z-index:280;top:16px;left:50%;transform:translateX(-50%);width:min(360px,calc(100% - 130px));padding:16px;box-sizing:border-box;border:1px solid #d2dfd4;border-radius:14px;background:#fffffff5;color:#234b38;box-shadow:0 5px 24px #234b3826;font:14px/1.5 Arial,sans-serif}.vb-yandex-recovery[hidden]{display:none!important}.vb-yandex-recovery p{margin:0 0 12px}.vb-yandex-recovery button{min-height:44px;padding:8px 12px;margin:4px 6px 0 0;border:1px solid #c8d9cb;border-radius:10px;background:#f0f5ec;color:#234b38;cursor:pointer;font:inherit}.vb-yandex-recovery button:focus-visible,.vb-t1__refresh-btn:focus-visible{outline:3px solid #bd854b;outline-offset:2px}.vb-t1__refresh-btn{pointer-events:auto;display:flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;border:1px solid #e0e8dd;border-radius:14px;background:#fff;color:#234b38;font:25px Arial,sans-serif;box-shadow:0 3px 14px #234b3820;cursor:pointer}.vb-yandex-recovery button:disabled,.vb-t1__refresh-btn:disabled{opacity:.6;cursor:wait}@media(max-width:640px){.vb-yandex-recovery{top:12px;width:calc(100% - 100px);padding:12px;font-size:13px}}
 </style>
+
+<style>
+/* 2026-11-09 UI pass: one place for place actions, compact controls, dark green + brass. */
+.vb-t1{--vb-accent:#193c30;--vb-accent-h:#0f2a20;--vb-brass:#9a7426;--vb-brass-strong:#7c5c1b;--vb-sand:#f7f0e1;--vb-sand-border:#e2d2ad}
+.vb-r-map-context{display:none!important}
+.vb-t1__about-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;margin:10px 8px 0 0;padding:8px 16px;border-radius:10px;background:var(--vb-accent);color:#fff!important;font:600 14px/1.3 TildaSans,Arial,sans-serif;text-decoration:none}
+.vb-t1__about-link:hover{background:var(--vb-accent-h)}
+.vb-t1__about-link:focus-visible,.vb-t1__stamp-btn:focus-visible{outline:3px solid #bd854b;outline-offset:2px}
+.vb-t1__route-link{display:flex;margin-top:10px;font-weight:400;color:#65756b}
+.vb-t1__stamp-section{margin-top:14px}
+.vb-t1__stamp-group{padding:12px 14px;border:1px solid var(--vb-sand-border);border-radius:12px;background:var(--vb-sand)}
+.vb-t1__stamp-badge{color:var(--vb-brass-strong)}
+.vb-t1__stamp-btn{min-height:40px;margin-top:8px;padding:6px 14px;border:1px solid var(--vb-brass);border-radius:10px;background:#fff;color:var(--vb-brass-strong);font-size:14px}
+.vb-t1__stamp-btn:hover{opacity:1;background:var(--vb-brass);color:#fff}
+.vb-t1__card-badge:not(.vb-t1__card-badge--green){background:var(--vb-sand);color:var(--vb-brass-strong)}
+.vb-t1__passport-info:not(.vb-t1__passport-info--muted){background:var(--vb-sand);border-color:var(--vb-sand-border);color:var(--vb-brass-strong)}
+@media(max-width:640px){.vb-t1__intro{margin-bottom:12px}.vb-t1__intro h1{font-size:24px;margin-bottom:0}.vb-t1__intro p{display:none}.vb-t1__map{height:clamp(440px,70dvh,600px)}}
+</style>

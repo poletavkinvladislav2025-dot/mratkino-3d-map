@@ -48,7 +48,34 @@
   const results=document.createElement('div');results.id='vb-search-results';results.className='vb-search-results';results.setAttribute('role','listbox');results.setAttribute('aria-label','Места и маршруты');results.hidden=true;
   const overview=button('Все места',()=>{if(scopedPlace()){chooseRoute(selectedRoute||config.route);return;}selected=null;selectedRoute=null;pendingFocus=true;searchInput.value='';closeSearch();draw();if(mode==='3d'){if(ready&&!layoutPending)apply3D();}else applyYandex(true);});overview.className='vb-search-reset';overview.setAttribute('aria-label','Общий вид карты');
   const trails=document.createElement('details');trails.className='vb-trails';const summary=document.createElement('summary');summary.textContent='Тропы';trails.append(summary);const trailList=document.createElement('div');trailList.className='vb-trails-list';trails.append(trailList);
+  overview.innerHTML='<span aria-hidden="true">↺</span><span class="vb-reset-text">Все места</span>';
   searchBox.append(searchInput,results);searchBar.append(searchBox,overview,trails);host.before(searchBar);
+  // One compact toolbar: view switch, filters, search and reset.
+  if(matchMedia('(max-width:640px)').matches)searchInput.placeholder='Место или маршрут…';
+  const toolbar=document.createElement('div');toolbar.className='vb-map-toolbar';bar.before(toolbar);toolbar.append(bar,searchBar);toolbar.after(note);
+  const uiStyle=document.createElement('style');uiStyle.textContent=`
+.vb-map-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin:0 0 14px;position:relative;z-index:300}
+.vb-map-toolbar #vb-map-modes,.vb-map-toolbar .vb-map-search{margin:0}
+.vb-map-toolbar #vb-map-modes{gap:10px}
+.vb-map-toolbar .vb-map-search{flex:1 1 380px;min-width:0}
+.vb-map-toolbar .vb-search-box{max-width:none}
+.vb-map-toolbar .vb-search-box input{height:44px;border-color:#d5ddd6;border-radius:12px;color:#193c30}
+.vb-map-toolbar .vb-search-box input:focus{outline-color:#193c30}
+#vb-map-modes .vb-mode-group{padding:3px;border-color:#d5ddd6;border-radius:12px;background:#eef2ee}
+#vb-map-modes .vb-mode-group button{min-height:38px;padding:6px 14px;color:#193c30}
+#vb-map-modes .vb-mode-group button[aria-pressed=true],#vb-map-modes .vb-mode-group button[aria-pressed=true]:hover{background:#193c30;border-color:#193c30;color:#fff}
+#vb-map-modes .vb-filter-group button{min-height:40px;padding:6px 14px;border-color:#d5ddd6;color:#193c30;background:#fff}
+#vb-map-modes .vb-filter-group button[aria-pressed=true]{background:#e6ece7;border-color:#193c30;color:#193c30}
+#vb-map-modes .vb-filter-group button:is([data-filter=stamps],[data-filter=passport]){background:#f7f0e1;border-color:#e2d2ad;color:#7c5c1b}
+#vb-map-modes .vb-filter-group button:is([data-filter=stamps],[data-filter=passport]):hover{background:#efe3c6}
+#vb-map-modes .vb-filter-group button:is([data-filter=stamps],[data-filter=passport])[aria-pressed=true]{background:#9a7426;border-color:#9a7426;color:#fff}
+.vb-map-toolbar .vb-map-search>button,.vb-map-toolbar .vb-trails summary{min-height:44px;padding:8px 12px;border-color:#d5ddd6;color:#193c30;white-space:nowrap}
+.vb-map-toolbar .vb-search-reset{display:inline-flex;align-items:center;gap:6px;max-width:none}
+.vb-r-map-context{display:none!important}
+@media(max-width:640px){.vb-map-toolbar{gap:8px;margin-bottom:10px}.vb-map-toolbar #vb-map-modes{flex:1 1 100%}.vb-map-toolbar .vb-map-search{flex:1 1 100%;flex-wrap:nowrap;gap:6px}.vb-map-toolbar .vb-search-box{flex:1 1 auto;min-width:0}.vb-map-toolbar .vb-search-reset{flex:none;width:44px;padding:0;justify-content:center;font-size:18px}.vb-map-toolbar .vb-reset-text{display:none}}
+`;(scope===document?document.head:scope).append(uiStyle);
+  // Site header (outside the map): the closed mobile menu must not take taps from the map below it.
+  if(!document.getElementById('vb-header-nav-fix')){const fix=document.createElement('style');fix.id='vb-header-nav-fix';fix.textContent='@media(max-width:1100px){.vb-header__nav{pointer-events:none}}@media(min-width:961px) and (max-width:1100px){.vb-header__menu{pointer-events:auto}}';document.head.append(fix);}
   let resultIndex=-1;
   function closeSearch(){results.hidden=true;searchInput.setAttribute('aria-expanded','false');searchInput.removeAttribute('aria-activedescendant');resultIndex=-1;}
   function choosePlace(id){if(scopedPlace()){const r=selectedRouteMeta();if(r){chooseRoute(r.id);return;}}selected=id;selectedRoute=null;pendingFocus=false;closeSearch();searchInput.value='';draw();if(mode==='3d'){if(ready&&!layoutPending)apply3D();}else applyYandex(false);}

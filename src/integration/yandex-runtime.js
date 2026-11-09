@@ -179,6 +179,7 @@ function mountYandex(catalog,config,scope){
       }
       var locDesc=data.desc||placeDescs[data.id]||'';
       if(locDesc)h+='<p class="vb-t1__card-desc">'+locDesc+'</p>';
+      if(data.url)h+='<a class="vb-t1__about-link" href="'+data.url+'">О месте →</a>';
       h+='<a class="vb-t1__route-link" href="https://yandex.ru/maps/?pt='+data.coords[1]+','+data.coords[0]+'&z=16" target="_blank" rel="noopener noreferrer">Открыть в Яндекс Картах '+routeSvg+'</a>';
       var stamps=getLocStamps(data.id);
       if(stamps.length>0){
@@ -188,7 +189,7 @@ function mountYandex(catalog,config,scope){
           h+='<div class="vb-t1__stamp-badge">'+stampSvg+' ШТАМП ЭТОГО МЕСТА</div>';
           h+='<div class="vb-t1__stamp-name">'+stamps[i].name+'</div>';
           h+='<div class="vb-t1__stamp-kiosk">Где поставить: <strong>'+stamps[i].kioskName+'</strong></div>';
-          h+='<button class="vb-t1__stamp-btn" data-kiosk-id="'+stamps[i].kioskId+'">Показать точку со штампом '+arrowSvg+'</button>';
+          h+='<button class="vb-t1__stamp-btn" data-kiosk-id="'+stamps[i].kioskId+'">Где поставить штамп '+arrowSvg+'</button>';
           h+='</div>';
         }
         h+='</div>';
@@ -378,7 +379,7 @@ function mountYandex(catalog,config,scope){
     panel.classList.remove('vb-t1__panel--places');
     panelBody.classList.remove('vb-t1__panel-body--kiosk');
     deselectMarker();
-    setTimeout(function(){fitMap(currentTab==='places'?'location':'kiosk');},400);
+    // Closing a card keeps the visitor's current map position.
   }
 
   function toggleMcard(){mcard.classList.toggle('vb-t1__mcard--expanded');document.getElementById('vbT1McardToggle').setAttribute('aria-expanded',String(mcard.classList.contains('vb-t1__mcard--expanded')));setTimeout(repositionMap,400);}

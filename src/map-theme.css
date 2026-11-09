@@ -1,5 +1,5 @@
 /* Shared palette and control scale for the existing regional map. */
-:host{--vb-accent:#17623f;--vb-accent-hover:#104d30;--vb-ink:#244b3b;--vb-muted:#65756b;--vb-border:#dbe5db;--vb-soft:#f3f7f1;--vb-surface:#fff;--vb-radius:10px;--vb-shadow:0 4px 20px #183f291a}
+:host{--vb-accent:#193c30;--vb-accent-hover:#0f2a20;--vb-brass:#9a7426;--vb-brass-strong:#7c5c1b;--vb-sand:#f7f0e1;--vb-sand-border:#e2d2ad;--vb-ink:#244b3b;--vb-muted:#65756b;--vb-border:#dbe5db;--vb-soft:#f3f7f1;--vb-surface:#fff;--vb-radius:10px;--vb-shadow:0 4px 20px #183f291a}
 .explorer{font-family:Arial,sans-serif;color:var(--vb-ink);background:var(--vb-surface)}
 .explorer :is(button,input,select){font-family:inherit}
 .explorer :is(button,a,summary,input,select):focus-visible,.photo-viewer :is(button,a):focus-visible{outline:3px solid #b5864b;outline-offset:3px}
@@ -130,3 +130,14 @@
 .dialog{max-height:85vh;max-height:85dvh}
 .photo-viewer{max-height:92vh;max-height:92dvh}
 .photo-viewer>img{max-height:70vh;max-height:70dvh}
+
+/* 2026-11-09: dark green for navigation, brass/sand for passport and stamps. */
+.explorer .stamp-pin{background:var(--vb-brass)}
+.explorer .stamp-pin:before{background:var(--vb-brass)}
+.explorer .stamp-pin.selected,.explorer .stamp-pin:hover{background:var(--vb-accent);box-shadow:0 0 0 3px #fff,0 0 0 5px var(--vb-accent)}
+.explorer .passport-badge{background:var(--vb-accent)}
+.explorer .passport-links li{border-bottom-color:var(--vb-sand-border)}
+.explorer .passport-links button{background:var(--vb-sand);border-color:var(--vb-sand-border);color:var(--vb-brass-strong);font-weight:600}
+.explorer .passport-links button:hover{background:#efe3c6}
+.explorer .region-panel .stamp-heading{color:var(--vb-brass-strong)}
+.explorer .region-panel .passport-availability{color:var(--vb-brass-strong);font-weight:600}

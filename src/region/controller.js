@@ -26,6 +26,8 @@ import {landmarkById} from '../landscape/landmark-plan.js';
 import {BuzhdController} from './buzhd-controller.js';
 import {railwayIconSVG} from './buzhd.js';
 import {KrakaController} from './kraka.js';
+// Overview label order: landmarks first, then the main ski centres. Lower ranks show on approach.
+const LABEL_PRIORITY={narrowGauge2:3,waterTower:3,malinovaya:3,mratkino:2,abzakovo:2,bannoye:2};
 
 /** Viewport data, explicit selection and optional heavy illustration are separate states. */
 export class RegionController{
@@ -156,13 +158,12 @@ export class RegionController{
   renderPassportContent(card,p,this);
   if(p.id==='malinovaya')card.append(this.button('Рассмотреть скалы','Рассмотреть скалы',()=>{h.mode2D=false;h.flyToBounds([[58.3151,54.0029],[58.3165,54.0040]],35,64,true,17.5);this.cameraButton();}));
   if(p.id==='moose')h.text(card,'Приближённая 3D-композиция по фотографии: лосиха, самец и лосёнок.');
-  if(['malinovaya-2','malinovaya-3'].includes(p.id))h.text(card,'Контуры скал — OpenStreetMap; высота и отдельные каменные блоки показаны условно.');
   if(p.id==='rodeo'){card.append(this.button('Рассмотреть фристайл-парк','Рассмотреть фристайл-парк',()=>this.focusRodeoPark()));card.append(this.button('Рассмотреть подушку','Рассмотреть подушку',()=>this.focusRodeoBag()));}
   if(p.id==='buzhd'){card.append(this.button('Показать полотно целиком','Показать полотно целиком',()=>this.buzhd.fit()));card.append(this.button('Рассмотреть паровоз','Рассмотреть паровоз ГР-231',()=>this.choose('gr231')));}
   if(p.id==='bolshoy-kraka')this.kraka.card(card);
   if(p.id==='kraka')card.append(this.button('Точки А и Б Большого Крака','Показать старт и видовую точку',()=>this.choose('bolshoy-kraka')));
   const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Координаты и источник';details.append(summary);h.text(details,`${p.coordinates[1]}, ${p.coordinates[0]}`,'place-coordinates');if(p.elevation)h.text(details,'Высота по данным OpenStreetMap.');if(page){const a=document.createElement('a');a.href=page;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Источник ↗';details.append(a);}
-  if(p.sourceRecord)h.text(details,'Данные исходной карты проекта Visit Beloretsk.');card.append(details);
+  if(['malinovaya-2','malinovaya-3'].includes(p.id))h.text(details,'Контуры скал — OpenStreetMap; высота и отдельные каменные блоки показаны условно.');card.append(details);
  }
 
  focusRodeoPark(animate=true){const h=this.host,b=boundsFor([{geometry:rodeoMask()}]),center=[(b[0][0]+b[1][0])/2,(b[0][1]+b[1][1])/2],frame=b.map(p=>p.map((v,i)=>center[i]+(v-center[i])*.85));h.mode2D=false;h.flyToBounds(frame,-125,55,animate,18);this.cameraButton();}
@@ -273,7 +274,7 @@ export class RegionController{
  layoutLabels(){
   const h=this.host,map=h.map;if(!map)return;this.ski.layoutLabels();
   const enabled=h.$('[data-layer=labels]').checked,zoom=map.getZoom(),w=map.getContainer().clientWidth,hh=map.getContainer().clientHeight,occupied=[];
-  const sorted=[...this.markers].sort((a,b)=>Number(b.p.id===this.id)-Number(a.p.id===this.id)||Number(b.p.kind==='stamp-point')-Number(a.p.kind==='stamp-point')||Number(!!b.p.major)-Number(!!a.p.major));
+  const rank=p=>LABEL_PRIORITY[p.id]||0,sorted=[...this.markers].sort((a,b)=>Number(b.p.id===this.id)-Number(a.p.id===this.id)||rank(b.p)-rank(a.p)||Number(b.p.kind==='stamp-point')-Number(a.p.kind==='stamp-point')||Number(!!b.p.major)-Number(!!a.p.major));
   const widths=sorted.map(({element,p})=>element.offsetWidth||(p.kind==='stamp-point'?44:110));
   for(const [index,{p,element,marker}] of sorted.entries()){
    const stamp=p.kind==='stamp-point',point=map.project(p.coordinates);const selected=String(p.id===this.id);if(element.getAttribute('aria-pressed')!==selected){element.classList.toggle('selected',p.id===this.id);element.setAttribute('aria-pressed',selected);}
@@ -285,7 +286,7 @@ export class RegionController{
    }
    if((stamp||p.railwayIcon||p.id==='moose')&&element.dataset.offset!==offset.join(',')){element.dataset.offset=offset.join(',');marker.setOffset(offset);element.style.setProperty('--leader-length',Math.hypot(...offset)+'px');element.style.setProperty('--leader-angle',Math.atan2(-offset[1],-offset[0])+'rad');}
    const width=widths[index],x=point.x+offset[0],y=point.y+offset[1],r=stamp?[x-22,y-22,x+22,y+22]:[x-width/2-5,y-30,x+width/2+5,y+5];
-   const visible=(!this.directions.scoped||p.id===this.id)&&!(p.id==='bolshoy-kraka'&&zoom>=10)&&enabled&&placeVisible(p,this.filters)&&!(h.resortActive&&p.id==='mratkino')&&!(this.ski.active&&p.id==='abzakovo')&&(zoom>=(stamp?12.4:10.6)||p.major||p.id===this.id)&&r[0]>=8&&r[2]<=w-48&&r[1]>=55&&r[3]<=hh-65&&!occupied.some(a=>r[0]<a[2]&&r[2]>a[0]&&r[1]<a[3]&&r[3]>a[1]);
+   const visible=(!this.directions.scoped||p.id===this.id)&&!(p.id==='bolshoy-kraka'&&zoom>=10)&&enabled&&placeVisible(p,this.filters)&&!(h.resortActive&&p.id==='mratkino')&&!(this.ski.active&&p.id==='abzakovo')&&(zoom>=(stamp?12.4:p.railwayIcon&&!rank(p)?12:10.6)||p.major||rank(p)>=2||p.id===this.id)&&r[0]>=8&&r[2]<=w-48&&r[1]>=55&&r[3]<=hh-65&&!occupied.some(a=>r[0]<a[2]&&r[2]>a[0]&&r[1]<a[3]&&r[3]>a[1]);
    const visibility=visible?'visible':'hidden';if(element.style.visibility!==visibility){element.style.visibility=visibility;element.tabIndex=visible?0:-1;}if(visible)occupied.push(r);
   }
   if(map.getLayer('stamp-geographic-anchors')){

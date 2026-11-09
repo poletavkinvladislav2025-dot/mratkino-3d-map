@@ -1,7 +1,7 @@
 import {PLACES,byId} from './presets.js';
-import {stampsForPlace,INVENTORY_NOTICE} from './passport.js';
+import {stampsForPlace} from './passport.js';
 
-function heading(parent,text){const h=document.createElement('h3');h.textContent=text;parent.append(h);}
+function heading(parent,text){const h=document.createElement('h3');h.className='stamp-heading';h.textContent=text;parent.append(h);}
 export function renderPassportContent(card,p,region){
  if(p?.stampAvailable===false)return;
  if(!p)return;
@@ -11,16 +11,16 @@ export function renderPassportContent(card,p,region){
   h.text(card,p.address);
   h.text(card,p.sellsPassport?'Паспорт туриста продаётся':'Паспорт здесь не продаётся.','passport-availability');
   h.text(card,p.sellsPassport?p.conditions:p.conditions.replace(' Паспорта здесь не продаются.',''));
-  const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Штампы в этой точке · '+p.stamps.length;details.open=true;details.append(summary);card.append(details);card=details;h.text(card,INVENTORY_NOTICE,'inventory-note');
+  const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Штампы в этой точке · '+p.stamps.length;details.open=true;details.append(summary);card.append(details);card=details;
   for(const stamp of p.stamps){
    const item=document.createElement('li'),name=document.createElement('span');name.textContent=stamp.name;item.append(name);
-   if(stamp.placeId){const place=byId(stamp.placeId);item.append(region.button('Открыть место: '+place.name,'Открыть место: '+place.name,()=>region.choose(place.id)));}
+   if(stamp.placeId){const place=byId(stamp.placeId);item.append(region.button(place.name+' →','Открыть место: '+place.name,()=>region.choose(place.id)));}
    list.append(item);
   }
  }else{
   const links=stampsForPlace(p.id,PLACES);if(!links.length)return;
-  heading(card,'Связанные штампы');h.text(card,INVENTORY_NOTICE,'inventory-note');
-  for(const {point,stamp} of links){const item=document.createElement('li'),name=document.createElement('span');name.textContent=stamp.name;item.append(name,region.button('Поставить штамп: '+point.name,'Поставить штамп: '+point.name,()=>region.choose(point.id)));list.append(item);}
+  heading(card,'Где поставить штамп');
+  for(const {point,stamp} of links){const item=document.createElement('li'),name=document.createElement('span');name.textContent=stamp.name;item.append(name,region.button(point.name+' →','Поставить штамп: '+point.name,()=>region.choose(point.id)));list.append(item);}
  }
  card.append(list);
 }
