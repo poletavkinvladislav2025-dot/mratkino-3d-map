@@ -1,8 +1,8 @@
 {
-  "previewRef": "6a2a4f7f14a69a2289a68d41ccb8f488e9dd30fb",
+  "previewRef": "34107cc1b3f3243a2c8abf21ec462355b34ba1e9",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Site-page links in data, neighbour resorts secondary, directions/share/nearby, honest counters, deferred route catalogue",
+  "change": "Reset button shows an icon on phones",
   "validated": "57 dependency-free unit modules locally; full unit suite and production build in workflow; live-page style injection at 375 and 1280 px",
   "reason": "A new main dispatch SHA is required to distinguish this Pages release from the earlier main dispatch."
 }
