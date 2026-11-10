@@ -74,7 +74,7 @@
 .vb-map-toolbar .vb-search-reset,.vb-map-toolbar .vb-near{display:inline-flex;align-items:center;gap:6px;max-width:none}
 .vb-near:disabled{opacity:.55;cursor:progress}.vb-near-head{margin:0;padding:10px 14px 4px;font:600 12px/1.3 TildaSans,Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#7c5c1b}
 .vb-r-map-context{display:none!important}
-@media(max-width:640px){.vb-map-toolbar{gap:8px;margin-bottom:10px}.vb-map-toolbar #vb-map-modes{flex:1 1 100%}.vb-map-toolbar .vb-map-search{flex:1 1 100%;flex-wrap:nowrap;gap:6px}.vb-map-toolbar .vb-search-box{flex:1 1 auto;min-width:0}.vb-map-toolbar .vb-search-reset,.vb-map-toolbar .vb-near{flex:none;width:44px;padding:0;justify-content:center;font-size:18px}.vb-map-toolbar .vb-reset-text,.vb-map-toolbar .vb-near-text{display:none}}
+@media(max-width:640px){.vb-map-toolbar{gap:8px;margin-bottom:10px}.vb-map-toolbar #vb-map-modes{flex:1 1 100%}.vb-map-toolbar .vb-map-search{flex:1 1 100%;flex-wrap:nowrap;gap:6px}.vb-map-toolbar .vb-search-box{flex:1 1 auto;min-width:0}.vb-map-toolbar .vb-search-reset,.vb-map-toolbar .vb-near{flex:none;width:44px;padding:0;justify-content:center;font-size:18px}.vb-map-toolbar .vb-reset-text,.vb-map-toolbar .vb-near-text{display:none}.vb-map-toolbar .vb-search-reset{font-size:0;overflow:hidden}.vb-map-toolbar .vb-search-reset::before{content:"↺";font-size:18px}}
 `;(scope===document?document.head:scope).append(uiStyle);
   // Invitation to the 3D map: a relief thumbnail over the ordinary map; the heavy 3D map loads only on click.
   const teaser=document.createElement('button');teaser.type='button';teaser.className='vb-3d-teaser';teaser.setAttribute('aria-label','Посмотреть горы в 3D');
