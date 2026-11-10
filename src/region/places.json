@@ -500,7 +500,12 @@
     "description": "Карстовая пещера в Бурзянском районе с рисунками каменного века: мамонты, лошади, носороги. Из грота вытекает река Шульган. Оригинальные рисунки закрыты для свободного посещения, экскурсии — через заповедник.",
     "major": false,
     "zoneRadiusKm": 0,
-    "photos": []
+    "photos": [
+      {
+        "url": "https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/unified/integration/photos/shulgan-tash.webp",
+        "alt": "Грот пещеры Шульган-Таш зимним вечером"
+      }
+    ]
   },
   {
     "id": "shulgan-tash-muzey",
@@ -518,7 +523,12 @@
     "description": "Музей заповедника у входа в урочище Мурат-Тугай: копии рисунков Каповой пещеры в натуральную величину и история людей каменного века. Около 1,5 км до входа в пещеру.",
     "major": false,
     "zoneRadiusKm": 0,
-    "photos": []
+    "photos": [
+      {
+        "url": "https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/unified/integration/photos/shulgan-tash-muzey.webp",
+        "alt": "Здание музейного комплекса «Шульган-Таш»"
+      }
+    ]
   },
   {
     "id": "shulgan-tash-zapovednik",
@@ -536,6 +546,11 @@
     "description": "Заповедник, где сохраняют бурзянскую бортевую пчелу и древний промысел — сбор дикого мёда из бортей в стволах деревьев. Медовые туры и экологические тропы.",
     "major": false,
     "zoneRadiusKm": 0,
-    "photos": []
+    "photos": [
+      {
+        "url": "https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/unified/integration/photos/shulgan-tash-zapovednik.webp",
+        "alt": "Бортник достаёт соты из борти на сосне"
+      }
+    ]
   }
 ]

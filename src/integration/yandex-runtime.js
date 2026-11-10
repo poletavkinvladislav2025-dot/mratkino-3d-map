@@ -99,6 +99,8 @@ function mountYandex(catalog,config,scope){
   var greenDef='data:image/svg+xml,'+ENC(makeDiamondSvg(GREEN,20,24,false));
   var terraDef='data:image/svg+xml,'+ENC(makeDiamondSvg(TERRA,20,24,false));
   var greenSel='data:image/svg+xml,'+ENC(makeDiamondSvg(GREEN,30,36,true));
+  // Resorts outside the district stay on the map but read as secondary.
+  var mutedDef='data:image/svg+xml,'+ENC(makeDiamondSvg('#8b9a91',16,19,false));
   var terraSel='data:image/svg+xml,'+ENC(makeDiamondSvg(TERRA,30,36,true));
   var stationDef='data:image/svg+xml,'+ENC(makeStationSvg(TERRA,20,24,false));
   var stationSel='data:image/svg+xml,'+ENC(makeStationSvg(TERRA,30,36,true));
@@ -167,11 +169,23 @@ function mountYandex(catalog,config,scope){
   }
 
   /* ═══ Render content ═══ */
+  // «Как добраться» opens a route from the visitor's position in Yandex Maps; «Поделиться» gives a link to this exact place.
+  function wayButtons(data){
+    return '<a class="vb-t1__way-link" href="https://yandex.ru/maps/?rtext=~'+data.coords[0]+','+data.coords[1]+'&rtt=auto" target="_blank" rel="noopener noreferrer">Как добраться '+routeSvg+'</a>'
+      +'<button type="button" class="vb-t1__share-btn" data-share-id="'+(data.canonicalId||data.id)+'" data-share-name="'+String(data.name).replace(/"/g,'&quot;')+'">Поделиться</button>';
+  }
+  function sharePlace(button){
+    var onMap=/(^|\.)visitbeloretsk\.ru$/.test(location.hostname),url=new URL(onMap?'/map':location.pathname,onMap?'https://visitbeloretsk.ru':location.origin);
+    url.searchParams.set('placeId',button.getAttribute('data-share-id'));
+    var done=function(text){var old=button.textContent;button.textContent=text;setTimeout(function(){button.textContent=old;},1800);};
+    if(navigator.share&&innerWidth<=640){navigator.share({title:button.getAttribute('data-share-name'),url:url.href}).catch(function(){});return;}
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(url.href).then(function(){done('Ссылка скопирована');},function(){done(url.href);});else done(url.href);
+  }
   function renderContent(data,type){
     var h='';
     if(type==='location'){
       h+=renderGallery(data);
-      h+='<div class="vb-t1__card-type">'+data.type+'</div>';
+      h+='<div class="vb-t1__card-type">'+data.type+(data.neighbor&&data.distanceKm?' · ≈ '+data.distanceKm+' км от Белорецка':'')+'</div>';
       if(data.url){
         h+='<h3 class="vb-t1__card-name"><a href="'+data.url+'">'+data.name+'<svg class="vb-t1__card-name-link-icon" viewBox="0 0 14 14" fill="none"><path d="M4.5 2h7.5v7.5M12 2L5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></h3>';
       }else{
@@ -179,8 +193,10 @@ function mountYandex(catalog,config,scope){
       }
       var locDesc=data.desc||placeDescs[data.id]||'';
       if(locDesc)h+='<p class="vb-t1__card-desc">'+locDesc+'</p>';
+      h+='<div class="vb-t1__actions">';
       if(data.url)h+='<a class="vb-t1__about-link" href="'+data.url+'">О месте →</a>';
-      h+='<a class="vb-t1__route-link" href="https://yandex.ru/maps/?pt='+data.coords[1]+','+data.coords[0]+'&z=16" target="_blank" rel="noopener noreferrer">Открыть в Яндекс Картах '+routeSvg+'</a>';
+      h+=wayButtons(data);
+      h+='</div>';
       var stamps=getLocStamps(data.id);
       if(stamps.length>0){
         h+='<div class="vb-t1__stamp-section">';
@@ -202,7 +218,7 @@ function mountYandex(catalog,config,scope){
       if(isFree)h+='<div class="vb-t1__card-tag">Бесплатный штамп</div>';
       h+='<h3 class="vb-t1__card-name">'+data.name+'</h3>';
       if(data.desc)h+='<p class="vb-t1__card-desc">'+data.desc+'</p>';
-      h+='<a class="vb-t1__route-link" href="https://yandex.ru/maps/?pt='+data.coords[1]+','+data.coords[0]+'&z=16" target="_blank" rel="noopener noreferrer">Открыть в Яндекс Картах '+routeSvg+'</a>';
+      h+='<div class="vb-t1__actions">'+wayButtons(data)+'</div>';
       if(!sellsP){h+='<div class="vb-t1__passport-info vb-t1__passport-info--muted">'+(data.passportInfo||'Здесь можно бесплатно поставить коллекционный штамп. Паспорта в этой точке не продаются.')+'</div>';}
       else{h+='<div class="vb-t1__passport-info">Здесь можно купить Паспорт туриста и поставить коллекционные штампы</div>';}
       if(data.stamps&&data.stamps.length>0){
@@ -252,9 +268,9 @@ function mountYandex(catalog,config,scope){
       var m=markers[selectedIdx];
       var isLoc=m.type==='location';
       var st=isStation(m.data);
-      m.placemark.options.set('iconImageHref',st?stationDef:(isLoc?greenDef:terraDef));
-      m.placemark.options.set('iconImageSize',[20,24]);
-      m.placemark.options.set('iconImageOffset',iconOffset(m.dataId,false));
+      m.placemark.options.set('iconImageHref',st?stationDef:(isLoc?(m.data.neighbor?mutedDef:greenDef):terraDef));
+      m.placemark.options.set('iconImageSize',m.data.neighbor?[16,19]:[20,24]);
+      m.placemark.options.set('iconImageOffset',m.data.neighbor?[-8,-19]:iconOffset(m.dataId,false));
     }
     selectedIdx=-1;
     if(document.getElementById('vbT1MapContainer').ownerDocument.documentElement.clientWidth<=960){
@@ -439,7 +455,7 @@ function mountYandex(catalog,config,scope){
   /* ═══ Fit map ═══ */
   function fitMap(type){
     var coords=[];
-    for(var i=0;i<markers.length;i++)if(markers[i].type===type&&(!vbPassportOnly||markers[i].data.sellsPassports===true))coords.push(markers[i].placemark.geometry.getCoordinates());
+    for(var i=0;i<markers.length;i++)if(markers[i].type===type&&!markers[i].data.neighbor&&(!vbPassportOnly||markers[i].data.sellsPassports===true))coords.push(markers[i].placemark.geometry.getCoordinates());
     if(!coords.length)return;
     if(coords.length===1){map.setCenter(coords[0],markers[0].data.zoom||15,{duration:400});return;}
     var s=coords[0][0],n=coords[0][0],w=coords[0][1],e=coords[0][1];
@@ -497,7 +513,7 @@ function mountYandex(catalog,config,scope){
     for(var i=0;i<locations.length;i++){(function(j){
       var l=locations[j];
       var pm=new ymaps.Placemark(l.coords,{},{
-        iconLayout:'default#image',iconImageHref:greenDef,iconImageSize:[20,24],iconImageOffset:[-10,-24]
+        iconLayout:'default#image',iconImageHref:l.neighbor?mutedDef:greenDef,iconImageSize:l.neighbor?[16,19]:[20,24],iconImageOffset:l.neighbor?[-8,-19]:[-10,-24],zIndex:l.neighbor?10:100
       });
       map.geoObjects.add(pm);
       markers.push({placemark:pm,type:'location',dataId:l.id,data:l});
@@ -554,6 +570,7 @@ function mountYandex(catalog,config,scope){
       var route=e.target.closest('[data-route-id]');if(route){scope.dispatchEvent(new CustomEvent('vb-open-route',{detail:route.dataset.routeId}));return;}
       var gb=e.target.closest('.vb-t1__gallery-btn');if(gb){changePhoto(parseInt(gb.getAttribute('data-dir'),10));return;}
       var sb=e.target.closest('.vb-t1__stamp-btn');if(sb){navToKiosk(sb.getAttribute('data-kiosk-id'));return;}
+      var sh=e.target.closest('.vb-t1__share-btn');if(sh){sharePlace(sh);return;}
       var pl=e.target.closest('.vb-t1__stamps-pill');if(pl&&pl.hasAttribute('data-location-id')){navToLoc(pl.getAttribute('data-location-id'));return;}
     });
   }

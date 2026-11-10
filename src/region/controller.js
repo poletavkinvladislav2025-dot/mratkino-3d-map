@@ -26,6 +26,7 @@ import {landmarkById} from '../landscape/landmark-plan.js';
 import {BuzhdController} from './buzhd-controller.js';
 import {railwayIconSVG} from './buzhd.js';
 import {KrakaController} from './kraka.js';
+import {sitePage} from './site-pages.js';
 // Overview label order: landmarks first, then the main ski centres. Lower ranks show on approach.
 const LABEL_PRIORITY={narrowGauge2:3,waterTower:3,malinovaya:3,mratkino:2,abzakovo:2,bannoye:2};
 
@@ -153,7 +154,7 @@ export class RegionController{
   if(p.description)h.text(card,p.description,p.historical?'historical-note':'place-description');
   if(p.access)h.text(card,p.access,'access-note');
   if(p.elevation)h.text(card,`Высота: ${p.elevation.toLocaleString('ru-RU')} м.`);
-  const page=p.sourceUrl||(['malinovaya','malinovaya-3'].includes(this.id)?'https://visitbeloretsk.ru/malinovaya':this.id==='yalangas'?'https://www.visitbeloretsk.ru/yalangas':null);
+  const page=sitePage(p)||p.sourceUrl||null;
   if(page&&!page.includes('openstreetmap.org')){const a=document.createElement('a');a.href=page;a.target='_blank';a.rel='noopener';a.textContent=p.railwayIcon||['buzhd','narrowGauge1'].includes(p.id)?'История дороги →':'О месте ↗';card.append(a);}
   renderPassportContent(card,p,this);
   if(p.id==='malinovaya')card.append(this.button('Рассмотреть скалы','Рассмотреть скалы',()=>{h.mode2D=false;h.flyToBounds([[58.3151,54.0029],[58.3165,54.0040]],35,64,true,17.5);this.cameraButton();}));

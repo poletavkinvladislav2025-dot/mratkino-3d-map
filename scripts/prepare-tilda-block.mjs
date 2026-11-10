@@ -3,10 +3,14 @@ import {directionPlace,DIRECTION_PLACES} from '../src/region/directions.js';
 import fs from 'node:fs';
 import {PLACES} from '../src/region/presets.js';
 import {placeKind} from '../src/region/card-content.js';
+import {sitePage,isNeighbor,kmFromCity} from '../src/region/site-pages.js';
 const legacyId=p=>p.sourceRecord?.sourceId||p.id;
 const byId=new Map(PLACES.map(p=>[p.id,p]));
-const catalog=PLACES.map(p=>({id:legacyId(p),canonicalId:p.id,kind:p.kind,name:p.name,type:placeKind(p.kind),desc:p.description||'',coords:[p.coordinates[1],p.coordinates[0]],zoom:p.kind==='stamp-point'?16:p.kind==='resort'?13:15,...(Array.isArray(p.bounds)&&p.bounds.length===4?{bounds:p.bounds}:{}),url:p.sourceRecord?.url||p.url||(/^https:\/\/(www\.)?visitbeloretsk\.ru\//.test(p.sourceUrl||'')?p.sourceUrl:''),photos:(p.photos?.length?p.photos:p.photo?[{url:p.photo,alt:p.name}]:[]).map(p=>({src:p.url,alt:p.alt||''})),...(p.kind==='stamp-point'?{sellsPassports:p.sellsPassport===true,isStampFree:p.sellsPassport===false,passportInfo:p.conditions||'',stamps:p.stamps.map(s=>({name:s.name,...(s.placeId&&byId.has(s.placeId)?{locationId:legacyId(byId.get(s.placeId))}:{})}))}:{} )}));
+const catalog=PLACES.map(p=>({id:legacyId(p),canonicalId:p.id,kind:p.kind,name:p.name,type:isNeighbor(p)?'Соседний курорт':placeKind(p.kind),...(isNeighbor(p)?{neighbor:true,distanceKm:kmFromCity(p)}:{}),desc:p.description||'',coords:[p.coordinates[1],p.coordinates[0]],zoom:p.kind==='stamp-point'?16:p.kind==='resort'?13:15,...(Array.isArray(p.bounds)&&p.bounds.length===4?{bounds:p.bounds}:{}),url:sitePage(p)||p.sourceRecord?.url||p.url||(/^https:\/\/(www\.)?visitbeloretsk\.ru\//.test(p.sourceUrl||'')?p.sourceUrl:''),photos:(p.photos?.length?p.photos:p.photo?[{url:p.photo,alt:p.name}]:[]).map(p=>({src:p.url,alt:p.alt||''})),...(p.kind==='stamp-point'?{sellsPassports:p.sellsPassport===true,isStampFree:p.sellsPassport===false,passportInfo:p.conditions||'',stamps:p.stamps.map(s=>({name:s.name,...(s.placeId&&byId.has(s.placeId)?{locationId:legacyId(byId.get(s.placeId))}:{})}))}:{} )}));
 fs.writeFileSync('public/integration/map-catalog.json',JSON.stringify(catalog,null,2)+'\n');
+// Counters shown under the page title: district places, stamp points and walking routes that have a line on the map.
+const routeFile='public/integration/route-catalog.json',walking=fs.existsSync(routeFile)?JSON.parse(fs.readFileSync(routeFile,'utf8')).routes.filter(r=>r.status&&r.hasGeometry).length:0;
+const counts={places:catalog.filter(p=>p.kind!=='stamp-point'&&!p.neighbor).length,points:catalog.filter(p=>p.kind==='stamp-point').length,routes:walking};
 const markup=fs.readFileSync('src/integration/yandex-template.html','utf8');
 const adapter=fs.readFileSync('docs/snippets/yandex-adapter.js','utf8').replaceAll('window.VisitBeloretskYandex','scope.VisitBeloretskYandex').replaceAll('window.dispatchEvent','scope.dispatchEvent');
 const runtime=fs.readFileSync('src/integration/yandex-runtime.js','utf8').replaceAll('document.getElementById','scope.getElementById').replaceAll('document.querySelector','scope.querySelector').replaceAll("window.dispatchEvent(new Event('vb-yandex-ready'))", "scope.dispatchEvent(new Event('vb-yandex-ready'))").replaceAll('window.VisitBeloretskYandex','scope.VisitBeloretskYandex').replaceAll('window.dispatchEvent','scope.dispatchEvent').replace('/* @YandexAdapter */',adapter);
@@ -36,7 +40,7 @@ mirrorYandexStyles(scope);
 // Catalog is generated from PLACES, including the corrected tower and both Malinovaya IDs.
 config.integrationBase=base.href;
 mountYandex(${JSON.stringify(catalog)},config,scope);
-const loader=document.createElement('script');loader.src=new URL('tilda-map-switch.js?v=20261101-routes',base).href;for(const key of ['place','route','view','autoFit'])if(config[key])loader.dataset[key]=config[key];loader.dataset.defaultMode=config.defaultMode||'yandex';loader.dataset.mapUrl=new URL('../?v=20261101-routes',base).href;loader.vbScope=scope;holder.after(loader);
+const loader=document.createElement('script');loader.src=new URL('tilda-map-switch.js?v=20261101-routes',base).href;for(const key of ['place','route','view','autoFit'])if(config[key])loader.dataset[key]=config[key];loader.dataset.defaultMode=config.defaultMode||'yandex';loader.dataset.counts='${JSON.stringify(counts)}';loader.dataset.mapUrl=new URL('../?v=20261101-routes',base).href;loader.vbScope=scope;holder.after(loader);
 })();
 `;
 fs.writeFileSync('public/integration/tilda-map-block.js',output);
