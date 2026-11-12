@@ -105,6 +105,16 @@ function mountYandex(catalog,config,scope){
   var stationDef='data:image/svg+xml,'+ENC(makeStationSvg(TERRA,20,24,false));
   var stationSel='data:image/svg+xml,'+ENC(makeStationSvg(TERRA,30,36,true));
 
+  function setLocationIcon(marker,active){
+    const d=marker.data,priority=d.labelPriority||0;const key=String(active)+'/'+String(map.getZoom()>=(d.labelMinZoom||9.3));if(marker.presentationKey===key)return;marker.presentationKey=key;
+    marker.placemark.options.set('zIndex',active?1000:300+priority);
+    if(priority<98)return;
+    const visible=map.getZoom()>=(d.labelMinZoom||9.3),name=String(d.labelName||d.name).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    if(!visible){marker.placemark.options.set('iconImageHref',active?greenSel:greenDef);marker.placemark.options.set('iconImageSize',active?[30,36]:[20,24]);marker.placemark.options.set('iconImageOffset',active?[-15,-36]:[-10,-24]);return;}
+    const y=d.id==='narrowGauge2'?48:d.id==='waterTower'?17:0,fill=active?'#193c30':'#fffef8',ink=active?'#fff':'#193c30',w=Math.min(205,32+(d.labelName||d.name).length*7);
+    const svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="82"><path d="M12 64L27 '+(y+13)+'" stroke="#9db298"/><circle cx="12" cy="64" r="5" fill="#193c30" stroke="white" stroke-width="2"/><rect x="23" y="'+y+'" width="'+(w-24)+'" height="25" rx="6" fill="'+fill+'" stroke="#b4c6ad"/><text x="30" y="'+(y+17)+'" fill="'+ink+'" font-family="Arial,sans-serif" font-size="12" font-weight="600">'+name+'</text></svg>';
+    marker.placemark.options.set('iconImageHref','data:image/svg+xml,'+ENC(svg));marker.placemark.options.set('iconImageSize',[w,82]);marker.placemark.options.set('iconImageOffset',[-12,-64]);
+  }
   function iconOffset(id,active){var d=id==='stampStation'?[-28,-16]:id==='kiosk3'?[28,16]:[0,0];return [(active?-15:-10)+d[0],(active?-36:-24)+d[1]];}
 
   function isStation(d){return d&&d.isStampFree===true;}
@@ -270,7 +280,7 @@ function mountYandex(catalog,config,scope){
       var st=isStation(m.data);
       m.placemark.options.set('iconImageHref',st?stationDef:(isLoc?(m.data.neighbor?mutedDef:greenDef):terraDef));
       m.placemark.options.set('iconImageSize',m.data.neighbor?[16,19]:[20,24]);
-      m.placemark.options.set('iconImageOffset',m.data.neighbor?[-8,-19]:iconOffset(m.dataId,false));
+      m.placemark.options.set('iconImageOffset',m.data.neighbor?[-8,-19]:iconOffset(m.dataId,false));if(isLoc){m.presentationKey=null;setLocationIcon(m,false);}
     }
     selectedIdx=-1;
     if(document.getElementById('vbT1MapContainer').ownerDocument.documentElement.clientWidth<=960){
@@ -342,7 +352,7 @@ function mountYandex(catalog,config,scope){
 
     m.placemark.options.set('iconImageHref',st?stationSel:(isLoc?greenSel:terraSel));
     m.placemark.options.set('iconImageSize',[30,36]);
-    m.placemark.options.set('iconImageOffset',iconOffset(m.dataId,true));
+    m.placemark.options.set('iconImageOffset',iconOffset(m.dataId,true));if(m.type==='location')setLocationIcon(m,true);
 
     var vis=getVis();
     for(var i=0;i<vis.length;i++)if(vis[i]===idx){updCounter(i,vis.length);break;}
@@ -516,7 +526,7 @@ function mountYandex(catalog,config,scope){
         iconLayout:'default#image',iconImageHref:l.neighbor?mutedDef:greenDef,iconImageSize:l.neighbor?[16,19]:[20,24],iconImageOffset:l.neighbor?[-8,-19]:[-10,-24],zIndex:l.neighbor?10:100
       });
       map.geoObjects.add(pm);
-      markers.push({placemark:pm,type:'location',dataId:l.id,data:l});
+      markers.push({placemark:pm,type:'location',dataId:l.id,data:l});setLocationIcon(markers[markers.length-1],false);
     })(i);}
 
     for(var i=0;i<stampPoints.length;i++){(function(j){
@@ -531,9 +541,10 @@ function mountYandex(catalog,config,scope){
 
     for(var i=0;i<markers.length;i++){(function(j){markers[j].placemark.events.add('click',function(){selectMarkerByIndex(j);});})(i);}
 
+    map.events.add('boundschange',function(){for(const marker of markers)if(marker.type==='location')setLocationIcon(marker,markers.indexOf(marker)===selectedIdx);});
     vbRoutes=createYandexRoutes(ymaps,map,config,function(id){window.VisitBeloretskYandex.openRoute(id).catch(function(){window.dispatchEvent(new CustomEvent('vb-yandex-routes-error'));});},function(){window.dispatchEvent(new CustomEvent('vb-yandex-routes-error'));});
     if(window.location.hash==='#map-stamps'){switchTab('stamps',true,true);}
-    else{map.setBounds([[53.75,58.25],[54.07,58.72]],{checkZoomRange:true,zoomMargin:45});}
+    else{const v=welcomeView(mapContainer.clientWidth);map.setBounds(v.bounds.map(p=>[p[1],p[0]]),{checkZoomRange:true,zoomMargin:v.padding});}
 
     if(typeof ResizeObserver!=='undefined')new ResizeObserver(function(){scheduleCardMode();if(map&&map.container)map.container.fitToViewport();if(selectedIdx>=0)scheduleReposition();}).observe(mapContainer);
     backgroundWatch=watchYandexBackground(map,mapContainer,backgroundState);recovery.hidden=true;

@@ -50,7 +50,7 @@ export function addBuzhdLayers(style,data,{visible=true}={}){
  style.layers.push({id:'buzhd-solid',type:'line',source,filter:['all',lines,['!',peat]],layout:{...layout},paint:{'line-color':['match',['get','line'],'south','#2E9D6B','north','#1D5C45','tukan','#2F7FC1','branch','#8A5CC2','#1D5C45'],'line-width':['case',structure,6,['==',['get','line'],'branch'],3,4]}});
  // Dash lengths in MapLibre are multiples of the line width: these remain 6px / 8px.
  for(const thick of [false,true])style.layers.push({id:thick?'buzhd-peat-structure':'buzhd-peat',type:'line',source,filter:['all',lines,peat,thick?structure:['!',structure]],layout:{...layout},paint:{'line-color':'#D9921B','line-width':thick?6:3,'line-dasharray':thick?[1,8/6]:[2,8/3]}});
- style.layers.push({id:'buzhd-label',type:'symbol',source,filter:lines,minzoom:13,layout:{visibility:layout.visibility,'symbol-placement':'line','symbol-spacing':450,'text-field':'Бывшая узкоколейка · 1912–2007','text-font':['Noto Sans Regular'],'text-size':12},paint:{'text-color':'#193C30','text-halo-color':'#fffdf7','text-halo-width':2}});
+ style.layers.push({id:'buzhd-label',type:'symbol',source,filter:lines,minzoom:9.5,layout:{visibility:layout.visibility,'symbol-placement':'line','symbol-spacing':700,'text-padding':48,'text-field':['step',['zoom'],'БУЖД · бывшая узкоколейка',13,'Бывшая узкоколейка · 1912–2007'],'text-font':['Noto Sans Regular'],'text-size':12},paint:{'text-color':'#193C30','text-halo-color':'#fffdf7','text-halo-width':2}});
  return bounds;
 }
 

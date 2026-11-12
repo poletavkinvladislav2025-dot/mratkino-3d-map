@@ -1,0 +1,16 @@
+/* Scoped additions preserve the current page design and owner-supplied Tilda styles. */
+:host .vb-trails-list>strong{display:block;padding:8px 12px;font-size:12px;color:#7c5c1b}
+:host .vb-trails-list button{min-height:44px;font-size:14px}
+:host .vb-trails-list .vb-open-3d-layers{border-top:1px solid #e2d2ad;border-radius:0;margin-top:6px}
+:host .vb-search-reset:disabled{display:none!important}
+:host .vb-t1__card-desc,:host .vb-t1__card-stamp{font-size:16px;line-height:1.6}
+@media(max-width:640px){
+ :host .vb-map-toolbar .vb-map-search{display:flex;flex-wrap:nowrap}
+ :host .vb-map-toolbar .vb-search-box{flex:1;min-width:0;max-width:none}
+ :host .vb-map-toolbar .vb-search-box input{font-size:16px;width:100%;padding:10px 12px}
+ :host .vb-map-toolbar .vb-trails summary{min-width:54px;background:#f7f0e1;border-color:#e2d2ad}
+ :host .vb-trails-list .vb-near,:host .vb-trails-list .vb-search-reset{width:100%;justify-content:flex-start;text-align:left;font-size:14px;padding:10px 12px}
+ :host .vb-trails-list .vb-search-reset::before{display:none}
+ :host .vb-trails-list .vb-near-text,:host .vb-trails-list .vb-reset-text{display:inline}
+ :host .vb-t1__map{height:clamp(460px,68dvh,620px)!important;min-height:0!important}
+}

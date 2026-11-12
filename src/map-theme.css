@@ -141,3 +141,12 @@
 .explorer .passport-links button:hover{background:#efe3c6}
 .explorer .region-panel .stamp-heading{color:var(--vb-brass-strong)}
 .explorer .region-panel .passport-availability{color:var(--vb-brass-strong);font-weight:600}
+
+/* Shared 2026-11-12 map controls and readable visitor cards. */
+.explorer.embedded.external-layers .region-navigation [data-action=layers]{display:none}
+.explorer .priority-place{font-weight:600;border-color:#a5b99c;background:#fffef8;color:#193c30}
+.explorer .priority-place.selected{background:#193c30;color:#fff}
+.explorer .priority-place::after{content:'';position:absolute;left:50%;top:100%;height:1px;width:var(--leader-length,0px);background:#8da384;transform-origin:left center;transform:rotate(var(--leader-angle,0rad));pointer-events:none;z-index:-1}
+.explorer :is(.region-panel,.hiking-card,.catalog-panel,.abz-card) p,.explorer .region-panel a{font-size:14px;line-height:1.6}
+.explorer .layer-popover>[data-action=life]{display:flex;align-items:center;gap:8px;width:100%;min-height:44px;margin-top:14px;padding:10px;border:1px solid #e2d2ad;border-radius:10px;background:#f7f0e1;color:#674a22}
+@media(max-width:640px){.explorer.embedded.external-layers .region-navigation{min-height:48px;padding-top:2px;padding-bottom:2px}}

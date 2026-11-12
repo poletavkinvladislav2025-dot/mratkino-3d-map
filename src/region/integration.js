@@ -20,7 +20,7 @@ export function validateCommand(d){
  if(d.command==='setCamera'&&cameraPayload(p))return {...d,payload:p};
  if(d.command==='setFilters'&&validateFilters(p))return {...d,payload:p};
  if(d.command==='focusView'&&Object.keys(p).length===1&&['places','stamps','passport'].includes(p.view))return {...d,payload:p};
- if(['resize','suspend','resume'].includes(d.command)&&Object.keys(p).length===0)return {...d,payload:p};
+ if(['openLayers','resize','suspend','resume'].includes(d.command)&&Object.keys(p).length===0)return {...d,payload:p};
  return null;
 }
 export function readURLState(search=''){
@@ -67,7 +67,7 @@ export class IntegrationBridge{
  }
  tryReady(){
   if(this.ready||!this.region.bootstrapped||this.host.getAttribute('data-map-state')!=='ready')return;
- this.ready=true;this.bindMap();this.lastSnapshot=this.snapshot();this.event('ready',{placeId:this.region.id,routeId:this.region.routeId,camera:this.snapshot(),filters:filterSnapshot(this.region.filters),commands:['openPlace','openRoute','setCamera','setFilters','focusView','resize','suspend','resume']});this.drain();
+ this.ready=true;this.bindMap();this.lastSnapshot=this.snapshot();this.event('ready',{placeId:this.region.id,routeId:this.region.routeId,camera:this.snapshot(),filters:filterSnapshot(this.region.filters),commands:['openPlace','openRoute','setCamera','setFilters','focusView','openLayers','resize','suspend','resume']});this.drain();
  }
  async drain(){if(!this.ready||this.processing||this.disposed)return;this.processing=true;try{while(this.queue.length&&!this.disposed)await this.execute(this.queue.shift());}finally{this.processing=false;}}
  async execute(c){
@@ -77,6 +77,7 @@ export class IntegrationBridge{
    if(c.command==='setFilters')r.setFilters(c.payload,{silent:true});
    if(c.command==='focusView')await r.focusView(c.payload.view,{silent:true});
    if(c.command==='openRoute')await r.openRoute(c.payload.routeId,{silent:true,focus:c.payload.autoFit!==false});
+   if(c.command==='openLayers'){r.layerPanel.hidden=false;r.layerButton.setAttribute('aria-expanded','true');r.searchPanel.hidden=true;r.searchToggle.setAttribute('aria-expanded','false');}
    if(c.command==='setCamera'){h.map.stop();h.map.jumpTo(cameraPayload(c.payload));r.sync();}
    if(c.command==='resize'){h.map.resize();r.sync();}
    if(c.command==='suspend')r.suspend(true);

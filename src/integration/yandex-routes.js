@@ -14,8 +14,8 @@ function createYandexRoutes(ymaps,map,config,onSelect,onError){
    for(const f of data){if(r.featureId&&f.properties.id!==r.featureId||r.featureIds&&!r.featureIds.includes(f.properties.id)||!intersects(f.bounds,box))continue;
     const key=r.id+'/'+asset+'/'+f.key;wanted.add(key);let item=pool.get(key);
     if(!item){const line=new ymaps.Polyline(f.coords.map(p=>[p[1],p[0]]),{hintContent:r.title.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))},{strokeColor:r.color,strokeWidth:2.8,strokeOpacity:.95,strokeStyle:r.closed?'shortdash':'solid',zIndex:150});line.events.add('click',()=>onSelect(r.id));map.geoObjects.add(line);item={line,zoom:null};pool.set(key,item);}
-    if(item.zoom!==zoom){let coords=f.coords.map(p=>[p[1],p[0]]),offset=f.properties.renderOffset||0;const projection=ymaps.projection?.wgs84Mercator;if(offset&&projection)coords=offsetRoutePixels(coords.map(p=>projection.toGlobalPixels(p,zoom)),offset).map(p=>projection.fromGlobalPixels(p,zoom));item.line.geometry.setCoordinates(coords);item.zoom=zoom;}
-    item.line.options.set('strokeWidth',r.id===selectedMeta?.id?(r.placeId==='all'?2.6:3.5):(r.placeId==='all'?1.7:2.8));item.line.options.set('zIndex',r.id===selectedMeta?.id?220:150);
+    if(item.zoom!==zoom){let coords=f.coords.map(p=>[p[1],p[0]]),offset=(f.properties.renderOffset||0)*Math.max(0,Math.min(1,(zoom-11.5)/2));const projection=ymaps.projection?.wgs84Mercator;if(offset&&projection)coords=offsetRoutePixels(coords.map(p=>projection.toGlobalPixels(p,zoom)),offset).map(p=>projection.fromGlobalPixels(p,zoom));item.line.geometry.setCoordinates(coords);item.zoom=zoom;}
+    item.line.options.set('strokeWidth',r.id===selectedMeta?.id?(r.placeId==='all'?2.6:3.5):(r.placeId==='all'?1.7:zoom<12?1.1:zoom<14?1.8:2.5));item.line.options.set('strokeOpacity',r.id===selectedMeta?.id?1:r.placeId==='all'?.95:zoom<12?.38:zoom<14?.65:.85);item.line.options.set('zIndex',r.id===selectedMeta?.id?220:150);
    }
   }));
   if(turn!==serial)return;for(const [key,item] of pool)if(!wanted.has(key)){map.geoObjects.remove(item.line);pool.delete(key);}

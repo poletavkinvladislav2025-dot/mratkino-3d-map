@@ -18,7 +18,7 @@ function vbFitView(view){
   clearTimeout(repositionTimer);clearTimeout(vbPlaceTimer);vbPendingPlace=null;
   panel.classList.remove('vb-t1__panel--open','vb-t1__panel--places');
   deselectMarker();
-  if(view==='places'){map.setBounds([[53.75,58.25],[54.07,58.72]],{checkZoomRange:true,zoomMargin:45,duration:400});return;}
+  if(view==='places'){const v=welcomeView(mapContainer.clientWidth);map.setBounds(v.bounds.map(p=>[p[1],p[0]]),{checkZoomRange:true,zoomMargin:v.padding,duration:400});return;}
   var points=markers.filter(function(m){return m.type==='kiosk'&&(view!=='passport'||m.data.sellsPassports!==false&&m.dataId!=='stampStation');}).map(function(m){return m.data.coords;});
   if(!points.length)return;
   if(points.length===1){map.setCenter(points[0],15,{duration:400});return;}

@@ -27,7 +27,7 @@
 @media(max-width:640px){#vb-map-modes{flex-wrap:nowrap;gap:10px;font-size:12px}#vb-map-modes .vb-filter-group,#vb-map-modes .vb-full{display:none}#vb-map-modes .vb-short{display:inline}#vb-map-modes .vb-mode-group{flex:none}#vb-map-modes button{padding:8px 10px}#vb-map-modes select{display:block;flex:1;width:100%;font-size:16px}}
 @media(max-width:340px){#vb-map-modes{flex-wrap:wrap}#vb-map-modes .vb-mode-group{width:100%}#vb-map-modes .vb-mode-group button{flex:1}#vb-map-modes .vb-full{display:inline}#vb-map-modes .vb-short{display:none}#vb-map-modes select{flex-basis:100%}}`;
   (scope===document?document.head:scope).append(style);
-  const origin=new URL(mapURL).origin,url=new URL(mapURL);url.searchParams.set('place',config.place||'all');if(config.route)url.searchParams.set('route',config.route);if(config.autoFit==='false')url.searchParams.set('autoFit','false');url.searchParams.set('embed','1');url.searchParams.set('externalSearch','1');url.searchParams.set('parentOrigin',location.origin);
+  const origin=new URL(mapURL).origin,url=new URL(mapURL);url.searchParams.set('place',config.place||'all');if(config.route)url.searchParams.set('route',config.route);if(config.autoFit==='false')url.searchParams.set('autoFit','false');url.searchParams.set('embed','1');url.searchParams.set('externalSearch','1');url.searchParams.set('externalLayers','1');url.searchParams.set('parentOrigin',location.origin);
   const bar=document.createElement('div');bar.id='vb-map-modes';bar.setAttribute('aria-label','Режим и объекты карты');
   const modes=document.createElement('div'),filters=document.createElement('div'),select=document.createElement('select');modes.className='vb-mode-group';modes.setAttribute('role','group');modes.setAttribute('aria-label','Способ отображения');filters.className='vb-filter-group';filters.setAttribute('role','group');filters.setAttribute('aria-label','Показать на карте');select.setAttribute('aria-label','Показать на карте');
   const button=(label,fn)=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.setAttribute('aria-label',label);b.addEventListener('click',fn);return b;};
@@ -46,9 +46,9 @@
   const searchBox=document.createElement('div');searchBox.className='vb-search-box';
   const searchInput=document.createElement('input');searchInput.type='search';searchInput.placeholder='Найти место или маршрут…';searchInput.setAttribute('aria-label','Найти место или маршрут');searchInput.setAttribute('role','combobox');searchInput.setAttribute('aria-autocomplete','list');searchInput.setAttribute('aria-expanded','false');searchInput.setAttribute('aria-controls','vb-search-results');searchInput.autocomplete='off';
   const results=document.createElement('div');results.id='vb-search-results';results.className='vb-search-results';results.setAttribute('role','listbox');results.setAttribute('aria-label','Места и маршруты');results.hidden=true;
-  const overview=button('Все места',()=>{if(scopedPlace()){chooseRoute(selectedRoute||config.route);return;}selected=null;selectedRoute=null;pendingFocus=true;searchInput.value='';closeSearch();draw();if(mode==='3d'){if(ready&&!layoutPending)apply3D();}else applyYandex(true);});overview.className='vb-search-reset';overview.setAttribute('aria-label','Общий вид карты');
+  const overview=button('Все места',()=>{trails.open=false;if(scopedPlace()){chooseRoute(selectedRoute||config.route);return;}selected=null;selectedRoute=null;pendingFocus=true;searchInput.value='';closeSearch();draw();if(mode==='3d'){if(ready&&!layoutPending)apply3D();}else applyYandex(true);});overview.className='vb-search-reset';overview.setAttribute('aria-label','Общий вид карты');
   let nearby=null;
-  const trails=document.createElement('details');trails.className='vb-trails';const summary=document.createElement('summary');summary.textContent='Тропы';trails.append(summary);const trailList=document.createElement('div');trailList.className='vb-trails-list';trails.append(trailList);
+  const trails=document.createElement('details');trails.className='vb-trails';const summary=document.createElement('summary');summary.textContent='Слои';summary.setAttribute('aria-label','Слои и действия карты');trails.append(summary);const trailList=document.createElement('div');trailList.className='vb-trails-list';trails.append(trailList);
   overview.innerHTML='<span aria-hidden="true">↺</span><span class="vb-reset-text">Все места</span>';
   searchBox.append(searchInput,results);searchBar.append(searchBox,overview,trails);host.before(searchBar);
   // One compact toolbar: view switch, filters, search and reset.
@@ -97,6 +97,7 @@
 `;
   // Site header (outside the map): the closed mobile menu must not take taps from the map below it.
   if(!document.getElementById('vb-header-nav-fix')){const fix=document.createElement('style');fix.id='vb-header-nav-fix';fix.textContent='@media(max-width:1100px){.vb-header__nav{pointer-events:none}}@media(min-width:961px) and (max-width:1100px){.vb-header__menu{pointer-events:auto}}';document.head.append(fix);}
+  const compactUI=matchMedia('(max-width:640px)');compactUI.addEventListener('change',()=>draw());
   let resultIndex=-1;
   function closeSearch(){nearby=null;results.hidden=true;searchInput.setAttribute('aria-expanded','false');searchInput.removeAttribute('aria-activedescendant');resultIndex=-1;}
   function choosePlace(id){if(scopedPlace()){const r=selectedRouteMeta();if(r){chooseRoute(r.id);return;}}selected=id;selectedRoute=null;pendingFocus=false;closeSearch();searchInput.value='';draw();if(mode==='3d'){if(ready&&!layoutPending)apply3D();}else applyYandex(false);}
@@ -134,10 +135,12 @@
   window.addEventListener('popstate',()=>{const id=new URLSearchParams(location.search).get('routeId');if(id&&routeList.some(r=>r.id===id||r.aliases?.includes(id)))chooseRoute(id,false);});
   function routeDraw(){
    const current=selectedRouteMeta(),place=current?placeList.find(p=>p.canonicalId===(current.mapPlaceId||current.placeId)):placeList.find(p=>p.id===selected);
-   overview.textContent=current||place?'× '+(place?.name||'')+(current?(place?' · ':'')+current.title:''):(view==='places'?'Все места':'Все точки');overview.title='Вернуться к общему виду';
-   if(scopedPlace()){overview.textContent='Весь маршрут';overview.setAttribute('aria-label','Показать весь маршрут');filters.style.display='none';select.style.display='none';trails.hidden=true;}
+   overview.textContent=current||place?'× '+(place?.name||'')+(current?(place?' · ':'')+current.title:''):(view==='places'?'Все места':'Все точки');overview.title='Вернуться к общему виду';overview.disabled=!current&&!place&&!scopedPlace();
+   if(scopedPlace()){overview.textContent='Весь маршрут';overview.setAttribute('aria-label','Показать весь маршрут');filters.style.display='none';select.style.display='none';trails.hidden=false;}
    scope.vbRouteCatalog=routeList;scope.vbRefreshPlaceRoutes?.();searchDraw();
-   trailList.replaceChildren();for(const r of routeList.filter(r=>r.placeId==='all'))trailList.append(button(r.title,()=>{trails.open=false;chooseRoute(r.id);}));
+   trailList.replaceChildren();const heading=document.createElement('strong');heading.textContent='Большие тропы';if(!scopedPlace())trailList.append(heading);for(const r of routeList.filter(r=>!scopedPlace()&&r.placeId==='all'))trailList.append(button(r.title,()=>{trails.open=false;chooseRoute(r.id);}));
+   if(mode==='3d'){const settings=button('Лес, рельеф и анимация',()=>{trails.open=false;send('openLayers');});settings.className='vb-open-3d-layers';trailList.append(settings);}
+   if(matchMedia('(max-width:640px)').matches){trailList.append(near,overview);}else{searchBox.after(near,overview);}
    routeCard.hidden=mode!=='yandex'||!current||view!=='places';if(routeCard.hidden)return;const title=document.createElement('h3'),description=document.createElement('p');title.textContent=current.title;description.textContent=current.description||'';routeCard.replaceChildren();if(place){const parent=document.createElement('p');parent.className='vb-route-parent';parent.textContent=place.name;routeCard.append(parent);}routeCard.append(title,description);
    const displayDistance=current.displayDistanceM??current.distanceM,displayLabel=current.displayDistanceLabel??current.distanceLabel;
    if(displayDistance){const length=document.createElement('p');length.textContent=(displayLabel?displayLabel+': ':'')+'≈ '+(displayDistance/1000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' км';routeCard.append(length);}
@@ -183,6 +186,7 @@
    if(m.event==='ready'){ready=true;clearTimeout(slowTimer);note.textContent='';lifecycle();if(mode==='3d'&&!layoutPending)apply3D();}
    if(m.event==='filtersChanged'&&Object.hasOwn(views,m.payload?.filters?.view)){view=m.payload.filters.view;draw();}
    if(m.event==='placeSelected'&&typeof m.payload?.placeId==='string'){const id=m.payload.placeId;selectedRoute=null;selected=id==='all'?null:id.startsWith('yandex:')?id.slice(7):toSource[id]||id;draw();}
+   if(m.event==='cardVisibilityChanged'&&m.payload?.open===false){selected=null;selectedRoute=null;draw();}
    if(m.event==='routeSelected'&&typeof m.payload?.routeId==='string'){selectedRoute=m.payload.routeId;rememberRoute(selectedRoute);draw();}
    if(m.event==='error'&&m.payload?.code==='WEBGL_UNAVAILABLE'){clearTimeout(slowTimer);show('yandex');ordinary.focus();note.textContent='3D недоступна в этом браузере. Открыта обычная карта.';}
   });

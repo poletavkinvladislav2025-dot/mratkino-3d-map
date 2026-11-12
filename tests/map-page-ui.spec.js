@@ -1,0 +1,24 @@
+import {test,expect} from '@playwright/test';import {relayTiles} from './tile-fixture.js';import fs from 'node:fs';import path from 'node:path';
+const appBase='/mratkino-3d-map/preview/unified/';
+for(const width of [1440,390])test('published Tilda page works with shared compact map UI '+width,async({browser})=>{
+ test.setTimeout(240000);const context=await browser.newContext({viewport:{width,height:width===390?844:1050},isMobile:width===390,hasTouch:width===390,...(process.env.HTTPS_PROXY?{proxy:{server:process.env.HTTPS_PROXY,bypass:'127.0.0.1,localhost'}}:{})}),page=await context.newPage();page.setDefaultTimeout(60000);await relayTiles(page);const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ if(!process.env.VB_LIVE_UI)await page.route('https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/unified/**',async route=>{
+  let pathname=decodeURIComponent(new URL(route.request().url()).pathname).slice(appBase.length)||'index.html';const file=path.resolve('dist',pathname);if(!file.startsWith(path.resolve('dist')+path.sep)||!fs.existsSync(file))return route.continue();const type=pathname.endsWith('.js')?'application/javascript':pathname.endsWith('.css')?'text/css':pathname.endsWith('.html')?'text/html':pathname.endsWith('.json')||pathname.endsWith('.geojson')?'application/json':undefined;return route.fulfill({path:file,...(type?{contentType:type}:{}),headers:{'access-control-allow-origin':'*'}});
+ });
+ try{
+  const response=await page.goto('https://visitbeloretsk.ru/map',{waitUntil:'domcontentloaded',timeout:60000});expect(response.status()).toBe(200);const block=page.locator('.vb-map-complete[data-vb-map-ui="20261112"]');await expect(block).toBeVisible({timeout:60000});
+  if(width===390){const burger=page.locator('#vb-burger');await burger.click();await expect(burger).toHaveAttribute('aria-expanded','true');await burger.click();}
+  await block.getByRole('button',{name:'Карта',exact:true}).click();await block.scrollIntoViewIfNeeded();await expect(block.locator('#vbT1MapContainer')).toHaveAttribute('data-background-state','ready',{timeout:60000});if(width===390){const box=await block.locator('.vb-search-box').boundingBox(),map=await block.locator('.vb-t1__map').boundingBox();expect(box.width).toBeGreaterThan(map.width-85);await expect(block.locator('.vb-trails-list .vb-near')).toHaveCount(1);}
+  await page.waitForTimeout(4000);await page.screenshot({path:'/workspace/artifacts/map-ui-map-'+width+'.png',timeout:60000});await block.getByRole('button',{name:'3D-карта',exact:true}).click();const app=page.frameLocator('iframe.vb-map-unified-frame').locator('mratkino-map');await expect(app).toHaveAttribute('data-map-state','ready',{timeout:90000});
+  for(const id of ['narrowGauge2','waterTower','malinovaya'])await expect(app.locator('[data-place-id="'+id+'"]')).toBeVisible();
+  await page.waitForTimeout(6000);await page.screenshot({path:'/workspace/artifacts/map-ui-3d-'+width+'.png',timeout:60000});
+  // Exercise card state independently of the software GPU's close-range forest cost.
+  await app.locator('[data-layer=forest]').evaluate(e=>{e.checked=false;e.dispatchEvent(new Event('change',{bubbles:true}));});
+  await app.evaluate(h=>{void h.region.choose('mratkino',false);});await expect(block.locator('.vb-search-reset')).toBeEnabled();await expect(app.locator('.region-panel')).toContainText('Где поставить штамп');await expect(app.locator('.inventory-note')).toHaveCount(0);
+  await expect.poll(()=>app.evaluate(h=>h.map.isMoving()),{timeout:45000}).toBe(false);const zoom=await app.evaluate(h=>h.map.getZoom());await app.getByRole('button',{name:'Закрыть карточку',exact:true}).click();await expect(app.locator('.sidebar')).toBeHidden();await expect(block.locator('.vb-search-reset')).toBeDisabled();expect(await app.evaluate(h=>h.map.getZoom())).toBeCloseTo(zoom,4);
+  // The legacy inline script may append this after the hosted loader. Its content must stay hidden.
+  await block.evaluate(h=>{const a=document.createElement('aside');a.className='vb-r-map-context';a.innerHTML='<button>Штамп: Ленина, 67</button>';h.shadowRoot.querySelector('.vb-t1__map').after(a);});for(const footer of await block.locator('.vb-r-map-context').all())await expect(footer).toBeHidden();
+  await block.locator('.vb-trails summary').click();await block.getByRole('button',{name:'Лес, рельеф и анимация',exact:true}).click();await expect(app.locator('.layer-popover')).toBeVisible();await app.locator('.layer-popover [data-layer=labels]').uncheck();await app.locator('.layer-popover [data-layer=labels]').check();if(width===390)await expect(app.locator('.layer-popover [data-action=life]')).toBeVisible();
+  await page.screenshot({path:'/workspace/artifacts/map-ui-after-'+width+'.png',timeout:60000});expect(errors).toEqual([]);
+ }finally{await context.close();}
+});
