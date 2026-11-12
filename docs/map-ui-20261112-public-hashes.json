@@ -1,0 +1,44 @@
+[
+  {
+    "path": "index.html",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "26a922abf3fc7c3ac47dcd9ed6bc676e1ccf1978d5e15e7119a097bbe19c80b5"
+  },
+  {
+    "path": "integration/tilda-map-block.js",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "eb4f2b2972d540265b1d1ffcf8ef0cfe203d9fd69666dd1251c66b948b7aaed9"
+  },
+  {
+    "path": "integration/tilda-map-switch.js",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "60533273c28179eda524d86781c116fc3631263086d2dc23b49590139041201d"
+  },
+  {
+    "path": "integration/map-catalog.json",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "01ff2eeb5f4b29dcea34bd20554c71961fe618500018fa76997eabcb62108314"
+  },
+  {
+    "path": "integration/route-catalog.json",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "237777a940c9a7a867a111a8616f580093d089233168064df7baee778cb26773"
+  },
+  {
+    "path": "assets/index-CPd97Oa-.js",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "e3baf8b67e077ecccbd48036ad212e0ab16adb5fed24eb78019095068dc79d64"
+  },
+  {
+    "path": "assets/index-CQy1QMaR.css",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "f8d5275e65405b907c44a627c343f3be1a62e55b5a85be92efe4d1f8083497ec"
+  }
+]
