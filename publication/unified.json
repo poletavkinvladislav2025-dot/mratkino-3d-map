@@ -1,8 +1,8 @@
 {
-  "previewRef": "34107cc1b3f3243a2c8abf21ec462355b34ba1e9",
+  "previewRef": "c9dc2b90101bea0324448b81b349a6498053b0bd",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Reset button shows an icon on phones",
-  "validated": "57 dependency-free unit modules locally; full unit suite and production build in workflow; live-page style injection at 375 and 1280 px",
+  "change": "Preserve current design and scenes; wider mobile search, shared layers and animation menu, local phone overview, priority landmark labels and quieter route rendering",
+  "validated": "81 unit tests; production build; real Yandex route SDK and shared-filter browser checks; Tilda desktop/mobile UI and interactive layer settings checks",
   "reason": "A new main dispatch SHA is required to distinguish this Pages release from the earlier main dispatch."
 }
