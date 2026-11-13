@@ -1,89 +1,10 @@
-<!doctype html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex">
-<title>Карта на OpenStreetMap — тест · Visit Beloretsk</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
-<style>
-:root{--green:#193c30;--green-h:#0f2a20;--brass:#9a7426;--brass-d:#7c5c1b;--sand:#f7f0e1;--sand-b:#e2d2ad;--ink:#1c2421;--muted:#65756b;--line:#d5ddd6;--bg:#f6f4ee;--card:#fff}
-*{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
-.page{display:flex;flex-direction:column;height:100dvh}
-header{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:10px 16px;background:#fff;border-bottom:1px solid var(--line)}
-header h1{margin:0;font-size:17px;font-weight:700;color:var(--green)}
-header .note{font-size:13px;color:var(--muted);flex:1 1 260px}
-header a{color:var(--green)}
-.tools{display:flex;flex-wrap:wrap;gap:8px;padding:10px 16px;background:#fff;border-bottom:1px solid var(--line)}
-.seg{display:inline-flex;padding:3px;gap:3px;border:1px solid var(--line);border-radius:12px;background:#eef2ee}
-.seg button,.chip{font:600 14px/1.2 inherit;font-family:inherit;min-height:38px;padding:6px 12px;border:1px solid transparent;border-radius:9px;background:transparent;color:var(--green);cursor:pointer}
-.seg button[aria-pressed=true]{background:var(--green);color:#fff}
-.chips{display:inline-flex;flex-wrap:wrap;gap:6px}
-.chip{border-color:var(--line);background:#fff}
-.chip[aria-pressed=true]{background:#e6ece7;border-color:var(--green)}
-.chip.brass{background:var(--sand);border-color:var(--sand-b);color:var(--brass-d)}
-.chip.brass[aria-pressed=true]{background:var(--brass);border-color:var(--brass);color:#fff}
-button:focus-visible,a:focus-visible{outline:3px solid #bd854b;outline-offset:2px}
-.wrap{position:relative;flex:1;min-height:0}
-#map{position:absolute;inset:0}
-.card{position:absolute;z-index:5;right:12px;top:12px;bottom:12px;width:min(380px,calc(100% - 24px));background:var(--card);border-radius:16px;box-shadow:0 8px 30px #193c3033;overflow:auto;display:none}
-.card.open{display:block}
-.card .x{position:sticky;top:8px;float:right;margin:8px 8px 0 0;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:20px;line-height:1;cursor:pointer;color:var(--green)}
-.card img{display:block;width:100%;height:190px;object-fit:cover;background:#e9ede7}
-.card .body{padding:14px 16px 18px}
-.type{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.card h2{margin:4px 0 8px;font-size:21px;line-height:1.2;color:var(--green)}
-.card p{margin:0 0 10px}
-.acts{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-.btn{display:inline-flex;align-items:center;min-height:42px;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--green);font:600 14px/1.2 inherit;font-family:inherit;text-decoration:none;cursor:pointer}
-.btn.main{background:var(--green);border-color:var(--green);color:#fff}
-.sec{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
-.sec h3{margin:0 0 8px;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
-.list{display:flex;flex-direction:column;gap:6px}
-.list button{text-align:left;min-height:42px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font:inherit;cursor:pointer}
-.list button small{display:block;color:var(--muted)}
-.list button[aria-current=true]{border-color:var(--green);background:#eef2ee}
-.stamps{background:var(--sand);border:1px solid var(--sand-b);border-radius:12px;padding:10px 12px}
-.stamps h3{color:var(--brass-d)}
-.stamps .list button{border-color:var(--sand-b)}
-.legend{position:absolute;z-index:4;left:12px;bottom:28px;background:#fffffff0;border-radius:12px;padding:8px 10px;font-size:12px;color:var(--muted);box-shadow:0 2px 10px #0002;max-width:calc(100% - 24px)}
-.legend b{color:var(--ink)}
-.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 4px 0 8px;vertical-align:-1px;border:2px solid #fff;box-shadow:0 0 0 1px #0003}
-@media(max-width:640px){
- header .note{display:none}
- .card{left:0;right:0;top:auto;bottom:0;width:auto;max-height:62%;border-radius:16px 16px 0 0}
- .card img{height:150px}
- .legend{display:none}
-}
-</style>
-</head>
-<body>
-<div class="page">
- <header>
-  <h1>Тест: карта на OpenStreetMap</h1>
-  <span class="note">Те же места, штампы и маршруты, что на <a href="https://visitbeloretsk.ru/map">карте сайта</a>, но на подложке OpenStreetMap вместо Яндекса. Страница для сравнения, на сайте ничего не изменено.</span>
- </header>
- <div class="tools">
-  <div class="seg" role="group" aria-label="Подложка">
-   <button type="button" data-base="liberty" aria-pressed="true">Обычная</button>
-   <button type="button" data-base="topo" aria-pressed="false">Топографическая</button>
-  </div>
-  <div class="chips" role="group" aria-label="Что показать">
-   <button type="button" class="chip" data-view="places" aria-pressed="true">Места</button>
-   <button type="button" class="chip brass" data-view="stamps" aria-pressed="false">Где поставить штамп</button>
-   <button type="button" class="chip brass" data-view="passport" aria-pressed="false">Где купить паспорт</button>
-  </div>
- </div>
- <div class="wrap">
-  <div id="map" role="region" aria-label="Карта Белорецкого района"></div>
-  <aside class="card" id="card" aria-live="polite"></aside>
-  <div class="legend"><b>Обозначения:</b><span class="dot" style="background:#193c30"></span>места района<span class="dot" style="background:#9a7426"></span>точки штампов<span class="dot" style="background:#8b9a91"></span>соседние курорты · цветные линии — пешие маршруты</div>
- </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-<script>
-'use strict';
+// OpenStreetMap comparison page. The map library is bundled and served with the site (no external CDN),
+// the same way as the 3D map, so it loads wherever the 3D map loads.
+import * as maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import workerURL from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
+maplibregl.setWorkerUrl(workerURL);
+window.__osmTest={get map(){return map;},ready:false,errors:[]};
 // Data comes from the same published files as the site map; nothing here is a separate copy.
 const DATA={places:'integration/map-catalog.json',routes:'integration/route-catalog.json',lines:'region/directions/routes-display.geojson'};
 const GLYPHS='https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf';
@@ -102,7 +23,8 @@ const card=document.getElementById('card');
 const styleCache={};
 const baseStyle=name=>typeof BASES[name]==='string'?(styleCache[name]||=fetch(BASES[name]).then(r=>{if(!r.ok)throw Error('Подложка не загрузилась');return r.json();})):Promise.resolve(BASES[name]);
 const map=new maplibregl.Map({container:'map',style:{version:8,glyphs:GLYPHS,sources:{},layers:[{id:'bg',type:'background',paint:{'background-color':'#eef0e8'}}]},center:[58.4,53.97],zoom:8.6,attributionControl:{compact:true}});
-baseStyle('liberty').then(st=>map.setStyle(overlay(st),{diff:false}));
+baseStyle('liberty').then(st=>map.setStyle(overlay(st),{diff:false})).catch(e=>window.__osmTest.errors.push(String(e)));
+map.on('error',e=>window.__osmTest.errors.push(String(e.error?.message||e.error||e)));
 map.addControl(new maplibregl.NavigationControl({visualizePitch:false}),'top-left');
 map.addControl(new maplibregl.GeolocateControl({positionOptions:{enableHighAccuracy:true},trackUserLocation:false}),'top-left');
 map.addControl(new maplibregl.ScaleControl({unit:'metric'}),'bottom-right');
@@ -220,8 +142,5 @@ Promise.all(Object.values(DATA).map(u=>fetch(u).then(r=>{if(!r.ok)throw Error(u)
  places=p;routes=(r.routes||[]).filter(x=>x.status);lines=l;
  const apply=()=>{map.getSource('vbPlaces')?.setData(placeFeatures());map.getSource('vbLines')?.setData(lines);overview();
   const q=new URLSearchParams(location.search).get('placeId');if(q&&places.some(x=>x.id===q||x.canonicalId===q))showPlace((places.find(x=>x.id===q)||places.find(x=>x.canonicalId===q)).id);};
- const wait=()=>map.getSource('vbPlaces')&&map.getSource('vbLines')?apply():setTimeout(wait,150);wait();
+ const wait=()=>map.getSource('vbPlaces')&&map.getSource('vbLines')?(apply(),window.__osmTest.ready=true):setTimeout(wait,150);wait();
 }).catch(err=>{card.innerHTML='<div class="body"><h2>Не удалось загрузить данные карты</h2><p>'+esc(err.message)+'</p></div>';card.classList.add('open');});
-</script>
-</body>
-</html>

@@ -1,0 +1,31 @@
+name: OSM test page check (screenshots, no publishing)
+on:
+  push:
+    branches: [map/unified-ui-20261109]
+    paths: ['osm-test.html','src/osm-test.js','vite.config.js','scripts/osm-test-check.mjs','.github/workflows/osm-test-check.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Serve the built site and render the test page
+        run: |
+          python3 -m http.server 4173 --directory dist >/dev/null 2>&1 &
+          sleep 2
+          node scripts/osm-test-check.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: osm-check
+          path: osm-check/
+          retention-days: 7
