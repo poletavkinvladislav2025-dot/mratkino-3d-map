@@ -1,8 +1,8 @@
 {
-  "previewRef": "80869471cf61a5db825ea14b28263168bce851e3",
+  "previewRef": "dd99ec35a2a3e952d04e1933928bffb788d8f0ce",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Public route text without internal decision notes",
+  "change": "14 walking routes from village centres; duplicates and lineless routes hidden; Small Iremel and Sinyak places",
   "validated": "81 unit tests; production build; real Yandex route SDK and shared-filter browser checks; Tilda desktop/mobile UI and interactive layer settings checks",
   "reason": "A new main dispatch SHA is required to distinguish this Pages release from the earlier main dispatch."
 }
