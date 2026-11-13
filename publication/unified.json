@@ -1,8 +1,8 @@
 {
-  "previewRef": "f2eabd9baa542aefca7334ed4d52703a9127fa83",
+  "previewRef": "6c168d09ec253e56bb2ec1410a392d591e49102a",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Ordinary map switched from Yandex to OpenStreetMap (MapLibre + OpenFreeMap, Russian labels, relief); cards, filters, search and routes unchanged",
+  "change": "OSM ordinary map: source credits folded on load",
   "validated": "unit tests; production build and cross-origin Tilda block render in osm-test-check workflow (desktop and mobile)",
   "reason": "A new main dispatch SHA is required to distinguish this Pages release from the earlier main dispatch."
 }
