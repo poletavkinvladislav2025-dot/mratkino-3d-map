@@ -41,14 +41,14 @@ for index,r in enumerate(x['routes']):
   if max(gaps,default=0)>80:
    reason.append('Пешеходная сеть не доходит до принятой цели или контрольных точек; соединение не дорисовано.');row['buildStatus']='partial'
    if max(gaps)>500:coords=[];row['buildStatus']='needs_geometry'
-  if rid=='kurtashtau-station':row['geometrySourceLabel']='Линию провела карта по известным ей дорогам и тропам (решение владельца 12.11.2026).';row['description']='Линию провела карта по известным ей дорогам и тропам. Короткой тропы от станции, которую упоминают описания, на карте нет, поэтому путь получился заметно длиннее. Ориентируйтесь на месте.'
+  if rid=='kurtashtau-station':row['geometrySourceLabel']='Линию провела карта по известным ей дорогам и тропам.';row['description']='Линию провела карта по известным ей дорогам и тропам. Короткой тропы от станции, которую упоминают описания, на карте нет, поэтому путь получился заметно длиннее. Ориентируйтесь на месте.'
   if rid=='kurtashtau-sok':row['geometrySourceLabel']='Линию провела карта по пешим тропам и грунтовкам.';row['description']='Короткий подъём от СОК «Курташ» по лесной дороге и тропе. Старт — шлагбаум из старого реестра мест; подъезд уточните перед поездкой.'
   if rid=='atysh-station':reason.append('Геометрия рассчитана по пешей сети; исходный ориентир платформы и переправы требуют дополнительной сверки.');row['buildStatus']='partial'
   row['sourceUrl']=r['sourceUrl'] or ('https://www.visitbeloretsk.ru/'+r['placeId'])
  elif rid=='small-yamantau-ecotrail':
   coords=[p['coordinates'] for p in routepoints];row['geometrySource']='schematic_control_points';row['geometrySourceLabel']='Схема: прямые между точками паспорта экотропы заповедника. Это не трек — на месте идите по указателям тропы.';row['buildStatus']='partial';row['sourceUrl']=r['sourceUrl'];reason.append('Тропы нет в пешей сети карты; показана схема по контрольным точкам паспорта экотропы.');provenance={'method':'Straight segments between the eco-trail passport control points, at owner request 12.11.2026; not a surveyed track','points':[p['id'] for p in routepoints]}
  elif rid in ('arskiy-kamen-short','kamennaya-rechka-otnurok'):
-  row['placeOnly']=True;row['buildStatus']='place_only';reason.append('К месту ведёт дорога; отдельный пеший маршрут не нужен (решение владельца 12.11.2026).')
+  row['placeOnly']=True;row['buildStatus']='place_only';reason.append('К месту ведёт дорога; отдельный пеший маршрут не нужен.')
  elif rid=='inzerskie-tirlyan':
   coords=tir_coords;row['geometrySource']='source_gpx';row['buildStatus']='ready';row['sourceUrl']='https://rutrail.org/trails/66/';row['downloadUrl']='https://rutrail.org/trails/66/gpx/';provenance={**tir,'method':'Published GPX, original order; exact file trailhead derived independently; no parking claim'}
  elif rid=='vishnevaya-lomovka' and (DATA/'source/vishnevaya-published.geojson').exists():
