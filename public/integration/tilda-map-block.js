@@ -54,7 +54,9 @@ function createOsmYmaps(ml,css){
    this.events=new Events();this.lines=new Map();this.type='yandex#map';this.failed=false;
    this.ml=new ml.Map({container,style:OSM_STYLE,center:toML(state.center||[54,58.35]),zoom:clampZ(state.zoom||11)-1,maxZoom:18,attributionControl:{compact:true},dragRotate:false,pitchWithRotate:false,touchPitch:false,fadeDuration:0});
    this.ml.touchZoomRotate.disableRotation();this.ml.keyboard.disableRotation?.();
-   this.ml.on('style.load',()=>this.overlay());this.ml.on('moveend',()=>this.events.fire('boundschange',{}));
+   this.ml.on('style.load',()=>this.overlay());
+   // Keep the source credits folded into the (i) button on load; it opens on tap.
+   this.ml.once('load',()=>container.querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show'));this.ml.on('moveend',()=>this.events.fire('boundschange',{}));
    this.ml.on('click','vb-ylines-hit',e=>{const id=e.features?.[0]?.properties.pid;this.lines.get(id)?.events.fire('click',{});});
    this.ml.on('mouseenter','vb-ylines-hit',()=>{this.ml.getCanvas().style.cursor='pointer';});this.ml.on('mouseleave','vb-ylines-hit',()=>{this.ml.getCanvas().style.cursor='';});
    this.geoObjects={add:o=>{o.attach(this);return this.geoObjects;},remove:o=>{o.detach();return this.geoObjects;}};
