@@ -18,6 +18,7 @@ async function clickPlace(page,id){
  const xy=await page.evaluate(id=>{const m=window.__osmTest.map;const f=m.queryRenderedFeatures({layers:['vb-place-dot']}).find(f=>f.properties.id===id);if(!f)return null;const p=m.project(f.geometry.coordinates);const r=m.getCanvas().getBoundingClientRect();return [r.left+p.x,r.top+p.y];},id);
  if(!xy)return false;await page.mouse.click(xy[0],xy[1]);await page.waitForTimeout(1500);return true;
 }
+try{
 for(const [name,viewport] of [['desktop',{width:1280,height:850}],['mobile',{width:390,height:844}]]){
  const page=await browser.newPage({viewport,deviceScaleFactor:1});
  const run={name,console:[],failed:[],statuses:{}};report.runs.push(run);
@@ -27,8 +28,9 @@ for(const [name,viewport] of [['desktop',{width:1280,height:850}],['mobile',{wid
  page.on('response',r=>{const h=new URL(r.url()).host;const k=h+' '+r.status();run.statuses[k]=(run.statuses[k]||0)+1;});
  await page.goto(base,{waitUntil:'load',timeout:60000});
  run.overview=await settle(page,'overview');
- run.state=await page.evaluate(()=>{const m=window.__osmTest.map;return {ready:window.__osmTest.ready,errors:window.__osmTest.errors,layers:m.getStyle().layers.length,ours:m.getStyle().layers.filter(l=>l.id.startsWith('vb')).map(l=>l.id),zoom:m.getZoom(),renderedPlaces:m.queryRenderedFeatures({layers:['vb-place-dot']}).length,renderedRoutes:m.queryRenderedFeatures({layers:['vb-route-line']}).length};});
  await page.screenshot({path:`${out}/${name}-1-overview.png`});
+ run.state=await page.evaluate(()=>{const t=window.__osmTest||{},m=t.map;const st=(()=>{try{return m?.getStyle();}catch(e){return 'getStyle error '+e;}})();let q=null;try{q={places:m.queryRenderedFeatures({layers:['vb-place-dot']}).length,routes:m.queryRenderedFeatures({layers:['vb-route-line']}).length};}catch(e){q=String(e);}return {hasTest:!!window.__osmTest,hasMap:!!m,ready:t.ready,errors:t.errors,styleType:typeof st,layers:st?.layers?.length,ours:st?.layers?.filter?.(l=>l.id.startsWith('vb')).map(l=>l.id),loaded:m?.loaded?.(),styleLoaded:m?.isStyleLoaded?.(),zoom:m?.getZoom?.(),q,webgl:!!document.createElement('canvas').getContext('webgl2'),canvas:!!document.querySelector('.maplibregl-canvas')};}).catch(e=>({evalError:String(e)}));
+ if(!run.state?.layers){report.fatal=true;await page.close();continue;}
  run.placeClicked=await clickPlace(page,'bigIremel');
  run.card=await page.evaluate(()=>document.querySelector('#card h2')?.textContent||null);
  await settle(page,'place');await page.screenshot({path:`${out}/${name}-2-iremel-card.png`});
@@ -45,6 +47,7 @@ for(const [name,viewport] of [['desktop',{width:1280,height:850}],['mobile',{wid
  }
  await page.close();
 }
+}catch(e){report.crash=String(e).slice(0,500);}
 await browser.close();
 fs.writeFileSync(`${out}/report.json`,JSON.stringify(report,null,1));
 console.log(JSON.stringify(report,null,1));
