@@ -2,7 +2,7 @@ name: OSM test page check (screenshots, no publishing)
 on:
   push:
     branches: [map/unified-ui-20261109]
-    paths: ['osm-test.html','src/osm-test.js','vite.config.js','scripts/osm-test-check.mjs','.github/workflows/osm-test-check.yml']
+    paths: ['osm-test.html','src/osm-test.js','src/integration/**','public/integration/**','scripts/prepare-tilda-block.mjs','vite.config.js','scripts/osm-test-check.mjs','scripts/check-server.py','.github/workflows/osm-test-check.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -20,7 +20,8 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - name: Serve the built site and render the test page
         run: |
-          python3 -m http.server 4173 --directory dist >/dev/null 2>&1 &
+          python3 scripts/check-server.py dist 4173 &
+          mkdir -p harness && python3 -m http.server 4174 --directory harness >/dev/null 2>&1 &
           sleep 2
           node scripts/osm-test-check.mjs
       - uses: actions/upload-artifact@v4

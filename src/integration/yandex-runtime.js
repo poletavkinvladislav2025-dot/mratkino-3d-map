@@ -31,10 +31,10 @@ function mountYandex(catalog,config,scope){
   var refreshButton=document.createElement('button');refreshButton.type='button';refreshButton.className='vb-t1__refresh-btn';refreshButton.textContent='↻';refreshButton.title='Обновить фон карты';refreshButton.setAttribute('aria-label','Обновить фон карты');document.querySelector('.vb-t1__tools').append(refreshButton);
   function backgroundState(state){
     mapContainer.dataset.backgroundState=state;
-    if(state==='error'){recovery.hidden=false;recoveryText.textContent='Не удалось загрузить фон Яндекс.Карты. Маршруты и места сохранены.';}
+    if(state==='error'){recovery.hidden=false;recoveryText.textContent='Не удалось загрузить фон карты. Маршруты и места сохранены.';}
     if(state==='ready')recovery.hidden=true;
   }
-  function sdkFailure(){recovery.hidden=false;recoveryText.textContent='Яндекс.Карта временно недоступна. Повторите загрузку или откройте 3D.';mapLoader.classList.add('vb-t1__map-loader--hidden');mapContainer.dataset.backgroundState='error';}
+  function sdkFailure(){recovery.hidden=false;recoveryText.textContent='Карта временно недоступна. Повторите загрузку или откройте 3D.';mapLoader.classList.add('vb-t1__map-loader--hidden');mapContainer.dataset.backgroundState='error';}
   function boundedBackground(operation){return new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('YANDEX_BACKGROUND_TIMEOUT')),15000);Promise.resolve(operation).then(value=>{clearTimeout(timer);resolve(value);},error=>{clearTimeout(timer);reject(error);});});}
   async function retryBackground(){
     if(retrying)return;retrying=true;retryButton.disabled=refreshButton.disabled=true;recoveryText.textContent='Повторяем загрузку карты…';
