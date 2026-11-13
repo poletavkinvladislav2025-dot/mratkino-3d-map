@@ -1518,7 +1518,7 @@
     {
       "id": "iremel-novokhusainovo",
       "placeId": "iremel",
-      "name": "Иремель через КПП Новохусаиново",
+      "name": "Иремель из Новохусаиново",
       "startPointId": "novokhusainovo-center",
       "goalPointId": "iremel-top",
       "viaPointIds": [],
