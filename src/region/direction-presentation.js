@@ -7,6 +7,7 @@ export function directionPresentation(route) {
     displayDistanceM: ascent ? route.lineDistanceM : route.distanceM,
     displayDistanceLabel: !ascent ? route.distanceLabel :
       route.id === 'bolshoy-shatak-avzyan' ? 'До конца GPX, в одну сторону' :
+      route.geometrySource === 'schematic_control_points' ? 'По прямой между точками, в одну сторону' :
       partial ? 'Доступная часть, в одну сторону' : 'В одну сторону',
     returnLabel: ascent ? 'Возвращение тем же путём.' : null,
   };

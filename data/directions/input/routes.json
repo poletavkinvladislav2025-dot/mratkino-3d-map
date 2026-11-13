@@ -654,6 +654,15 @@
       "kind": "settlement_reference",
       "source": "2026-10-29_register",
       "precision": "not_trailhead"
+    },
+    {
+      "id": "kushay-novoabzakovo-entry",
+      "name": "Точка входа Новоабзаково (Большая Южно-Уральская тропа)",
+      "lat": 53.81106,
+      "lon": 58.63718,
+      "kind": "trailhead",
+      "source": "https://suraltrail.ru/seg2",
+      "precision": "gpx_start"
     }
   ],
   "places": [
@@ -846,7 +855,7 @@
         "kushay-abzakovo",
         "kushay-telyashevo"
       ],
-      "defaultRouteId": "kushay-road",
+      "defaultRouteId": "kushay-abzakovo",
       "stampAvailable": null
     },
     {
@@ -1581,7 +1590,7 @@
       "status": "candidate_start_needs_recheck",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "",
+      "notes": "Владелец 12.11.2026: провести линию по пешей сети карты. Старт — шлагбаум СОК Курташ из старого реестра, на местности не перепроверен.",
       "sourceUrl": "https://trekkingmania.ru/gora_kurtashtau/",
       "pagePath": null,
       "isDefaultForPlace": false,
@@ -1872,7 +1881,7 @@
       "status": "needs_geometry",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "Контрольные точки не соединять напрямую; соблюдать официальный маршрут и режим доступа.",
+      "notes": "Владелец 12.11.2026: соединить контрольные точки паспорта экотропы линией. Тропы нет в пешей сети OSM.",
       "sourceUrl": "https://www.south-ural-reserve.ru/the-news/279-2019-02-04-07-01-51",
       "pagePath": null,
       "isDefaultForPlace": true,
@@ -2037,7 +2046,7 @@
       "status": "missing_exact_start",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "",
+      "notes": "Владелец 12.11.2026: к месту ведёт дорога, отдельный пеший маршрут не нужен.",
       "sourceUrl": "https://uraloved.ru/kamennaya-reka-i-utjos",
       "pagePath": null,
       "isDefaultForPlace": true,
@@ -2064,7 +2073,7 @@
       "status": "missing_exact_start",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "",
+      "notes": "Владелец 12.11.2026: к месту ведёт дорога, отдельный пеший маршрут не нужен.",
       "sourceUrl": "https://uraloved.ru/arskij-kamen",
       "pagePath": null,
       "isDefaultForPlace": true,
@@ -2097,7 +2106,7 @@
       "notes": "",
       "sourceUrl": "https://suraltrail.ru/seg2",
       "pagePath": null,
-      "isDefaultForPlace": true,
+      "isDefaultForPlace": false,
       "days": null,
       "orderedControlPoints": [
         {
@@ -2123,20 +2132,38 @@
       "id": "kushay-abzakovo",
       "placeId": "kushay",
       "name": "Кушай из Новоабзаково",
-      "startPointId": null,
+      "startPointId": "kushay-novoabzakovo-entry",
       "goalPointId": "kushay",
-      "viaPointIds": [],
-      "finishPointId": null,
+      "viaPointIds": [
+        "sunduk",
+        "babay"
+      ],
+      "finishPointId": "kushay-novoabzakovo-entry",
       "tripType": "out_and_back",
-      "status": "candidate_missing_exact_start",
+      "status": "published_track_section",
       "geometry": null,
-      "referenceTrackId": null,
-      "notes": "",
+      "referenceTrackId": "kushay-suraltrail-seg2",
+      "notes": "Владелец 12.11.2026: взять маршрут из указанного источника. Участок опубликованного трека БЮУТ «Кусимово — Новоабзаково».",
       "sourceUrl": "https://suraltrail.ru/seg2",
       "pagePath": null,
-      "isDefaultForPlace": false,
+      "isDefaultForPlace": true,
       "days": null,
       "orderedControlPoints": [
+        {
+          "pointId": "kushay-novoabzakovo-entry",
+          "lat": 53.81106,
+          "lon": 58.63718
+        },
+        {
+          "pointId": "sunduk",
+          "lat": 53.716869,
+          "lon": 58.605453
+        },
+        {
+          "pointId": "babay",
+          "lat": 53.710083,
+          "lon": 58.596117
+        },
         {
           "pointId": "kushay",
           "lat": 53.709756,

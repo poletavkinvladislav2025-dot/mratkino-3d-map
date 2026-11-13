@@ -1,5 +1,5 @@
 import {DirectionsController} from './directions-controller.js';
-import {directionRoute,directionPlace,defaultDirectionRoute,directionPadding} from './directions.js';
+import {directionRoute,directionPlace,defaultDirectionRoute,directionPadding,PLACE_ONLY_ROUTES} from './directions.js';
 import {CatalogLifeController} from './catalog-life.js';
 import {ROCK_SURFACES} from '../landscape/malinovaya-rock-plan.js';
 import {rodeoMask,rodeoFrame} from '../landscape/rodeo-plan.js';
@@ -187,6 +187,7 @@ export class RegionController{
   if(!meta.silent){if(placeChanged)this.bridge.event('placeSelected',{placeId:place});if(routeId)this.bridge.event('routeSelected',{placeId:place,routeId});}
  }
  async openRoute(id,meta={}){
+  if(Object.hasOwn(PLACE_ONLY_ROUTES,id)){await this.choose(PLACE_ONLY_ROUTES[id],meta.focus!==false,meta);return;}
   if(directionRoute(id)){await this.directions.open(id,meta);return;}
   if(id.startsWith('long-distance/')){this.longDistance.open(id.split('/')[1],meta);return;}
   const lift=/^(mratkino|abzakovo)\/lift\/(way\/\d+)$/.exec(id);if(lift){if(lift[1]==='mratkino'){await this.ensureResort();const f=this.host.data.lifts.features.find(f=>f.properties.id===lift[2]);if(!f)throw Error('UNKNOWN_ROUTE');this.host.selectLift(f,!!meta.focus,meta);}else{await this.ski.ensure();const f=this.ski.data.lifts.features.find(f=>f.properties.id===lift[2]);if(!f)throw Error('UNKNOWN_ROUTE');this.ski.selectLift(f,meta);}return;}

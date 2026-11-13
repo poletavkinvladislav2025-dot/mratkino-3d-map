@@ -31,7 +31,7 @@ for index,r in enumerate(x['routes']):
   role=('start-finish' if r['tripType'] in ['loop','out_and_back'] else 'start') if pid==row['startPointId'] else 'goal' if pid==r['goalPointId'] else 'via';p=point(pid,role)
   if p:routepoints.append(p)
  provenance={}
- if rid in routing and routing[rid].get('httpStatus')==200:
+ if rid in routing and routing[rid].get('httpStatus')==200 and rid!='small-yamantau-ecotrail':
   raw=read(DATA/'routing'/(rid+'.json'));f=raw['features'][0];coords=f['geometry']['coordinates'];line=LineString([T(*c[:2]) for c in coords]);gaps=[line.distance(Point(*T(*p['coordinates']))) for p in routepoints];rail=[t for t in routing[rid].get('wayTags',[]) if 'railway=' in t and not ('railway=abandoned' in t or 'railway=disused' in t)]
   provenance={**routing[rid],'method':'BRouter trekking walking profile; stored offline; no straight gap closure','snapDistancesM':dict(zip([p['id'] for p in routepoints],[round(g,2) for g in gaps]))}
   for p,gap in zip(routepoints,gaps):
@@ -41,22 +41,29 @@ for index,r in enumerate(x['routes']):
   if max(gaps,default=0)>80:
    reason.append('Пешеходная сеть не доходит до принятой цели или контрольных точек; соединение не дорисовано.');row['buildStatus']='partial'
    if max(gaps)>500:coords=[];row['buildStatus']='needs_geometry'
-  if rid=='kurtashtau-station':reason.append('Рассчитан большой обход железной дороги; соответствие отдельной пешей тропе из описания не подтверждено. Линия не опубликована.');coords=[];row['buildStatus']='needs_geometry'
+  if rid=='kurtashtau-station':row['geometrySourceLabel']='Линию провела карта по известным ей дорогам и тропам (решение владельца 12.11.2026).';row['description']='Линию провела карта по известным ей дорогам и тропам. Короткой тропы от станции, которую упоминают описания, на карте нет, поэтому путь получился заметно длиннее. Ориентируйтесь на месте.'
+  if rid=='kurtashtau-sok':row['geometrySourceLabel']='Линию провела карта по пешим тропам и грунтовкам.';row['description']='Короткий подъём от СОК «Курташ» по лесной дороге и тропе. Старт — шлагбаум из старого реестра мест; подъезд уточните перед поездкой.'
   if rid=='atysh-station':reason.append('Геометрия рассчитана по пешей сети; исходный ориентир платформы и переправы требуют дополнительной сверки.');row['buildStatus']='partial'
   row['sourceUrl']=r['sourceUrl'] or ('https://www.visitbeloretsk.ru/'+r['placeId'])
+ elif rid=='small-yamantau-ecotrail':
+  coords=[p['coordinates'] for p in routepoints];row['geometrySource']='schematic_control_points';row['geometrySourceLabel']='Схема: прямые между точками паспорта экотропы заповедника. Это не трек — на месте идите по указателям тропы.';row['buildStatus']='partial';row['sourceUrl']=r['sourceUrl'];reason.append('Тропы нет в пешей сети карты; показана схема по контрольным точкам паспорта экотропы.');provenance={'method':'Straight segments between the eco-trail passport control points, at owner request 12.11.2026; not a surveyed track','points':[p['id'] for p in routepoints]}
+ elif rid in ('arskiy-kamen-short','kamennaya-rechka-otnurok'):
+  row['placeOnly']=True;row['buildStatus']='place_only';reason.append('К месту ведёт дорога; отдельный пеший маршрут не нужен (решение владельца 12.11.2026).')
  elif rid=='inzerskie-tirlyan':
   coords=tir_coords;row['geometrySource']='source_gpx';row['buildStatus']='ready';row['sourceUrl']='https://rutrail.org/trails/66/';row['downloadUrl']='https://rutrail.org/trails/66/gpx/';provenance={**tir,'method':'Published GPX, original order; exact file trailhead derived independently; no parking claim'}
  elif rid=='vishnevaya-lomovka' and (DATA/'source/vishnevaya-published.geojson').exists():
   author=read(DATA/'source/vishnevaya-published.geojson')['features'][0];coords=author['geometry']['coordinates'];row['geometrySource']='published_author_line';row['geometrySourceLabel']='Авторская линия ИдиЛесом';row['buildStatus']='ready';row['description']='Авторская пешая линия к Вишнёвой. Конец опубликованного маршрута не обозначает точную высшую точку. Линия пересекает Ятву; рядом в OSM отмечен низководный переход. Его доступность зависит от уровня воды.';provenance={**author['properties'],'crossingAudit':'data/directions/source/vishnevaya-crossing-audit.json','method':'Public author coordinates; no linear gap closure or invented summit extension'}
  elif r['referenceTrackId']:
   ref=refs[r['referenceTrackId']]
-  if rid in ['kirel-kuzgun','arvyak-ryaz-main','bolshoy-shatak-avzyan']:
+  if rid in ['kirel-kuzgun','arvyak-ryaz-main','bolshoy-shatak-avzyan','kushay-abzakovo']:
    coords=ref['geometry']['coordinates'][0];assert len(ref['geometry']['coordinates'])==1;row['geometrySource']='source_gpx';row['downloadUrl']=ref['properties']['sourceFile'];provenance={**ref['properties'],'method':'Owner archive GPX reference, kept without linear gap closing'};row['buildStatus']='ready'
    if rid=='arvyak-ryaz-main':
     row['buildStatus']='partial';reason.append('Начало GPX в 79 м от принятого старта; исходное кольцо не замкнуто (39 м). Подходы рассчитаны по дорожной сети и показаны отдельными участками; остаточные разрывы между GPX и привязкой не соединены прямыми.');row['geometrySource']='mixed_gpx_osm';row['geometrySourceLabel']='Исходный GPX и отдельные подходы по пешеходной сети';
     for connector in ['arvyak-start-connection','arvyak-end-connection']:
      if routing.get(connector,{}).get('httpStatus')==200:extra_lines.append(read(DATA/'routing'/(connector+'.json'))['features'][0]['geometry']['coordinates'])
     provenance['connectors']=[routing.get(k) for k in ['arvyak-start-connection','arvyak-end-connection']]
+   if rid=='kushay-abzakovo':
+    row['geometrySourceLabel']='Участок опубликованного трека Большой Южно-Уральской тропы (сегмент «Кусимово — Новоабзаково»).';row['sourceUrl']=ref['properties']['sourcePage'];row['description']='Подъём на Кушай от точки входа в Новоабзаково по маркированной Большой Южно-Уральской тропе: лесные дороги вдоль рек Ахтан и Катауелга, броды, затем гребень мимо Сундука и Бабая. Возвращение тем же путём.';provenance['method']='Published BYuUT GPX section, reversed to start at Novoabzakovo; Douglas-Peucker 6 m'
    if rid=='bolshoy-shatak-avzyan':
     row['buildStatus']='partial';row['days']=2;row['stampAvailable']=False;reason.append('Показан путь до конца опубликованного GPX и обратно. Отдельный маркер вершины Яндекса находится примерно в 459 м; соединение не подтверждено.');p=point('shatak-yandex','reference');routepoints.append(p)
    if rid=='arvyak-ryaz-main':
@@ -68,7 +75,8 @@ for index,r in enumerate(x['routes']):
  if coords:
   one=length(coords)+sum(length(c) for c in extra_lines);row['lineDistanceM']=round(one);row['distanceM']=round(one*(2 if r['tripType']=='out_and_back' else 1));row['distanceLabel']='Туда и обратно' if r['tripType']=='out_and_back' else 'Весь переход' if r['tripType']=='point_to_point' else 'Доступная линия GPX' if row['buildStatus']=='partial' else 'Весь маршрут'
   if rid=='bolshoy-shatak-avzyan':row['distanceLabel']='До конца GPX и обратно'
-  if row['buildStatus']=='partial' and rid not in ['arvyak-ryaz-main','bolshoy-shatak-avzyan']:row['distanceLabel']='Расчётная часть пути и обратно'
+  if row['buildStatus']=='partial' and rid not in ['arvyak-ryaz-main','bolshoy-shatak-avzyan','small-yamantau-ecotrail']:row['distanceLabel']='Расчётная часть пути и обратно'
+  if rid=='small-yamantau-ecotrail':row['distanceLabel']='По прямой между точками, туда и обратно'
   row['bounds']=bounds(coords+[c for line in extra_lines for c in line]+[p['coordinates'] for p in routepoints]);features.append({'type':'Feature','id':rid,'properties':{'id':rid,'routeId':rid,'originalStartPointId':r['startPointId'],'originalGoalPointId':r['goalPointId'],'placeId':row['placeId'],'mapPlaceId':row['mapPlaceId'],'name':row['title'],'color':row['color'],'buildStatus':row['buildStatus'],'distanceM':row['distanceM']},'geometry':{'type':'MultiLineString' if extra_lines else 'LineString','coordinates':[extra_lines[0],coords,*extra_lines[1:]] if extra_lines else coords}})
  else:row['bounds']=bounds([p['coordinates'] for p in routepoints]);row['distanceM']=None;row['lineDistanceM']=None;row['distanceLabel']=None
  row.pop('geometry',None);row['sourceGeometrySha256']=hashlib.sha256(json.dumps(coords,separators=(',',':')).encode()).hexdigest() if coords else None

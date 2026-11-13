@@ -19,5 +19,6 @@ test('through and full return itineraries keep their full distance; incomplete l
   }
   assert.equal(directionRoute('bolshoy-shatak-avzyan').displayDistanceLabel,'До конца GPX, в одну сторону');
   assert.equal(directionRoute('aigir-ufa').displayDistanceLabel,'Доступная часть, в одну сторону');
-  assert.equal(directionRoute('small-yamantau-ecotrail').displayDistanceM,null);
+  assert.equal(directionRoute('small-yamantau-ecotrail').displayDistanceLabel,'По прямой между точками, в одну сторону');
+  assert.equal(directionRoute('small-yamantau-ecotrail').displayDistanceM,directionRoute('small-yamantau-ecotrail').lineDistanceM);
 });

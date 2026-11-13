@@ -742,5 +742,33 @@
       "highway=track"
     ],
     "routerDistanceM": "90"
+  },
+  {
+    "routeId": "kurtashtau-sok",
+    "url": "https://brouter.de/brouter?lonlats=58.50949,53.894673|58.573598,53.927395&profile=hiking-mountain&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "sha256": "ed6ed5010aacd3425639dfc6ec3f7dc5268f188ffbe1e62095712afbe022427b",
+    "requestedCoordinates": [
+      [
+        58.50949,
+        53.894673
+      ],
+      [
+        58.573598,
+        53.927395
+      ]
+    ],
+    "vertexCount": 204,
+    "storedVertexCount": 93,
+    "profile": "hiking-mountain",
+    "retrievedAt": "2026-11-12",
+    "wayTags": [
+      "highway=track",
+      "highway=path",
+      "reversedirection=yes highway=path",
+      "highway=path sac_scale=hiking",
+      "highway=track surface=ground"
+    ],
+    "routerDistanceM": "6518"
   }
 ]
