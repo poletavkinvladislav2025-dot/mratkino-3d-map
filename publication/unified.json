@@ -1,8 +1,8 @@
 {
-  "previewRef": "c9dc2b90101bea0324448b81b349a6498053b0bd",
+  "previewRef": "d8cfa2230b90906c95224b5fed8df9e85a7c0761",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Preserve current design and scenes; wider mobile search, shared layers and animation menu, local phone overview, priority landmark labels and quieter route rendering",
+  "change": "Kushay (BYuUT GPX section), Kurtashtau station and SOK lines, Small Yamantau schematic; Arskiy Kamen and Kamennaya Rechka place-only",
   "validated": "81 unit tests; production build; real Yandex route SDK and shared-filter browser checks; Tilda desktop/mobile UI and interactive layer settings checks",
   "reason": "A new main dispatch SHA is required to distinguish this Pages release from the earlier main dispatch."
 }
