@@ -62,6 +62,8 @@ function createOsmYmaps(ml,css){
    this.converter={coordinatesToGlobalPixels:(c,z)=>toGP(c,z),globalPixelsToCoordinates:(p,z)=>fromGP(p,z)};
   }
   overlay(){const m=this.ml,layers=m.getStyle().layers||[];
+   // Russian names only (the base style shows Latin and local names together).
+   for(const l of layers)if(l.type==='symbol'&&l.layout?.['text-field']&&!String(l.id).includes('shield'))try{m.setLayoutProperty(l.id,'text-field',['coalesce',['get','name:ru'],['get','name']]);}catch{}
    if(!m.getSource('vb-dem')){m.addSource('vb-dem',OSM_DEM);const first=layers.find(l=>l.type==='symbol')?.id;m.addLayer({id:'vb-hillshade',type:'hillshade',source:'vb-dem',paint:{'hillshade-exaggeration':.32,'hillshade-shadow-color':'#5e6f66','hillshade-accent-color':'#8a988f'}},first);}
    if(!m.getSource('vb-ylines')){m.addSource('vb-ylines',{type:'geojson',data:{type:'FeatureCollection',features:[]}});
     const paint={'line-color':['get','color'],'line-width':['get','width'],'line-opacity':['get','opacity']},layout={'line-cap':'round','line-join':'round','line-sort-key':['get','z']};

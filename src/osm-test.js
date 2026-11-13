@@ -36,6 +36,7 @@ function placeFeatures(){
 function overlay(style){
  style=JSON.parse(JSON.stringify(style));
  style.glyphs=style.glyphs||GLYPHS;
+ for(const l of style.layers)if(l.type==='symbol'&&l.layout?.['text-field']&&!String(l.id).includes('shield'))l.layout['text-field']=['coalesce',['get','name:ru'],['get','name']];
  const firstSymbol=style.layers.findIndex(l=>l.type==='symbol');
  if(base==='liberty'){
   style.sources.vbDem=DEM;
