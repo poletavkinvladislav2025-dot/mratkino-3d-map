@@ -770,5 +770,313 @@
       "highway=track surface=ground"
     ],
     "routerDistanceM": "6518"
+  },
+  {
+    "routeId": "arvyak-ryaz-shigaevo",
+    "url": "https://brouter.de/brouter?lonlats=58.205063,53.803845|58.327072,53.773249&profile=hiking-mountain&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "sha256": "b26deaf7ef8f18db6b265b5022b18b72381796c9d9bee7a3348ac146030ecaed",
+    "requestedCoordinates": [
+      [
+        58.205063,
+        53.803845
+      ],
+      [
+        58.327072,
+        53.773249
+      ]
+    ],
+    "vertexCount": 188,
+    "storedVertexCount": 91,
+    "profile": "hiking-mountain",
+    "retrievedAt": "2026-11-13",
+    "wayTags": [],
+    "routerDistanceM": "10659"
+  },
+  {
+    "routeId": "arvyak-ryaz-utkalevo",
+    "url": "https://brouter.de/brouter?lonlats=58.237403,53.776298|58.327072,53.773249&profile=hiking-mountain&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "sha256": "dd50f71160a6ac2618a2541403dc7c8533a34821311b4f18c9437baf16e1257b",
+    "requestedCoordinates": [
+      [
+        58.237403,
+        53.776298
+      ],
+      [
+        58.327072,
+        53.773249
+      ]
+    ],
+    "vertexCount": 99,
+    "storedVertexCount": 62,
+    "profile": "hiking-mountain",
+    "retrievedAt": "2026-11-13",
+    "wayTags": [],
+    "routerDistanceM": "7860"
+  },
+  {
+    "routeId": "atysh-verkhnie-lemezy",
+    "url": "https://brouter.de/brouter?lonlats=57.192303,54.618468|57.271753,54.555669&profile=hiking-mountain&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "sha256": "f03cb725eb69721011a5a2997a607f281d4c99de5e51febcdf83cdd659e92422",
+    "requestedCoordinates": [
+      [
+        57.192303,
+        54.618468
+      ],
+      [
+        57.271753,
+        54.555669
+      ]
+    ],
+    "vertexCount": 209,
+    "storedVertexCount": 147,
+    "profile": "hiking-mountain",
+    "retrievedAt": "2026-11-13",
+    "wayTags": [],
+    "routerDistanceM": "11665"
+  },
+  {
+    "routeId": "atysh-verkhniy-frolovskiy",
+    "url": "https://brouter.de/brouter?lonlats=57.128145,54.607727|57.271753,54.555669&profile=hiking-mountain&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "sha256": "772bcde00735b9f439498ee9425de414c5d455d16e42a3e3aca47247019c266e",
+    "requestedCoordinates": [
+      [
+        57.128145,
+        54.607727
+      ],
+      [
+        57.271753,
+        54.555669
+      ]
+    ],
+    "vertexCount": 233,
+    "storedVertexCount": 163,
+    "profile": "hiking-mountain",
+    "retrievedAt": "2026-11-13",
+    "wayTags": [],
+    "routerDistanceM": "16035"
+  },
+  {
+    "routeId": "iremel-baysakalovo",
+    "url": "https://brouter.de/brouter?lonlats=58.976788,54.479162|58.842533,54.52&profile=hiking-mountain&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "sha256": "0b3667beef42344b19d61f07715fae694dcb993b11773e4c017781bcc53cf85e",
+    "requestedCoordinates": [
+      [
+        58.976788,
+        54.479162
+      ],
+      [
+        58.842533,
+        54.52
+      ]
+    ],
+    "vertexCount": 418,
+    "storedVertexCount": 179,
+    "profile": "hiking-mountain",
+    "retrievedAt": "2026-11-13",
+    "wayTags": [],
+    "routerDistanceM": "15226"
+  },
+  {
+    "routeId": "iremel-nikolaevka",
+    "url": "https://brouter.de/brouter?lonlats=58.738986,54.37224|58.842533,54.52&profile=hiking-mountain&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "sha256": "7065616c5dd04e8eaa982b7fb3d12a828ffc3a601a46c166dfe9cf59318eab95",
+    "requestedCoordinates": [
+      [
+        58.738986,
+        54.37224
+      ],
+      [
+        58.842533,
+        54.52
+      ]
+    ],
+    "vertexCount": 467,
+    "storedVertexCount": 221,
+    "profile": "hiking-mountain",
+    "retrievedAt": "2026-11-13",
+    "wayTags": [],
+    "routerDistanceM": "22678"
+  },
+  {
+    "routeId": "iremel-novokhusainovo",
+    "url": "https://brouter.de/brouter?lonlats=59.091152,54.548494|58.842533,54.52&profile=hiking-mountain&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "sha256": "3b0bde16e0469ac5ee071f17d06ea2bc3edd44f84323e02feaac28efc873b7e4",
+    "requestedCoordinates": [
+      [
+        59.091152,
+        54.548494
+      ],
+      [
+        58.842533,
+        54.52
+      ]
+    ],
+    "vertexCount": 387,
+    "storedVertexCount": 205,
+    "profile": "hiking-mountain",
+    "retrievedAt": "2026-11-13",
+    "wayTags": [],
+    "routerDistanceM": "22102"
+  },
+  {
+    "routeId": "kirel-chernovka",
+    "url": "https://brouter.de/brouter?lonlats=58.288121,53.971493|58.230329,54.028841&profile=hiking-mountain&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "sha256": "d47bf76831d75bf603fe4eb2bb1155f7640ff02e40f6c62f1138ac733f0d44f4",
+    "requestedCoordinates": [
+      [
+        58.288121,
+        53.971493
+      ],
+      [
+        58.230329,
+        54.028841
+      ]
+    ],
+    "vertexCount": 186,
+    "storedVertexCount": 92,
+    "profile": "hiking-mountain",
+    "retrievedAt": "2026-11-13",
+    "wayTags": [],
+    "routerDistanceM": "9082"
+  },
+  {
+    "routeId": "kirel-otnurok",
+    "url": "https://brouter.de/brouter?lonlats=58.328721,54.046798|58.230329,54.028841&profile=hiking-mountain&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "sha256": "54ca1cf709640702376105e971f0727d7760bb1880eef79f3391f19e41b45588",
+    "requestedCoordinates": [
+      [
+        58.328721,
+        54.046798
+      ],
+      [
+        58.230329,
+        54.028841
+      ]
+    ],
+    "vertexCount": 386,
+    "storedVertexCount": 154,
+    "profile": "hiking-mountain",
+    "retrievedAt": "2026-11-13",
+    "wayTags": [],
+    "routerDistanceM": "10695"
+  },
+  {
+    "routeId": "kushay-telyashevo",
+    "url": "https://brouter.de/brouter?lonlats=58.64513,53.663105|58.583047,53.709756&profile=hiking-mountain&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "sha256": "3b016719148faea11ad0780d83809a6e6f92f089a8e14e5e2730d0ddbc1efca3",
+    "requestedCoordinates": [
+      [
+        58.64513,
+        53.663105
+      ],
+      [
+        58.583047,
+        53.709756
+      ]
+    ],
+    "vertexCount": 214,
+    "storedVertexCount": 93,
+    "profile": "hiking-mountain",
+    "retrievedAt": "2026-11-13",
+    "wayTags": [],
+    "routerDistanceM": "8708"
+  },
+  {
+    "routeId": "masim-kiekbaevo",
+    "url": "https://brouter.de/brouter?lonlats=57.260646,53.048599|57.25236,53.15386&profile=hiking-mountain&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "sha256": "8ba2f6c384d673975e018540888610a3b9e8ad3c794c5fa9d2741c414a61e8b9",
+    "requestedCoordinates": [
+      [
+        57.260646,
+        53.048599
+      ],
+      [
+        57.25236,
+        53.15386
+      ]
+    ],
+    "vertexCount": 330,
+    "storedVertexCount": 164,
+    "profile": "hiking-mountain",
+    "retrievedAt": "2026-11-13",
+    "wayTags": [],
+    "routerDistanceM": "17732"
+  },
+  {
+    "routeId": "masim-novomusyatovo",
+    "url": "https://brouter.de/brouter?lonlats=57.37634,53.199805|57.25236,53.15386&profile=hiking-mountain&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "sha256": "a07a923f8f7bbbebfeaaab516c61cd3cfd4d3459f298ca27082f6adc98e460a7",
+    "requestedCoordinates": [
+      [
+        57.37634,
+        53.199805
+      ],
+      [
+        57.25236,
+        53.15386
+      ]
+    ],
+    "vertexCount": 371,
+    "storedVertexCount": 166,
+    "profile": "hiking-mountain",
+    "retrievedAt": "2026-11-13",
+    "wayTags": [],
+    "routerDistanceM": "16901"
+  },
+  {
+    "routeId": "sinyak-nikolaevka",
+    "url": "https://brouter.de/brouter?lonlats=58.738986,54.37224|58.7907438,54.4916065&profile=hiking-mountain&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "sha256": "ec0a90b4d4e524b8420102dbd594d40950f7cd1e534aa68e9850aa779b7195ed",
+    "requestedCoordinates": [
+      [
+        58.738986,
+        54.37224
+      ],
+      [
+        58.7907438,
+        54.4916065
+      ]
+    ],
+    "vertexCount": 335,
+    "storedVertexCount": 157,
+    "profile": "hiking-mountain",
+    "retrievedAt": "2026-11-13",
+    "wayTags": [],
+    "routerDistanceM": "17671"
+  },
+  {
+    "routeId": "small-iremel-tyulyuk",
+    "url": "https://brouter.de/brouter?lonlats=58.825775,54.560988|58.8972837,54.5529736&profile=hiking-mountain&alternativeidx=0&format=geojson",
+    "httpStatus": 200,
+    "sha256": "e3351a7d8d77b8538239bb1996a240e59c77d6df88dec7fb963ea960c1711c7a",
+    "requestedCoordinates": [
+      [
+        58.825775,
+        54.560988
+      ],
+      [
+        58.8972837,
+        54.5529736
+      ]
+    ],
+    "vertexCount": 173,
+    "storedVertexCount": 73,
+    "profile": "hiking-mountain",
+    "retrievedAt": "2026-11-13",
+    "wayTags": [],
+    "routerDistanceM": "5920"
   }
 ]

@@ -42,11 +42,17 @@ for index,r in enumerate(x['routes']):
    reason.append('Пешеходная сеть не доходит до принятой цели или контрольных точек; соединение не дорисовано.');row['buildStatus']='partial'
    if max(gaps)>500:coords=[];row['buildStatus']='needs_geometry'
   if rid=='kurtashtau-station':row['geometrySourceLabel']='Линию провела карта по известным ей дорогам и тропам.';row['description']='Линию провела карта по известным ей дорогам и тропам. Короткой тропы от станции, которую упоминают описания, на карте нет, поэтому путь получился заметно длиннее. Ориентируйтесь на месте.'
+  if (points.get(row['startPointId']) or {}).get('kind')=='village_center' or rid=='kirel-otnurok':
+   nm=points[row['startPointId']]['name'];start='в Отнурке, там же, где у Малиновой' if rid=='kirel-otnurok' else nm.split(' (')[1].rstrip(')')+' '+nm.split(' (')[0]
+   row['geometrySourceLabel']='Линию провела карта по дорогам и тропам.';row['description']=f'Старт — {start}. Линию до вершины провела карта по дорогам и тропам; точный выход на тропу уточняйте на месте.'
+  if rid=='small-iremel-tyulyuk':row['geometrySourceLabel']='Линию провела карта по тропам.';row['description']='Старт — КПП Тюлюк, как у подъёма на Большой Иремель. Линию до вершины провела карта по тропам национального парка.'
   if rid=='kurtashtau-sok':row['geometrySourceLabel']='Линию провела карта по пешим тропам и грунтовкам.';row['description']='Короткий подъём от СОК «Курташ» по лесной дороге и тропе. Старт — шлагбаум из старого реестра мест; подъезд уточните перед поездкой.'
   if rid=='atysh-station':reason.append('Геометрия рассчитана по пешей сети; исходный ориентир платформы и переправы требуют дополнительной сверки.');row['buildStatus']='partial'
   row['sourceUrl']=r['sourceUrl'] or ('https://www.visitbeloretsk.ru/'+r['placeId'])
  elif rid=='small-yamantau-ecotrail':
   coords=[p['coordinates'] for p in routepoints];row['geometrySource']='schematic_control_points';row['geometrySourceLabel']='Схема: прямые между точками паспорта экотропы заповедника. Это не трек — на месте идите по указателям тропы.';row['buildStatus']='partial';row['sourceUrl']=r['sourceUrl'];reason.append('Тропы нет в пешей сети карты; показана схема по контрольным точкам паспорта экотропы.');provenance={'method':'Straight segments between the eco-trail passport control points, at owner request 12.11.2026; not a surveyed track','points':[p['id'] for p in routepoints]}
+ elif rid in ('iremel-tyulyuk-village','kushay-road'):
+  row['placeOnly']=True;row['buildStatus']='duplicate';reason.append('Повторяет другой маршрут этого места.')
  elif rid in ('arskiy-kamen-short','kamennaya-rechka-otnurok'):
   row['placeOnly']=True;row['buildStatus']='place_only';reason.append('К месту ведёт дорога; отдельный пеший маршрут не нужен.')
  elif rid=='inzerskie-tirlyan':
@@ -71,6 +77,7 @@ for index,r in enumerate(x['routes']):
  else:reason.append('Точный старт, цель или полная пешая линия пока не подтверждены источниками.')
  # These are unknown editorial variants: keeping all nulls is intentional.
  if not coords and not reason:reason.append('Полная линия не получена из доступных источников.')
+ if not coords and not row.get('placeOnly'):row['placeOnly']=True
  row['editorialStatus']=r['status'];row['status']=row['buildStatus'];row['statusReason']=' '.join(reason);row['publicReady']=row['buildStatus']=='ready';row['hasGeometry']=bool(coords);row['points']=routepoints
  if coords:
   one=length(coords)+sum(length(c) for c in extra_lines);row['lineDistanceM']=round(one);row['distanceM']=round(one*(2 if r['tripType']=='out_and_back' else 1));row['distanceLabel']='Туда и обратно' if r['tripType']=='out_and_back' else 'Весь переход' if r['tripType']=='point_to_point' else 'Доступная линия GPX' if row['buildStatus']=='partial' else 'Весь маршрут'

@@ -663,6 +663,114 @@
       "kind": "trailhead",
       "source": "https://suraltrail.ru/seg2",
       "precision": "gpx_start"
+    },
+    {
+      "id": "nikolaevka-center",
+      "name": "Николаевка (центр села)",
+      "lat": 54.37224,
+      "lon": 58.738986,
+      "kind": "village_center",
+      "source": "Яндекс Карты, поиск «Николаевка, Белорецкий район», 13.11.2026",
+      "precision": "village_center"
+    },
+    {
+      "id": "novokhusainovo-center",
+      "name": "Новохусаиново (центр деревни)",
+      "lat": 54.548494,
+      "lon": 59.091152,
+      "kind": "village_center",
+      "source": "Яндекс Карты, поиск «Новохусаиново, Учалинский район», 13.11.2026",
+      "precision": "village_center"
+    },
+    {
+      "id": "baysakalovo-center",
+      "name": "Байсакалово (центр деревни)",
+      "lat": 54.479162,
+      "lon": 58.976788,
+      "kind": "village_center",
+      "source": "Яндекс Карты, поиск «Байсакалово, Учалинский район», 13.11.2026",
+      "precision": "village_center"
+    },
+    {
+      "id": "utkalevo-center",
+      "name": "Уткалево (центр села)",
+      "lat": 53.776298,
+      "lon": 58.237403,
+      "kind": "village_center",
+      "source": "Яндекс Карты, поиск «Уткалево, Белорецкий район», 13.11.2026",
+      "precision": "village_center"
+    },
+    {
+      "id": "chernovka-center",
+      "name": "Черновка (центр деревни)",
+      "lat": 53.971493,
+      "lon": 58.288121,
+      "kind": "village_center",
+      "source": "Яндекс Карты, поиск «Черновка, Белорецкий район», 13.11.2026",
+      "precision": "village_center"
+    },
+    {
+      "id": "novomusyatovo-center",
+      "name": "Новомусятово (центр деревни)",
+      "lat": 53.199805,
+      "lon": 57.37634,
+      "kind": "village_center",
+      "source": "Яндекс Карты, поиск «Новомусятово, Бурзянский район», 13.11.2026",
+      "precision": "village_center"
+    },
+    {
+      "id": "kiekbaevo-center",
+      "name": "Киекбаево (центр деревни)",
+      "lat": 53.048599,
+      "lon": 57.260646,
+      "kind": "village_center",
+      "source": "Яндекс Карты, поиск «Киекбаево, Бурзянский район», 13.11.2026",
+      "precision": "village_center"
+    },
+    {
+      "id": "telyashevo-center",
+      "name": "Теляшево (центр деревни)",
+      "lat": 53.663105,
+      "lon": 58.64513,
+      "kind": "village_center",
+      "source": "Яндекс Карты, поиск «Теляшево, Абзелиловский район», 13.11.2026",
+      "precision": "village_center"
+    },
+    {
+      "id": "verkhnie-lemezy-center",
+      "name": "Верхние Лемезы (центр деревни)",
+      "lat": 54.618468,
+      "lon": 57.192303,
+      "kind": "village_center",
+      "source": "Яндекс Карты, поиск «Верхние Лемезы, Архангельский район», 13.11.2026",
+      "precision": "village_center"
+    },
+    {
+      "id": "verkhniy-frolovskiy-center",
+      "name": "Верхний Фроловский (центр деревни)",
+      "lat": 54.607727,
+      "lon": 57.128145,
+      "kind": "village_center",
+      "source": "Яндекс Карты, поиск «Верхний Фроловский, Архангельский район», 13.11.2026",
+      "precision": "village_center"
+    },
+    {
+      "id": "small-iremel-top",
+      "name": "Малый Иремель",
+      "lat": 54.5529736,
+      "lon": 58.8972837,
+      "kind": "destination",
+      "source": "OpenStreetMap node 747120721",
+      "precision": "source_point"
+    },
+    {
+      "id": "sinyak-top",
+      "name": "Синяк",
+      "lat": 54.4916065,
+      "lon": 58.7907438,
+      "kind": "destination",
+      "source": "OpenStreetMap node 747120927",
+      "precision": "source_point"
     }
   ],
   "places": [
@@ -884,7 +992,7 @@
       "routeIds": [
         "small-iremel-tyulyuk"
       ],
-      "defaultRouteId": null,
+      "defaultRouteId": "small-iremel-tyulyuk",
       "stampAvailable": null
     },
     {
@@ -893,7 +1001,7 @@
       "routeIds": [
         "sinyak-nikolaevka"
       ],
-      "defaultRouteId": null,
+      "defaultRouteId": "sinyak-nikolaevka",
       "stampAvailable": null
     }
   ],
@@ -1355,7 +1463,7 @@
       "status": "missing_exact_start",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "",
+      "notes": "Владелец 13.11.2026: дубль другого маршрута этого места, не показывать.",
       "sourceUrl": "https://greaturaltrail.ru/pohod-na-bolshoj-iremel-iz-tyulyuka",
       "pagePath": "/iremel",
       "isDefaultForPlace": false,
@@ -1378,21 +1486,26 @@
     {
       "id": "iremel-nikolaevka",
       "placeId": "iremel",
-      "name": "Иремель из Николаевки через Авняр",
-      "startPointId": null,
+      "name": "Иремель из Николаевки",
+      "startPointId": "nikolaevka-center",
       "goalPointId": "iremel-top",
       "viaPointIds": [],
-      "finishPointId": null,
+      "finishPointId": "nikolaevka-center",
       "tripType": "out_and_back",
-      "status": "missing_exact_start_and_waypoints",
+      "status": "owner_village_center_route",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "Найти точный старт, КПП Авняр и переправы. Не подменять точкой центра села.",
+      "notes": "Владелец 13.11.2026: старт — центр деревни по Яндекс Картам (для Отнурка — старт Малиновой), линию проводит карта.",
       "sourceUrl": "https://dooptrb.ru/upload/medialibrary/маршруты%20Иремеля1.pdf",
       "pagePath": "/iremel",
       "isDefaultForPlace": false,
       "days": null,
       "orderedControlPoints": [
+        {
+          "pointId": "nikolaevka-center",
+          "lat": 54.37224,
+          "lon": 58.738986
+        },
         {
           "pointId": "iremel-top",
           "lat": 54.52,
@@ -1406,20 +1519,25 @@
       "id": "iremel-novokhusainovo",
       "placeId": "iremel",
       "name": "Иремель через КПП Новохусаиново",
-      "startPointId": null,
+      "startPointId": "novokhusainovo-center",
       "goalPointId": "iremel-top",
       "viaPointIds": [],
-      "finishPointId": null,
+      "finishPointId": "novokhusainovo-center",
       "tripType": "out_and_back",
-      "status": "missing_exact_start_and_waypoints",
+      "status": "owner_village_center_route",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "",
+      "notes": "Владелец 13.11.2026: старт — центр деревни по Яндекс Картам (для Отнурка — старт Малиновой), линию проводит карта.",
       "sourceUrl": "https://dooptrb.ru/upload/medialibrary/маршруты%20Иремеля1.pdf",
       "pagePath": "/iremel",
       "isDefaultForPlace": false,
       "days": null,
       "orderedControlPoints": [
+        {
+          "pointId": "novokhusainovo-center",
+          "lat": 54.548494,
+          "lon": 59.091152
+        },
         {
           "pointId": "iremel-top",
           "lat": 54.52,
@@ -1432,21 +1550,32 @@
     {
       "id": "iremel-baysakalovo",
       "placeId": "iremel",
-      "name": "Из Байсакалово к подножию Иремеля",
-      "startPointId": null,
-      "goalPointId": null,
+      "name": "Иремель из Байсакалово",
+      "startPointId": "baysakalovo-center",
+      "goalPointId": "iremel-top",
       "viaPointIds": [],
-      "finishPointId": null,
+      "finishPointId": "baysakalovo-center",
       "tripType": "out_and_back",
-      "status": "missing_exact_start_and_goal",
+      "status": "owner_village_center_route",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "16 км в источнике до подножия, а не до вершины.",
+      "notes": "Владелец 13.11.2026: старт — центр деревни по Яндекс Картам (для Отнурка — старт Малиновой), линию проводит карта.",
       "sourceUrl": "https://dooptrb.ru/upload/medialibrary/маршруты%20Иремеля1.pdf",
       "pagePath": "/iremel",
       "isDefaultForPlace": false,
       "days": null,
-      "orderedControlPoints": [],
+      "orderedControlPoints": [
+        {
+          "pointId": "baysakalovo-center",
+          "lat": 54.479162,
+          "lon": 58.976788
+        },
+        {
+          "pointId": "iremel-top",
+          "lat": 54.52,
+          "lon": 58.842533
+        }
+      ],
       "publicReady": false,
       "buildAllowed": false
     },
@@ -1678,20 +1807,25 @@
       "id": "arvyak-ryaz-utkalevo",
       "placeId": "arvyak-ryaz",
       "name": "Арвяк-Рязь из Уткалево",
-      "startPointId": null,
+      "startPointId": "utkalevo-center",
       "goalPointId": "arvyak-top",
       "viaPointIds": [],
-      "finishPointId": null,
+      "finishPointId": "utkalevo-center",
       "tripType": "out_and_back",
-      "status": "candidate_missing_exact_start",
+      "status": "owner_village_center_route",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "",
+      "notes": "Владелец 13.11.2026: старт — центр деревни по Яндекс Картам (для Отнурка — старт Малиновой), линию проводит карта.",
       "sourceUrl": "https://suraltrail.ru/seg4",
       "pagePath": null,
       "isDefaultForPlace": false,
       "days": null,
       "orderedControlPoints": [
+        {
+          "pointId": "utkalevo-center",
+          "lat": 53.776298,
+          "lon": 58.237403
+        },
         {
           "pointId": "arvyak-top",
           "lat": 53.773249,
@@ -1705,20 +1839,25 @@
       "id": "arvyak-ryaz-shigaevo",
       "placeId": "arvyak-ryaz",
       "name": "Арвяк-Рязь из Шигаево",
-      "startPointId": null,
+      "startPointId": "shigaevo-center",
       "goalPointId": "arvyak-top",
       "viaPointIds": [],
-      "finishPointId": null,
+      "finishPointId": "shigaevo-center",
       "tripType": "out_and_back",
-      "status": "candidate_missing_exact_start",
+      "status": "owner_village_center_route",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "Шигаево из прежнего списка: вариант не подтверждён самостоятельным GPX.",
+      "notes": "Владелец 13.11.2026: старт — центр деревни по Яндекс Картам (для Отнурка — старт Малиновой), линию проводит карта.",
       "sourceUrl": null,
       "pagePath": null,
       "isDefaultForPlace": false,
       "days": null,
       "orderedControlPoints": [
+        {
+          "pointId": "shigaevo-center",
+          "lat": 53.803845,
+          "lon": 58.205063
+        },
         {
           "pointId": "arvyak-top",
           "lat": 53.773249,
@@ -1764,20 +1903,25 @@
       "id": "kirel-otnurok",
       "placeId": "kirel",
       "name": "Кирель из Отнурка",
-      "startPointId": null,
+      "startPointId": "mal-start-otn",
       "goalPointId": "kirel-goal",
       "viaPointIds": [],
-      "finishPointId": null,
+      "finishPointId": "mal-start-otn",
       "tripType": "out_and_back",
-      "status": "candidate_missing_exact_start",
+      "status": "owner_known_trailhead_route",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "",
+      "notes": "Владелец 13.11.2026: старт — центр деревни по Яндекс Картам (для Отнурка — старт Малиновой), линию проводит карта.",
       "sourceUrl": "https://belortravel.ru/attractions/gora-kirel-beloretskiy-rayon/",
       "pagePath": null,
       "isDefaultForPlace": false,
       "days": null,
       "orderedControlPoints": [
+        {
+          "pointId": "mal-start-otn",
+          "lat": 54.046798,
+          "lon": 58.328721
+        },
         {
           "pointId": "kirel-goal",
           "lat": 54.028841,
@@ -1791,20 +1935,25 @@
       "id": "kirel-chernovka",
       "placeId": "kirel",
       "name": "Кирель из Черновки",
-      "startPointId": null,
+      "startPointId": "chernovka-center",
       "goalPointId": "kirel-goal",
       "viaPointIds": [],
-      "finishPointId": null,
+      "finishPointId": "chernovka-center",
       "tripType": "out_and_back",
-      "status": "candidate_missing_exact_start",
+      "status": "owner_village_center_route",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "Вариант из старого реестра, самостоятельный трек не проверен.",
+      "notes": "Владелец 13.11.2026: старт — центр деревни по Яндекс Картам (для Отнурка — старт Малиновой), линию проводит карта.",
       "sourceUrl": null,
       "pagePath": null,
       "isDefaultForPlace": false,
       "days": null,
       "orderedControlPoints": [
+        {
+          "pointId": "chernovka-center",
+          "lat": 53.971493,
+          "lon": 58.288121
+        },
         {
           "pointId": "kirel-goal",
           "lat": 54.028841,
@@ -1952,20 +2101,25 @@
       "id": "masim-novomusyatovo",
       "placeId": "masim",
       "name": "Масим из Новомусятово",
-      "startPointId": null,
+      "startPointId": "novomusyatovo-center",
       "goalPointId": "masim-top",
       "viaPointIds": [],
-      "finishPointId": null,
+      "finishPointId": "novomusyatovo-center",
       "tripType": "out_and_back",
-      "status": "missing_exact_start",
+      "status": "owner_village_center_route",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "",
+      "notes": "Владелец 13.11.2026: старт — центр деревни по Яндекс Картам (для Отнурка — старт Малиновой), линию проводит карта.",
       "sourceUrl": "https://www.greaturaltrail.ru/pohodnagorumasimiznovomusyatovo",
       "pagePath": null,
       "isDefaultForPlace": false,
       "days": null,
       "orderedControlPoints": [
+        {
+          "pointId": "novomusyatovo-center",
+          "lat": 53.199805,
+          "lon": 57.37634
+        },
         {
           "pointId": "masim-top",
           "lat": 53.15386,
@@ -1979,20 +2133,25 @@
       "id": "masim-kiekbaevo",
       "placeId": "masim",
       "name": "Масим из Киекбаево",
-      "startPointId": null,
+      "startPointId": "kiekbaevo-center",
       "goalPointId": "masim-top",
       "viaPointIds": [],
-      "finishPointId": null,
+      "finishPointId": "kiekbaevo-center",
       "tripType": "out_and_back",
-      "status": "candidate_missing_exact_start",
+      "status": "owner_village_center_route",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "kiek-center — только ориентир; координаты выхода на маршрут неизвестны.",
+      "notes": "Владелец 13.11.2026: старт — центр деревни по Яндекс Картам (для Отнурка — старт Малиновой), линию проводит карта.",
       "sourceUrl": null,
       "pagePath": null,
       "isDefaultForPlace": false,
       "days": null,
       "orderedControlPoints": [
+        {
+          "pointId": "kiekbaevo-center",
+          "lat": 53.048599,
+          "lon": 57.260646
+        },
         {
           "pointId": "masim-top",
           "lat": 53.15386,
@@ -2103,7 +2262,7 @@
       "status": "candidate_missing_exact_start",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "",
+      "notes": "Владелец 13.11.2026: дубль другого маршрута этого места, не показывать.",
       "sourceUrl": "https://suraltrail.ru/seg2",
       "pagePath": null,
       "isDefaultForPlace": false,
@@ -2177,20 +2336,25 @@
       "id": "kushay-telyashevo",
       "placeId": "kushay",
       "name": "Кушай со стороны Теляшево",
-      "startPointId": null,
+      "startPointId": "telyashevo-center",
       "goalPointId": "kushay",
       "viaPointIds": [],
-      "finishPointId": null,
+      "finishPointId": "telyashevo-center",
       "tripType": "out_and_back",
-      "status": "candidate_missing_exact_start",
+      "status": "owner_village_center_route",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "",
+      "notes": "Владелец 13.11.2026: старт — центр деревни по Яндекс Картам (для Отнурка — старт Малиновой), линию проводит карта.",
       "sourceUrl": "https://uraltrail.ru/mountains/kushai/",
       "pagePath": null,
       "isDefaultForPlace": false,
       "days": null,
       "orderedControlPoints": [
+        {
+          "pointId": "telyashevo-center",
+          "lat": 53.663105,
+          "lon": 58.64513
+        },
         {
           "pointId": "kushay",
           "lat": 53.709756,
@@ -2236,20 +2400,25 @@
       "id": "atysh-verkhnie-lemezy",
       "placeId": "atysh",
       "name": "Атыш из Верхних Лемезов",
-      "startPointId": null,
+      "startPointId": "verkhnie-lemezy-center",
       "goalPointId": "atysh",
       "viaPointIds": [],
-      "finishPointId": null,
+      "finishPointId": "verkhnie-lemezy-center",
       "tripType": "out_and_back",
-      "status": "missing_exact_start",
+      "status": "owner_village_center_route",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "",
+      "notes": "Владелец 13.11.2026: старт — центр деревни по Яндекс Картам (для Отнурка — старт Малиновой), линию проводит карта.",
       "sourceUrl": "https://nashural.ru/article/marshruti-ot-znatokov/na-atysh-cherez-verhnie-lemezy/",
       "pagePath": null,
       "isDefaultForPlace": false,
       "days": null,
       "orderedControlPoints": [
+        {
+          "pointId": "verkhnie-lemezy-center",
+          "lat": 54.618468,
+          "lon": 57.192303
+        },
         {
           "pointId": "atysh",
           "lat": 54.555669,
@@ -2263,20 +2432,25 @@
       "id": "atysh-verkhniy-frolovskiy",
       "placeId": "atysh",
       "name": "Атыш со стороны Верхнего Фроловского",
-      "startPointId": null,
+      "startPointId": "verkhniy-frolovskiy-center",
       "goalPointId": "atysh",
       "viaPointIds": [],
-      "finishPointId": null,
+      "finishPointId": "verkhniy-frolovskiy-center",
       "tripType": "out_and_back",
-      "status": "candidate_missing_exact_start",
+      "status": "owner_village_center_route",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "Трудная лесная дорога: не обещать обычный автомобильный проезд.",
+      "notes": "Владелец 13.11.2026: старт — центр деревни по Яндекс Картам (для Отнурка — старт Малиновой), линию проводит карта.",
       "sourceUrl": null,
       "pagePath": null,
       "isDefaultForPlace": false,
       "days": null,
       "orderedControlPoints": [
+        {
+          "pointId": "verkhniy-frolovskiy-center",
+          "lat": 54.607727,
+          "lon": 57.128145
+        },
         {
           "pointId": "atysh",
           "lat": 54.555669,
@@ -2322,20 +2496,31 @@
       "id": "small-iremel-tyulyuk",
       "placeId": "small-iremel",
       "name": "Малый Иремель из Тюлюка",
-      "startPointId": null,
-      "goalPointId": null,
+      "startPointId": "iremel-kpp",
+      "goalPointId": "small-iremel-top",
       "viaPointIds": [],
-      "finishPointId": null,
+      "finishPointId": "iremel-kpp",
       "tripType": "out_and_back",
-      "status": "deferred_missing_start_goal_and_track",
+      "status": "owner_known_trailhead_route",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "",
+      "notes": "Владелец 13.11.2026: старт — центр деревни по Яндекс Картам (для Отнурка — старт Малиновой), линию проводит карта.",
       "sourceUrl": "https://dooptrb.ru/parks/iremel/",
       "pagePath": null,
       "isDefaultForPlace": false,
       "days": null,
-      "orderedControlPoints": [],
+      "orderedControlPoints": [
+        {
+          "pointId": "iremel-kpp",
+          "lat": 54.560988,
+          "lon": 58.825775
+        },
+        {
+          "pointId": "small-iremel-top",
+          "lat": 54.5529736,
+          "lon": 58.8972837
+        }
+      ],
       "publicReady": false,
       "buildAllowed": false
     },
@@ -2343,20 +2528,31 @@
       "id": "sinyak-nikolaevka",
       "placeId": "sinyak",
       "name": "Синяк со стороны Николаевки",
-      "startPointId": null,
-      "goalPointId": null,
+      "startPointId": "nikolaevka-center",
+      "goalPointId": "sinyak-top",
       "viaPointIds": [],
-      "finishPointId": null,
+      "finishPointId": "nikolaevka-center",
       "tripType": "out_and_back",
-      "status": "deferred_no_standalone_verified_track",
+      "status": "owner_village_center_route",
       "geometry": null,
       "referenceTrackId": null,
-      "notes": "Есть комбинированный поход с Иремелем. Самостоятельный маршрут пока не активировать.",
+      "notes": "Владелец 13.11.2026: старт — центр деревни по Яндекс Картам (для Отнурка — старт Малиновой), линию проводит карта.",
       "sourceUrl": "https://www.exje.ru/wp-content/uploads/2020/06/iremel4print.pdf",
       "pagePath": null,
       "isDefaultForPlace": false,
       "days": null,
-      "orderedControlPoints": [],
+      "orderedControlPoints": [
+        {
+          "pointId": "nikolaevka-center",
+          "lat": 54.37224,
+          "lon": 58.738986
+        },
+        {
+          "pointId": "sinyak-top",
+          "lat": 54.4916065,
+          "lon": 58.7907438
+        }
+      ],
       "publicReady": false,
       "buildAllowed": false
     }
