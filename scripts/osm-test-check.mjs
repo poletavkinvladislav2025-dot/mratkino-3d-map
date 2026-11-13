@@ -74,6 +74,22 @@ for(const [name,viewport] of [['desktop',{width:1280,height:900}],['mobile',{wid
  await page.close();
 }
 }catch(e){report.blockCrash=String(e).slice(0,500);}
+
+// The live site page (visitbeloretsk.ru/map) as visitors see it.
+try{
+for(const [name,viewport] of [['desktop',{width:1280,height:900}],['mobile',{width:390,height:844}]]){
+ const page=await browser.newPage({viewport,deviceScaleFactor:1});const run={name:'live-'+name,console:[],failed:[],statuses:{}};report.runs.push(run);
+ page.on('console',m=>{if(m.type()==='error')run.console.push(m.text().slice(0,300));});
+ page.on('pageerror',e=>run.console.push('pageerror: '+String(e).slice(0,300)));
+ page.on('response',r=>{const k=new URL(r.url()).host+' '+r.status();run.statuses[k]=(run.statuses[k]||0)+1;});
+ await page.goto('https://visitbeloretsk.ru/map',{waitUntil:'load',timeout:90000});
+ await page.waitForFunction(()=>{const c=document.querySelector('.vb-map-complete')?.shadowRoot?.querySelector('#vbT1MapContainer');return c&&['ready','error'].includes(c.dataset.backgroundState);},null,{timeout:60000,polling:500}).catch(()=>{});
+ await page.waitForTimeout(3000);run.state=await blockState(page);run.yandexRequests=Object.keys(run.statuses).filter(k=>/api-maps\.yandex|core-renderer-tiles/.test(k));
+ await page.locator('.vb-map-complete').scrollIntoViewIfNeeded().catch(()=>{});await shot(page,`${out}/live-${name}-1.png`);
+ run.place=await page.evaluate(async()=>{const s=document.querySelector('.vb-map-complete').shadowRoot;s.VisitBeloretskYandex.openPlace('malinovaya1');await new Promise(r=>setTimeout(r,3500));const b=[...s.querySelectorAll('.vb-t1__panel-body,.vb-t1__mcard-body')].find(x=>x.textContent.trim());return b?.innerText.replace(/\s+/g,' ').slice(0,120)||null;}).catch(e=>'error '+e);
+ await shot(page,`${out}/live-${name}-2-place.png`);await page.close();
+}
+}catch(e){report.liveCrash=String(e).slice(0,500);}
 await browser.close();
 fs.writeFileSync(`${out}/report.json`,JSON.stringify(report,null,1));
 console.log(JSON.stringify(report,null,1));
