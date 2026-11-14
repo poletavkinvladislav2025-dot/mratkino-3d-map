@@ -25,6 +25,6 @@ test('Iremel variants differ, Kraka is a short radial route, Kirеl doubles its 
  // Owner 12.11.2026: the eco-trail is shown as a schematic through the passport control points, never as a surveyed track.
  const eco=directionRoute('small-yamantau-ecotrail');assert.equal(eco.geometrySource,'schematic_control_points');assert.equal(eco.publicReady,false);assert.deepEqual(line('small-yamantau-ecotrail'),eco.points.map(p=>p.coordinates));
  const kushay=directionRoute('kushay-abzakovo');assert.equal(kushay.geometrySource,'source_gpx');assert.match(kushay.downloadUrl,/suraltrail\.ru/);assert.equal(directionPlace('kushay').defaultRouteId,'kushay-abzakovo');
- for(const id of ['kurtashtau-station','kurtashtau-sok'])assert.equal(directionRoute(id).geometrySource,'calculated_osm_walking');assert.equal(directionRoute('arvyak-ryaz-main').publicReady,false);
+ assert.equal(directionRoute('kurtashtau-station').geometrySource,'source_gpx');assert.equal(directionRoute('kurtashtau-sok').geometrySource,'calculated_osm_walking');assert.equal(directionRoute('arvyak-ryaz-main').publicReady,false);
  const p=directionPadding(390,650,350,290);assert.ok(p.bottom<=650*.48);assert.equal(p.left,44);
 });

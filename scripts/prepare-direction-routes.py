@@ -24,14 +24,32 @@ def point(pid,role):
 # Real GPX from the public route page supplies a specific start, not Tirlyan's centre.
 extra=read(DATA/'research/extra.json');tir=next(r for r in extra if 'rutrail' in r['url'] and r.get('httpStatus')==200);tree=ET.parse(DATA/'source/tirlyan.gpx');tir_coords=[[float(p.get('lon')),float(p.get('lat'))] for p in tree.getroot().iter() if p.tag.endswith('}trkpt')]
 points['tirlyan-gpx-start']={'id':'tirlyan-gpx-start','name':'Начало опубликованного GPX из Тирлянского','lat':tir_coords[0][1],'lon':tir_coords[0][0],'kind':'start','precision':'gpx_start_not_verified_parking','source':'https://rutrail.org/trails/66/gpx/'}
+# Keep the recorded outward ascent only: the source return stops about 948 m short.
+kurtash_dir=DATA/'source/kurtash-station';kurtash_audit=read(kurtash_dir/'source-audit.json');kurtash_bytes=(kurtash_dir/kurtash_audit['originalFile']).read_bytes()
+assert hashlib.sha256(kurtash_bytes).hexdigest()==kurtash_audit['originalSha256']
+kurtash_ns={'g':'http://www.topografix.com/GPX/1/1'};kurtash_root=ET.fromstring(kurtash_bytes);kurtash_pts=kurtash_root.findall('.//g:trkseg/g:trkpt',kurtash_ns)
+assert len(kurtash_root.findall('.//g:trkseg',kurtash_ns))==1 and len(kurtash_pts)==kurtash_audit['originalVertices']
+kurtash_all=[[float(p.get('lon')),float(p.get('lat'))] for p in kurtash_pts];kurtash_cut=kurtash_audit['ascentEndIndex'];kurtash_coords=kurtash_all[:kurtash_cut+1]
+assert kurtash_cut==min(range(len(kurtash_all)),key=lambda i:distance(kurtash_all[i],kurtash_audit['summitReference']))
+points['uraltau-gpx-start']={'id':'uraltau-gpx-start','name':'Начало GPX у станции Урал-Тау','lat':kurtash_coords[0][1],'lon':kurtash_coords[0][0],'kind':'start','precision':'recorded_gpx_start','source':kurtash_audit['sourcePage']}
+# Download is exactly the mapped ascent, with original elevations and timestamps.
+ET.register_namespace('',kurtash_ns['g']);export=ET.Element('{'+kurtash_ns['g']+'}gpx',{'version':'1.1','creator':'Visit Beloretsk / original GPX: Oleg Chegodaev, Extreme Jewelry'})
+meta=ET.SubElement(export,'{'+kurtash_ns['g']+'}metadata');ET.SubElement(meta,'{'+kurtash_ns['g']+'}desc').text='Подъём из GPS-записи 18.02.2017; обратный участок исключён. Часть записи проходит по действующей железной дороге, отдельная безопасная пешая тропа не подтверждена.';ET.SubElement(meta,'{'+kurtash_ns['g']+'}link',{'href':kurtash_audit['sourcePage']})
+track=ET.SubElement(export,'{'+kurtash_ns['g']+'}trk');ET.SubElement(track,'{'+kurtash_ns['g']+'}name').text='Курташтау от Урал-Тау — подъём, GPX 18.02.2017';seg=ET.SubElement(track,'{'+kurtash_ns['g']+'}trkseg');seg.extend(kurtash_pts[:kurtash_cut+1]);ET.ElementTree(export).write(OUT/'kurtashtau-station.gpx',encoding='utf-8',xml_declaration=True)
 for index,r in enumerate(x['routes']):
  rid=r['id'];row={**r,'id':rid,'routeId':rid,'originalStartPointId':r['startPointId'],'originalGoalPointId':r['goalPointId'],'placeId':r['placeId'],'mapPlaceId':PLACE_ALIASES.get(r['placeId'],r['placeId']),'title':r['name'],'aliases':ALIASES.get(rid,[]),'revision':1,'checkedAt':DATE,'buildStatus':'needs_data','publicReady':False,'hasGeometry':False,'geometrySource':None,'color':COLORS[index%len(COLORS)],'category':'hiking','minZoom':10,'asset':'region/directions/routes.geojson','displayAsset':'region/directions/routes-display.geojson','featureId':rid,'description':DESCRIPTIONS.get(rid,'Пеший вариант «'+r['name']+'». Полная линия маршрута пока уточняется.')};coords=[];extra_lines=[];reason=[];ids=[r['startPointId'],*r['viaPointIds'],r['goalPointId']];routepoints=[]
+ if rid=='kurtashtau-station':row['startPointId']='uraltau-gpx-start';row['finishPointId']='uraltau-gpx-start';ids=['uraltau-gpx-start',r['goalPointId']]
  if rid=='inzerskie-tirlyan':row['startPointId']='tirlyan-gpx-start';row['finishPointId']='tirlyan-gpx-start';ids=['tirlyan-gpx-start',r['goalPointId']]
  for i,pid in enumerate(dict.fromkeys(p for p in ids if p)):
   role=('start-finish' if r['tripType'] in ['loop','out_and_back'] else 'start') if pid==row['startPointId'] else 'goal' if pid==r['goalPointId'] else 'via';p=point(pid,role)
   if p:routepoints.append(p)
  provenance={}
- if rid in routing and routing[rid].get('httpStatus')==200 and rid!='small-yamantau-ecotrail':
+ if rid=='kurtashtau-station':
+  coords=kurtash_coords;row['geometrySource']='source_gpx';row['geometrySourceLabel']='Подъём из GPS-записи Олега Чегодаева от 18.02.2017';row['buildStatus']='ready';row['revision']=2;row['checkedAt']=kurtash_audit['checkedAt'];row['sourceUrl']=kurtash_audit['sourcePage'];row['downloadUrl']='https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/unified/region/directions/kurtashtau-station.gpx';row['downloadLabel']='GPX подъёма ↗'
+  row['description']='От станции Урал-Тау в сторону Магнитогорска вдоль железной дороги, затем подъём по лесному склону на скальный гребень Курташтау. Показан подъём из GPS-записи 2017 года. Часть записи проходит по действующим железнодорожным путям; отдельная безопасная пешеходная тропа не подтверждена.'
+  row['notes']='Взят только подъём из опубликованного GPX. Исходный спуск обрывается примерно за километр до начала записи; он исключён. Возвращение предполагается по линии подъёма. Координаты станции и вершины сохранены как ориентиры, без прямых соединений.'
+  station=point('uraltau-station','reference');row['referencePoints']=[station];provenance={**kurtash_audit,'method':kurtash_audit['method'],'originalStationReference':station['coordinates']}
+ elif rid in routing and routing[rid].get('httpStatus')==200 and rid!='small-yamantau-ecotrail':
   raw=read(DATA/'routing'/(rid+'.json'));f=raw['features'][0];coords=f['geometry']['coordinates'];line=LineString([T(*c[:2]) for c in coords]);gaps=[line.distance(Point(*T(*p['coordinates']))) for p in routepoints];rail=[t for t in routing[rid].get('wayTags',[]) if 'railway=' in t and not ('railway=abandoned' in t or 'railway=disused' in t)]
   provenance={**routing[rid],'method':'BRouter trekking walking profile; stored offline; no straight gap closure','snapDistancesM':dict(zip([p['id'] for p in routepoints],[round(g,2) for g in gaps]))}
   for p,gap in zip(routepoints,gaps):
@@ -41,7 +59,6 @@ for index,r in enumerate(x['routes']):
   if max(gaps,default=0)>80:
    reason.append('Пешеходная сеть не доходит до принятой цели или контрольных точек; соединение не дорисовано.');row['buildStatus']='partial'
    if max(gaps)>500:coords=[];row['buildStatus']='needs_geometry'
-  if rid=='kurtashtau-station':row['geometrySourceLabel']='Линию провела карта по известным ей дорогам и тропам.';row['description']='Линию провела карта по известным ей дорогам и тропам. Короткой тропы от станции, которую упоминают описания, на карте нет, поэтому путь получился заметно длиннее. Ориентируйтесь на месте.'
   if (points.get(row['startPointId']) or {}).get('kind')=='village_center' or rid=='kirel-otnurok':
    nm=points[row['startPointId']]['name'];start='в Отнурке, там же, где у Малиновой' if rid=='kirel-otnurok' else nm.split(' (')[1].rstrip(')')+' '+nm.split(' (')[0]
    row['geometrySourceLabel']='Линию провела карта по дорогам и тропам.';row['description']=f'Старт — {start}. Линию до вершины провела карта по дорогам и тропам; точный выход на тропу уточняйте на месте.'

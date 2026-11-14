@@ -1,0 +1,40 @@
+{
+  "routeId": "kurtashtau-station",
+  "checkedAt": "2026-11-14",
+  "author": "Олег Чегодаев / Extreme Jewelry",
+  "sourcePage": "https://www.exje.ru/mnt-kurtashtau/",
+  "sourceFile": "https://www.exje.ru/wp-content/uploads/2017/02/GPS-%D1%82%D1%80%D0%B5%D0%BA-%D0%9A%D1%83%D1%80%D1%82%D0%B0%D1%88%D1%82%D0%B0%D1%83-%D1%81%D0%BE-%D1%81%D1%82%D0%B0%D0%BD%D1%86%D0%B8%D0%B8-%D0%A3%D1%80%D0%B0%D0%BB-%D0%A2%D0%B0%D1%83.rar",
+  "originalFile": "exje-2017-original.gpx",
+  "originalSha256": "c8e9cb2f97afaec69ce55a7487bea89d888aa2bc3abd1ebfe093a33a5d2d1738",
+  "originalVertices": 2182,
+  "recordedDate": "2017-02-18",
+  "ascentEndIndex": 1134,
+  "ascentVertices": 1135,
+  "ascentDistanceM": 7984,
+  "ascentStart": [
+    58.57010995969176,
+    53.9757817145437
+  ],
+  "ascentEnd": [
+    58.57372113503516,
+    53.92730137333274
+  ],
+  "summitReference": [
+    58.573598,
+    53.927395
+  ],
+  "summitGapM": 13.17,
+  "originalReturnEnd": [
+    58.57484615407884,
+    53.96772821433842
+  ],
+  "originalEndToStartM": 947.57,
+  "largestAscentStepM": 26.56,
+  "method": "Keep original GPX vertices 0..ascentEndIndex, including the closest recorded summit point. Omit the incomplete original return. No linear connectors, routing, reversal or gap closure. Out-and-back distance means a return along the ascent, not the recorded descent.",
+  "railwayNote": "Author explicitly describes walking on the railway. A separate safe pedestrian path beside the tracks is not verified.",
+  "supportingDescriptions": [
+    "https://trekkingmania.ru/gora_kurtashtau/",
+    "https://www.exje.ru/free-map-ural/"
+  ],
+  "alternativeAuthorGpx": "https://www.exje.ru/wp-content/uploads/2020/06/UB1-KURTASHTAU-URALTAU.gpx"
+}
