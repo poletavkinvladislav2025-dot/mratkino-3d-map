@@ -1,8 +1,8 @@
 {
-  "previewRef": "6c168d09ec253e56bb2ec1410a392d591e49102a",
+  "previewRef": "e744e4eb0db1e483640b4af043dd522e134272d4",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "OSM ordinary map: source credits folded on load",
-  "validated": "unit tests; production build and cross-origin Tilda block render in osm-test-check workflow (desktop and mobile)",
+  "change": "Kurtash from Ural-Tau: replace the 24.6 km walking-router detour with the 7.984 km recorded 2017 ascent, preserve the stable route ID and add downloadable ascent GPX with source and railway context",
+  "validated": "production build; 79 unit tests; ordinary OSM and 3D route fit, variant and source/download checks at 1365 and 390 px; other route records unchanged",
   "reason": "A new main dispatch SHA is required to distinguish this Pages release from the earlier main dispatch."
 }
