@@ -1,0 +1,38 @@
+[
+  {
+    "path": "index.html",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "07f095a219f1d5cd68619e3833f661e6759c4660e302f57b48f94c1691737cc2"
+  },
+  {
+    "path": "integration/route-catalog.json",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "d8498f2aa69e72a42b5afc4412e3e1b32e9ed61e7073aba1cc4ba2cdfad6a780"
+  },
+  {
+    "path": "integration/tilda-map-switch.js",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "c16c79942cee101774df352dcb1d8a114731347ae52c8b6b23253fb0b75d12e5"
+  },
+  {
+    "path": "region/directions/routes.geojson",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "5dd0c8a2bbc18edfa802784efce49348cbeccb1f0f9cd519f8ca7a851f66e38f"
+  },
+  {
+    "path": "region/directions/routes-display.geojson",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "8940863d0dcbcd8f29a4bf50488313b0e64b09c9584b1dac7ba2c4d95026233f"
+  },
+  {
+    "path": "region/directions/kurtashtau-station.gpx",
+    "status": 200,
+    "matchesBuild": true,
+    "sha256": "5b12c24c1089f66eb48d678f9e7db19f0e57f59fa84e97ddee4da496ffedeb8e"
+  }
+]

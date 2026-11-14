@@ -1,0 +1,26 @@
+[
+  {
+    "width": 1365,
+    "lineDistanceM": 7984,
+    "source": "https://www.exje.ru/mnt-kurtashtau/",
+    "routeId": "kurtashtau-station",
+    "zoom": 11.781175214673228,
+    "parts": 11,
+    "minLng": 58.56897672638297,
+    "maxLng": 58.59190609306097,
+    "fit": "ready",
+    "errors": []
+  },
+  {
+    "width": 390,
+    "lineDistanceM": 7984,
+    "source": "https://www.exje.ru/mnt-kurtashtau/",
+    "routeId": "kurtashtau-station",
+    "zoom": 10.800018519070617,
+    "parts": 11,
+    "minLng": 58.56897672638297,
+    "maxLng": 58.59190609306097,
+    "fit": "ready",
+    "errors": []
+  }
+]
