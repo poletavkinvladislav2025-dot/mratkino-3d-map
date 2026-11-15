@@ -1,0 +1,79 @@
+{
+  "appCommit": "a78165399d150ab45a89d3b6da09cae34fb4b63a",
+  "base": "https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/unified/",
+  "checks": [
+    {
+      "path": "index.html",
+      "matches": true,
+      "sha256": "fb234a3fc0249279f4db85e89581fcec3613b9a308f9c6dd26862306dbc94f84"
+    },
+    {
+      "path": "integration/tilda-map-block.js",
+      "matches": true,
+      "sha256": "f62cf521e30f0151a1a16ae8fbfea85fc7b4e34a59d99db91ec5811e5a2ed2e3"
+    },
+    {
+      "path": "integration/route-catalog.json",
+      "matches": true,
+      "sha256": "73e05e6310ece7a59c0d703136965f9b4ee6641d71280ffd1117a1caaa650967"
+    },
+    {
+      "path": "region/directions/routes.geojson",
+      "matches": true,
+      "sha256": "fbd6bb594fec525984860566f1588d3f1499616c4f456b04b9e20a1a3e27b67e"
+    },
+    {
+      "path": "region/directions/routes-display.geojson",
+      "matches": true,
+      "sha256": "7830374d07631d352dca08c45db598b44aedd528e95d7b638f5cbcd4801688bd"
+    },
+    {
+      "path": "region/directions/iremel-nikolaevka.gpx",
+      "matches": true,
+      "sha256": "de7e13d2150bae541b718591016646bcca94f720fddd0a051efe106565c86565"
+    },
+    {
+      "path": "region/directions/kumardak-iselgan.gpx",
+      "matches": true,
+      "sha256": "5cacfdce7a22302c945369362f240d3e0bac1457ba90544ae4c50991bc173c4e"
+    },
+    {
+      "path": "region/directions/rassypnaya-shushpa.gpx",
+      "matches": true,
+      "sha256": "20fa4ba55233e50af1ff06858cd51d356fbed60150adc5da0b5b1f7d03596542"
+    },
+    {
+      "path": "region/directions/kurtashtau-sok.gpx",
+      "matches": true,
+      "sha256": "e3273ec891aa03c2600a65f096906483e855decdb342cb845aa2d1f58168001d"
+    }
+  ],
+  "checkedAt": "2026-11-15",
+  "workflowRun": 43695123183,
+  "dispatchCommit": "05505ffd7b7b007b3b57bec505dba5bf1370a252",
+  "tildaPage": "https://visitbeloretsk.ru/map",
+  "unitTests": 85,
+  "liveBrowser": [
+    {
+      "engine": "ordinary",
+      "width": 1365,
+      "errorPx": 0.719482421875
+    },
+    {
+      "engine": "ordinary",
+      "width": 390,
+      "errorPx": 0.25
+    },
+    {
+      "engine": "3d",
+      "width": 1365,
+      "errorPx": 1.881041734786856e-08,
+      "silhouette": {
+        "top": 38.10636353096804,
+        "bottom": 286.64792956025565,
+        "height": 545,
+        "zoom": 18.682753287583406
+      }
+    }
+  ]
+}
