@@ -1,8 +1,8 @@
 {
-  "previewRef": "2d1095d0666407ed4f8e5fb2436ea6ed327291f3",
+  "previewRef": "a78165399d150ab45a89d3b6da09cae34fb4b63a",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Centre places in the actual map area beside/above cards in both engines; remove only the tower footprint from grouped building geometry; extend its foundation to ground; replace four calculated approaches with source GPX and retain incomplete route qualifications",
-  "validated": "85 unit tests; production build; ordinary focus across 1365/390/768/1100 px including route-to-place; 3D focus across desktop/mobile/tablet; four GPX routes fit entirely at 1365/390 px; source fidelity and original GPX hash preservation; tower model and neighbouring building geometry",
+  "change": "Follow up the verified map focus, tower footprint and GPX release: fit the complete water tower inside short Tilda embeds while retaining its centred ground anchor",
+  "validated": "85 unit tests; production build; browser test at 1365x650 confirms complete tower silhouette and centred anchor; previous desktop/mobile focus, GPX fit and live Tilda checks retained",
   "reason": "A new main dispatch SHA is required to distinguish this Pages release from the earlier main dispatch."
 }
