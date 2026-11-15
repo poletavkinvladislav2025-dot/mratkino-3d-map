@@ -1,0 +1,54 @@
+[
+  {
+    "routeId": "iremel-nikolaevka",
+    "file": "UB1-IREMEL-NIKOLAEVKA.gpx",
+    "sha256": "de7e13d2150bae541b718591016646bcca94f720fddd0a051efe106565c86565",
+    "vertices": 532,
+    "reverse": false,
+    "clipAtGoal": false,
+    "sourceFile": "https://www.exje.ru/wp-content/uploads/2020/06/UB1-IREMEL-NIKOLAEVKA.gpx",
+    "sourcePage": "https://www.exje.ru/free-map-ural/",
+    "author": "Extreme Jewelry / проект «Уральский барс»",
+    "checkedAt": "2026-11-15",
+    "description": "Подъём из Николаевки на Большой Иремель по опубликованному авторскому GPX. Начало соответствует началу трека; возвращение тем же путём."
+  },
+  {
+    "routeId": "kumardak-iselgan",
+    "file": "UB1-KUMARDAK.gpx",
+    "sha256": "5cacfdce7a22302c945369362f240d3e0bac1457ba90544ae4c50991bc173c4e",
+    "vertices": 557,
+    "reverse": false,
+    "clipAtGoal": false,
+    "sourceFile": "https://www.exje.ru/wp-content/uploads/2020/06/UB1-KUMARDAK.gpx",
+    "sourcePage": "https://www.exje.ru/free-map-ural/",
+    "author": "Extreme Jewelry / проект «Уральский барс»",
+    "checkedAt": "2026-11-15",
+    "description": "Подход к Большому Кумардаку со стороны Иселгана по опубликованному авторскому GPX. Линия проходит рядом с вершиной и заканчивается на гребне; возвращение тем же путём."
+  },
+  {
+    "routeId": "rassypnaya-shushpa",
+    "file": "UB1-RASSIPNAYA.gpx",
+    "sha256": "62e3e6f99f85f9ce43c55917b1eee9478d952ddf2bbffd1bbc6ceed344f42a20",
+    "vertices": 129,
+    "reverse": true,
+    "clipAtGoal": true,
+    "sourceFile": "https://www.exje.ru/wp-content/uploads/2020/06/UB1-RASSIPNAYA.gpx",
+    "sourcePage": "https://www.exje.ru/free-map-ural/",
+    "author": "Extreme Jewelry / проект «Уральский барс»",
+    "checkedAt": "2026-11-15",
+    "description": "Подход из Шушпы к Восточному бастиону Рассыпной по опубликованному авторскому GPX. Исходник развёрнут от Шушпы и обрезан у ближайшей к бастиону точки; продолжение к западной части гребня исключено."
+  },
+  {
+    "routeId": "kurtashtau-sok",
+    "file": "UB1-KURTACHTAU-TRASSA.gpx",
+    "sha256": "1e8e02772ea7b5061eb9b1c539c6c09802c62f091150c1cf60587dccd1931164",
+    "vertices": 178,
+    "reverse": true,
+    "clipAtGoal": true,
+    "sourceFile": "https://www.exje.ru/wp-content/uploads/2020/06/UB1-KURTACHTAU-TRASSA.gpx",
+    "sourcePage": "https://www.exje.ru/free-map-ural/",
+    "author": "Extreme Jewelry / проект «Уральский барс»",
+    "checkedAt": "2026-11-15",
+    "description": "Подъём на Курташтау со стороны трассы и СОК «Курташ» по опубликованному авторскому GPX. Старт — начало исходного трека у трассы, а не прежний ориентир шлагбаума; возвращение по линии подъёма."
+  }
+]

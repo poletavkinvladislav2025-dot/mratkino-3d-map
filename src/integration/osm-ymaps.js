@@ -62,6 +62,8 @@ function createOsmYmaps(ml,css){
   syncLines(now){if(this.pending&&!now)return;this.pending=true;const run=()=>{this.pending=false;const src=this.ml.getSource('vb-ylines');if(!src)return;src.setData({type:'FeatureCollection',features:[...this.lines.values()].map(l=>l.feature()).sort((a,b)=>a.properties.z-b.properties.z)});};now?run():requestAnimationFrame(run);}
   camera(move,duration){return new Promise(resolve=>{let done=false;const finish=()=>{if(!done){done=true;resolve();}};this.ml.once('moveend',finish);move();setTimeout(finish,(duration||0)+300);});}
   setCenter(center,zoom,opts={}){const d=opts.duration??0;return this.camera(()=>this.ml.easeTo({center:toML(center),...(zoom!=null?{zoom:clampZ(zoom)-1}:{}),duration:d}),d);}
+  pointToScreen(coords){const p=this.ml.project(toML(coords));return [p.x,p.y];}
+  focusPoint(coords,target,zoom=this.getZoom(),opts={}){const c=this.ml.getContainer(),d=opts.duration??0;return this.camera(()=>{this.ml.stop();this.ml.setPadding({top:0,bottom:0,left:0,right:0});this.ml.easeTo({center:toML(coords),zoom:clampZ(zoom)-1,padding:{top:0,bottom:0,left:0,right:0},offset:[target[0]-c.clientWidth/2,target[1]-c.clientHeight/2],duration:d});},d);}
   setZoom(zoom,opts={}){const d=opts.duration??0;return this.camera(()=>this.ml.easeTo({zoom:clampZ(zoom)-1,duration:d}),d);}
   setBounds(b,opts={}){const sw=b[0],ne=b[1];if(Math.abs(sw[0]-ne[0])<1e-7&&Math.abs(sw[1]-ne[1])<1e-7)return this.setCenter(sw,opts.maxZoom??15,opts);
    const c=this.ml.getContainer(),w=c.clientWidth||300,h=c.clientHeight||300,p=margin(opts.zoomMargin),sx=Math.min(1,(w-40)/Math.max(1,p.left+p.right)),sy=Math.min(1,(h-40)/Math.max(1,p.top+p.bottom));

@@ -31,7 +31,7 @@ export class WaterTowerModel{
  outline(w,h,angle,r,z,m,thickness=.045){const pts=this.arch(w,h).getPoints(8);for(let i=1;i<pts.length;i++){const at=p=>new T.Vector3(p.x,-r,z+p.y).applyAxisAngle(new T.Vector3(0,0,1),angle).toArray();this.rod(at(pts[i-1]),at(pts[i]),thickness,m);}}
  create(){
   const texture=brickTexture(),boards=woodTexture();this.resources.add(texture);this.resources.add(boards);const brick=this.material(0xffffff,{map:texture}),trim=this.material(0xba7858),stone=this.material(0xc7bcaa),wood=this.material(0xffffff,{map:boards}),darkWood=this.material(0x49372d),roof=this.material(0x564448),metal=this.material(0x373737),glass=this.material(0x273b3d),door=this.material(0x714228),light=this.material(0xc49d69);
-  this.octagon(2.82,.65,0,stone);this.octagon(2.65,14.45,.65,brick,2.46);this.octagon(2.62,.24,14.95,trim);this.octagon(2.7,.25,15.19,stone);this.octagon(2.7,1,15.44,darkWood,4.15);this.octagon(4.15,.24,16.44,darkWood);
+  this.octagon(2.82,.95,-.3,stone);this.octagon(2.65,14.45,.65,brick,2.46);this.octagon(2.62,.24,14.95,trim);this.octagon(2.7,.25,15.19,stone);this.octagon(2.7,1,15.44,darkWood,4.15);this.octagon(4.15,.24,16.44,darkWood);
   this.octagon(4.03,4.05,16.68,wood);this.octagon(4.2,.18,20.73,darkWood);this.octagon(4.55,1.3,20.91,roof,.95);
   this.octagon(1.01,1.8,22.21,wood);this.octagon(1.25,.65,24.01,roof,0);this.rod([0,0,24.6],[0,0,25],.027,metal);
   for(let i=0;i<8;i++){

@@ -36,8 +36,11 @@ points['uraltau-gpx-start']={'id':'uraltau-gpx-start','name':'Начало GPX �
 ET.register_namespace('',kurtash_ns['g']);export=ET.Element('{'+kurtash_ns['g']+'}gpx',{'version':'1.1','creator':'Visit Beloretsk / original GPX: Oleg Chegodaev, Extreme Jewelry'})
 meta=ET.SubElement(export,'{'+kurtash_ns['g']+'}metadata');ET.SubElement(meta,'{'+kurtash_ns['g']+'}desc').text='Подъём из GPS-записи 18.02.2017; обратный участок исключён. Часть записи проходит по действующей железной дороге, отдельная безопасная пешая тропа не подтверждена.';ET.SubElement(meta,'{'+kurtash_ns['g']+'}link',{'href':kurtash_audit['sourcePage']})
 track=ET.SubElement(export,'{'+kurtash_ns['g']+'}trk');ET.SubElement(track,'{'+kurtash_ns['g']+'}name').text='Курташтау от Урал-Тау — подъём, GPX 18.02.2017';seg=ET.SubElement(track,'{'+kurtash_ns['g']+'}trkseg');seg.extend(kurtash_pts[:kurtash_cut+1]);ET.ElementTree(export).write(OUT/'kurtashtau-station.gpx',encoding='utf-8',xml_declaration=True)
+from published_direction_sources import load_published
+published=load_published(ROOT,points,x['routes'],distance,OUT)
 for index,r in enumerate(x['routes']):
  rid=r['id'];row={**r,'id':rid,'routeId':rid,'originalStartPointId':r['startPointId'],'originalGoalPointId':r['goalPointId'],'placeId':r['placeId'],'mapPlaceId':PLACE_ALIASES.get(r['placeId'],r['placeId']),'title':r['name'],'aliases':ALIASES.get(rid,[]),'revision':1,'checkedAt':DATE,'buildStatus':'needs_data','publicReady':False,'hasGeometry':False,'geometrySource':None,'color':COLORS[index%len(COLORS)],'category':'hiking','minZoom':10,'asset':'region/directions/routes.geojson','displayAsset':'region/directions/routes-display.geojson','featureId':rid,'description':DESCRIPTIONS.get(rid,'Пеший вариант «'+r['name']+'». Полная линия маршрута пока уточняется.')};coords=[];extra_lines=[];reason=[];ids=[r['startPointId'],*r['viaPointIds'],r['goalPointId']];routepoints=[]
+ if rid in published:row['startPointId']=published[rid]['startId'];row['finishPointId']=row['startPointId'];ids=[row['startPointId'],r['goalPointId']]
  if rid=='kurtashtau-station':row['startPointId']='uraltau-gpx-start';row['finishPointId']='uraltau-gpx-start';ids=['uraltau-gpx-start',r['goalPointId']]
  if rid=='inzerskie-tirlyan':row['startPointId']='tirlyan-gpx-start';row['finishPointId']='tirlyan-gpx-start';ids=['tirlyan-gpx-start',r['goalPointId']]
  for i,pid in enumerate(dict.fromkeys(p for p in ids if p)):
@@ -49,6 +52,9 @@ for index,r in enumerate(x['routes']):
   row['description']='От станции Урал-Тау в сторону Магнитогорска вдоль железной дороги, затем подъём по лесному склону на скальный гребень Курташтау. Показан подъём из GPS-записи 2017 года. Часть записи проходит по действующим железнодорожным путям; отдельная безопасная пешеходная тропа не подтверждена.'
   row['notes']='Взят только подъём из опубликованного GPX. Исходный спуск обрывается примерно за километр до начала записи; он исключён. Возвращение предполагается по линии подъёма. Координаты станции и вершины сохранены как ориентиры, без прямых соединений.'
   station=point('uraltau-station','reference');row['referencePoints']=[station];provenance={**kurtash_audit,'method':kurtash_audit['method'],'originalStationReference':station['coordinates']}
+ elif rid in published:
+  source=published[rid];spec=source['spec'];coords=source['coords'];provenance=source['audit'];row.update(geometrySource='source_gpx',geometrySourceLabel='Опубликованный авторский GPX · Extreme Jewelry',buildStatus='ready',revision=2,checkedAt=spec['checkedAt'],sourceUrl=spec['sourcePage'],description=spec['description'],downloadUrl='https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/unified/region/directions/'+rid+'.gpx',downloadLabel='GPX подхода ↗' if source['processed'] else 'Исходный GPX ↗')
+  row['referencePoints']=[point(r['startPointId'],'reference')];row['notes']='Исходный GPX сохранён без изменений в репозитории. '+('Для карты изменены направление и конечная точка, без дорисовки.' if source['processed'] else 'Линия и порядок точек исходного GPX сохранены.')
  elif rid in routing and routing[rid].get('httpStatus')==200 and rid!='small-yamantau-ecotrail':
   raw=read(DATA/'routing'/(rid+'.json'));f=raw['features'][0];coords=f['geometry']['coordinates'];line=LineString([T(*c[:2]) for c in coords]);gaps=[line.distance(Point(*T(*p['coordinates']))) for p in routepoints];rail=[t for t in routing[rid].get('wayTags',[]) if 'railway=' in t and not ('railway=abandoned' in t or 'railway=disused' in t)]
   provenance={**routing[rid],'method':'BRouter trekking walking profile; stored offline; no straight gap closure','snapDistancesM':dict(zip([p['id'] for p in routepoints],[round(g,2) for g in gaps]))}
@@ -92,6 +98,12 @@ for index,r in enumerate(x['routes']):
    if rid=='arvyak-ryaz-main':
     for i,name in [(0,'Начало исходного GPX'),(-1,'Конец исходного GPX — разрыв кольца')]:routepoints.append({'id':rid+str(i),'name':name,'coordinates':coords[i][:2],'role':'reference','precision':'gpx_endpoint'})
  else:reason.append('Точный старт, цель или полная пешая линия пока не подтверждены источниками.')
+ # A settlement reference cannot be silently promoted to a verified trailhead.
+ if rid=='arvyak-ryaz-shigaevo':
+  row['buildStatus']='partial';reason.append('Старт задан ориентиром села, а не подтверждённым выходом на тропу.');row['description']='Расчётный подход из Шигаево к Арвяк-Рязи по дорогам и тропам. Начало линии — ориентир в селе; точный выход на тропу не подтверждён.'
+  p=points[r['startPointId']];routepoints.insert(0,{'id':rid+'-reference-origin','name':'Шигаево · начало расчётной линии','coordinates':coords[0][:2],'role':'start-finish','precision':'calculated_line_endpoint_not_verified_trailhead','sourcePointId':p['id']})
+ if rid=='kirel-otnurok':
+  row['buildStatus']='partial';reason.append('Расчёт от северного старта в Отнурке отличается от короткого подхода в описании источника.');row['description']='Длинный расчётный подход к Кирели от старта Малиновой в Отнурке. Около 10,6 км в одну сторону, около 21,2 км туда и обратно. Описанный источником короткий подход начинается в другом месте; его трек пока не подтверждён.'
  # These are unknown editorial variants: keeping all nulls is intentional.
  if not coords and not reason:reason.append('Полная линия не получена из доступных источников.')
  if not coords and not row.get('placeOnly'):row['placeOnly']=True

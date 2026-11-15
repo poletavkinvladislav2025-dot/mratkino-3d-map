@@ -34,7 +34,7 @@ class MratkinoMap extends HTMLElement {
   this.bindUI();this.renderList();
   this.observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){this.observer.disconnect();this.init(this.token);}}, {rootMargin:'250px'});this.observer.observe(this);
  }
- disconnectedCallback(){this.started=false;this.token++;this.controller?.abort();this.observer?.disconnect();this.resizeObserver?.disconnect();clearTimeout(this.readyTimer);clearTimeout(this.hintTimer);this.region?.dispose();this.disposeLife();this.map?.remove();this.map=null;this.lifeScene=null;offlinePools.delete(this.uid);}
+ disconnectedCallback(){this.started=false;this.token++;this.controller?.abort();this.observer?.disconnect();this.resizeObserver?.disconnect();this.cardResizeObserver?.disconnect();clearTimeout(this.readyTimer);clearTimeout(this.hintTimer);this.region?.dispose();this.disposeLife();this.map?.remove();this.map=null;this.lifeScene=null;offlinePools.delete(this.uid);}
  url(path){return new URL(path,this.assetBase).href;}
  bindUI(){
   this.$$('[data-view]').forEach(b=>b.addEventListener('click',()=>this.chooseView(b.dataset.view)));
@@ -101,7 +101,7 @@ class MratkinoMap extends HTMLElement {
    const creditsObserver=new MutationObserver(collapseCredits);
    if(credits){creditsObserver.observe(credits,{attributes:true,attributeFilter:['class']});collapseCredits();}
    map.once('remove',()=>creditsObserver.disconnect());
-   this.resizeObserver?.disconnect();this.resizeObserver=new ResizeObserver(()=>{map.resize();this.region?.resizeLayout();});this.resizeObserver.observe(this.$('.map-wrap'));
+   this.resizeObserver?.disconnect();this.resizeObserver=new ResizeObserver(()=>{map.resize();this.region?.resizeLayout();});this.resizeObserver.observe(this.$('.map-wrap'));if(this.region){this.cardResizeObserver?.disconnect();this.cardResizeObserver=new ResizeObserver(()=>this.region?.resizeLayout(true));this.cardResizeObserver.observe(this.$('.sidebar'));}
    this.readyTimer=setTimeout(()=>{if(this.getAttribute('data-map-state')!=='ready')this.fallback('Рельеф ещё загружается. Пока показан резервный вид; 3D-карта появится после загрузки.',false);},25000);
    map.on(this.region?'style.load':'load',()=>{
     if(this.map!==map)return;

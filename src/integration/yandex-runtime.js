@@ -287,28 +287,18 @@ function mountYandex(catalog,config,scope){
   function repositionMap(){
     if(!map||selectedIdx<0)return;
     try{
-      var m=markers[selectedIdx];
-      var mapRect=mapContainer.getBoundingClientRect();
-      var mw=mapRect.width,mh=mapRect.height;
-      var desk=document.getElementById('vbT1MapContainer').ownerDocument.documentElement.clientWidth>960;
-      var zoom=map.getZoom();
-      var markerPx=map.converter.coordinatesToGlobalPixels(m.data.coords,zoom);
-      var centerPx=map.getGlobalPixelCenter();
-      var mcx=markerPx[0]-centerPx[0]+mw/2;
-      var mcy=markerPx[1]-centerPx[1]+mh/2;
-      var dx,dy;
-      if(desk){
-        var pw=panel.classList.contains('vb-t1__panel--open')?panel.offsetWidth:0;
-        dx=(mw-pw)/2-mcx;
-        dy=mh/2-mcy;
-      }else{
-        var ch=mcard.classList.contains('vb-t1__mcard--visible')?mcard.offsetHeight:0;
-        dx=mw/2-mcx;
-        dy=(mh-ch)/2-mcy;
-      }
-      if(Math.abs(dx)<3&&Math.abs(dy)<3)return;
-      var np=[centerPx[0]+dx,centerPx[1]+dy];
-      var nc=map.converter.globalPixelsToCoordinates(np,zoom);
+      var m=markers[selectedIdx],mapRect=mapContainer.getBoundingClientRect();
+      var desktop=mapContainer.ownerDocument.documentElement.clientWidth>960;
+      var card=desktop?panel:mcard,open=desktop?panel.classList.contains('vb-t1__panel--open'):mcard.classList.contains('vb-t1__mcard--visible');
+      var box=open?card.getBoundingClientRect():null,target=visibleMapArea(mapRect,box,desktop?'right':'bottom'),zoom=map.getZoom();
+      var point=typeof map.pointToScreen==='function'?map.pointToScreen(m.data.coords):null;
+      if(point&&Math.abs(point[0]-target.x)<1&&Math.abs(point[1]-target.y)<1)return;
+      if(typeof map.focusPoint==='function'){map.focusPoint(m.data.coords,[target.x,target.y],zoom,{duration:400});return;}
+      // Legacy Yandex uses global pixels: moving the camera right moves the marker left.
+      var markerPx=map.converter.coordinatesToGlobalPixels(m.data.coords,zoom),centerPx=map.getGlobalPixelCenter();
+      var dx=target.x-(markerPx[0]-centerPx[0]+mapRect.width/2),dy=target.y-(markerPx[1]-centerPx[1]+mapRect.height/2);
+      if(Math.abs(dx)<1&&Math.abs(dy)<1)return;
+      var nc=map.converter.globalPixelsToCoordinates([centerPx[0]-dx,centerPx[1]-dy],zoom);
       map.setCenter(nc,zoom,{flying:true,duration:400});
     }catch(e){}
   }
@@ -326,6 +316,8 @@ function mountYandex(catalog,config,scope){
   }
   function scheduleCardMode(){clearTimeout(cardModeTimer);cardModeTimer=setTimeout(syncCardMode,260);}
   function scheduleReposition(){clearTimeout(repositionTimer);repositionTimer=setTimeout(repositionMap,80);}
+  // Card slides change position without resizing its box. Centre after the slide ends.
+  for(const card of [panel,mcard])card.addEventListener('transitionend',function(e){if(e.target===card&&selectedIdx>=0)scheduleReposition();});
 
   /* ═══ Select marker ═══ */
   function selectMarkerByIndex(idx){
@@ -385,6 +377,7 @@ function mountYandex(catalog,config,scope){
       }else{
         mcard.classList.add('vb-t1__mcard--visible');
         mcard.classList.remove('vb-t1__mcard--expanded');
+        setTimeout(repositionMap,160);
       }
       isTransitioning=false;
     },220);
@@ -535,7 +528,7 @@ function mountYandex(catalog,config,scope){
     if(window.location.hash==='#map-stamps'){switchTab('stamps',true,true);}
     else{map.setBounds([[53.75,58.25],[54.07,58.72]],{checkZoomRange:true,zoomMargin:45});}
 
-    if(typeof ResizeObserver!=='undefined')new ResizeObserver(function(){scheduleCardMode();if(map&&map.container)map.container.fitToViewport();if(selectedIdx>=0)scheduleReposition();}).observe(mapContainer);
+    if(typeof ResizeObserver!=='undefined'){new ResizeObserver(function(){scheduleCardMode();if(map&&map.container)map.container.fitToViewport();if(selectedIdx>=0)scheduleReposition();}).observe(mapContainer);const cards=new ResizeObserver(function(){if(selectedIdx>=0)scheduleReposition();});cards.observe(panel);cards.observe(mcard);}
     backgroundWatch=watchYandexBackground(map,mapContainer,backgroundState);recovery.hidden=true;
     mapLoader.classList.add('vb-t1__map-loader--hidden');
     window.dispatchEvent(new Event('vb-yandex-ready'));

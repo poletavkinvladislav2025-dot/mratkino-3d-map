@@ -26,6 +26,7 @@ import {landmarkById} from '../landscape/landmark-plan.js';
 import {BuzhdController} from './buzhd-controller.js';
 import {railwayIconSVG} from './buzhd.js';
 import {KrakaController} from './kraka.js';
+import {visibleMapArea} from '../map-visible-area.js';
 import {sitePage} from './site-pages.js';
 // Overview label order: landmarks first, then the main ski centres. Lower ranks show on approach.
 const LABEL_PRIORITY={narrowGauge2:3,waterTower:3,malinovaya:3,mratkino:2,abzakovo:2,bannoye:2};
@@ -96,7 +97,7 @@ export class RegionController{
   this.sync();this.cameraButton();this.bridge.updateURL();
  }
  cameraButton(){const m=this.host.map,top=m?m.getPitch()<5:this.host.mode2D,b=this.host.$('[data-action=mode]');this.host.mode2D=top;b.textContent=top?'Наклонный вид':'Вид сверху';b.title=b.textContent;b.setAttribute('aria-label',b.textContent);b.setAttribute('aria-pressed',String(top));}
- cameraPadding(){const h=this.host,s=h.$('.sidebar');if(directionRoute(this.routeId)){const rect=h.$('.map-wrap');return directionPadding(rect.clientWidth,rect.clientHeight,this.cardOpen?s.offsetWidth:0,this.cardOpen?s.offsetHeight:0);}if(!this.cardOpen)return {top:0,bottom:0,left:0,right:0};return matchMedia('(max-width:760px)').matches?{top:12,left:12,right:12,bottom:Math.min(s.offsetHeight+20,h.$('.map-wrap').clientHeight*.48)}:{top:20,left:24,right:Math.min(s.offsetWidth+100,h.$('.map-wrap').clientWidth*.48),bottom:30};}
+ cameraPadding(){const h=this.host,s=h.$('.sidebar');if(directionRoute(this.routeId)){const rect=h.$('.map-wrap');return directionPadding(rect.clientWidth,rect.clientHeight,this.cardOpen?s.offsetWidth:0,this.cardOpen?s.offsetHeight:0);}const rect=h.map?.getContainer().getBoundingClientRect()||h.$('.map-wrap').getBoundingClientRect();return visibleMapArea(rect,this.cardOpen&&!s.hidden?s.getBoundingClientRect():null,matchMedia('(max-width:760px)').matches?'bottom':'right').padding;}
  resizeLayout(force=false,initial=false){
   const h=this.host,map=h.map,wrap=h.$('.map-wrap'),nav=h.$('.region-navigation');if(!map||!wrap||!nav)return;
   h.$('.shell').style.setProperty('--vb-toolbar-height',nav.offsetHeight+'px');if(!this.bootstrapped)return;
@@ -245,7 +246,7 @@ export class RegionController{
  disposeScenes(){this.catalogLife.dispose();this.host.disposeLife();this.ski.disposeScene();this.hiking.disposeNature();}
  async syncScene(){
   const h=this.host;this.landscape.syncAnimation();
-  if(h.map?.getLayer('region-buildings-3d')){const visibility=this.effectsWanted&&this.sceneVisible?'visible':'none';if(h.map.getLayoutProperty('region-buildings-3d','visibility')!==visibility)h.map.setLayoutProperty('region-buildings-3d','visibility',visibility);}
+  for(const layer of ['region-buildings-3d','tower-building-context'])if(h.map?.getLayer(layer)){const visibility=this.effectsWanted&&this.sceneVisible?'visible':'none';if(h.map.getLayoutProperty(layer,'visibility')!==visibility)h.map.setLayoutProperty(layer,'visibility',visibility);}
   if(!this.sceneVisible){this.disposeScenes();this.reflectLife();return;}
   if(this.cameraMoving||h.map?.isMoving()){h.lifeScene?.setPaused(true);this.ski.scene?.setPaused(true);this.catalogLife.scene?.setPaused(true);this.reflectLife();return;}
   if(this.scenePending||h.getAttribute('data-map-state')!=='ready')return;

@@ -33,6 +33,7 @@ export function createRegionalStyle(data,forestURL,url=path=>path){
  style.sources['region-places']={type:'geojson',data:{type:'FeatureCollection',features:PLACES.map(p=>({type:'Feature',geometry:{type:'Point',coordinates:p.coordinates},properties:{id:p.id,name:p.name,major:p.major?1:0,kind:p.kind}}))}};
  style.sources['touring-routes']={type:'geojson',data:EMPTY};
  style.sources['route-stops']={type:'geojson',data:EMPTY};
+ style.sources['tower-building-context']={type:'geojson',data:EMPTY};
  for(const id of ['direction-routes','winter-catalog','hiking-routes','hiking-stops','nature-surfaces'])style.sources[id]={type:'geojson',data:EMPTY};
  for(const name of ['trails','lifts','stations','boundary','piste-areas'])style.sources['abzakovo-'+name]={type:'geojson',data:EMPTY};
  // Real building footprints only; detailed volume is enabled by the global effects control.
@@ -77,6 +78,7 @@ export function createRegionalStyle(data,forestURL,url=path=>path){
  // Existing points stay markers. Volumes use actual OpenMapTiles building polygons,
  // render heights when present, otherwise a modest illustrative 6 m height.
  style.layers.push({id:'region-buildings-3d',type:'fill-extrusion',source:'basemap','source-layer':'building',minzoom:13,layout:{visibility:'none'},paint:{'fill-extrusion-color':'#c8c2ad','fill-extrusion-height':['max',1,['to-number',['coalesce',['get','render_height'],['get','height'],6],6]],'fill-extrusion-base':['max',0,['to-number',['coalesce',['get','render_min_height'],['get','min_height'],0],0]],'fill-extrusion-opacity':.92,'fill-extrusion-vertical-gradient':true}});
+ const towerContext={...style.layers.find(l=>l.id==='region-buildings-3d'),id:'tower-building-context',source:'tower-building-context'};delete towerContext['source-layer'];style.layers.push(towerContext);
  style.layers.push({id:'stamp-geographic-anchors',type:'circle',source:'region-places',minzoom:14,filter:['==',['get','kind'],'stamp-point'],paint:{'circle-radius':3,'circle-color':'#b16b3e','circle-stroke-color':'#fff','circle-stroke-width':1}});
  // Surface colours receive the existing geographic hillshade instead of covering its shadows.
  const naturalSurface=style.layers.splice(style.layers.findIndex(l=>l.id==='nature-open'),1)[0];style.layers.splice(style.layers.findIndex(l=>l.id==='hillshade'),0,naturalSurface);
