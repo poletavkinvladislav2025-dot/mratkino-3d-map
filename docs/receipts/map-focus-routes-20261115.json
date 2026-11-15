@@ -1,0 +1,73 @@
+{
+  "appCommit": "2d1095d0666407ed4f8e5fb2436ea6ed327291f3",
+  "base": "https://poletavkinvladislav2025-dot.github.io/mratkino-3d-map/preview/unified/",
+  "checks": [
+    {
+      "path": "index.html",
+      "matches": true,
+      "sha256": "d0ceb5a560c58d28b41f75f5584ba937dbe0351d9fc24c5007ef3e45ff714b9d"
+    },
+    {
+      "path": "integration/tilda-map-block.js",
+      "matches": true,
+      "sha256": "f62cf521e30f0151a1a16ae8fbfea85fc7b4e34a59d99db91ec5811e5a2ed2e3"
+    },
+    {
+      "path": "integration/route-catalog.json",
+      "matches": true,
+      "sha256": "73e05e6310ece7a59c0d703136965f9b4ee6641d71280ffd1117a1caaa650967"
+    },
+    {
+      "path": "region/directions/routes.geojson",
+      "matches": true,
+      "sha256": "fbd6bb594fec525984860566f1588d3f1499616c4f456b04b9e20a1a3e27b67e"
+    },
+    {
+      "path": "region/directions/routes-display.geojson",
+      "matches": true,
+      "sha256": "7830374d07631d352dca08c45db598b44aedd528e95d7b638f5cbcd4801688bd"
+    },
+    {
+      "path": "region/directions/iremel-nikolaevka.gpx",
+      "matches": true,
+      "sha256": "de7e13d2150bae541b718591016646bcca94f720fddd0a051efe106565c86565"
+    },
+    {
+      "path": "region/directions/kumardak-iselgan.gpx",
+      "matches": true,
+      "sha256": "5cacfdce7a22302c945369362f240d3e0bac1457ba90544ae4c50991bc173c4e"
+    },
+    {
+      "path": "region/directions/rassypnaya-shushpa.gpx",
+      "matches": true,
+      "sha256": "20fa4ba55233e50af1ff06858cd51d356fbed60150adc5da0b5b1f7d03596542"
+    },
+    {
+      "path": "region/directions/kurtashtau-sok.gpx",
+      "matches": true,
+      "sha256": "e3273ec891aa03c2600a65f096906483e855decdb342cb845aa2d1f58168001d"
+    }
+  ],
+  "checkedAt": "2026-11-15",
+  "workflowRun": 43694365501,
+  "dispatchCommit": "245f2f52fc1094df88dcd951716745490eb0e2db",
+  "tildaPage": "https://visitbeloretsk.ru/map",
+  "unitTests": 85,
+  "liveBrowser": [
+    {
+      "engine": "ordinary",
+      "width": 1365,
+      "errorPx": 0
+    },
+    {
+      "engine": "ordinary",
+      "width": 390,
+      "errorPx": 0.25
+    },
+    {
+      "engine": "3d",
+      "width": 1365,
+      "errorPx": 3.744412839589622e-08
+    }
+  ]
+}
