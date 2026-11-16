@@ -439,12 +439,11 @@ function mountYandex(catalog,config,scope){
       m.placemark.options.set('iconImageOffset',m.data.neighbor?[-8,-19]:iconOffset(m.dataId,false));
     }
     selectedIdx=-1;
-    if(scope.getElementById('vbT1MapContainer').ownerDocument.documentElement.clientWidth<=960){
-      mcard.classList.remove('vb-t1__mcard--visible');
-      mcard.classList.remove('vb-t1__mcard--expanded');
-      mcardBody.classList.remove('vb-t1__mcard-body--kiosk');
-      mcardBodyInner.classList.remove('vb-t1__mcard-body-inner--kiosk');
-    }
+    // Clear the mobile sheet even on desktop: it must not return after a resize.
+    mcard.classList.remove('vb-t1__mcard--visible','vb-t1__mcard--expanded');
+    scope.getElementById('vbT1McardToggle').setAttribute('aria-expanded','false');
+    mcardBody.classList.remove('vb-t1__mcard-body--kiosk');
+    mcardBodyInner.classList.remove('vb-t1__mcard-body-inner--kiosk');
   }
 
   /* ═══ Map reposition ═══ */
