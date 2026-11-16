@@ -1,0 +1,94 @@
+{
+  "appCommit": "5bca9cdcc435a8979a17fd6b891490463eac920a",
+  "dispatchCommit": "f4fdb4fb480fa46aa2f4fa378f5fd57436f99fe3",
+  "workflowRun": 43971548474,
+  "checkedAt": "2026-11-17",
+  "checks": [
+    {
+      "path": "index.html",
+      "matches": true,
+      "sha256": "fb234a3fc0249279f4db85e89581fcec3613b9a308f9c6dd26862306dbc94f84"
+    },
+    {
+      "path": "integration/tilda-map-block.js",
+      "matches": true,
+      "sha256": "7f066cc241660efdb4dcd90002372400b49c7050b306fddc9322de39338009f4"
+    },
+    {
+      "path": "integration/tilda-map-switch.js",
+      "matches": true,
+      "sha256": "c16c79942cee101774df352dcb1d8a114731347ae52c8b6b23253fb0b75d12e5"
+    },
+    {
+      "path": "integration/osm-maplibre.js",
+      "matches": true,
+      "sha256": "ee8fcbf01be1f7d452be6e7012ce786b44f0a7df9c2dcca142a6b9591adf2a34"
+    },
+    {
+      "path": "integration/map-catalog.json",
+      "matches": true,
+      "sha256": "7b74928d41cace9e6243bf8e9642b0b48a7a741279ebedf0118e0d446a8bc46a"
+    },
+    {
+      "path": "integration/route-catalog.json",
+      "matches": true,
+      "sha256": "73e05e6310ece7a59c0d703136965f9b4ee6641d71280ffd1117a1caaa650967"
+    }
+  ],
+  "timeZone": "Europe/Moscow",
+  "unitTests": 87,
+  "liveBrowser": [
+    {
+      "width": 1365,
+      "view": "places",
+      "markers": 58
+    },
+    {
+      "width": 1365,
+      "view": "stamps",
+      "markers": 6
+    },
+    {
+      "width": 1365,
+      "view": "passport",
+      "markers": 5
+    },
+    {
+      "width": 1365,
+      "view": "places",
+      "markers": 58
+    },
+    {
+      "width": 390,
+      "view": "places",
+      "markers": 58
+    },
+    {
+      "width": 390,
+      "view": "stamps",
+      "markers": 6
+    },
+    {
+      "width": 390,
+      "view": "passport",
+      "markers": 5
+    },
+    {
+      "width": 390,
+      "view": "places",
+      "markers": 58
+    },
+    {
+      "basemap": {
+        "tiles": true,
+        "features": 26
+      }
+    },
+    {
+      "mode": "3d",
+      "filter": "stamps",
+      "cardClosed": true
+    }
+  ],
+  "publicPage": "https://visitbeloretsk.ru/map"
+}
