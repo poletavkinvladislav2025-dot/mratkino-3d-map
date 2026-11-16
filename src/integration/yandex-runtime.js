@@ -471,7 +471,7 @@ function mountYandex(catalog,config,scope){
       tabBtns[i].setAttribute('aria-selected',act?'true':'false');
     }
     for(var i=0;i<markers.length;i++)markers[i].placemark.options.set('visible',markers[i].type===activeType);
-    deselectMarker();
+    closePanel();
     if(fit!==false)fitMap(activeType);
     var vis=getVis();
     if(autoSel!==false&&vis.length>0)selectMarkerByIndex(vis[0]);
@@ -505,7 +505,7 @@ function mountYandex(catalog,config,scope){
 
     for(var i=0;i<locations.length;i++){(function(j){
       var l=locations[j];
-      var pm=new ymaps.Placemark(l.coords,{},{
+      var pm=new ymaps.Placemark(l.coords,{hintContent:l.name},{
         iconLayout:'default#image',iconImageHref:l.neighbor?mutedDef:greenDef,iconImageSize:l.neighbor?[16,19]:[20,24],iconImageOffset:l.neighbor?[-8,-19]:[-10,-24],zIndex:l.neighbor?10:100
       });
       map.geoObjects.add(pm);
@@ -515,8 +515,8 @@ function mountYandex(catalog,config,scope){
     for(var i=0;i<stampPoints.length;i++){(function(j){
       var sp=stampPoints[j];
       var st=isStation(sp);
-      var pm=new ymaps.Placemark(sp.coords,{},{
-        iconLayout:'default#image',iconImageHref:st?stationDef:terraDef,iconImageSize:[20,24],iconImageOffset:iconOffset(sp.id,false)
+      var pm=new ymaps.Placemark(sp.coords,{hintContent:sp.name},{
+        iconLayout:'default#image',iconImageHref:st?stationDef:terraDef,iconImageSize:[20,24],iconImageOffset:iconOffset(sp.id,false),visible:false
       });
       map.geoObjects.add(pm);
       markers.push({placemark:pm,type:'kiosk',dataId:sp.id,data:sp});

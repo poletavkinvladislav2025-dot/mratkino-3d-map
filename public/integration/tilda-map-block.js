@@ -34,15 +34,15 @@ function createOsmYmaps(ml,css){
  const toGP=(c,z)=>{const s=256*2**z,sin=Math.max(-.9999,Math.min(.9999,Math.sin(c[0]*PI/180)));return [(c[1]+180)/360*s,(.5-Math.log((1+sin)/(1-sin))/(4*PI))*s];};
  const fromGP=(p,z)=>{const s=256*2**z,n=PI-2*PI*p[1]/s;return [180/PI*Math.atan(Math.sinh(n)),p[0]/s*360-180];};
  class Events{constructor(){this.h={};}add(t,fn){for(const k of [].concat(t))(this.h[k]||=[]).push(fn);return this;}remove(t,fn){for(const k of [].concat(t))this.h[k]=(this.h[k]||[]).filter(f=>f!==fn);return this;}fire(t,e={}){for(const f of (this.h[t]||[]).slice())f(e);}}
- class Options{constructor(o,changed){this.o={...o};this.changed=changed;}set(k,v){if(k&&typeof k==='object')Object.assign(this.o,k);else this.o[k]=v;this.changed?.();return this;}get(k,d){return k in this.o?this.o[k]:d;}}
+ class Options{constructor(o,changed){this.o={...o};this.changed=changed;}set(k,v){const values=k&&typeof k==='object'?k:{[k]:v};let changed=false;for(const [key,value] of Object.entries(values))if(this.o[key]!==value){this.o[key]=value;changed=true;}if(changed)this.changed?.();return this;}get(k,d){return k in this.o?this.o[k]:d;}}
  const margin=m=>{const a=m==null?[0]:[].concat(m);const [t,r,b,l]=a.length===1?[a[0],a[0],a[0],a[0]]:a.length===2?[a[0],a[1],a[0],a[1]]:[a[0],a[1],a[2],a[3]];return {top:t,right:r,bottom:b,left:l};};
 
  class Placemark{
   constructor(coords,properties={},options={}){this.coords=coords.slice();this.properties={get:k=>properties[k],set:(k,v)=>{properties[k]=v;this.render();}};this.events=new Events();this.options=new Options(options,()=>this.render());
    this.geometry={getCoordinates:()=>this.coords.slice(),setCoordinates:c=>{this.coords=c.slice();this.marker?.setLngLat(toML(this.coords));}};this.props=properties;}
-  attach(owner){if(this.marker)return;this.owner=owner;const el=document.createElement('div');el.className='vb-osm-pm';el.addEventListener('click',e=>{e.stopPropagation();this.events.fire('click',{});});this.el=el;this.render();this.marker=new ml.Marker({element:el,anchor:'top-left'}).setLngLat(toML(this.coords)).addTo(owner.ml);this.render();}
+  attach(owner){if(this.marker)return;this.owner=owner;const el=document.createElement('div');el.className='vb-osm-pm';el.setAttribute('role','button');el.addEventListener('click',e=>{e.stopPropagation();if(this.options.get('visible',true))this.events.fire('click',{});});el.addEventListener('keydown',e=>{if(this.options.get('visible',true)&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.stopPropagation();this.events.fire('click',{});}});this.el=el;this.render();this.marker=new ml.Marker({element:el,anchor:'top-left'}).setLngLat(toML(this.coords)).addTo(owner.ml);this.render();}
   detach(){this.marker?.remove();this.marker=null;}
-  render(){const el=this.el;if(!el)return;const o=this.options;el.style.zIndex=String(o.get('zIndex',100));el.title=this.props.hintContent||'';
+  render(){const el=this.el;if(!el)return;const o=this.options;const visible=o.get('visible',true)!==false;el.style.display=visible?'':'none';el.tabIndex=visible?0:-1;el.setAttribute('aria-hidden',String(!visible));el.style.zIndex=String(o.get('zIndex',100));el.title=this.props.hintContent||'';el.setAttribute('aria-label',this.props.hintContent||this.props.iconCaption||'Точка на карте');
    if(o.get('iconLayout')==='default#image'){const [w,h]=o.get('iconImageSize',[20,24]),[x,y]=o.get('iconImageOffset',[-w/2,-h]);Object.assign(el.style,{width:w+'px',height:h+'px',background:`url("${o.get('iconImageHref','')}") center/contain no-repeat`,cursor:'pointer'});el.textContent='';this.marker?.setOffset([x,y]);}
    else{el.innerHTML='';const dot=document.createElement('span');dot.className='vb-osm-dot';el.append(dot);if(this.props.iconCaption){const t=document.createElement('span');t.className='vb-osm-caption';t.textContent=this.props.iconCaption;el.append(t);}this.marker?.setOffset([-6,-6]);}}
  }
@@ -82,7 +82,7 @@ function createOsmYmaps(ml,css){
     m.addLayer({id:'vb-ylines-dash',type:'line',source:'vb-ylines',filter:['get','dash'],layout:{...layout,'line-cap':'butt'},paint:{...paint,'line-dasharray':[2,1.6]}});
     m.addLayer({id:'vb-ylines-hit',type:'line',source:'vb-ylines',paint:{'line-color':'#000','line-width':14,'line-opacity':0}});}
    this.syncLines(true);}
-  syncLines(now){if(this.pending&&!now)return;this.pending=true;const run=()=>{this.pending=false;const src=this.ml.getSource('vb-ylines');if(!src)return;src.setData({type:'FeatureCollection',features:[...this.lines.values()].map(l=>l.feature()).sort((a,b)=>a.properties.z-b.properties.z)});};now?run():requestAnimationFrame(run);}
+  syncLines(now){if(this.pending&&!now)return;this.pending=true;const run=()=>{this.pending=false;const src=this.ml.getSource('vb-ylines');if(!src)return;src.setData({type:'FeatureCollection',features:[...this.lines.values()].filter(l=>l.options.get('visible',true)!==false).map(l=>l.feature()).sort((a,b)=>a.properties.z-b.properties.z)});};now?run():requestAnimationFrame(run);}
   camera(move,duration){return new Promise(resolve=>{let done=false;const finish=()=>{if(!done){done=true;resolve();}};this.ml.once('moveend',finish);move();setTimeout(finish,(duration||0)+300);});}
   setCenter(center,zoom,opts={}){const d=opts.duration??0;return this.camera(()=>this.ml.easeTo({center:toML(center),...(zoom!=null?{zoom:clampZ(zoom)-1}:{}),duration:d}),d);}
   pointToScreen(coords){const p=this.ml.project(toML(coords));return [p.x,p.y];}
@@ -637,7 +637,7 @@ function mountYandex(catalog,config,scope){
       tabBtns[i].setAttribute('aria-selected',act?'true':'false');
     }
     for(var i=0;i<markers.length;i++)markers[i].placemark.options.set('visible',markers[i].type===activeType);
-    deselectMarker();
+    closePanel();
     if(fit!==false)fitMap(activeType);
     var vis=getVis();
     if(autoSel!==false&&vis.length>0)selectMarkerByIndex(vis[0]);
@@ -671,7 +671,7 @@ function mountYandex(catalog,config,scope){
 
     for(var i=0;i<locations.length;i++){(function(j){
       var l=locations[j];
-      var pm=new ymaps.Placemark(l.coords,{},{
+      var pm=new ymaps.Placemark(l.coords,{hintContent:l.name},{
         iconLayout:'default#image',iconImageHref:l.neighbor?mutedDef:greenDef,iconImageSize:l.neighbor?[16,19]:[20,24],iconImageOffset:l.neighbor?[-8,-19]:[-10,-24],zIndex:l.neighbor?10:100
       });
       map.geoObjects.add(pm);
@@ -681,8 +681,8 @@ function mountYandex(catalog,config,scope){
     for(var i=0;i<stampPoints.length;i++){(function(j){
       var sp=stampPoints[j];
       var st=isStation(sp);
-      var pm=new ymaps.Placemark(sp.coords,{},{
-        iconLayout:'default#image',iconImageHref:st?stationDef:terraDef,iconImageSize:[20,24],iconImageOffset:iconOffset(sp.id,false)
+      var pm=new ymaps.Placemark(sp.coords,{hintContent:sp.name},{
+        iconLayout:'default#image',iconImageHref:st?stationDef:terraDef,iconImageSize:[20,24],iconImageOffset:iconOffset(sp.id,false),visible:false
       });
       map.geoObjects.add(pm);
       markers.push({placemark:pm,type:'kiosk',dataId:sp.id,data:sp});
