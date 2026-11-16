@@ -1,8 +1,8 @@
 {
-  "previewRef": "a78165399d150ab45a89d3b6da09cae34fb4b63a",
+  "previewRef": "5bca9cdcc435a8979a17fd6b891490463eac920a",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Follow up the verified map focus, tower footprint and GPX release: fit the complete water tower inside short Tilda embeds while retaining its centred ground anchor",
-  "validated": "85 unit tests; production build; browser test at 1365x650 confirms complete tower silhouette and centred anchor; previous desktop/mobile focus, GPX fit and live Tilda checks retained",
+  "change": "Map audit: honour actual marker and line visibility in the ordinary OSM engine, close stale cards on category changes, add labelled keyboard-accessible markers and avoid redundant redraws",
+  "validated": "87 unit tests; production build; 7 browser checks on real tiles covering desktop/mobile filters, card clearing, keyboard selection, 3D search/routes and place centering at desktop/phone/tablet sizes",
   "reason": "A new main dispatch SHA is required to distinguish this Pages release from the earlier main dispatch."
 }
