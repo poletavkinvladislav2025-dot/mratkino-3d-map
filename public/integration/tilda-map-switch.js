@@ -42,6 +42,12 @@
   let mode=config.defaultMode==='3d'?'3d':'yandex',view=location.hash==='#map-stamps'?'stamps':Object.hasOwn(views,config.view)?config.view:'places',selected=config.place&&config.place!=='all'?(toSource[config.place]||config.place):null,selectedRoute=config.route||null,routeList=[],placeList=scope.vbPlaces||[],ready=false,loaded=false,sequence=0,internal=false,slowTimer,pendingFocus=false,layoutPending=false,activation=0;
   if(view!=='places'){selected=null;selectedRoute=null;}
   const adapter=()=>bus.VisitBeloretskYandex?.version===1?bus.VisitBeloretskYandex:null;
+  let basemap=['scheme','satellite'].includes(config.basemap||new URLSearchParams(location.search).get('basemap'))?(config.basemap||new URLSearchParams(location.search).get('basemap')):'scheme',basemapControl=null;
+  function rememberBasemap(){const u=new URL(location.href);if(basemap==='satellite')u.searchParams.set('basemap',basemap);else u.searchParams.delete('basemap');history.replaceState(null,'',u);}
+  function updateBasemap(){basemapControl?.update(basemap);}
+  function applyBasemap(){if(mode==='3d'){send('setBasemap',{basemap});return;}const a=adapter();if(a?.getState?.()&&a.setBasemap)a.setBasemap(basemap).catch(()=>{basemap='scheme';updateBasemap();rememberBasemap();note.textContent='Снимки не загрузились. Показана схема.';});}
+  function selectBasemap(value){basemap=value;updateBasemap();rememberBasemap();if(mode!=='3d'||ready)applyBasemap();}
+
   const searchBar=document.createElement('div');searchBar.className='vb-map-search';
   const searchBox=document.createElement('div');searchBox.className='vb-search-box';
   const searchInput=document.createElement('input');searchInput.type='search';searchInput.placeholder='Найти место или маршрут…';searchInput.setAttribute('aria-label','Найти место или маршрут');searchInput.setAttribute('role','combobox');searchInput.setAttribute('aria-autocomplete','list');searchInput.setAttribute('aria-expanded','false');searchInput.setAttribute('aria-controls','vb-search-results');searchInput.autocomplete='off';
@@ -54,6 +60,7 @@
   // One compact toolbar: view switch, filters, search and reset.
   if(matchMedia('(max-width:640px)').matches)searchInput.placeholder='Место или маршрут…';
   const toolbar=document.createElement('div');toolbar.className='vb-map-toolbar';bar.before(toolbar);toolbar.append(bar,searchBar);toolbar.after(note);
+  if(scope.vbImagery){scope.vbImagery.readConfig(new URL('imagery.json',script.src)).then(c=>{if(!c){basemap='scheme';updateBasemap();rememberBasemap();if(mode!=='3d'||ready)applyBasemap();return;}basemapControl=scope.vbImagery.switch(document,selectBasemap);toolbar.append(basemapControl.element);updateBasemap();if(mode!=='3d'||ready)applyBasemap();});}
   const uiStyle=document.createElement('style');uiStyle.textContent=`
 .vb-map-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin:0 0 14px;position:relative;z-index:300}
 .vb-map-toolbar #vb-map-modes,.vb-map-toolbar .vb-map-search{margin:0}
@@ -167,7 +174,7 @@
     else note.textContent='Для фильтра покупки паспорта на обычной карте установите небольшой адаптер Яндекса из инструкции.';
    }finally{internal=false;}
   }
-  function apply3D(){send('setFilters',{view,ski:view==='places'&&!(scopedPlace()&&selectedRouteMeta()?.routeId),nordic:view==='places'&&!(scopedPlace()&&selectedRouteMeta()?.routeId),hiking:view==='places'});if(selectedRoute){pendingFocus=false;send('openRoute',{routeId:selectedRoute,...(config.autoFit==='false'?{autoFit:false}:{})});return;}if(pendingFocus&&!selected){send('focusView',{view});pendingFocus=false;return;}pendingFocus=false;if(selected&&eligible(selected))send('openPlace',{placeId:adapter()?.canonicalId?.(selected)||'yandex:'+selected});}
+  function apply3D(){applyBasemap();send('setFilters',{view,ski:view==='places'&&!(scopedPlace()&&selectedRouteMeta()?.routeId),nordic:view==='places'&&!(scopedPlace()&&selectedRouteMeta()?.routeId),hiking:view==='places'});if(selectedRoute){pendingFocus=false;send('openRoute',{routeId:selectedRoute,...(config.autoFit==='false'?{autoFit:false}:{})});return;}if(pendingFocus&&!selected){send('focusView',{view});pendingFocus=false;return;}pendingFocus=false;if(selected&&eligible(selected))send('openPlace',{placeId:adapter()?.canonicalId?.(selected)||'yandex:'+selected});}
   function lifecycle(){send(mode==='3d'&&!document.hidden?'resume':'suspend');if(mode==='3d'&&!document.hidden)send('resize');}
   function setView(next){if(!Object.hasOwn(views,next))return;closeSearch();searchInput.value='';view=next;selected=null;selectedRoute=null;pendingFocus=true;draw();if(mode==='3d'){if(ready&&!layoutPending)apply3D();}else{applyYandex(true);}}
   function show(next){
@@ -175,13 +182,15 @@
    const turn=++activation;layoutPending=next==='3d';
    if(next!=='3d')send('suspend');mode=next;host.classList.toggle('vb-map-unified-3d',mode==='3d');frame.hidden=mode!=='3d';
    for(const item of children){item.el.inert=mode==='3d'||item.inert;if(mode==='3d')item.el.setAttribute('aria-hidden','true');else if(item.aria===null)item.el.removeAttribute('aria-hidden');else item.el.setAttribute('aria-hidden',item.aria);}
-   if(mode==='3d'&&!loaded){loaded=true;note.textContent='Загружаем 3D-карту…';slowTimer=setTimeout(()=>{if(!ready)note.textContent='Загрузка занимает больше времени. Можно вернуться к обычной карте.';},25000);frame.src=url.href;}
-   draw();if(mode==='yandex')applyYandex(!selected);else if(!selected)pendingFocus=true;
+   if(mode==='3d'&&!loaded){url.searchParams.set('basemap',basemap);loaded=true;note.textContent='Загружаем 3D-карту…';slowTimer=setTimeout(()=>{if(!ready)note.textContent='Загрузка занимает больше времени. Можно вернуться к обычной карте.';},25000);frame.src=url.href;}
+   draw();if(mode==='yandex'){applyYandex(!selected);applyBasemap();}else if(!selected)pendingFocus=true;
    requestAnimationFrame(()=>{if(turn!==activation)return;frame.getBoundingClientRect();lifecycle();layoutPending=false;if(mode==='3d'&&ready)apply3D();if(mode==='yandex')window.dispatchEvent(new Event('resize'));});
   }
   window.addEventListener('message',e=>{
    if(e.origin!==origin||e.source!==frame.contentWindow)return;const m=e.data;if(!m||m.type!=='vb3d.event'||m.version!==1)return;
    if(m.event==='ready'){ready=true;clearTimeout(slowTimer);note.textContent='';lifecycle();if(mode==='3d'&&!layoutPending)apply3D();}
+   if(m.event==='basemapChanged'&&['scheme','satellite'].includes(m.payload?.basemap)){basemap=m.payload.basemap;updateBasemap();rememberBasemap();}
+   if(m.event==='basemapUnavailable'){note.textContent='Снимки не загрузились. Показана схема.';}
    if(m.event==='filtersChanged'&&Object.hasOwn(views,m.payload?.filters?.view)){view=m.payload.filters.view;draw();}
    if(m.event==='placeSelected'&&typeof m.payload?.placeId==='string'){const id=m.payload.placeId;selectedRoute=null;selected=id==='all'?null:id.startsWith('yandex:')?id.slice(7):toSource[id]||id;draw();}
    if(m.event==='routeSelected'&&typeof m.payload?.routeId==='string'){selectedRoute=m.payload.routeId;rememberRoute(selectedRoute);draw();}
@@ -192,7 +201,9 @@
   bus.addEventListener('vb-yandex-change',e=>{if(internal||mode!=='yandex')return;const state=e.detail;if(Object.hasOwn(views,state?.view))view=state.view;selected=typeof state?.sourceId==='string'?state.sourceId:null;const nextRoute=typeof state?.routeId==='string'?state.routeId:null;if(nextRoute&&nextRoute!==selectedRoute)rememberRoute(nextRoute);selectedRoute=nextRoute;draw();});
   bus.addEventListener('vb-yandex-open-3d',()=>show('3d'));
   bus.addEventListener('vb-yandex-routes-error',()=>{note.textContent='Маршруты временно не загрузились. Можно открыть 3D-карту.';});
-  bus.addEventListener('vb-yandex-ready',()=>{if(mode==='yandex')applyYandex(!selected);});
+  bus.addEventListener('vb-yandex-ready',()=>{if(mode==='yandex'){applyYandex(!selected);applyBasemap();}});
+  bus.addEventListener('vb-basemap-change',e=>{if(mode==='yandex'&&['scheme','satellite'].includes(e.detail)){basemap=e.detail;updateBasemap();rememberBasemap();}});
+  bus.addEventListener('vb-imagery-status',e=>{if(mode==='yandex')note.textContent=e.detail==='loading'?'Загружаем снимки…':e.detail==='error'?'Снимки не загрузились. Показана схема.':'';});
   document.addEventListener('visibilitychange',lifecycle);if(window.ResizeObserver)new ResizeObserver(()=>{if(mode==='3d')send('resize');}).observe(host);
   note.textContent='';show(mode);if(sourceRecord&&!sourceRecord.contains(host))sourceRecord.style.display='none';
  }

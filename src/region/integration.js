@@ -1,3 +1,4 @@
+import {validBasemap} from '../imagery.js';
 import {DIRECTION_ROUTES,directionRoute,directionPlace,defaultDirectionRoute,PLACE_ONLY_ROUTES} from './directions.js';
 import {PLACES,CITY,PLACE_ALIASES,canonicalPlaceId} from './presets.js';
 import {validateFilters,filterSnapshot} from './filters.js';
@@ -17,6 +18,7 @@ export function validateCommand(d){
  const p=d.payload??{};if(!record(p))return null;
  if(d.command==='openPlace'&&Object.keys(p).length===1&&places.has(p.placeId))return {...d,payload:p};
  if(d.command==='openRoute'&&Object.keys(p).every(k=>['routeId','autoFit'].includes(k))&&knownRoute(p.routeId)&&(p.autoFit===undefined||typeof p.autoFit==='boolean'))return {...d,payload:p};
+ if(d.command==='setBasemap'&&Object.keys(p).length===1&&validBasemap(p.basemap))return {...d,payload:p};
  if(d.command==='setCamera'&&cameraPayload(p))return {...d,payload:p};
  if(d.command==='setFilters'&&validateFilters(p))return {...d,payload:p};
  if(d.command==='focusView'&&Object.keys(p).length===1&&['places','stamps','passport'].includes(p.view))return {...d,payload:p};
@@ -26,6 +28,7 @@ export function validateCommand(d){
 export function readURLState(search=''){
  const p=new URLSearchParams(search),place=p.get('placeId')||p.get('place'),out={place:places.has(place)?canonicalPlaceId(place):'all',card:p.get('card')!=='0'};
  const route=p.get('routeId')||p.get('route');if(knownRoute(route))out.route=route;else if(p.has('placeId')&&defaultDirectionRoute(place))out.route=defaultDirectionRoute(place).id;const direction=directionRoute(out.route);if(direction)out.place=direction.mapPlaceId;if(p.has('placeId')&&place!=='all')out.explicitPlace=true;
+ if(validBasemap(p.get('basemap')))out.basemap=p.get('basemap');
  if(['0','1'].includes(p.get('effects')))out.effects=p.get('effects')==='1';
  const numeric=key=>p.get(key)?.trim()?Number(p.get(key)):NaN;
  const camera={};if(p.has('lat')&&p.has('lng'))camera.center={lat:numeric('lat'),lng:numeric('lng')};
@@ -52,7 +55,7 @@ export class IntegrationBridge{
    if(['suspend','resume'].includes(command.command)){this.execute(command);return;}
    this.queue.push(command);this.drain();
   };
-  window.addEventListener('message',this.receive);this.popstate=()=>{const state=readURLState(location.search);if(!this.region.bootstrapped){this.region.initial=state;return;}if(state.route)this.region.openRoute(state.route,{silent:true,focus:true,history:true});else this.region.choose(state.place,false,{silent:true});};window.addEventListener('popstate',this.popstate);
+  window.addEventListener('message',this.receive);this.popstate=()=>{const state=readURLState(location.search);if(!this.region.bootstrapped){this.region.initial=state;return;}if((state.basemap||'scheme')!==this.region.basemap)this.region.setBasemap(state.basemap||'scheme').catch(()=>this.region.imageryStatus('error'));if(state.route)this.region.openRoute(state.route,{silent:true,focus:true,history:true});else this.region.choose(state.place,false,{silent:true});};window.addEventListener('popstate',this.popstate);
  }
  bindMap(){
   const map=this.host.map;if(this.bound===map)return;this.bound=map;
@@ -67,21 +70,22 @@ export class IntegrationBridge{
  }
  tryReady(){
   if(this.ready||!this.region.bootstrapped||this.host.getAttribute('data-map-state')!=='ready')return;
- this.ready=true;this.bindMap();this.lastSnapshot=this.snapshot();this.event('ready',{placeId:this.region.id,routeId:this.region.routeId,camera:this.snapshot(),filters:filterSnapshot(this.region.filters),commands:['openPlace','openRoute','setCamera','setFilters','focusView','resize','suspend','resume']});this.drain();
+ this.ready=true;this.bindMap();this.lastSnapshot=this.snapshot();this.event('ready',{placeId:this.region.id,routeId:this.region.routeId,camera:this.snapshot(),basemap:this.region.basemap,filters:filterSnapshot(this.region.filters),commands:['openPlace','openRoute','setCamera','setBasemap','setFilters','focusView','resize','suspend','resume']});this.drain();
  }
  async drain(){if(!this.ready||this.processing||this.disposed)return;this.processing=true;try{while(this.queue.length&&!this.disposed)await this.execute(this.queue.shift());}finally{this.processing=false;}}
  async execute(c){
   const r=this.region,h=this.host;clearTimeout(this.cameraTimer);this.cameraTimer=null;this.suppressCamera=true;
   try{
    if(c.command==='openPlace')await r.choose(c.payload.placeId,false,{silent:true});
+   if(c.command==='setBasemap')await r.setBasemap(c.payload.basemap);
    if(c.command==='setFilters')r.setFilters(c.payload,{silent:true});
    if(c.command==='focusView')await r.focusView(c.payload.view,{silent:true});
    if(c.command==='openRoute')await r.openRoute(c.payload.routeId,{silent:true,focus:c.payload.autoFit!==false});
    if(c.command==='setCamera'){h.map.stop();h.map.jumpTo(cameraPayload(c.payload));r.sync();}
-   if(c.command==='resize'){h.map.resize();r.sync();}
+   if(c.command==='resize'){h.map.resize();r.resizeLayout(true);r.sync();}
    if(c.command==='suspend')r.suspend(true);
    if(c.command==='resume')r.suspend(false);
-   if(this.disposed)return;const result={command:c.command,ok:true,placeId:r.id,routeId:r.routeId,camera:this.snapshot(),filters:filterSnapshot(r.filters)};this.results.set(c.id,result);if(this.results.size>128)this.results.delete(this.results.keys().next().value);this.event('commandResult',result,c.id);this.updateURL();
+   if(this.disposed)return;const result={command:c.command,ok:true,placeId:r.id,routeId:r.routeId,basemap:r.basemap,camera:this.snapshot(),filters:filterSnapshot(r.filters)};this.results.set(c.id,result);if(this.results.size>128)this.results.delete(this.results.keys().next().value);this.event('commandResult',result,c.id);this.updateURL();
   }catch(e){if(!this.disposed)this.event('error',{code:e.message==='UNKNOWN_ROUTE'?'UNKNOWN_ROUTE':'COMMAND_FAILED',message:'Команда не выполнена.',recoverable:true},c.id);}
   finally{this.pending.delete(c.id);this.lastSnapshot=this.snapshot();this.suppressCamera=false;}
  }
@@ -95,6 +99,7 @@ export class IntegrationBridge{
   if(this.disposed||!this.region.bootstrapped)return;clearTimeout(this.urlTimer);this.urlTimer=setTimeout(()=>{
    if(this.disposed)return;const u=new URL(location.href),r=this.region,c=this.snapshot();u.searchParams.set('place',r.id);if(r.routeId)u.searchParams.set('route',r.routeId);else u.searchParams.delete('route');
    const direction=directionRoute(r.routeId);if(direction){u.searchParams.set('routeId',r.routeId);u.searchParams.set('placeId',direction.placeId);}else{u.searchParams.delete('routeId');u.searchParams.delete('placeId');}
+   if(r.basemap==='satellite')u.searchParams.set('basemap','satellite');else u.searchParams.delete('basemap');
    u.searchParams.set('card',r.cardOpen?'1':'0');u.searchParams.set('effects',r.effectsWanted?'1':'0');
    if(c){u.searchParams.set('lat',c.center.lat.toFixed(6));u.searchParams.set('lng',c.center.lng.toFixed(6));u.searchParams.set('z',c.zoom.toFixed(2));u.searchParams.set('pitch',c.pitch.toFixed(1));u.searchParams.set('bearing',c.bearing.toFixed(1));}
    history.replaceState(null,'',u);

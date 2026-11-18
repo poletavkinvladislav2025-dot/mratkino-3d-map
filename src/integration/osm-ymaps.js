@@ -38,6 +38,7 @@ function createOsmYmaps(ml,css){
    if(css&&root instanceof ShadowRoot&&!root.querySelector('style[data-vb-maplibre]')){const s=document.createElement('style');s.dataset.vbMaplibre='';s.textContent=css+'\n.vb-osm-pm{position:absolute}.vb-osm-dot{display:block;width:12px;height:12px;border-radius:50%;background:#1f5f3c;border:2px solid #fff;box-shadow:0 0 0 1px #0004}.vb-osm-caption{position:absolute;left:16px;top:-3px;white-space:nowrap;font:600 12px/1.3 Arial,sans-serif;color:#193c30;background:#fffffff2;padding:2px 6px;border-radius:6px;box-shadow:0 1px 4px #0003}';root.append(s);}
    this.events=new Events();this.lines=new Map();this.type='yandex#map';this.failed=false;
    this.ml=new ml.Map({container,style:OSM_STYLE,center:toML(state.center||[54,58.35]),zoom:clampZ(state.zoom||11)-1,maxZoom:18,attributionControl:{compact:true},dragRotate:false,pitchWithRotate:false,touchPitch:false,fadeDuration:0});
+   this.imagery=state.imageryConfigURL?new MapImagery(this.ml,{configURL:state.imageryConfigURL,logoURL:state.imageryLogoURL,variant:'ordinary',onChange:mode=>container.dispatchEvent(new CustomEvent('vb-basemap-change',{detail:mode,bubbles:true,composed:true})),onStatus:status=>container.dispatchEvent(new CustomEvent('vb-imagery-status',{detail:status,bubbles:true,composed:true}))}):null;this.ml.on('remove',()=>this.imagery?.dispose());
    this.ml.touchZoomRotate.disableRotation();this.ml.keyboard.disableRotation?.();
    this.ml.on('style.load',()=>this.overlay());
    // Keep the source credits folded into the (i) button on load; it opens on tap.

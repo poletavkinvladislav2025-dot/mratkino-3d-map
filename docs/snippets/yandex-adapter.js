@@ -29,6 +29,8 @@ window.VisitBeloretskYandex={
   version:1,
   getRoutes:function(){return typeof vbRoutes!=='undefined'&&vbRoutes?vbRoutes.getRoutes():Promise.resolve([]);},
   openRoute:async function(id,options){if(typeof vbRoutes==='undefined'||!vbRoutes)return false;vbYandexMuted++;try{deselectMarker();panel.classList.remove('vb-t1__panel--open');mcard.classList.remove('vb-t1__mcard--visible');currentTab='places';vbPassportOnly=false;const ok=await vbRoutes.select(id,options?.focus!==false);return ok;}finally{vbYandexMuted--;vbYandexNotify();}},
+  getBasemap:function(){return map?.imagery?.mode||'scheme';},
+  setBasemap:function(mode){return map?.imagery?map.imagery.set(mode):Promise.reject(Error('IMAGERY_NOT_READY'));},
   getCamera:function(){return map?{center:map.getCenter(),zoom:map.getZoom(),bounds:map.getBounds()}:null;},
   getState:function(){return map?vbYandexState():null;},
   canonicalId:function(id){var p=locations.concat(stampPoints).find(function(p){return p.id===id;});return p?.canonicalId;},

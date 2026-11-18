@@ -500,7 +500,7 @@ function mountYandex(catalog,config,scope){
   function createMap(){
     if(map)return;
     // Встроенные zoomControl/fullscreenControl отключены: все три кнопки слева свои.
-    map=new ymaps.Map(mapContainer,{center:[54.0,58.35],zoom:11,controls:[],behaviors:['default','scrollZoom']});
+    map=new ymaps.Map(mapContainer,{center:[54.0,58.35],zoom:11,imageryConfigURL:new URL('imagery.json',config.integrationBase).href,imageryLogoURL:new URL('maptiler-logo.svg',config.integrationBase).href,controls:[],behaviors:['default','scrollZoom']});
 
     for(var i=0;i<locations.length;i++){(function(j){
       var l=locations[j];

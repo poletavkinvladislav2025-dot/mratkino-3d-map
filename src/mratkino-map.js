@@ -111,6 +111,7 @@ class MratkinoMap extends HTMLElement {
    map.on('sourcedata',e=>{if(e.sourceId==='dem')this.finishLoading();});
    map.on('error',e=>{
     if(this.map!==map)return;
+    if(e.sourceId==='vb-satellite')return;
     const message=e.error?.message||'Ошибка карты';
     if(/Abort|abort/i.test(message))return;
     if(e.sourceId==='dem'||e.sourceId==='shade')this.fallback('3D-карта недоступна: '+message);
