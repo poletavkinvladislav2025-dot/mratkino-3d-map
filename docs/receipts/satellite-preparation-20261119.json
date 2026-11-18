@@ -1,0 +1,56 @@
+{
+  "appCommit": "c06cc4dfcc868c06a5299dab09d042cdfcf18296",
+  "dispatchCommit": "bbd844c16919d470350350d495a40155d6eaba55",
+  "workflowRun": 44405791326,
+  "checkedAt": "2026-11-19",
+  "enabled": false,
+  "reason": "Waiting for owner MapTiler public browser key and appropriate account plan",
+  "validation": {
+    "unitChecks": 93,
+    "imageryBrowserChecks": 3,
+    "ordinaryRegressionChecks": 2,
+    "imageryFixture": "Local diagnostic tile only; all provider imagery requests intercepted; real coverage quality pending owner key"
+  },
+  "deployedHashes": [
+    {
+      "path": "index.html",
+      "matches": true,
+      "sha256": "077d6c6c81ca1eeabfbffd2b846396797dd34e5d5e9477c356641bec2f79768a"
+    },
+    {
+      "path": "integration/tilda-map-block.js",
+      "matches": true,
+      "sha256": "3b8416db50cf83830937da9ec157893d6bf1284709111f4bb3f8299fd97193fe"
+    },
+    {
+      "path": "integration/tilda-map-switch.js",
+      "matches": true,
+      "sha256": "a1a39f08b8a1891ea16a8de23122447b1ff003d31071d1875b67bd8e9bd83a5a"
+    },
+    {
+      "path": "integration/imagery.json",
+      "matches": true,
+      "sha256": "91687ff1eebc0a205877db60103136ca943db9d4bc0c7f2b82f91f0ea4d79c5c"
+    }
+  ],
+  "live": {
+    "checkedAt": "2026-11-19",
+    "appCommit": "c06cc4dfcc868c06a5299dab09d042cdfcf18296",
+    "dispatchCommit": "bbd844c16919d470350350d495a40155d6eaba55",
+    "workflowRun": 44405791326,
+    "native": {
+      "state": "ready",
+      "basemap": "scheme",
+      "available": "false",
+      "controlVisible": false
+    },
+    "tilda": {
+      "hasSharedImagery": true,
+      "basemap": "scheme",
+      "satelliteControls": 0,
+      "mode": "yandex"
+    },
+    "errors": [],
+    "imageryRequestCount": 0
+  }
+}
