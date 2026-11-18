@@ -1,8 +1,8 @@
 {
-  "previewRef": "5bca9cdcc435a8979a17fd6b891490463eac920a",
+  "previewRef": "c06cc4dfcc868c06a5299dab09d042cdfcf18296",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Map audit: honour actual marker and line visibility in the ordinary OSM engine, close stale cards on category changes, add labelled keyboard-accessible markers and avoid redundant redraws",
-  "validated": "87 unit tests; production build; 7 browser checks on real tiles covering desktop/mobile filters, card clearing, keyboard selection, 3D search/routes and place centering at desktop/phone/tablet sizes",
+  "change": "Prepare shared MapTiler satellite switch for ordinary and 3D maps, retaining route/camera/terrain with scheme fallback. Disabled until owner supplies licensed public key; no live satellite coverage claim.",
+  "validated": "93 unit checks; production build; 3 imagery browser checks with locally intercepted diagnostic imagery; 2 real-tile ordinary-map desktop/mobile regression checks.",
   "reason": "A new main dispatch SHA is required to distinguish this Pages release from the earlier main dispatch."
 }
