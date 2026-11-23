@@ -1,8 +1,8 @@
 {
-  "previewRef": "c06cc4dfcc868c06a5299dab09d042cdfcf18296",
+  "previewRef": "c7a21b9f5b7b1b742f5abe00b3891c5130be5944",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Prepare shared MapTiler satellite switch for ordinary and 3D maps, retaining route/camera/terrain with scheme fallback. Disabled until owner supplies licensed public key; no live satellite coverage claim.",
-  "validated": "93 unit checks; production build; 3 imagery browser checks with locally intercepted diagnostic imagery; 2 real-tile ordinary-map desktop/mobile regression checks.",
-  "reason": "A new main dispatch SHA is required to distinguish this Pages release from the earlier main dispatch."
+  "change": "Add south, north and resort overview camera controls to the Mratkino entry.",
+  "validated": "Initial workflow reached Pages deployment. Live checks pending publication.",
+  "reason": "Use a fresh main dispatch SHA to distinguish the Pages release."
 }
