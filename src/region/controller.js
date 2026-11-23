@@ -70,6 +70,18 @@ export class RegionController{
   h.$('.legend').hidden=true;h.$('.legend').replaceChildren();
   const routes=document.createElement('section');routes.className='routes-panel';const card=document.createElement('div');card.className='route-card';routes.append(card);body.append(routes);this.routesPanel=routes;
   const imageryStyle=document.createElement('style');imageryStyle.textContent=IMAGERY_CSS+' .explorer .basemap-row{display:flex;gap:12px;align-items:center;padding:4px 16px;background:#fff;flex:none;flex-wrap:wrap}.explorer .basemap-row[hidden],.explorer.external-search .basemap-row{display:none!important}';h.shadowRoot.append(imageryStyle);this.basemapRow=document.createElement('div');this.basemapRow.className='basemap-row';this.basemapRow.hidden=true;this.basemapControl=imagerySwitch(document,mode=>this.setBasemap(mode).catch(()=>this.imageryStatus('error')));this.basemapNote=document.createElement('span');this.basemapNote.className='vb-imagery-note';this.basemapNote.setAttribute('role','status');this.basemapRow.append(this.basemapControl.element,this.basemapNote);nav.after(this.basemapRow);
+  if(this.initial.place==='mratkino'&&!this.initial.route){
+   const views=h.$('.views'),row=document.createElement('div');
+   row.className='mratkino-slope-views';row.append(views);this.basemapRow.after(row);
+   imageryStyle.textContent+=' .mratkino-slope-views{display:flex;flex:none;padding:4px 8px;border-bottom:1px solid #e1e7e2;background:#fff}.mratkino-slope-views[hidden]{display:none}.mratkino-slope-views .views{min-width:0;max-width:100%}.mratkino-slope-views button{min-height:36px}';
+   this.slopeViews=row;
+   for(const button of views.querySelectorAll('button')){
+    button.setAttribute('aria-pressed','false');
+    button.addEventListener('click',()=>{
+     this.showCard(false);
+    });
+   }
+  }
   this.about();this.cameraButton();
   const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Открыть свой GPX / GeoJSON';details.append(summary);const input=document.createElement('input');input.type='file';input.accept='.gpx,.geojson,.json';input.setAttribute('aria-label','Открыть GPX или GeoJSON');input.addEventListener('change',()=>this.importRoute(input.files?.[0]));details.append(input);h.$('dialog').append(details);
   this.hiking.setup();this.directions.setup();this.ski.setup();this.catalog.setup();this.renderPlace();this.renderCard();
@@ -102,7 +114,7 @@ export class RegionController{
  cameraPadding(){const h=this.host,s=h.$('.sidebar');if(directionRoute(this.routeId)){const rect=h.$('.map-wrap');return directionPadding(rect.clientWidth,rect.clientHeight,this.cardOpen?s.offsetWidth:0,this.cardOpen?s.offsetHeight:0);}const rect=h.map?.getContainer().getBoundingClientRect()||h.$('.map-wrap').getBoundingClientRect();return visibleMapArea(rect,this.cardOpen&&!s.hidden?s.getBoundingClientRect():null,matchMedia('(max-width:760px)').matches?'bottom':'right').padding;}
  resizeLayout(force=false,initial=false){
   const h=this.host,map=h.map,wrap=h.$('.map-wrap'),nav=h.$('.region-navigation');if(!map||!wrap||!nav)return;
-  h.$('.shell').style.setProperty('--vb-toolbar-height',(nav.offsetHeight+(this.basemapRow?.offsetHeight||0))+'px');if(!this.bootstrapped)return;
+  h.$('.shell').style.setProperty('--vb-toolbar-height',(nav.offsetHeight+(this.basemapRow?.offsetHeight||0)+(this.slopeViews?.offsetHeight||0))+'px');if(!this.bootstrapped)return;
   const size=[wrap.clientWidth,wrap.clientHeight],same=this.layoutSize?.every((n,i)=>n===size[i]);this.layoutSize=size;
   if(initial){this.resizePending=false;return;}if(same&&!force)return;
   if(map.isMoving()){this.resizePending=true;return;}
@@ -157,7 +169,8 @@ export class RegionController{
  }
  overview(animate=true){if(this.directions.scoped&&directionRoute(this.routeId)){this.directions.fit(directionRoute(this.routeId),animate);return;}const h=this.host;if(!h.map)return;this.showCard(false);this.longDistance.popup?.remove();const p=presetFor('all'),camera=h.map.cameraForBounds(p.bounds,{padding:45,bearing:p.bearing});h.map.stop();h.map.easeTo({...camera,pitch:p.pitch,bearing:p.bearing,duration:animate?h.duration():0});}
  renderPlace(){
-  const h=this.host,p=byId(this.id),card=h.$('.region-panel');if(!card)return;const key=this.id+':'+this.routeId;if(this.placeCardKey===key)return;this.placeCardKey=key;
+  const h=this.host,p=byId(this.id),card=h.$('.region-panel');if(!card)return;
+  this.updateSlopeViews();const key=this.id+':'+this.routeId;if(this.placeCardKey===key)return;this.placeCardKey=key;
   card.replaceChildren();h.$('h1').textContent=p?.name||'Белорецкий район';h.$('.sidebar').scrollTop=0;h.$('.panel-body').scrollTop=0;
   h.cardTitle(card,placeKind(p?.kind),p?.name||'Ваш маршрут');
   if(!p)return;this.gallery.mount(card,p);
@@ -206,6 +219,15 @@ export class RegionController{
   if(this.catalog.isRoute(id)){await this.catalog.openRoute(id,meta);return;}
   if(!await this.hiking.open(id,meta))throw Error('UNKNOWN_ROUTE');
  }
+ updateSlopeViews(){
+  if(!this.slopeViews)return;
+  this.slopeViews.hidden=this.id!=='mratkino';
+  for(const button of this.slopeViews.querySelectorAll('button')){
+   const view=button.dataset.view;
+   button.disabled=!this.host.resortLoaded||(view!=='overview'&&!this.host.cameras[view]);
+   if(this.slopeViews.hidden||button.disabled)button.setAttribute('aria-pressed','false');
+  }
+ }
  async ensureResort(){
   const h=this.host;if(h.resortLoaded)return;
   if(!this.resortPromise)this.resortPromise=(async()=>{
@@ -216,7 +238,7 @@ export class RegionController{
     if(!h.map.getSource('forest-winter')){const [w,s,e,n]=h.data.manifest.bounds;h.map.addSource('forest-winter',{type:'image',url:h.url('live/forest-winter.png'),coordinates:[[w,n],[e,n],[e,s],[w,s]]});h.map.addLayer({id:'forest-soft',type:'raster',source:'forest-winter',paint:{'raster-opacity':1,'raster-fade-duration':0}},'road');}
     h.addMarkers();
    }
-   this.renderCard();
+   this.updateSlopeViews();this.renderCard();
   })().catch(e=>{this.resortPromise=null;throw e;});return this.resortPromise;
  }
  request(id,load){
@@ -270,7 +292,7 @@ export class RegionController{
  resetMap(){
   const h=this.host,c=this.bridge.snapshot();this.initial={basemap:this.basemap,place:this.id,route:this.routeId,card:this.cardOpen,effects:this.effectsWanted,camera:c?{...c,center:[c.center.lng,c.center.lat]}:this.initial.camera};
   clearTimeout(this.settleTimer);this.cameraMoving=false;this.bootstrapped=false;this.legendKey=null;this.bridge.reset();this.landscape.disposeScene();this.disposeScenes();this.ski.dispose();this.ski.data=null;this.ski.promise=null;this.hiking.dispose();this.hiking.datasets.clear();this.hiking.boundMap=null;
-  this.buzhd.reset();this.longDistance.reset();this.directions.reset();this.kraka.reset();this.markers.forEach(m=>m.marker.remove());this.markers=[];h.markers.forEach(m=>m.marker.remove());h.markers=[];h.resortLoaded=false;this.resortPromise=null;this.context=null;this.pending.clear();this.retryAfter.clear();
+  this.buzhd.reset();this.longDistance.reset();this.directions.reset();this.kraka.reset();this.markers.forEach(m=>m.marker.remove());this.markers=[];h.markers.forEach(m=>m.marker.remove());h.markers=[];h.resortLoaded=false;this.updateSlopeViews();this.resortPromise=null;this.context=null;this.pending.clear();this.retryAfter.clear();
  }
  dataError(error,message='Часть карты временно недоступна.') {if(error?.name==='AbortError')return;const h=this.host,note=h.$('.error-note');if(!note.hidden&&note.dataset.message===message)return;note.dataset.message=message;note.hidden=false;note.textContent=message;const retry=this.button('Повторить','Повторить загрузку объектов',()=>{note.hidden=true;this.retryAfter.clear();this.landscape.retry.clear();this.landscape.stats.error=null;this.sync();const area=hikingArea(this.id);if(area)this.request(area,()=>this.hiking.enter(this.id));else if(this.id==='abzakovo')this.request(this.id,()=>this.ski.ensure());else if(this.id==='mratkino')this.request(this.id,()=>this.ensureResort());});note.append(retry);this.bridge.event('error',{code:'DATA_UNAVAILABLE',message,recoverable:true});}
  addLabels(){
