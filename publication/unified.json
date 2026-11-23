@@ -1,8 +1,8 @@
 {
-  "previewRef": "c7a21b9f5b7b1b742f5abe00b3891c5130be5944",
+  "previewRef": "1af819a6e1ae707f0b673e9b1006feb4a6acdc06",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Add south, north and resort overview camera controls to the Mratkino entry.",
-  "validated": "Initial workflow reached Pages deployment. Live checks pending publication.",
+  "change": "Add responsive resort camera and trail controls to Mratkino.",
+  "validated": "Unit tests and production build passed. Live checks pending Pages publication.",
   "reason": "Use a fresh main dispatch SHA to distinguish the Pages release."
 }
