@@ -1,8 +1,8 @@
 {
-  "previewRef": "e051e377174d3ec83b690fe6a516039fc25bb70e",
+  "previewRef": "5584769c15e87ebfc57207c16cb02738dd02cb2c",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Extend the docked map layout to hiking route groups, ski resorts and the Beloretsk railway.",
-  "validated": "Live site checks pending publication.",
+  "change": "Keep secondary activities accessible and distinguish resort items without official numbering.",
+  "validated": "Previous release checked on desktop and mobile; follow-up live checks pending.",
   "reason": "Use a fresh main dispatch SHA to distinguish the Pages release."
 }
