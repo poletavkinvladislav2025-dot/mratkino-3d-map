@@ -301,10 +301,9 @@ export class RegionController{
    .place-map-choices[hidden]{display:none}
    .place-map-choices button{flex:none;min-height:38px;max-width:230px;border:1px solid #cbded2;border-radius:8px;padding:4px 10px;background:#f2f8f4;color:#174c39;font-weight:650}
    .place-map-choices button[aria-pressed=true]{background:#ffc76c;border-color:#a65a18;color:#452707}
-   .explorer.place-local-controls :is(.direction-picker,.direction-choice,.directions-panel>h3,.abz-trails,.ski-area-intro,.catalog-group){display:none!important}
+   .explorer.place-local-controls :is(.direction-picker,.direction-choice,.directions-panel>h3,.abz-trails,.ski-area-intro,.catalog-group[data-category=ski],.catalog-group[data-category=lift]){display:none!important}
    .explorer.place-local-controls .directions-panel:not(:has(.direction-card)){display:none}
-   .explorer.place-local-controls .ski-area-panel:not(:has(.abz-card h3)){display:none}
-   .explorer.place-local-controls .catalog-panel:not(:has(.catalog-selection)){display:none}
+   .explorer.place-local-controls .catalog-panel:not(:has(.catalog-selection,.catalog-group:not([data-category=ski],[data-category=lift]))){display:none}
    .explorer.mratkino-local-controls .workspace{display:grid;grid-template: minmax(0,1fr) / minmax(0,1fr);gap:0}
    .explorer.mratkino-local-controls .workspace:has(>.sidebar:not([hidden])){grid-template-columns:minmax(0,1fr) clamp(230px,28%,310px)}
    .explorer.mratkino-local-controls .map-wrap{grid-area:1 / 1;height:100%}
@@ -373,7 +372,13 @@ export class RegionController{
     }
     if(id!=='abzakovo'){
      const remaining=data.features.filter(f=>f.properties.routeId&&(f.properties.category==='lift'||f.properties.category==='ski'&&!f.properties.number));
-     for(const {properties:p} of remaining)choices.push([p.routeId,p.name||p.title||(p.category==='lift'?'Подъёмник':'Спуск'),()=>this.openRoute(p.routeId,{focus:true})]);
+     let liftIndex=0,segmentIndex=0;
+     for(const {properties:p} of remaining){
+      const label=p.category==='lift'
+       ? p.number?'Подъёмник №'+p.number:'Подъёмник · отметка '+(++liftIndex)
+       : 'Участок без номера · '+(++segmentIndex);
+      choices.push([p.routeId,label,()=>this.openRoute(p.routeId,{focus:true})]);
+     }
     }
    }
    for(const [key,label,action] of choices){
