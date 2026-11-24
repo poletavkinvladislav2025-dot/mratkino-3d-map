@@ -1,6 +1,6 @@
 import {MapImagery,imagerySwitch,IMAGERY_CSS} from '../imagery.js';
 import {DirectionsController} from './directions-controller.js';
-import {directionRoute,directionPlace,defaultDirectionRoute,directionPadding,PLACE_ONLY_ROUTES} from './directions.js';
+import {DIRECTION_ROUTES,directionRoute,directionPlace,defaultDirectionRoute,directionPadding,PLACE_ONLY_ROUTES} from './directions.js';
 import {CatalogLifeController} from './catalog-life.js';
 import {ROCK_SURFACES} from '../landscape/malinovaya-rock-plan.js';
 import {rodeoMask,rodeoFrame} from '../landscape/rodeo-plan.js';
@@ -70,7 +70,7 @@ export class RegionController{
   h.$('.legend').hidden=true;h.$('.legend').replaceChildren();
   const routes=document.createElement('section');routes.className='routes-panel';const card=document.createElement('div');card.className='route-card';routes.append(card);body.append(routes);this.routesPanel=routes;
   const imageryStyle=document.createElement('style');imageryStyle.textContent=IMAGERY_CSS+' .explorer .basemap-row{display:flex;gap:12px;align-items:center;padding:4px 16px;background:#fff;flex:none;flex-wrap:wrap}.explorer .basemap-row[hidden],.explorer.external-search .basemap-row{display:none!important}';h.shadowRoot.append(imageryStyle);this.basemapRow=document.createElement('div');this.basemapRow.className='basemap-row';this.basemapRow.hidden=true;this.basemapControl=imagerySwitch(document,mode=>this.setBasemap(mode).catch(()=>this.imageryStatus('error')));this.basemapNote=document.createElement('span');this.basemapNote.className='vb-imagery-note';this.basemapNote.setAttribute('role','status');this.basemapRow.append(this.basemapControl.element,this.basemapNote);nav.after(this.basemapRow);
-  if(this.initial.place==='mratkino'&&!this.initial.route)this.setupResortControls(imageryStyle);
+  this.setupLocalControls(imageryStyle);
   this.about();this.cameraButton();
   const details=document.createElement('details'),summary=document.createElement('summary');summary.textContent='Открыть свой GPX / GeoJSON';details.append(summary);const input=document.createElement('input');input.type='file';input.accept='.gpx,.geojson,.json';input.setAttribute('aria-label','Открыть GPX или GeoJSON');input.addEventListener('change',()=>this.importRoute(input.files?.[0]));details.append(input);h.$('dialog').append(details);
   this.hiking.setup();this.directions.setup();this.ski.setup();this.catalog.setup();this.renderPlace();this.renderCard();
@@ -100,10 +100,10 @@ export class RegionController{
   this.sync();this.cameraButton();this.bridge.updateURL();
  }
  cameraButton(){const m=this.host.map,top=m?m.getPitch()<5:this.host.mode2D,b=this.host.$('[data-action=mode]');this.host.mode2D=top;b.textContent=top?'Наклонный вид':'Вид сверху';b.title=b.textContent;b.setAttribute('aria-label',b.textContent);b.setAttribute('aria-pressed',String(top));}
- cameraPadding(){const h=this.host,s=h.$('.sidebar');if(this.slopeViews&&!this.slopeViews.hidden)return {top:0,right:0,bottom:0,left:0};if(directionRoute(this.routeId)){const rect=h.$('.map-wrap');return directionPadding(rect.clientWidth,rect.clientHeight,this.cardOpen?s.offsetWidth:0,this.cardOpen?s.offsetHeight:0);}const rect=h.map?.getContainer().getBoundingClientRect()||h.$('.map-wrap').getBoundingClientRect();return visibleMapArea(rect,this.cardOpen&&!s.hidden?s.getBoundingClientRect():null,matchMedia('(max-width:760px)').matches?'bottom':'right').padding;}
+ cameraPadding(){const h=this.host,s=h.$('.sidebar');if(this.localDockActive())return {top:0,right:0,bottom:0,left:0};if(directionRoute(this.routeId)){const rect=h.$('.map-wrap');return directionPadding(rect.clientWidth,rect.clientHeight,this.cardOpen?s.offsetWidth:0,this.cardOpen?s.offsetHeight:0);}const rect=h.map?.getContainer().getBoundingClientRect()||h.$('.map-wrap').getBoundingClientRect();return visibleMapArea(rect,this.cardOpen&&!s.hidden?s.getBoundingClientRect():null,matchMedia('(max-width:760px)').matches?'bottom':'right').padding;}
  resizeLayout(force=false,initial=false){
   const h=this.host,map=h.map,wrap=h.$('.map-wrap'),nav=h.$('.region-navigation');if(!map||!wrap||!nav)return;
-  h.$('.shell').style.setProperty('--vb-toolbar-height',(nav.offsetHeight+(this.basemapRow?.offsetHeight||0)+(this.slopeViews?.offsetHeight||0))+'px');if(!this.bootstrapped)return;
+  h.$('.shell').style.setProperty('--vb-toolbar-height',(nav.offsetHeight+(this.basemapRow?.offsetHeight||0)+(this.slopeViews?.offsetHeight||0)+(this.localChoices?.offsetHeight||0))+'px');if(!this.bootstrapped)return;
   const size=[wrap.clientWidth,wrap.clientHeight],same=this.layoutSize?.every((n,i)=>n===size[i]);this.layoutSize=size;
   if(initial){this.resizePending=false;return;}if(same&&!force)return;
   if(map.isMoving()){this.resizePending=true;return;}
@@ -131,7 +131,7 @@ export class RegionController{
   this.setupImagery();
   const h=this.host;await this.choose(this.id,false,{silent:true,initial:true});
   if(this.initial.route)await this.openRoute(this.initial.route,{silent:true,focus:!this.initial.camera&&this.initial.autoFit!==false});
-  this.cardOpen=this.initial.card!==false&&this.id!=='all'&&this.id!=='buzhd';this.renderCard();
+  this.cardOpen=this.initial.card!==false&&this.id!=='all'&&(this.id!=='buzhd'||this.localPlace==='buzhd');this.renderCard();
   if(this.initial.camera)h.map.jumpTo(this.initial.camera);
   else if(this.slopeViews&&this.id==='mratkino'&&h.resortLoaded)this.fitResortView('south',false);
   if(this.legendBound!==h.map){this.legendBound=h.map;h.map.on('data',()=>{if(!this.statusTimer)this.statusTimer=setTimeout(()=>{this.statusTimer=null;this.updateLoadStatus();},180);});h.map.on('idle',()=>this.updateLoadStatus());h.map.on('idle',()=>this.refreshLegend());h.map.on('moveend',()=>{this.cameraButton();if(this.resizePending){this.resizePending=false;this.resizeLayout(true);}});}this.applySeason();this.sync();this.bootstrapped=true;this.resizeLayout(false,true);this.bridge.tryReady();
@@ -160,7 +160,7 @@ export class RegionController{
  overview(animate=true){if(this.directions.scoped&&directionRoute(this.routeId)){this.directions.fit(directionRoute(this.routeId),animate);return;}const h=this.host;if(!h.map)return;this.showCard(false);this.longDistance.popup?.remove();const p=presetFor('all'),camera=h.map.cameraForBounds(p.bounds,{padding:45,bearing:p.bearing});h.map.stop();h.map.easeTo({...camera,pitch:p.pitch,bearing:p.bearing,duration:animate?h.duration():0});}
  renderPlace(){
   const h=this.host,p=byId(this.id),card=h.$('.region-panel');if(!card)return;
-  this.updateSlopeViews();const key=this.id+':'+this.routeId;if(this.placeCardKey===key)return;this.placeCardKey=key;
+  this.updateSlopeViews();this.updateLocalChoices();const key=this.id+':'+this.routeId;if(this.placeCardKey===key)return;this.placeCardKey=key;
   card.replaceChildren();h.$('h1').textContent=p?.name||'Белорецкий район';h.$('.sidebar').scrollTop=0;h.$('.panel-body').scrollTop=0;
   h.cardTitle(card,placeKind(p?.kind),p?.name||'Ваш маршрут');
   if(!p)return;this.gallery.mount(card,p);
@@ -188,9 +188,10 @@ export class RegionController{
  }
  renderCard(){
   const h=this.host;if(!h.$('.sidebar'))return;h.$('.sidebar').hidden=!this.cardOpen;h.setAttribute('data-card-open',String(this.cardOpen));
+  this.updateLocalChoices();
   const compactResort=this.slopeViews&&!this.slopeViews.hidden;
   const resortDetails=compactResort&&this.routeId?.startsWith('mratkino/');
-  h.$('.region-panel').hidden=this.importActive||!!resortDetails;
+  h.$('.region-panel').hidden=this.importActive||!!resortDetails||!!(this.localChoices&&!this.localChoices.hidden&&this.routeId);
   h.$('.resort-content').hidden=this.importActive||this.id!=='mratkino'||!h.resortLoaded||(compactResort&&!resortDetails);
   h.$('.lift-list').hidden=!!compactResort;
   if(compactResort){
@@ -201,6 +202,7 @@ export class RegionController{
     : details?.textContent||'Мраткино';
   }
   this.ski.panel.hidden=this.importActive||this.id!=='abzakovo';this.hiking.section.hidden=true;this.routesPanel.hidden=!this.importActive;this.catalog.renderCard();this.directions.render();
+  if(this.localChoices&&!this.localChoices.hidden)this.resortDetailTitle.textContent=this.localChoices.querySelector('[aria-pressed=true]')?.textContent||byId(this.id)?.name||'Подробнее';
  }
  showCard(open){this.cardOpen=open;this.renderCard();if(!open)this.host.map?.setPadding({top:0,bottom:0,left:0,right:0});this.bridge.updateURL();}
  selectFeature(place,routeId,meta={}){
@@ -220,7 +222,7 @@ export class RegionController{
   if(this.catalog.isRoute(id)){await this.catalog.openRoute(id,meta);return;}
   if(!await this.hiking.open(id,meta))throw Error('UNKNOWN_ROUTE');
  }
- setupResortControls(style){
+ setupResortControls(){
   const h=this.host;
   this.slopeView='south';
   const row=document.createElement('div');
@@ -248,6 +250,23 @@ export class RegionController{
   row.append(views,this.trailControls);
   this.basemapRow.after(row);
   this.slopeViews=row;
+ }
+ setupLocalControls(style){
+  const h=this.host;
+  const route=directionRoute(this.initial.route);
+  const initialPlace=route?.mapPlaceId||this.initial.place;
+  const hiking=directionPlace(initialPlace);
+  if(initialPlace==='mratkino'&&!this.initial.route){
+   this.setupResortControls();
+  }else if(['abzakovo','bannoye','kushtau','buzhd'].includes(initialPlace)||hiking&&DIRECTION_ROUTES.filter(r=>r.placeId===hiking.placeId&&r.hasGeometry).length>1){
+   this.localPlace=initialPlace;
+   this.localChoices=document.createElement('div');
+   this.localChoices.className='place-map-choices';
+   this.localChoices.hidden=true;
+   this.localChoices.setAttribute('role','group');
+   this.localChoices.setAttribute('aria-label','Объекты на карте');
+   this.basemapRow.after(this.localChoices);
+  }else return;
   const sidebar=h.$('.sidebar');
   const summary=document.createElement('button');
   summary.type='button';
@@ -278,6 +297,14 @@ export class RegionController{
    .mratkino-trail-controls button[aria-pressed=true]{background:#ffc76c;border-color:#a65a18;color:#452707}
    .mratkino-trail-controls button[data-closed]{border-style:dashed}
    .mratkino-detail-toggle{display:none}
+   .place-map-choices{display:flex;flex:none;gap:5px;padding:6px 10px;overflow-x:auto;scrollbar-width:thin;background:#fff;border-bottom:1px solid #dce8df}
+   .place-map-choices[hidden]{display:none}
+   .place-map-choices button{flex:none;min-height:38px;max-width:230px;border:1px solid #cbded2;border-radius:8px;padding:4px 10px;background:#f2f8f4;color:#174c39;font-weight:650}
+   .place-map-choices button[aria-pressed=true]{background:#ffc76c;border-color:#a65a18;color:#452707}
+   .explorer.place-local-controls :is(.direction-picker,.direction-choice,.directions-panel>h3,.abz-trails,.ski-area-intro,.catalog-group){display:none!important}
+   .explorer.place-local-controls .directions-panel:not(:has(.direction-card)){display:none}
+   .explorer.place-local-controls .ski-area-panel:not(:has(.abz-card h3)){display:none}
+   .explorer.place-local-controls .catalog-panel:not(:has(.catalog-selection)){display:none}
    .explorer.mratkino-local-controls .workspace{display:grid;grid-template: minmax(0,1fr) / minmax(0,1fr);gap:0}
    .explorer.mratkino-local-controls .workspace:has(>.sidebar:not([hidden])){grid-template-columns:minmax(0,1fr) clamp(230px,28%,310px)}
    .explorer.mratkino-local-controls .map-wrap{grid-area:1 / 1;height:100%}
@@ -295,6 +322,68 @@ export class RegionController{
    .explorer.mratkino-local-controls .resort-content .trail-list{display:none}
    .explorer.mratkino-local-controls .route-label[aria-pressed=true]{background:#ffc76c;color:#452707}
   `;
+ }
+ localDockActive(){
+  return !!(this.slopeViews&&!this.slopeViews.hidden||this.localChoices&&!this.localChoices.hidden);
+ }
+ updateLocalChoices(){
+  const row=this.localChoices;
+  if(!row)return;
+  const h=this.host,id=this.localPlace;
+  const railway=id==='buzhd';
+  const active=!this.importActive&&(this.id===id||railway&&['narrowGauge1','arsha','gr231'].includes(this.id));
+  row.hidden=!active;
+  h.$('.shell').classList.toggle('mratkino-local-controls',active);
+  h.$('.shell').classList.toggle('place-local-controls',active);
+  if(!active)return;
+  const hiking=directionPlace(id);
+  const data=id==='abzakovo'?this.ski.data:this.catalog.datasets[id];
+  if(!hiking&&!railway&&!data){row.hidden=true;h.$('.shell').classList.remove('mratkino-local-controls','place-local-controls');return;}
+  if(!this.localChoicesBuilt||this.localChoicesData!==data){
+   this.localChoicesBuilt=true;
+   this.localChoicesData=data;
+   row.replaceChildren();
+   const choices=[];
+   const overview=()=>this.choose(id,false).then(()=>{
+    if(this.id!==id)return;
+    if(!railway&&data){
+     const features=id==='abzakovo'?data.trails.features:data.features;
+     h.flyToBounds(boundsFor(features),0,42,true,14);
+    }
+    this.showCard(true);
+   });
+   if(hiking){
+    for(const route of DIRECTION_ROUTES.filter(r=>r.placeId===hiking.placeId&&r.hasGeometry)){
+     const names={'malinovaya-first':'Первая из Белорецка','malinovaya-third':'Третья из Отнурка','malinovaya-three-through':'Три вершины насквозь','malinovaya-three-return':'Три вершины с возвратом'};
+     choices.push([route.id,names[route.id]||route.title,()=>this.directions.open(route.id,{focus:true})]);
+    }
+   }else if(railway){
+    choices.push(['','Вся линия',overview]);
+    for(const [id,label] of [['narrowGauge1','Скальная выемка'],['arsha','Бывший мост'],['gr231','Паровоз ГР-231']]){
+     choices.push([id,label,()=>this.choose(id)]);
+    }
+   }else{
+    choices.push(['','Весь курорт',overview]);
+    const trails=id==='abzakovo'?data.trails.features:data.features.filter(f=>f.properties.category==='ski');
+    const byNumber=new Map();
+    for(const {properties:p} of trails)if(p.number&&!byNumber.has(p.number))byNumber.set(p.number,p);
+    for(const [number,p] of [...byNumber].sort(([a],[b])=>String(a).localeCompare(String(b),'ru',{numeric:true}))){
+     const routeId=id==='abzakovo'?'abzakovo/trail/'+number:p.routeId;
+     choices.push([routeId,'№'+number,()=>this.openRoute(routeId,{focus:true})]);
+    }
+    if(id!=='abzakovo'){
+     const remaining=data.features.filter(f=>f.properties.routeId&&(f.properties.category==='lift'||f.properties.category==='ski'&&!f.properties.number));
+     for(const {properties:p} of remaining)choices.push([p.routeId,p.name||p.title||(p.category==='lift'?'Подъёмник':'Спуск'),()=>this.openRoute(p.routeId,{focus:true})]);
+    }
+   }
+   for(const [key,label,action] of choices){
+    const b=this.button(label,label,()=>Promise.resolve(action()).catch(error=>this.dataError(error)));
+    b.dataset.localChoice=key;
+    row.append(b);
+   }
+  }
+  const selected=railway?(this.id===id?'':this.id):this.routeId||'';
+  for(const b of row.querySelectorAll('button'))b.setAttribute('aria-pressed',String(b.dataset.localChoice===selected));
  }
  fitResortView(view,animate){
   const h=this.host;
