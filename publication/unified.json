@@ -1,8 +1,8 @@
 {
-  "previewRef": "e83dff628b8690cec5c692c149d265d02d12515e",
+  "previewRef": "e051e377174d3ec83b690fe6a516039fc25bb70e",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Keep all seven Mratkino trails visible and dock details outside the map.",
-  "validated": "Unit tests and production build passed. Pages artifact metadata lookup failed on run 64. Retrying publication.",
+  "change": "Extend the docked map layout to hiking route groups, ski resorts and the Beloretsk railway.",
+  "validated": "Live site checks pending publication.",
   "reason": "Use a fresh main dispatch SHA to distinguish the Pages release."
 }
