@@ -133,6 +133,7 @@ export class RegionController{
   if(this.initial.route)await this.openRoute(this.initial.route,{silent:true,focus:!this.initial.camera&&this.initial.autoFit!==false});
   this.cardOpen=this.initial.card!==false&&this.id!=='all'&&this.id!=='buzhd';this.renderCard();
   if(this.initial.camera)h.map.jumpTo(this.initial.camera);
+  else if(this.slopeViews&&this.id==='mratkino'&&h.resortLoaded)this.fitResortView('south',false);
   if(this.legendBound!==h.map){this.legendBound=h.map;h.map.on('data',()=>{if(!this.statusTimer)this.statusTimer=setTimeout(()=>{this.statusTimer=null;this.updateLoadStatus();},180);});h.map.on('idle',()=>this.updateLoadStatus());h.map.on('idle',()=>this.refreshLegend());h.map.on('moveend',()=>{this.cameraButton();if(this.resizePending){this.resizePending=false;this.resizeLayout(true);}});}this.applySeason();this.sync();this.bootstrapped=true;this.resizeLayout(false,true);this.bridge.tryReady();
  }
  setupImagery(){const h=this.host;if(this.imagery?.map===h.map)return;this.imagery?.dispose();this.imagery=new MapImagery(h.map,{configURL:h.url('integration/imagery.json'),logoURL:h.url('integration/maptiler-logo.svg'),onChange:mode=>{this.basemap=mode;this.basemapControl.update(mode);h.setAttribute('data-basemap',mode);this.layers();this.sync();this.bridge.updateURL();this.bridge.event('basemapChanged',{basemap:mode});},onStatus:status=>this.imageryStatus(status)});this.imagery.ready.then(available=>{if(h.abort.aborted)return;this.basemapRow.hidden=!available;if(!available){this.basemap='scheme';this.basemapControl.update('scheme');h.setAttribute('data-basemap','scheme');this.bridge.updateURL();this.layers();}h.setAttribute('data-satellite-available',String(available));this.resizeLayout(true);if(available&&this.basemap==='satellite')this.setBasemap('satellite').catch(()=>this.imageryStatus('error'));});}
@@ -215,7 +216,7 @@ export class RegionController{
  }
  setupResortControls(style){
   const h=this.host;
-  this.slopeView='overview';
+  this.slopeView='south';
   const row=document.createElement('div');
   row.className='mratkino-slope-views';
   const views=document.createElement('div');
@@ -227,8 +228,8 @@ export class RegionController{
     this.slopeView=view;
     h.selected=null;
     this.selectFeature('mratkino',null,{silent:true});
-    this.showCard(false);
-    h.chooseView(view);
+    this.showCard(view==='overview');
+    this.fitResortView(view,true);
     this.updateSlopeViews();
    });
    button.dataset.slope=view;
@@ -257,6 +258,14 @@ export class RegionController{
    .explorer.mratkino-local-controls .resort-content .trail-list{display:none}
    .explorer.mratkino-local-controls .route-label[aria-pressed=true]{background:#ffc76c;color:#452707}
   `;
+ }
+ fitResortView(view,animate){
+  const h=this.host;
+  if(!h.resortLoaded)return;
+  const trails=h.data.trails.features;
+  const bounds=boundsFor(view==='overview'?trails:trails.filter(trail=>trail.properties.slope===view));
+  const bearing=h.cameras[view==='overview'?'south':view]?.bearing??0;
+  h.flyToBounds(bounds,bearing,42,animate,14.7);
  }
  updateSlopeViews(){
   if(!this.slopeViews)return;
