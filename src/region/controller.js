@@ -100,7 +100,7 @@ export class RegionController{
   this.sync();this.cameraButton();this.bridge.updateURL();
  }
  cameraButton(){const m=this.host.map,top=m?m.getPitch()<5:this.host.mode2D,b=this.host.$('[data-action=mode]');this.host.mode2D=top;b.textContent=top?'Наклонный вид':'Вид сверху';b.title=b.textContent;b.setAttribute('aria-label',b.textContent);b.setAttribute('aria-pressed',String(top));}
- cameraPadding(){const h=this.host,s=h.$('.sidebar');if(directionRoute(this.routeId)){const rect=h.$('.map-wrap');return directionPadding(rect.clientWidth,rect.clientHeight,this.cardOpen?s.offsetWidth:0,this.cardOpen?s.offsetHeight:0);}const rect=h.map?.getContainer().getBoundingClientRect()||h.$('.map-wrap').getBoundingClientRect();return visibleMapArea(rect,this.cardOpen&&!s.hidden?s.getBoundingClientRect():null,matchMedia('(max-width:760px)').matches?'bottom':'right').padding;}
+ cameraPadding(){const h=this.host,s=h.$('.sidebar');if(this.slopeViews&&!this.slopeViews.hidden)return {top:0,right:0,bottom:0,left:0};if(directionRoute(this.routeId)){const rect=h.$('.map-wrap');return directionPadding(rect.clientWidth,rect.clientHeight,this.cardOpen?s.offsetWidth:0,this.cardOpen?s.offsetHeight:0);}const rect=h.map?.getContainer().getBoundingClientRect()||h.$('.map-wrap').getBoundingClientRect();return visibleMapArea(rect,this.cardOpen&&!s.hidden?s.getBoundingClientRect():null,matchMedia('(max-width:760px)').matches?'bottom':'right').padding;}
  resizeLayout(force=false,initial=false){
   const h=this.host,map=h.map,wrap=h.$('.map-wrap'),nav=h.$('.region-navigation');if(!map||!wrap||!nav)return;
   h.$('.shell').style.setProperty('--vb-toolbar-height',(nav.offsetHeight+(this.basemapRow?.offsetHeight||0)+(this.slopeViews?.offsetHeight||0))+'px');if(!this.bootstrapped)return;
@@ -192,8 +192,14 @@ export class RegionController{
   const resortDetails=compactResort&&this.routeId?.startsWith('mratkino/');
   h.$('.region-panel').hidden=this.importActive||!!resortDetails;
   h.$('.resort-content').hidden=this.importActive||this.id!=='mratkino'||!h.resortLoaded||(compactResort&&!resortDetails);
-  if(compactResort)h.$('.lift-list').hidden=true;
-  else h.$('.lift-list').hidden=false;
+  h.$('.lift-list').hidden=!!compactResort;
+  if(compactResort){
+   const details=resortDetails?h.$('.resort-content .card h3'):null;
+   const trail=h.findTrail(h.selected);
+   this.resortDetailTitle.textContent=trail
+    ? `${trail.properties.name} · ${trail.properties.slope==='north'?'Северный склон':'Южный склон'}`
+    : details?.textContent||'Мраткино';
+  }
   this.ski.panel.hidden=this.importActive||this.id!=='abzakovo';this.hiking.section.hidden=true;this.routesPanel.hidden=!this.importActive;this.catalog.renderCard();this.directions.render();
  }
  showCard(open){this.cardOpen=open;this.renderCard();if(!open)this.host.map?.setPadding({top:0,bottom:0,left:0,right:0});this.bridge.updateURL();}
@@ -228,7 +234,7 @@ export class RegionController{
     this.slopeView=view;
     h.selected=null;
     this.selectFeature('mratkino',null,{silent:true});
-    this.showCard(view==='overview');
+    this.showCard(true);
     this.fitResortView(view,true);
     this.updateSlopeViews();
    });
@@ -242,19 +248,50 @@ export class RegionController{
   row.append(views,this.trailControls);
   this.basemapRow.after(row);
   this.slopeViews=row;
+  const sidebar=h.$('.sidebar');
+  const summary=document.createElement('button');
+  summary.type='button';
+  summary.className='mratkino-detail-toggle';
+  summary.setAttribute('aria-expanded','false');
+  const body=h.$('.panel-body');
+  body.id='mratkino-details';
+  summary.setAttribute('aria-controls',body.id);
+  summary.addEventListener('click',()=>{
+   const open=summary.getAttribute('aria-expanded')==='false';
+   summary.setAttribute('aria-expanded',String(open));
+   this.resortDetailAction.textContent=open?'Свернуть':'Подробнее';
+  });
+  this.resortDetailTitle=document.createElement('strong');
+  this.resortDetailAction=document.createElement('span');
+  this.resortDetailAction.textContent='Подробнее';
+  summary.append(this.resortDetailTitle,this.resortDetailAction);
+  sidebar.prepend(summary);
   style.textContent+=`
    .mratkino-slope-views{display:grid;flex:none;gap:4px;padding:6px 10px;border-bottom:1px solid #dce8df;background:#fff}
    .mratkino-slope-views[hidden]{display:none}
    .mratkino-slope-views .views{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:min(100%,440px);min-width:0}
    .explorer .mratkino-slope-views .views button{min-height:36px;white-space:normal;line-height:1.1;padding:5px 2px}
    .explorer .mratkino-slope-views .views button[aria-pressed=true]{background:#14634d;color:#fff}
-   .mratkino-trail-controls{display:flex;gap:12px;overflow-x:auto;scrollbar-width:thin;overscroll-behavior-x:contain;touch-action:pan-x;padding:2px 3px 4px}
+   .mratkino-trail-controls{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;width:min(100%,440px);padding:2px 3px 4px}
    .mratkino-trail-controls[hidden]{display:none}
-   .mratkino-trail-group{display:flex;align-items:center;gap:5px;flex:none}
-   .mratkino-trail-group span{font-size:11px;font-weight:700;color:#365e51}
-   .mratkino-trail-group button{min-width:42px;min-height:36px;border:1px solid #cbded2;border-radius:9px;padding:4px 7px;background:#f2f8f4;color:#174c39;font-weight:700;touch-action:pan-x}
-   .mratkino-trail-group button[aria-pressed=true]{background:#ffc76c;border-color:#a65a18;color:#452707}
-   .mratkino-trail-group button[data-closed]{border-style:dashed}
+   .mratkino-trail-controls button{min-width:0;min-height:40px;border:1px solid #cbded2;border-radius:8px;padding:2px;background:#f2f8f4;color:#174c39;font-weight:700}
+   .mratkino-trail-controls button[aria-pressed=true]{background:#ffc76c;border-color:#a65a18;color:#452707}
+   .mratkino-trail-controls button[data-closed]{border-style:dashed}
+   .mratkino-detail-toggle{display:none}
+   .explorer.mratkino-local-controls .workspace{display:grid;grid-template: minmax(0,1fr) / minmax(0,1fr);gap:0}
+   .explorer.mratkino-local-controls .workspace:has(>.sidebar:not([hidden])){grid-template-columns:minmax(0,1fr) clamp(230px,28%,310px)}
+   .explorer.mratkino-local-controls .map-wrap{grid-area:1 / 1;height:100%}
+   .explorer.mratkino-local-controls .sidebar:not([hidden]){position:relative;inset:auto;grid-area:1 / 2;width:auto;max-height:none;min-height:0;border:0;border-left:1px solid #dce8df;border-radius:0;box-shadow:none}
+   .explorer.mratkino-local-controls .sidebar .panel-body{display:block}
+   .explorer.mratkino-local-controls .sidebar :is(.card-close,.card-collapse,.card-grip){display:none}
+   @media(max-width:760px){
+    .explorer.mratkino-local-controls .workspace:has(>.sidebar:not([hidden])){grid-template:minmax(0,1fr) auto / minmax(0,1fr)}
+    .explorer.mratkino-local-controls .sidebar:not([hidden]){grid-area:2 / 1;max-height:145px;border-left:0;border-top:1px solid #dce8df}
+    .explorer.mratkino-local-controls .mratkino-detail-toggle{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:44px;padding:6px 12px;text-align:left;background:#fff;border:0;color:#174c39}
+    .explorer.mratkino-local-controls .mratkino-detail-toggle span{font-size:12px}
+    .explorer.mratkino-local-controls .sidebar:has(.mratkino-detail-toggle[aria-expanded=false]) .panel-body{display:none}
+    .explorer.mratkino-local-controls .maplibregl-ctrl-group button:is(.maplibregl-ctrl-zoom-in,.maplibregl-ctrl-zoom-out){width:36px!important;height:36px!important}
+   }
    .explorer.mratkino-local-controls .resort-content .trail-list{display:none}
    .explorer.mratkino-local-controls .route-label[aria-pressed=true]{background:#ffc76c;color:#452707}
   `;
@@ -274,7 +311,7 @@ export class RegionController{
   h.$('.shell').classList.toggle('mratkino-local-controls',show);
   if(!show)return;
   const selected=h.findTrail(h.selected);
-  if(selected&&this.slopeView!=='overview')this.slopeView=selected.properties.slope;
+
   for(const button of this.slopeViews.querySelectorAll('[data-slope]')){
    const view=button.dataset.slope;
    button.disabled=!h.resortLoaded||(view!=='overview'&&!h.cameras[view]);
@@ -282,20 +319,10 @@ export class RegionController{
   }
   this.trailControls.hidden=!h.resortLoaded;
   if(!h.resortLoaded)return;
-  const views=this.slopeView==='overview'?['south','north']:[this.slopeView];
-  const key=views.join(',');
-  if(this.trailControls.dataset.views!==key||this.trailData!==h.data.trails){
-   this.trailControls.dataset.views=key;
+  if(this.trailData!==h.data.trails){
    this.trailData=h.data.trails;
    this.trailControls.replaceChildren();
-   for(const view of views){
-    const group=document.createElement('div');
-    group.className='mratkino-trail-group';
-    if(views.length>1){
-     const label=document.createElement('span');
-     label.textContent=view==='south'?'Юг':'Север';
-     group.append(label);
-    }
+   for(const view of ['south','north']){
     const trails=h.data.trails.features.filter(({geometry,properties})=>geometry.type==='LineString'&&properties.slope===view&&/^[ЮС][1-4]$/.test(properties.name));
     const byName=new Map(trails.map(trail=>[trail.properties.name,trail]));
     for(const name of [...byName.keys()].sort()){
@@ -303,9 +330,8 @@ export class RegionController{
      const button=this.button(name,name==='С1'?'Трасса С1, закрыта':'Трасса '+name,()=>h.selectTrail(trail,true));
      button.dataset.trailName=name;
      if(name==='С1')button.dataset.closed='';
-     group.append(button);
+     this.trailControls.append(button);
     }
-    this.trailControls.append(group);
    }
   }
   for(const button of this.trailControls.querySelectorAll('button')){
