@@ -17,7 +17,7 @@ export class DirectionsController{
  get scoped(){return this.region.embedded&&!!(directionRoute(this.region.initial.route)||this.region.initial.explicitPlace&&directionPlace(this.region.initial.place));}
  fit(route=directionRoute(this.region.routeId),animate=true){
   if(!route?.bounds)return;const h=this.host,m=h.map,rect=h.$('.map-wrap'),s=h.$('.sidebar');m.stop();m.resize();m.setPadding({top:0,bottom:0,left:0,right:0});h.mode2D=false;
-  const padding=directionPadding(rect.clientWidth,rect.clientHeight,this.region.cardOpen?s.offsetWidth:0,this.region.cardOpen?s.offsetHeight:0);
+  const padding=directionPadding(rect.clientWidth,rect.clientHeight,this.region.cardOpen&&!this.region.localDockActive()?s.offsetWidth:0,this.region.cardOpen&&!this.region.localDockActive()?s.offsetHeight:0);
   m.fitBounds(route.bounds,{padding,maxZoom:route.hasGeometry?15:13.5,pitch:45,bearing:-25,duration:animate?h.duration():0,retainPadding:true});this.region.cameraButton();this.finishTerrainFit(route);
  }
  finishTerrainFit(route){
@@ -26,7 +26,7 @@ export class DirectionsController{
   const manual=e=>{if(e.originalEvent){cleanup();this.host.setAttribute('data-route-fit','cancelled');}};
   const idle=()=>{if(stopped)return;if(token!==this.token){cleanup();return;}if(m.getSource('dem')&&!m.isSourceLoaded('dem')||route.hasGeometry&&!this.data)return;cleanup();requestAnimationFrame(()=>{
    if(token!==this.token||m.isMoving()||this.host.abort.aborted)return;
-   const rect=this.host.$('.map-wrap'),sidebar=this.host.$('.sidebar'),p=directionPadding(rect.clientWidth,rect.clientHeight,this.region.cardOpen?sidebar.offsetWidth:0,this.region.cardOpen?sidebar.offsetHeight:0),screen=[];
+   const rect=this.host.$('.map-wrap'),sidebar=this.host.$('.sidebar'),p=directionPadding(rect.clientWidth,rect.clientHeight,this.region.cardOpen&&!this.region.localDockActive()?sidebar.offsetWidth:0,this.region.cardOpen&&!this.region.localDockActive()?sidebar.offsetHeight:0),screen=[];
    const add=c=>{const q=m.project(c.slice(0,2));if(Number.isFinite(q.x)&&Number.isFinite(q.y))screen.push([q.x,q.y]);};
    for(const f of this.data?.features||[])if(f.properties.routeId===route.id)for(const c of f.geometry.coordinates)add(c);
    for(const q of route.points)add(q.coordinates);
