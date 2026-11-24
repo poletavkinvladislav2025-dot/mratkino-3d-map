@@ -3,6 +3,6 @@
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
   "change": "Keep all seven Mratkino trails visible and dock details outside the map.",
-  "validated": "Source syntax checked. Workflow and live checks pending.",
+  "validated": "Unit tests and production build passed. Pages artifact metadata lookup failed on run 64. Retrying publication.",
   "reason": "Use a fresh main dispatch SHA to distinguish the Pages release."
 }
