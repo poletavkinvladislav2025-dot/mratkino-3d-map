@@ -1,8 +1,8 @@
 {
-  "previewRef": "c0c14a9c1f1c1e902423076a9a6111b8f5487183",
+  "previewRef": "e83dff628b8690cec5c692c149d265d02d12515e",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Frame the full south slope on entry and reopen the resort card from the overview.",
+  "change": "Keep all seven Mratkino trails visible and dock details outside the map.",
   "validated": "Source syntax checked. Workflow and live checks pending.",
   "reason": "Use a fresh main dispatch SHA to distinguish the Pages release."
 }
