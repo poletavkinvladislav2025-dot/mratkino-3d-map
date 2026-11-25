@@ -1,7 +1,7 @@
 import * as T from 'three';
 
 export class CityLandmark {
- constructor(scene, plan, {mobile, elevationAt}) {
+ constructor(scene, plan, {mobile, elevationAt, building}) {
   this.group = new T.Group();
   this.group.name = plan.id;
   this.elapsed = 0;
@@ -22,33 +22,50 @@ export class CityLandmark {
    return object;
   };
   const g = this.group;
-  const building = (x,y,w,d,h,wall,roof,columns=0) => {
-   box(g,x,y,h/2,w,d,h,wall);
-   box(g,x,y,h+.32,w+1,d+1,.65,roof);
-   for(let floor=0;floor<2;floor++){
-    for(let column=1;column<6;column++)
-     box(g,x+w*(column/6-.5),y-d/2-.08,h*(.28+floor*.38),1.15,.18,1.65,0x263e47);
+  if(building){
+   const [outer,...holes]=building.rings;
+   const path=(polygon,ring)=>{
+    polygon.moveTo(...ring[0]);
+    for(const point of ring.slice(1))polygon.lineTo(...point);
+    polygon.closePath();
+    return polygon;
+   };
+   const shape=path(new T.Shape(),outer);
+   shape.holes=holes.map(ring=>path(new T.Path(),ring));
+   const height=Number(building.properties.render_height)||({houses:8,cinema:12,palace:13,museum:8}[plan.model]);
+   const walls={houses:0x944d40,cinema:0x90ae8d,palace:0xd2be9d,museum:0xc7b6a1};
+   mesh(g,new T.ExtrudeGeometry(shape,{depth:height,bevelEnabled:false}),walls[plan.model],0,0,-.35);
+   mesh(g,new T.ShapeGeometry(shape),plan.model==='houses'?0x4d4946:0x77716a,0,0,height-.3);
+   const front=building.front;
+   if(front){
+    const {a,b,length}=front,angle=Math.atan2(b[1]-a[1],b[0]-a[0]);
+    const facade=new T.Group();
+    const x=(a[0]+b[0])/2,y=(a[1]+b[1])/2;
+    facade.position.set(x,y,0);
+    facade.rotation.z=angle;
+    g.add(facade);
+    const toward=plan.frame.toLocal(plan.facadeToward);
+    const sign=Math.sign((toward[0]-x)*-Math.sin(angle)+(toward[1]-y)*Math.cos(angle))||1;
+    const width=Math.min(length*.83,plan.model==='cinema'?17:24);
+    const facadeBox=(x,y,z,w,d,h,color)=>box(facade,x,y*sign,z,w,d,h,color);
+    if(plan.model==='cinema'){
+     facadeBox(0,.30,height*.86,width,.9,.68,0xeae4d4);
+     for(let i=0;i<6;i++){
+      const x=(i-2.5)*width/6;
+      facadeBox(x,.45,height*.43,.58,.7,height*.76,0xf0eadc);
+      facadeBox(x,.45,height*.81,.86,.82,.35,0xc8aa66);
+     }
+    }else{
+     const count=Math.max(2,Math.min(9,Math.floor(width/2.4)));
+     for(let row=0;row<2;row++)for(let i=0;i<count;i++){
+      const x=((i+.5)/count-.5)*width;
+      facadeBox(x,.08,height*(.29+row*.36),1.05,.16,Math.min(1.6,height*.2),0x384956);
+     }
+     if(plan.model==='palace')for(let i=0;i<3;i++)
+      facadeBox((i-1)*width*.23,.13,height*.65,width*.19,.22,height*.35,[0x8d6d55,0xb2a485,0x726e62][i]);
+     if(plan.model==='museum')facadeBox(0,.85,2.75,Math.min(5,width),1.8,.2,0x625e56);
+    }
    }
-   for(let i=0;i<columns;i++)
-    box(g,x+(i-(columns-1)/2)*2.4,y-d/2-1,h*.36,.66,.72,h*.72,0xf0e4cc);
-  };
-  if(plan.model==='houses'){
-   building(0,-10,19,13,7.8,0x944c41,0x3f4346);
-   box(g,8,-6,6,4.5,5,12,0x874136);
-   building(0,10,17,13,8.5,0x994e41,0x424549);
-   box(g,-7,10,5.5,4.6,5.2,11,0x8d4539);
-  } else if(plan.model==='cinema'){
-   building(0,0,35,25,13,0xcba577,0x70665b,6);
-   box(g,0,-15,6,18,5,12,0xd4b485);
-   for(let i=0;i<6;i++) box(g,(i-2.5)*2.5,-17.6,5, .65,.7,10,0xe5d1aa);
-   box(g,0,-15,12.3,20,5.5,1.1,0xe5d1aa);
-  } else if(plan.model==='palace'){
-   building(0,0,33,22,14,0xdcc6a2,0x77716a);
-   building(-18,6,12,24,10,0xcebc9f,0x77716a);
-   box(g,0,-11.3,7,11,.6,10,0xb99a75);
-  } else if(plan.model==='museum'){
-   building(0,0,22,14,8,0xd1b999,0x6f675e);
-   box(g,0,-7.2,2.2,3,.4,4.4,0x4f473c);
   } else if(plan.model==='plane'){
    box(g,0,0,.42,5.5,3.8,.84,0x777577);
    box(g,0,0,1.75,.65,.7,3.5,0x777577);
@@ -66,8 +83,7 @@ export class CityLandmark {
    box(jet,-4,.0,.79,1.1,.15,1.65,0xbfc6ca);
    box(jet,-4.04,0,1.53,1.3,3.3,.14,0xc4c9cc);
   } else if(plan.model==='airport'){
-   box(g,0,0,.045,150,24,.09,0x494a4c);
-   for(let x=-66;x<=66;x+=12)box(g,x,0,.11,4,.23,.02,0xc7c3b5);
+   // The basemap already draws the runway. Avoid painting a second, approximate strip.
    const createCar=color=>{
     const car=new T.Group();
     g.add(car);
@@ -95,7 +111,7 @@ export class CityLandmark {
    object.rotation.x=Math.PI/2;
    const water = mesh(g,new T.CylinderGeometry(4.9,4.9,.08,24),0x4e8895,0,0,.47);
    water.rotation.x=Math.PI/2;
-   round(g,0,0,1.2,.45,.45,1.2,0x86adba);
+   for(const x of [-3,-1.5,0,1.5,3])round(g,x,0,1,.12,.12,.72,0x86adba);
   } else {
    const steel=plan.model==='steelworker';
    const color=steel?0x78736a:0x594c36;
