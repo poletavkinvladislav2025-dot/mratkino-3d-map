@@ -1,8 +1,8 @@
 {
-  "previewRef": "0ac544fbf4941dbd3387d47eb82934217b030fda",
+  "previewRef": "70fee06e668543dbbe5602c59cbf78eb96c8740b",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
   "change": "Publish Beloretsk landmarks and enable ordinary map wheel zoom.",
-  "validated": "Landmark data and model smoke checks passed. Live checks pending.",
+  "validated": "Catalog and card-content checks now include the ten new records. Live checks pending.",
   "reason": "Use a fresh main dispatch SHA to distinguish the Pages release."
 }
