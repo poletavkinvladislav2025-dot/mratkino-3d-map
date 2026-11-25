@@ -4,8 +4,7 @@ const states=new WeakMap();
 /** OpenMapTiles groups many separate buildings into one MultiPolygon by height.
  * Hide the group and restore its other polygons, removing only the tower itself. */
 export function towerBuildingParts(features,center=WATER_TOWER.center,cityPolygons=[]){
- const keys=new Set(cityPolygons.map(g=>JSON.stringify(g.coordinates)));
- const excluded=g=>!!(center&&insideGeometry(center,g))||keys.has(JSON.stringify(g.coordinates));
+ const excluded=g=>!!(center&&insideGeometry(center,g))||cityPolygons.some(p=>insideGeometry(p,g));
  const contains=f=>f.geometry.type==='MultiPolygon'?f.geometry.coordinates.some(coordinates=>excluded({type:'Polygon',coordinates})):excluded(f.geometry);
  const ids=[...new Set(features.filter(f=>f.id!=null&&contains(f)).map(f=>f.id))],selected=new Set(ids),seen=new Set(),restored=[];
  for(const f of features){if(!selected.has(f.id))continue;const polygons=f.geometry.type==='Polygon'?[f.geometry.coordinates]:f.geometry.type==='MultiPolygon'?f.geometry.coordinates:[];
