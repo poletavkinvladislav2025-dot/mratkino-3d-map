@@ -29,6 +29,11 @@ export function presetFor(id){
  if(id==='narrowGauge2')return {id,center:place.coordinates,zoom:19.5,mobileZoom:19,pitch:62,bearing:40};
  if(id==='moose')return {id,center:place.coordinates,zoom:19.5,mobileZoom:19.1,pitch:64,bearing:145};
  if(['malinovaya-2','malinovaya-3'].includes(id))return {id,center:place.coordinates,zoom:16.1,mobileZoom:15.8,pitch:62,bearing:35};
+ if(place.model==='houses'){
+  const [first,second]=place.buildings.map(b=>b.center);
+  const center=first.map((value,index)=>(value+second[index])/2);
+  return {id,center,zoom:18.05,mobileZoom:17.8,pitch:42,bearing:20};
+ }
  if(place.model)return {id,center:place.coordinates,zoom:place.model==='airport'?17.1:19,mobileZoom:place.model==='airport'?16.8:18.6,pitch:51,bearing:20};
  if(id==='waterTower')return {id,center:place.coordinates,zoom:19.3,mobileZoom:18.2,pitch:64,bearing:20};
  if(id==='shulgan-tash')return {id,center:place.coordinates,zoom:17.4,mobileZoom:16.9,pitch:64,bearing:20};
