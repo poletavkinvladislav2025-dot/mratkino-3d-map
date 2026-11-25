@@ -1,8 +1,8 @@
 {
-  "previewRef": "664f55d62954aa7b76c9fef6f7525fb0fd029172",
+  "previewRef": "03fed72637220f2205614f83ff3c7dff4d30650b",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Align five civic building footprints and the airport scene using OpenStreetMap source geometry.",
-  "validated": "OSM way IDs and coordinates checked; live verification pending.",
+  "change": "Frame both director houses using their mapped centers.",
+  "validated": "Confirmed the OSM-based building models and photographs on the previous deployment. Camera verification pending.",
   "reason": "Use a fresh main dispatch SHA to distinguish the Pages release."
 }
