@@ -1,8 +1,13 @@
 import plans from './landmark-plans.json' with {type:'json'};
 import cityLandmarks from '../region/beloretsk-landmarks.json' with {type:'json'};
 import {localFrame} from '../resort-scene-data.js';
+function runwayAngle(plan){
+ const frame=localFrame(plan.coordinates);
+ const a=frame.toLocal(plan.runway.line[0]),b=frame.toLocal(plan.runway.line.at(-1));
+ return Math.atan2(a[1]-b[1],a[0]-b[0])*180/Math.PI;
+}
 const cityPlans=cityLandmarks.map(p=>({...p,kind:'city-landmark',center:p.coordinates,
- bearing:p.model==='airport'?10:0,enter:p.model==='airport'?15.7:17.7,
+ bearing:p.runway?runwayAngle(p):0,enter:p.model==='airport'?15.7:17.7,
  exit:p.model==='airport'?15.4:17.4,radiusKm:p.model==='airport'?.7:.28}));
 export const LANDMARKS=[...plans,...cityPlans].map(p=>({...p,frame:localFrame(p.center)}));
 export const LANDMARK_ROCKS={type:'FeatureCollection',features:plans.flatMap(p=>p.features)};
