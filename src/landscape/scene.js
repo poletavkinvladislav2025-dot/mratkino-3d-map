@@ -7,6 +7,7 @@ import {WaterTowerModel,WATER_TOWER} from './water-tower.js';
 import {RodeoModel} from './rodeo-model.js';
 import {RODEO,rodeoFrame} from './rodeo-plan.js';
 import * as T from 'three';
+import {CityLandmark} from './city-landmark.js';
 import {saplingPlacements} from '../resort-scene-data.js';
 import {EthnoparkModel} from './ethnopark-model.js';
 import {ethnopark as ethno} from './ethnopark-settings.js';
@@ -58,7 +59,9 @@ export class LandscapeScene{
   for(const plan of LANDMARKS.filter(p=>wanted.has(p.id))){
    const z=this.map.queryTerrainElevation(plan.center);if(!Number.isFinite(z)||z===0&&!this.map.isSourceLoaded('dem'))continue;
    let entry=this.landmarks.get(plan.id);if(entry&&(Math.abs(entry.z-z)>.4||plan.kind==='rocks'&&entry.revision!==revision)){entry.model.dispose();this.landmarks.delete(plan.id);entry=null;}
-   if(!entry){const height=(x,y)=>{const value=this.map.queryTerrainElevation(plan.frame.toLngLat([x,y]));return Number.isFinite(value)?value:z;};const model=plan.kind==='moose'?new MooseMonument(this.scene):plan.kind==='cave'?new ShulganCave(this.scene):plan.kind==='bort'?new BortTree(this.scene):new MalinovayaRockModel(this.scene,height,{id:plan.id+'-rocks',columns:h=>landmarkColumns(plan,h)});entry={model,z,revision};this.landmarks.set(plan.id,entry);}
+   if(!entry){const height=(x,y)=>{const value=this.map.queryTerrainElevation(plan.frame.toLngLat([x,y]));return Number.isFinite(value)?value:z;};const angle=(plan.bearing||0)*Math.PI/180;
+    const elevationAt=(x,y)=>height(x*Math.cos(angle)-y*Math.sin(angle),x*Math.sin(angle)+y*Math.cos(angle))-z;
+    const model=plan.kind==='city-landmark'?new CityLandmark(this.scene,plan,{mobile:this.mobile,elevationAt}):plan.kind==='moose'?new MooseMonument(this.scene):plan.kind==='cave'?new ShulganCave(this.scene):plan.kind==='bort'?new BortTree(this.scene):new MalinovayaRockModel(this.scene,height,{id:plan.id+'-rocks',columns:h=>landmarkColumns(plan,h)});entry={model,z,revision};this.landmarks.set(plan.id,entry);}
    const scale=this.ml.MercatorCoordinate.fromLngLat(plan.center).meterInMercatorCoordinateUnits()/this.units;const placed=plan.kind!=='rocks';entry.model.group.position.set(...this.local(plan.center),placed?z*scale:0);entry.model.group.scale.setScalar(scale);if(placed)entry.model.group.rotation.z=(plan.bearing||0)*Math.PI/180;
   }
   this.map.triggerRepaint();
@@ -68,7 +71,7 @@ export class LandscapeScene{
  setForest(value){if(this.forestVisible===value)return;this.forestVisible=value;this.trunks.visible=value;this.crowns.forEach(m=>m.visible=value);this.map.triggerRepaint();}
  schedule(){clearTimeout(this.timer);this.timer=null;if(this.disposed||!this.animating||document.hidden)return;this.timer=setTimeout(()=>{this.timer=null;if(!this.disposed)this.map.triggerRepaint();},1000/(this.mobile?15:22));}
  render(gl,args){if(this.disposed)return;const now=performance.now(),dt=this.animating&&!document.hidden&&this.last?Math.min(.1,(now-this.last)/1000):0;this.last=this.animating?now:0;
-  if(dt){if(this.rodeo)this.rodeo.update(dt);this.stats.elapsed+=dt;this.wind.value=this.stats.elapsed;this.behaviorClock=(this.behaviorClock||0)+dt;if(this.park&&this.map.getZoom()>=ethno.lod.animate&&this.behaviorClock>=.09){this.park.update(Math.min(.15,this.behaviorClock));this.behaviorClock=0;}}
+  if(dt){if(this.rodeo)this.rodeo.update(dt);this.landmarks.get('beloretsk-airport')?.model.update(dt);this.stats.elapsed+=dt;this.wind.value=this.stats.elapsed;this.behaviorClock=(this.behaviorClock||0)+dt;if(this.park&&this.map.getZoom()>=ethno.lod.animate&&this.behaviorClock>=.09){this.park.update(Math.min(.15,this.behaviorClock));this.behaviorClock=0;}}
   if(this.park)this.park.update(0);
   this.camera.projectionMatrix.copy(this.matrix.fromArray(args.defaultProjectionData.mainMatrix)).multiply(this.transform);this.renderer.resetState();this.renderer.setViewport(0,0,gl.drawingBufferWidth,gl.drawingBufferHeight);this.renderer.render(this.scene,this.camera);this.renderer.resetState();this.stats.frames++;this.schedule();
  }
