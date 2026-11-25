@@ -1,8 +1,8 @@
 {
-  "previewRef": "03fed72637220f2205614f83ff3c7dff4d30650b",
+  "previewRef": "6ff1c8108d75b14be5d76208e8baabc8371e9fad",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Frame both director houses using their mapped centers.",
+  "change": "Frame both director houses and align their raised rooflines with the mapped walls.",
   "validated": "Confirmed the OSM-based building models and photographs on the previous deployment. Camera verification pending.",
   "reason": "Use a fresh main dispatch SHA to distinguish the Pages release."
 }
