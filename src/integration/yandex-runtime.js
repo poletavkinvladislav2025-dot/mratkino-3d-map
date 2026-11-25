@@ -404,6 +404,20 @@ function mountYandex(catalog,config,scope){
     if(target!==zoom)map.setZoom(target,{duration:180,checkZoomRange:true});
   }
 
+  // The published Tilda wrapper captures wheel events on the map frame.
+  // Handle plain wheel input at the enclosing root before it reaches that wrapper.
+  const wheelRoot=mapContainer.getRootNode();
+  wheelRoot.addEventListener('wheel',function(event){
+    if(!map||event.ctrlKey||event.metaKey||!event.deltaY||Math.abs(event.deltaX)>Math.abs(event.deltaY))return;
+    if(!event.composedPath().includes(mapContainer)||!mapContainer.closest('.vb-t1__map')?.querySelector('.vb-r-wheel-hint'))return;
+    event.preventDefault();
+    event.stopPropagation();
+    const delta=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?160:1);
+    const change=Math.max(-1,Math.min(1,-delta/115));
+    const zoom=map.getZoom(),target=Math.max(1,Math.min(21,zoom+change));
+    if(target!==zoom)map.setZoom(target,{duration:0,checkZoomRange:true});
+  },{capture:true,passive:false});
+
   /* ═══ Собственный разворот карты ═══ */
   var fsExpandPath='M3 7V3h4M13 7V3H9M3 9v4h4M13 9v4H9';
   var fsCollapsePath='M7 3v4H3M9 3v4h4M7 13v-4H3M9 13v-4h4';
