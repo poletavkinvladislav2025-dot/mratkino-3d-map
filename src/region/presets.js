@@ -3,6 +3,7 @@ import {DIRECTION_PLACES,ALL_DIRECTION_ROUTES} from './directions.js';
 import {rodeoPlan,rodeoFrame} from '../landscape/rodeo-plan.js';
 import {content} from './card-content.js';
 import registry from './places.json' with {type:'json'};
+import cityLandmarks from './beloretsk-landmarks.json' with {type:'json'};
 import winter from './winter-places.json' with {type:'json'};
 import {ethnopark as ethno} from '../landscape/ethnopark-settings.js';
 import {mergeSourcePlaces,aliasesFor} from './passport.js';
@@ -10,7 +11,8 @@ const descriptions={mratkino:'Горнолыжный центр в Белоре�
 const existingPlaces=mergeSourcePlaces([...registry.map(p=>({...p,description:descriptions[p.id]||p.description})),...winter.map(p=>p.id==='ethnopark'?{...p,name:ethno.name,description:ethno.description,coordinates:ethno.center,sourceUrl:ethno.sourceUrl,photo:ethno.photo,photoCredit:ethno.photoCredit}:p)]).map(p=>({...p,...content.places[p.id],...(p.id==='narrowGauge2'?{railwayIcon:'steam',railwayColor:'#B08D57'}:{})}));
 const additions=DIRECTION_PLACES.filter(p=>!existingPlaces.some(e=>e.id===p.mapPlaceId)).map(p=>{const route=ALL_DIRECTION_ROUTES.find(r=>r.id===p.defaultRouteId),point=route?.points.find(x=>x.role==='goal')||route?.points[0];return point?{id:p.mapPlaceId,name:({'bolshoy-shatak':'Большой Шатак',vishnevaya:'Вишнёвая','small-iremel':'Малый Иремель',sinyak:'Синяк'})[p.placeId]||route.title,kind:'peak',coordinates:point.coordinates,zoneRadiusKm:2,major:false,description:p.placeId==='small-iremel'?'Вершина 1449 м к северо-востоку от Большого Иремеля.':p.placeId==='sinyak'?'Вершина 1123 м к юго-западу от Большого Иремеля.':p.placeId==='bolshoy-shatak'?'Двухдневный поход по хребту. Конец опубликованного трека и отдельный маркер вершины показаны раздельно.':'Пеший маршрут: линия и точки уточняются.',stampAvailable:p.stampAvailable}:null;}).filter(Boolean);
 const railwayPlaces=BUZHD_POINTS.filter(p=>p.id!=='gr231').map(p=>({...p,kind:'heritage',zoneRadiusKm:0,major:false,sourceUrl:BUZHD_HISTORY,url:BUZHD_HISTORY,railwayIcon:p.icon,railwayColor:p.color,coordinateStatus:'owner-supplied-20261109',...content.places[p.id]}));
-export const PLACES=[...existingPlaces,...additions.map(p=>({...p,...content.places[p.id]})),...railwayPlaces,{id:'buzhd',name:'Белорецкая узкоколейка (БУЖД)',kind:'heritage',coordinates:[(BUZHD_BOUNDS[0][0]+BUZHD_BOUNDS[1][0])/2,(BUZHD_BOUNDS[0][1]+BUZHD_BOUNDS[1][1])/2],zoneRadiusKm:0,major:false,sourceUrl:BUZHD_HISTORY,url:BUZHD_HISTORY,...content.places.buzhd,description:'Бывшая узкоколейная железная дорога Белорецка и окрестностей. На карте показаны сохранившиеся в OpenStreetMap фрагменты полотна. Рельсы сняты; сейчас по полотну идут грунтовки. Паровозы на карте — условная историческая анимация, а не действующее движение поездов.'}];
+const cityPlaces=cityLandmarks.map(p=>({...p,kind:'heritage',major:false,zoneRadiusKm:0,coordinateStatus:p.model==='plane'?'school-address-reference':'published-map-reference'}));
+export const PLACES=[...existingPlaces,...cityPlaces,...additions.map(p=>({...p,...content.places[p.id]})),...railwayPlaces,{id:'buzhd',name:'Белорецкая узкоколейка (БУЖД)',kind:'heritage',coordinates:[(BUZHD_BOUNDS[0][0]+BUZHD_BOUNDS[1][0])/2,(BUZHD_BOUNDS[0][1]+BUZHD_BOUNDS[1][1])/2],zoneRadiusKm:0,major:false,sourceUrl:BUZHD_HISTORY,url:BUZHD_HISTORY,...content.places.buzhd,description:'Бывшая узкоколейная железная дорога Белорецка и окрестностей. На карте показаны сохранившиеся в OpenStreetMap фрагменты полотна. Рельсы сняты; сейчас по полотну идут грунтовки. Паровозы на карте — условная историческая анимация, а не действующее движение поездов.'}];
 export const PLACE_ALIASES={...aliasesFor(PLACES),gr231:'narrowGauge2'};
 export const canonicalPlaceId=id=>Object.hasOwn(PLACE_ALIASES,id)?PLACE_ALIASES[id]:id;
 // A stable local welcome view, independent of distant places or full GPX bounds.
@@ -27,6 +29,7 @@ export function presetFor(id){
  if(id==='narrowGauge2')return {id,center:place.coordinates,zoom:19.5,mobileZoom:19,pitch:62,bearing:40};
  if(id==='moose')return {id,center:place.coordinates,zoom:19.5,mobileZoom:19.1,pitch:64,bearing:145};
  if(['malinovaya-2','malinovaya-3'].includes(id))return {id,center:place.coordinates,zoom:16.1,mobileZoom:15.8,pitch:62,bearing:35};
+ if(place.model)return {id,center:place.coordinates,zoom:place.model==='airport'?17.1:19,mobileZoom:place.model==='airport'?16.8:18.6,pitch:51,bearing:20};
  if(id==='waterTower')return {id,center:place.coordinates,zoom:19.3,mobileZoom:18.2,pitch:64,bearing:20};
  if(id==='shulgan-tash')return {id,center:place.coordinates,zoom:17.4,mobileZoom:16.9,pitch:64,bearing:20};
  if(id==='shulgan-tash-zapovednik')return {id,center:place.coordinates,zoom:18.6,mobileZoom:18.1,pitch:62,bearing:-30};
