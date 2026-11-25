@@ -1,6 +1,10 @@
 import plans from './landmark-plans.json' with {type:'json'};
+import cityLandmarks from '../region/beloretsk-landmarks.json' with {type:'json'};
 import {localFrame} from '../resort-scene-data.js';
-export const LANDMARKS=plans.map(p=>({...p,frame:localFrame(p.center)}));
+const cityPlans=cityLandmarks.map(p=>({...p,kind:'city-landmark',center:p.coordinates,
+ bearing:p.model==='airport'?10:0,enter:p.model==='airport'?15.7:17.7,
+ exit:p.model==='airport'?15.4:17.4,radiusKm:p.model==='airport'?.7:.28}));
+export const LANDMARKS=[...plans,...cityPlans].map(p=>({...p,frame:localFrame(p.center)}));
 export const LANDMARK_ROCKS={type:'FeatureCollection',features:plans.flatMap(p=>p.features)};
 export const landmarkById=id=>LANDMARKS.find(p=>p.id===id);
 export function landmarkColumns(plan,height){
