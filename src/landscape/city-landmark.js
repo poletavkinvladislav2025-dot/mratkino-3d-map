@@ -1,7 +1,7 @@
 import * as T from 'three';
 
 export class CityLandmark {
- constructor(scene, plan, {mobile, elevationAt, building}) {
+ constructor(scene, plan, {mobile, elevationAt, buildings}) {
   this.group = new T.Group();
   this.group.name = plan.id;
   this.elapsed = 0;
@@ -22,7 +22,8 @@ export class CityLandmark {
    return object;
   };
   const g = this.group;
-  if(building){
+  if(buildings?.length){
+   for(const building of buildings){
    const [outer,...holes]=building.rings;
    const path=(polygon,ring)=>{
     polygon.moveTo(...ring[0]);
@@ -32,7 +33,7 @@ export class CityLandmark {
    };
    const shape=path(new T.Shape(),outer);
    shape.holes=holes.map(ring=>path(new T.Path(),ring));
-   const height=Number(building.properties.render_height)||({houses:8,cinema:12,palace:13,museum:8}[plan.model]);
+   const height={houses:8,cinema:12,palace:13,museum:8}[plan.model];
    const walls={houses:0x944d40,cinema:0x90ae8d,palace:0xd2be9d,museum:0xc7b6a1};
    mesh(g,new T.ExtrudeGeometry(shape,{depth:height,bevelEnabled:false}),walls[plan.model],0,0,-.35);
    mesh(g,new T.ShapeGeometry(shape),plan.model==='houses'?0x4d4946:0x77716a,0,0,height-.3);
@@ -65,6 +66,7 @@ export class CityLandmark {
       facadeBox((i-1)*width*.23,.13,height*.65,width*.19,.22,height*.35,[0x8d6d55,0xb2a485,0x726e62][i]);
      if(plan.model==='museum')facadeBox(0,.85,2.75,Math.min(5,width),1.8,.2,0x625e56);
     }
+   }
    }
   } else if(plan.model==='plane'){
    box(g,0,0,.42,5.5,3.8,.84,0x777577);
