@@ -1,0 +1,112 @@
+[
+  {
+    "id": "director-houses",
+    "name": "Директорские дома",
+    "coordinates": [
+      58.395335,
+      53.966503
+    ],
+    "description": "Два жилых дома 1915–1916 годов на Красной улице, 7 и 9. Краснокирпичные здания связаны с историей управления Белорецким заводом.",
+    "sourceUrl": "https://base.garant.ru/411478323/",
+    "model": "houses"
+  },
+  {
+    "id": "metallurg-cinema",
+    "name": "Кинотеатр «Металлург»",
+    "coordinates": [
+      58.409008,
+      53.968149
+    ],
+    "description": "Кинотеатр на площади Металлургов, ул. Карла Маркса, 70, корп. 1. После реконструкции снова открылся в 2012 году.",
+    "sourceUrl": "https://metallurg-cinema.ru/pages/history",
+    "model": "cinema"
+  },
+  {
+    "id": "pilot-monument",
+    "name": "Памятник лётчикам-белоречанам",
+    "coordinates": [
+      58.40704,
+      53.961672
+    ],
+    "description": "Учебный самолёт Aero L-29 «Дельфин» на постаменте у гимназии № 14. Мемориал посвящён белорецким лётчикам Великой Отечественной войны. Метка привязана к адресу гимназии.",
+    "sourceUrl": "https://blog.belorcbs.ru/pamyatniki-i-pamyatnye-mesta/u-istoka-pamyatnika-2/",
+    "model": "plane"
+  },
+  {
+    "id": "beloretsk-airport",
+    "name": "Бывший аэропорт Белорецка",
+    "coordinates": [
+      58.340113,
+      53.938389
+    ],
+    "description": "Бывший аэропорт Белорецка. На его территории проходили автомобильные соревнования «Взлётка». Машины в 3D показывают условную сцену заездов.",
+    "sourceUrl": "https://blog.belorcbs.ru/sport-i-turizm-razdel/sport-i-turizm/sorevnovaniya-po-driftu-avtogonkam-vzlyotka/",
+    "model": "airport"
+  },
+  {
+    "id": "krutoy-kamen",
+    "name": "Крутой камень",
+    "coordinates": [
+      58.410023,
+      53.97751
+    ],
+    "description": "Скала на левом берегу Белорецкого пруда, неподалёку от городского пляжа. Отсюда открывается вид на пруд и город.",
+    "sourceUrl": "https://nashural.ru/dostoprimechatelnosti-urala/bashkortostan/beloretskij-plyazh-i-skala-krutoj-kamen-marshrut-v-mobilnom-prilozhenii-kuda/",
+    "model": "cliff"
+  },
+  {
+    "id": "tverdyshev-monument",
+    "name": "Памятник Ивану Твёрдышеву",
+    "coordinates": [
+      58.398393,
+      53.970985
+    ],
+    "description": "Памятник основателю Белорецкого железоделательного завода. Его открыли в 2012 году на площади перед заводоуправлением.",
+    "sourceUrl": "https://umb.belorcbs.ru/dostoprimechatelnosti-i-pamyatnye-mesta/",
+    "model": "founder"
+  },
+  {
+    "id": "beloretsk-museum",
+    "name": "Белорецкий историко-краеведческий музей",
+    "coordinates": [
+      58.408334,
+      53.972695
+    ],
+    "description": "Музей на ул. Ленина, 30А. В экспозиции — история заводов Белоречья, быт жителей и коллекция уральских минералов.",
+    "sourceUrl": "https://www.culture.ru/institutes/11885/beloreckii-istoriko-kraevedcheskii-muzei",
+    "model": "museum"
+  },
+  {
+    "id": "steelworker-monument",
+    "name": "Памятник сталевару",
+    "coordinates": [
+      58.340521,
+      53.95313
+    ],
+    "description": "Монумент металлургам на въезде со стороны Уфы. Моделью для скульптора послужил сталевар БМК Анатолий Машевский.",
+    "sourceUrl": "https://blog.belorcbs.ru/wp-content/uploads/2024/10/kzd-2025-beloreck.pdf",
+    "model": "steelworker"
+  },
+  {
+    "id": "metallurgists-palace",
+    "name": "Дворец культуры металлургов",
+    "coordinates": [
+      58.398003,
+      53.966932
+    ],
+    "description": "Дворец культуры на ул. Ленина, 18. Здание признано объектом культурного наследия регионального значения.",
+    "sourceUrl": "https://bashkor-gov.ru/doc/85329",
+    "model": "palace"
+  },
+  {
+    "id": "metallurgists-square",
+    "name": "Площадь Металлургов",
+    "coordinates": [
+      58.409779,
+      53.967655
+    ],
+    "description": "Пешеходная площадь в центре Белорецка, рядом с кинотеатром «Металлург». В центре ансамбля — фонтан.",
+    "sourceUrl": "https://www.belorlib.ru/wp-content/uploads/2023/07/kratkaya-istoriya-beloreczka.pdf",
+    "model": "square"
+  }
+]
