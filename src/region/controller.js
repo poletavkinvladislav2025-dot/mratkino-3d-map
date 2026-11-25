@@ -165,6 +165,7 @@ export class RegionController{
   h.cardTitle(card,placeKind(p?.kind),p?.name||'Ваш маршрут');
   if(!p)return;this.gallery.mount(card,p);
   if(p.description)h.text(card,p.description,p.historical?'historical-note':'place-description');
+  if(p.photoReference&&p.photoReference!==p.sourceUrl){const photo=document.createElement('a');photo.href=p.photoReference;photo.target='_blank';photo.rel='noopener noreferrer';photo.textContent='Фото объекта ↗';card.append(photo);}
   if(p.access)h.text(card,p.access,'access-note');
   if(p.elevation)h.text(card,`Высота: ${p.elevation.toLocaleString('ru-RU')} м.`);
   const page=sitePage(p)||p.sourceUrl||null;
