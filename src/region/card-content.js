@@ -1,5 +1,7 @@
-import content from './map-content.json' with {type:'json'};
-export {content};
+import baseContent from './map-content.json' with {type:'json'};
+import cityLandmarks from './beloretsk-landmarks.json' with {type:'json'};
+export const content={...baseContent,places:{...baseContent.places,
+ ...Object.fromEntries(cityLandmarks.map(({id,description})=>[id,{description}]))}};
 export const placeKind=kind=>({peak:'Гора',ridge:'Хребет',rocks:'Скалы',waterfall:'Водопад',natural:'Природное место',resort:'Горнолыжный комплекс','training-park':'Парк активного отдыха',nordic:'Лыжные трассы',ethnopark:'Этнопарк',cave:'Пещера',museum:'Музей',reserve:'Заповедник',heritage:'История и достопримечательности','stamp-point':'Точка штампов',city:'Город'}[kind]||'Место');
 export const routeKind=category=>({ski:'Горнолыжная трасса',nordic:'Беговая лыжня',lift:'Подъёмник',tubing:'Тюбинговая трасса',training:'Спортивный участок'}[category]||'Трасса');
 export function routeName(p){
