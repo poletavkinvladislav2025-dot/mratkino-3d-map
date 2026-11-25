@@ -8,7 +8,27 @@
     ],
     "description": "Два жилых дома 1915–1916 годов на Красной улице, 7 и 9. Краснокирпичные здания связаны с историей управления Белорецким заводом.",
     "sourceUrl": "https://base.garant.ru/411478323/",
-    "model": "houses"
+    "model": "houses",
+    "facadeToward": [
+      58.395928,
+      53.966179
+    ],
+    "photos": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/%D0%94%D0%B8%D1%80%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D1%81%D0%BA%D0%B8%D0%B9_%D0%B4%D0%BE%D0%BC%2C_%D1%83%D0%BB._%D0%9A%D1%80%D0%B0%D1%81%D0%BD%D0%B0%D1%8F_7_(%D0%91%D0%B5%D0%BB%D0%BE%D1%80%D0%B5%D1%86%D0%BA).jpg/960px-%D0%94%D0%B8%D1%80%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D1%81%D0%BA%D0%B8%D0%B9_%D0%B4%D0%BE%D0%BC%2C_%D1%83%D0%BB._%D0%9A%D1%80%D0%B0%D1%81%D0%BD%D0%B0%D1%8F_7_(%D0%91%D0%B5%D0%BB%D0%BE%D1%80%D0%B5%D1%86%D0%BA).jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:%D0%94%D0%B8%D1%80%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D1%81%D0%BA%D0%B8%D0%B9_%D0%B4%D0%BE%D0%BC%2C_%D1%83%D0%BB._%D0%9A%D1%80%D0%B0%D1%81%D0%BD%D0%B0%D1%8F_7_(%D0%91%D0%B5%D0%BB%D0%BE%D1%80%D0%B5%D1%86%D0%BA).jpg",
+        "alt": "Директорский дом, Красная, 7",
+        "credit": "Toshishiro · Wikimedia Commons · CC BY-SA 4.0",
+        "license": "https://creativecommons.org/licenses/by-sa/4.0/"
+      },
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/%D0%94%D0%B8%D1%80%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D1%81%D0%BA%D0%B8%D0%B9_%D0%B4%D0%BE%D0%BC%2C_%D1%83%D0%BB._%D0%9A%D1%80%D0%B0%D1%81%D0%BD%D0%B0%D1%8F_9_(%D0%91%D0%B5%D0%BB%D0%BE%D1%80%D0%B5%D1%86%D0%BA).jpg/960px-%D0%94%D0%B8%D1%80%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D1%81%D0%BA%D0%B8%D0%B9_%D0%B4%D0%BE%D0%BC%2C_%D1%83%D0%BB._%D0%9A%D1%80%D0%B0%D1%81%D0%BD%D0%B0%D1%8F_9_(%D0%91%D0%B5%D0%BB%D0%BE%D1%80%D0%B5%D1%86%D0%BA).jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:%D0%94%D0%B8%D1%80%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D1%81%D0%BA%D0%B8%D0%B9_%D0%B4%D0%BE%D0%BC%2C_%D1%83%D0%BB._%D0%9A%D1%80%D0%B0%D1%81%D0%BD%D0%B0%D1%8F_9_(%D0%91%D0%B5%D0%BB%D0%BE%D1%80%D0%B5%D1%86%D0%BA).jpg",
+        "alt": "Директорский дом, Красная, 9",
+        "credit": "Toshishiro · Wikimedia Commons · CC BY-SA 4.0",
+        "license": "https://creativecommons.org/licenses/by-sa/4.0/"
+      }
+    ]
   },
   {
     "id": "metallurg-cinema",
@@ -19,7 +39,12 @@
     ],
     "description": "Кинотеатр на площади Металлургов, ул. Карла Маркса, 70, корп. 1. После реконструкции снова открылся в 2012 году.",
     "sourceUrl": "https://metallurg-cinema.ru/pages/history",
-    "model": "cinema"
+    "model": "cinema",
+    "facadeToward": [
+      58.409779,
+      53.967655
+    ],
+    "photoReference": "https://metallurg-cinema.ru/pages/history"
   },
   {
     "id": "pilot-monument",
@@ -30,7 +55,8 @@
     ],
     "description": "Учебный самолёт Aero L-29 «Дельфин» на постаменте у гимназии № 14. Мемориал посвящён белорецким лётчикам Великой Отечественной войны. Метка привязана к адресу гимназии.",
     "sourceUrl": "https://blog.belorcbs.ru/pamyatniki-i-pamyatnye-mesta/u-istoka-pamyatnika-2/",
-    "model": "plane"
+    "model": "plane",
+    "photoReference": "https://blog.belorcbs.ru/pamyatniki-i-pamyatnye-mesta/u-istoka-pamyatnika-2/"
   },
   {
     "id": "beloretsk-airport",
@@ -74,7 +100,16 @@
     ],
     "description": "Музей на ул. Ленина, 30А. В экспозиции — история заводов Белоречья, быт жителей и коллекция уральских минералов.",
     "sourceUrl": "https://www.culture.ru/institutes/11885/beloreckii-istoriko-kraevedcheskii-muzei",
-    "model": "museum"
+    "model": "museum",
+    "photos": [
+      {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/17/Beloretsk_museum.JPG",
+        "source": "https://commons.wikimedia.org/wiki/File:Beloretsk_museum.JPG",
+        "alt": "Белорецкий историко-краеведческий музей, 2010 год",
+        "credit": "Ильшат Саитгалин · Wikimedia Commons · CC BY-SA 3.0",
+        "license": "https://creativecommons.org/licenses/by-sa/3.0/"
+      }
+    ]
   },
   {
     "id": "steelworker-monument",
@@ -96,7 +131,8 @@
     ],
     "description": "Дворец культуры на ул. Ленина, 18. Здание признано объектом культурного наследия регионального значения.",
     "sourceUrl": "https://bashkor-gov.ru/doc/85329",
-    "model": "palace"
+    "model": "palace",
+    "photoReference": "https://www.bashinform.ru/news/culture/2022-10-07/dvorets-kultury-metallurgov-v-beloretske-obrel-zonu-ohrany-2979628"
   },
   {
     "id": "metallurgists-square",
