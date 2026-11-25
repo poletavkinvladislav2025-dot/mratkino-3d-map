@@ -1,8 +1,8 @@
 {
-  "previewRef": "5584769c15e87ebfc57207c16cb02738dd02cb2c",
+  "previewRef": "0ac544fbf4941dbd3387d47eb82934217b030fda",
   "publicPath": "/mratkino-3d-map/preview/unified/",
   "workflow": "unified.yml",
-  "change": "Keep secondary activities accessible and distinguish resort items without official numbering.",
-  "validated": "Previous release checked on desktop and mobile; follow-up live checks pending.",
+  "change": "Publish Beloretsk landmarks and enable ordinary map wheel zoom.",
+  "validated": "Landmark data and model smoke checks passed. Live checks pending.",
   "reason": "Use a fresh main dispatch SHA to distinguish the Pages release."
 }
