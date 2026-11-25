@@ -36,7 +36,39 @@ export class CityLandmark {
    const height={houses:8,cinema:12,palace:13,museum:8}[plan.model];
    const walls={houses:0x944d40,cinema:0x90ae8d,palace:0xd2be9d,museum:0xc7b6a1};
    mesh(g,new T.ExtrudeGeometry(shape,{depth:height,bevelEnabled:false}),walls[plan.model],0,0,-.35);
-   mesh(g,new T.ShapeGeometry(shape),plan.model==='houses'?0x4d4946:0x77716a,0,0,height-.3);
+   if(plan.model==='houses'){
+    // Orient a raised roof to the longest surveyed wall of each house.
+    const edge=outer.slice(1).map((b,i)=>[outer[i],b]).sort(([a,b],[c,d])=>
+     Math.hypot(d[0]-c[0],d[1]-c[1])-Math.hypot(b[0]-a[0],b[1]-a[1]))[0];
+    const [[ax,ay],[bx,by]]=edge,angle=Math.atan2(by-ay,bx-ax);
+    const axis=[-Math.sin(angle),Math.cos(angle)];
+    const offsets=outer.map(([x,y])=>x*axis[0]+y*axis[1]);
+    const lo=Math.min(...offsets),hi=Math.max(...offsets),ridge=(lo+hi)/2;
+    const roofHeight=point=>2*Math.max(0,1-Math.abs(point[0]*axis[0]+point[1]*axis[1]-ridge)/Math.max(.1,(hi-lo)/2));
+    const roof=new T.BufferGeometry();
+    const cap=outer.slice(0,-1);
+    // Subdivide the roof along its ridge before triangulating each half.
+    const cut=side=>cap.flatMap((a,index)=>{
+     const b=cap[(index+1)%cap.length],pa=side*(a[0]*axis[0]+a[1]*axis[1]-ridge),pb=side*(b[0]*axis[0]+b[1]*axis[1]-ridge);
+     const points=pa>=0?[a]:[];
+     if((pa<0&&pb>0)||(pa>0&&pb<0)){
+      const w=pa/(pa-pb);points.push([a[0]+(b[0]-a[0])*w,a[1]+(b[1]-a[1])*w]);
+     }
+     return points;
+    });
+    const positions=[];
+    for(const side of [-1,1]){
+     const panel=cut(side);
+     const triangles=T.ShapeUtils.triangulateShape(panel.map(p=>new T.Vector2(...p)),[]);
+     for(const face of triangles)for(const index of face){
+      const vertex=panel[index];positions.push(...vertex,roofHeight(vertex));
+     }
+    }
+    roof.setAttribute('position',new T.Float32BufferAttribute(positions,3));
+    roof.computeVertexNormals();
+    const surface=mesh(g,roof,0x4d4946,0,0,height-.3);
+    surface.material.side=T.DoubleSide;
+   }else mesh(g,new T.ShapeGeometry(shape),0x77716a,0,0,height-.3);
    const front=building.front;
    if(front){
     const {a,b,length}=front,angle=Math.atan2(b[1]-a[1],b[0]-a[0]);
