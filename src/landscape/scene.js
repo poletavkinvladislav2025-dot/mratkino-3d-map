@@ -8,6 +8,7 @@ import {RodeoModel} from './rodeo-model.js';
 import {RODEO,rodeoFrame} from './rodeo-plan.js';
 import * as T from 'three';
 import {CityLandmark} from './city-landmark.js';
+import {CITY_BUILDINGS,buildingPolygons,findCityBuilding} from './city-building.js';
 import {saplingPlacements} from '../resort-scene-data.js';
 import {EthnoparkModel} from './ethnopark-model.js';
 import {ethnopark as ethno} from './ethnopark-settings.js';
@@ -56,12 +57,22 @@ export class LandscapeScene{
  showLandmarks(ids,revision=0){
   const wanted=new Set(ids);
   for(const [id,entry] of this.landmarks)if(!wanted.has(id)){entry.model.dispose();this.landmarks.delete(id);}
-  for(const plan of LANDMARKS.filter(p=>wanted.has(p.id))){
+  const plans=LANDMARKS.filter(p=>wanted.has(p.id));
+  const buildings=plans.some(p=>CITY_BUILDINGS.has(p.model))
+   ?buildingPolygons(this.map.querySourceFeatures('basemap',{sourceLayer:'building'})):[];
+  for(const plan of plans){
+   const needsBuilding=CITY_BUILDINGS.has(plan.model);
+   const building=needsBuilding?findCityBuilding(buildings,plan):null;
+   if(needsBuilding&&!building){
+    this.landmarks.get(plan.id)?.model.dispose();
+    this.landmarks.delete(plan.id);
+    continue;
+   }
    const z=this.map.queryTerrainElevation(plan.center);if(!Number.isFinite(z)||z===0&&!this.map.isSourceLoaded('dem'))continue;
-   let entry=this.landmarks.get(plan.id);if(entry&&(Math.abs(entry.z-z)>.4||plan.kind==='rocks'&&entry.revision!==revision)){entry.model.dispose();this.landmarks.delete(plan.id);entry=null;}
+   let entry=this.landmarks.get(plan.id);if(entry&&(Math.abs(entry.z-z)>.4||entry.building?.key!==building?.key||plan.kind==='rocks'&&entry.revision!==revision)){entry.model.dispose();this.landmarks.delete(plan.id);entry=null;}
    if(!entry){const height=(x,y)=>{const value=this.map.queryTerrainElevation(plan.frame.toLngLat([x,y]));return Number.isFinite(value)?value:z;};const angle=(plan.bearing||0)*Math.PI/180;
     const elevationAt=(x,y)=>height(x*Math.cos(angle)-y*Math.sin(angle),x*Math.sin(angle)+y*Math.cos(angle))-z;
-    const model=plan.kind==='city-landmark'?new CityLandmark(this.scene,plan,{mobile:this.mobile,elevationAt}):plan.kind==='moose'?new MooseMonument(this.scene):plan.kind==='cave'?new ShulganCave(this.scene):plan.kind==='bort'?new BortTree(this.scene):new MalinovayaRockModel(this.scene,height,{id:plan.id+'-rocks',columns:h=>landmarkColumns(plan,h)});entry={model,z,revision};this.landmarks.set(plan.id,entry);}
+    const model=plan.kind==='city-landmark'?new CityLandmark(this.scene,plan,{mobile:this.mobile,elevationAt,building}):plan.kind==='moose'?new MooseMonument(this.scene):plan.kind==='cave'?new ShulganCave(this.scene):plan.kind==='bort'?new BortTree(this.scene):new MalinovayaRockModel(this.scene,height,{id:plan.id+'-rocks',columns:h=>landmarkColumns(plan,h)});entry={model,z,revision,building};this.landmarks.set(plan.id,entry);}
    const scale=this.ml.MercatorCoordinate.fromLngLat(plan.center).meterInMercatorCoordinateUnits()/this.units;const placed=plan.kind!=='rocks';entry.model.group.position.set(...this.local(plan.center),placed?z*scale:0);entry.model.group.scale.setScalar(scale);if(placed)entry.model.group.rotation.z=(plan.bearing||0)*Math.PI/180;
   }
   this.map.triggerRepaint();
